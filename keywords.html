@@ -96,9 +96,18 @@ body{font-family:'Noto Sans TC',system-ui,sans-serif;background:var(--bg);color:
 .leg-dot{width:10px;height:10px;border-radius:50%}
 
 /* Footer */
-.footer{text-align:center;margin-top:20px;padding:14px;background:var(--c2);border-radius:10px;color:var(--mt);font-size:.82em}
+.footer{text-align:center;margin-top:20px;padding:14px 14px 64px;background:var(--c2);border-radius:10px;color:var(--mt);font-size:.82em}
 .back-link{display:inline-block;margin-top:8px;color:var(--cy);text-decoration:none;font-weight:600}
 .back-link:hover{text-decoration:underline}
+
+/* ── Floating nav bar ── */
+.float-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(15,23,42,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;z-index:100;transition:transform .3s}
+.float-nav.hidden{transform:translateY(100%)}
+.fnav-btn{padding:7px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--c1);color:var(--mt);font-size:.72em;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.fnav-btn:hover,.fnav-btn.a{border-color:var(--cy);color:var(--cy);background:rgba(6,182,212,.1)}
+.fnav-btn.inv-c{border-color:var(--bl);color:var(--bl)}.fnav-btn.fin-c{border-color:var(--pu);color:var(--pu)}.fnav-btn.law-c{border-color:var(--or);color:var(--or)}
+.fnav-top{padding:7px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--c1);color:var(--yw);font-size:.8em;cursor:pointer;margin-left:auto;transition:all .15s}
+.fnav-top:hover{border-color:var(--yw);background:rgba(251,191,36,.1)}
 
 @media(max-width:768px){
   .bar-label{width:100px;font-size:.8em}
@@ -155,7 +164,7 @@ body{font-family:'Noto Sans TC',system-ui,sans-serif;background:var(--bg);color:
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="top">
   <div class="hdr">
     <h1>高頻關鍵字視覺化</h1>
     <p>從 966 道題庫中提取各科最常出現的關鍵字 — 字越大 = 出現越多次 = 越可能考</p>
@@ -178,6 +187,14 @@ body{font-family:'Noto Sans TC',system-ui,sans-serif;background:var(--bg);color:
     <a class="back-link" href="dashboard.html">← 返回題庫分析 Dashboard</a>
   </div>
 </div>
+
+<div class="float-nav" id="floatNav">
+  <button class="fnav-btn inv-c" onclick="jumpTo('sec-inv')">投資學</button>
+  <button class="fnav-btn fin-c" onclick="jumpTo('sec-fin')">財務分析</button>
+  <button class="fnav-btn law-c" onclick="jumpTo('sec-law')">法規實務</button>
+  <button class="fnav-top" onclick="jumpTo('top')" title="回頂部">&#8593; 頂部</button>
+</div>
+
 <script>
 const KW={"inv": [{"k": "報酬率", "v": 92}, {"k": "債券", "v": 72}, {"k": "Beta/β", "v": 60}, {"k": "投資組合", "v": 50}, {"k": "公司債", "v": 42}, {"k": "無風險", "v": 41}, {"k": "標準差", "v": 27}, {"k": "轉換公司債", "v": 24}, {"k": "買權/賣權", "v": 23}, {"k": "票面利率", "v": 22}, {"k": "系統風險", "v": 19}, {"k": "現金股利", "v": 19}, {"k": "殖利率", "v": 19}, {"k": "普通股", "v": 19}, {"k": "權證", "v": 18}, {"k": "認購/認售權證", "v": 17}, {"k": "淨值", "v": 17}, {"k": "本益比", "v": 16}, {"k": "通膨/通貨膨脹", "v": 16}, {"k": "非系統風險", "v": 15}, {"k": "物價", "v": 15}, {"k": "溢價", "v": 14}, {"k": "景氣", "v": 14}, {"k": "選擇權", "v": 13}, {"k": "風險溢酬", "v": 12}, {"k": "利率風險", "v": 12}, {"k": "期貨", "v": 12}, {"k": "變異數", "v": 11}, {"k": "股利成長", "v": 11}, {"k": "TDR/ADR存託憑證", "v": 11}, {"k": "特別股", "v": 11}, {"k": "國庫券", "v": 11}, {"k": "存續期間", "v": 10}, {"k": "折價", "v": 10}, {"k": "技術指標", "v": 10}, {"k": "匯率", "v": 10}, {"k": "共同基金", "v": 10}, {"k": "資本市場", "v": 10}, {"k": "履約", "v": 9}, {"k": "相關係數", "v": 9}, {"k": "均線", "v": 8}, {"k": "效率前緣/市場", "v": 8}, {"k": "股票股利", "v": 7}, {"k": "移動平均", "v": 7}, {"k": "權利金", "v": 7}, {"k": "再投資", "v": 7}, {"k": "除權", "v": 6}, {"k": "零息", "v": 6}, {"k": "永續債", "v": 6}, {"k": "分散風險", "v": 6}], "fin": [{"k": "資產", "v": 119}, {"k": "負債", "v": 98}, {"k": "權益", "v": 68}, {"k": "淨利", "v": 63}, {"k": "現金流量", "v": 51}, {"k": "稅前/稅後", "v": 33}, {"k": "折舊", "v": 31}, {"k": "存貨", "v": 29}, {"k": "每股盈餘", "v": 26}, {"k": "所得稅", "v": 24}, {"k": "應付", "v": 23}, {"k": "稅率", "v": 23}, {"k": "保留盈餘", "v": 22}, {"k": "流動/速動比率", "v": 21}, {"k": "總資產", "v": 21}, {"k": "槓桿度", "v": 20}, {"k": "銷貨收入", "v": 20}, {"k": "財務報表", "v": 20}, {"k": "權益報酬", "v": 19}, {"k": "應收帳款", "v": 19}, {"k": "銷貨成本", "v": 17}, {"k": "公允價值", "v": 17}, {"k": "負債比", "v": 16}, {"k": "營業活動", "v": 16}, {"k": "流動資產", "v": 15}, {"k": "淨利率", "v": 14}, {"k": "資產報酬", "v": 13}, {"k": "固定成本", "v": 12}, {"k": "投資活動", "v": 12}, {"k": "變動成本", "v": 10}, {"k": "毛利率", "v": 9}, {"k": "損益兩平", "v": 9}, {"k": "股東權益", "v": 9}, {"k": "租賃", "v": 9}, {"k": "綜合損益", "v": 9}, {"k": "利息保障", "v": 8}, {"k": "籌資活動", "v": 8}, {"k": "攤銷", "v": 8}, {"k": "獲利能力", "v": 7}, {"k": "資產負債表", "v": 7}, {"k": "加權平均", "v": 6}, {"k": "稀釋", "v": 6}, {"k": "合併報表", "v": 6}, {"k": "邊際貢獻", "v": 5}, {"k": "減損", "v": 5}, {"k": "IFRS", "v": 5}, {"k": "金融資產", "v": 5}, {"k": "回收期", "v": 4}, {"k": "自由現金", "v": 3}, {"k": "盈餘品質", "v": 3}], "law": [{"k": "發行", "v": 139}, {"k": "上市/上櫃", "v": 123}, {"k": "公開發行/募集", "v": 92}, {"k": "證券商", "v": 77}, {"k": "董事", "v": 62}, {"k": "投顧", "v": 37}, {"k": "投信", "v": 36}, {"k": "股東會", "v": 35}, {"k": "自營/經紀", "v": 31}, {"k": "監察人", "v": 29}, {"k": "融資/融券", "v": 25}, {"k": "股份有限", "v": 22}, {"k": "公司法", "v": 19}, {"k": "承銷", "v": 19}, {"k": "交割", "v": 18}, {"k": "獨立董事", "v": 17}, {"k": "保管機構", "v": 15}, {"k": "全權委託", "v": 13}, {"k": "結算", "v": 13}, {"k": "受益憑證", "v": 12}, {"k": "資本額", "v": 11}, {"k": "設立/解散/清算", "v": 11}, {"k": "負責人", "v": 11}, {"k": "擔保", "v": 11}, {"k": "內部控制", "v": 10}, {"k": "公開收購", "v": 9}, {"k": "審計委員會", "v": 9}, {"k": "私募", "v": 8}, {"k": "櫃買", "v": 8}, {"k": "漲跌幅", "v": 8}, {"k": "委託書", "v": 8}, {"k": "證交法", "v": 7}, {"k": "內線交易", "v": 6}, {"k": "刑事", "v": 5}, {"k": "競價", "v": 5}, {"k": "有期徒刑", "v": 5}, {"k": "信用交易", "v": 4}, {"k": "撮合", "v": 4}, {"k": "公積", "v": 4}, {"k": "借券", "v": 3}, {"k": "罰鍰/罰金", "v": 3}, {"k": "現金增資", "v": 3}, {"k": "關係企業", "v": 3}, {"k": "公司章程", "v": 2}, {"k": "內部人", "v": 2}, {"k": "集中市場", "v": 2}, {"k": "重大訊息", "v": 2}, {"k": "損害賠償", "v": 2}, {"k": "減資", "v": 2}, {"k": "庫藏股", "v": 2}]};
 
@@ -185,7 +202,47 @@ function showTab(t){
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('a',b.dataset.t===t));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('a'));
   document.getElementById('p-'+t).classList.add('a');
+  updateFloatNav(t);
 }
+
+// ── Float nav: section jump + back-to-top ──
+function jumpTo(id){
+  if(id==='top'){window.scrollTo({top:0,behavior:'smooth'});return;}
+  // If on individual subject tab, switch to all first
+  const curTab=document.querySelector('.tab.a');
+  if(curTab && curTab.dataset.t!=='all'){showTab('all');}
+  setTimeout(()=>{
+    const el=document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  },50);
+}
+
+function updateFloatNav(tab){
+  const nav=document.getElementById('floatNav');
+  const btns=nav.querySelectorAll('.fnav-btn');
+  // Show section jumps only on "all" tab; on subject tabs they're less useful
+  btns.forEach(b=>b.style.display=(tab==='all')?'':'none');
+}
+
+// Highlight current section in float nav on scroll
+(function(){
+  const secs=['sec-inv','sec-fin','sec-law'];
+  const btns=document.querySelectorAll('.fnav-btn');
+  let ticking=false;
+  window.addEventListener('scroll',()=>{
+    if(ticking)return;ticking=true;
+    requestAnimationFrame(()=>{
+      const y=window.scrollY+120;
+      let active=-1;
+      secs.forEach((id,i)=>{
+        const el=document.getElementById(id);
+        if(el && el.offsetTop<=y) active=i;
+      });
+      btns.forEach((b,i)=>{b.classList.toggle('a',i===active);});
+      ticking=false;
+    });
+  },{passive:true});
+})();
 
 function sizeClass(v, max){
   const r=v/max;
@@ -250,9 +307,9 @@ function renderBubbles(container, data, colors, n=20){
       <div class="leg-item"><div class="leg-dot" style="background:var(--or)"></div>法規實務</div>
       <div class="leg-item" style="margin-left:12px;color:var(--yw)">字越大＝出題頻率越高</div>
     </div>
-    <div class="cloud-box inv"><h2>投資學 關鍵字雲 <span class="badge b-bl">${KW.inv.length} 個關鍵字</span></h2><div class="cloud" id="cloud-inv-all"></div></div>
-    <div class="cloud-box fin"><h2>財務分析 關鍵字雲 <span class="badge b-pu">${KW.fin.length} 個關鍵字</span></h2><div class="cloud" id="cloud-fin-all"></div></div>
-    <div class="cloud-box law"><h2>法規實務 關鍵字雲 <span class="badge b-or">${KW.law.length} 個關鍵字</span></h2><div class="cloud" id="cloud-law-all"></div></div>
+    <div class="cloud-box inv" id="sec-inv"><h2>投資學 關鍵字雲 <span class="badge b-bl">${KW.inv.length} 個關鍵字</span></h2><div class="cloud" id="cloud-inv-all"></div></div>
+    <div class="cloud-box fin" id="sec-fin"><h2>財務分析 關鍵字雲 <span class="badge b-pu">${KW.fin.length} 個關鍵字</span></h2><div class="cloud" id="cloud-fin-all"></div></div>
+    <div class="cloud-box law" id="sec-law"><h2>法規實務 關鍵字雲 <span class="badge b-or">${KW.law.length} 個關鍵字</span></h2><div class="cloud" id="cloud-law-all"></div></div>
   `;
   renderCloud(document.getElementById('cloud-inv-all'), KW.inv, 'inv');
   renderCloud(document.getElementById('cloud-fin-all'), KW.fin, 'fin');
