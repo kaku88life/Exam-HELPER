@@ -1,0 +1,15 @@
+# Source data & build scripts (not needed for GitHub Pages)
+*.json
+*.py
+*.zip
+*.pdf
+*.txt
+
+# Old/intermediate HTML with Chinese filenames
+證券高業_*.html
+exam_analysis.html
+
+# System
+.claude/
+__pycache__/
+*.pyc

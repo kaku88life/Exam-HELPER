@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>證券高業 — 高頻關鍵字視覺化</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
+:root{--bg:#0a0f1a;--c1:#1a2332;--c2:#111827;--bl:#3b82f6;--cy:#06b6d4;--pu:#8b5cf6;--pk:#ec4899;--or:#f97316;--gn:#10b981;--rd:#ef4444;--yw:#fbbf24;--tx:#f1f5f9;--mt:#94a3b8;--bd:#334155}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;padding:20px}
+.wrap{max-width:1200px;margin:0 auto}
+.hdr{text-align:center;padding:30px 20px;background:linear-gradient(135deg,var(--c1),var(--c2));border-radius:18px;border:1px solid var(--bd);margin-bottom:24px;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--or),var(--yw),var(--gn),var(--cy),var(--bl),var(--pu))}
+.hdr h1{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--yw),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.hdr p{color:var(--mt);font-size:.9em}
+.tabs{display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+.tab{padding:10px 28px;border:1px solid var(--bd);border-radius:10px;cursor:pointer;background:var(--c1);color:var(--mt);font-size:.95em;font-weight:600;transition:all .25s}
+.tab:hover{border-color:var(--cy);color:var(--tx);transform:translateY(-1px)}
+.tab.a{color:#fff;border-color:transparent;box-shadow:0 4px 15px rgba(0,0,0,.3)}
+.tab[data-t="inv"].a{background:linear-gradient(135deg,#3b82f6,#06b6d4)}
+.tab[data-t="fin"].a{background:linear-gradient(135deg,#8b5cf6,#ec4899)}
+.tab[data-t="law"].a{background:linear-gradient(135deg,#f97316,#fbbf24)}
+.tab[data-t="all"].a{background:linear-gradient(135deg,#10b981,#06b6d4)}
+.panel{display:none}.panel.a{display:block}
+
+/* Word cloud container */
+.cloud-box{background:var(--c1);border-radius:16px;padding:28px;border:1px solid var(--bd);margin-bottom:20px;min-height:320px;position:relative;overflow:hidden}
+.cloud-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.cloud-box.inv::before{background:linear-gradient(90deg,var(--bl),var(--cy))}
+.cloud-box.fin::before{background:linear-gradient(90deg,var(--pu),var(--pk))}
+.cloud-box.law::before{background:linear-gradient(90deg,var(--or),var(--yw))}
+.cloud-box h2{font-size:1.2rem;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.cloud-box.inv h2{color:var(--cy)} .cloud-box.fin h2{color:var(--pu)} .cloud-box.law h2{color:var(--or)}
+.badge{font-size:.65rem;padding:3px 10px;border-radius:14px;font-weight:500}
+.b-bl{background:rgba(59,130,246,.2);color:var(--bl)}
+.b-pu{background:rgba(139,92,246,.2);color:var(--pu)}
+.b-or{background:rgba(249,115,22,.2);color:var(--or)}
+
+/* Word cloud words */
+.cloud{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:10px}
+.word{display:inline-flex;align-items:center;padding:6px 14px;border-radius:20px;cursor:default;transition:all .2s;position:relative;font-weight:500}
+.word:hover{transform:scale(1.08);z-index:2}
+.word .cnt{font-size:.6em;opacity:.7;margin-left:5px;font-weight:400}
+
+/* Size classes */
+.w-xl{font-size:1.6rem;padding:10px 22px;font-weight:900}
+.w-lg{font-size:1.25rem;padding:8px 18px;font-weight:700}
+.w-md{font-size:1rem;padding:6px 14px}
+.w-sm{font-size:.85rem;padding:5px 12px}
+.w-xs{font-size:.75rem;padding:4px 10px;opacity:.85}
+
+/* Color themes per subject */
+.inv .w-xl{background:rgba(59,130,246,.25);color:#93c5fd;border:1px solid rgba(59,130,246,.4)}
+.inv .w-lg{background:rgba(6,182,212,.2);color:#67e8f9;border:1px solid rgba(6,182,212,.3)}
+.inv .w-md{background:rgba(59,130,246,.12);color:#93c5fd;border:1px solid rgba(59,130,246,.2)}
+.inv .w-sm{background:rgba(6,182,212,.1);color:#a5f3fc;border:1px solid rgba(6,182,212,.15)}
+.inv .w-xs{background:rgba(59,130,246,.06);color:var(--mt);border:1px solid var(--bd)}
+
+.fin .w-xl{background:rgba(139,92,246,.25);color:#c4b5fd;border:1px solid rgba(139,92,246,.4)}
+.fin .w-lg{background:rgba(236,72,153,.2);color:#f9a8d4;border:1px solid rgba(236,72,153,.3)}
+.fin .w-md{background:rgba(139,92,246,.12);color:#c4b5fd;border:1px solid rgba(139,92,246,.2)}
+.fin .w-sm{background:rgba(236,72,153,.1);color:#fbcfe8;border:1px solid rgba(236,72,153,.15)}
+.fin .w-xs{background:rgba(139,92,246,.06);color:var(--mt);border:1px solid var(--bd)}
+
+.law .w-xl{background:rgba(249,115,22,.25);color:#fdba74;border:1px solid rgba(249,115,22,.4)}
+.law .w-lg{background:rgba(251,191,36,.2);color:#fde68a;border:1px solid rgba(251,191,36,.3)}
+.law .w-md{background:rgba(249,115,22,.12);color:#fdba74;border:1px solid rgba(249,115,22,.2)}
+.law .w-sm{background:rgba(251,191,36,.1);color:#fef08a;border:1px solid rgba(251,191,36,.15)}
+.law .w-xs{background:rgba(249,115,22,.06);color:var(--mt);border:1px solid var(--bd)}
+
+/* Bar chart section */
+.bar-section{background:var(--c1);border-radius:16px;padding:24px;border:1px solid var(--bd);margin-bottom:20px}
+.bar-section h3{font-size:1em;font-weight:700;margin-bottom:16px;color:var(--cy)}
+.bar-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(51,65,85,.5)}
+.bar-row:last-child{border-bottom:none}
+.bar-rank{width:24px;text-align:center;font-weight:900;font-size:.85em}
+.bar-rank.r1{color:var(--yw)}.bar-rank.r2{color:var(--mt)}.bar-rank.r3{color:#cd7f32}
+.bar-label{width:140px;font-size:.88em;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:22px;background:var(--bg);border-radius:6px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.72em;font-weight:700;color:#fff;min-width:30px;transition:width .6s ease}
+.bar-fill.inv{background:linear-gradient(90deg,var(--bl),var(--cy))}
+.bar-fill.fin{background:linear-gradient(90deg,var(--pu),var(--pk))}
+.bar-fill.law{background:linear-gradient(90deg,var(--or),var(--yw))}
+.bar-cnt{width:45px;text-align:right;font-size:.82em;color:var(--mt);font-weight:600}
+
+/* Bubble chart */
+.bubble-wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:15px}
+.bubble{border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;cursor:default;transition:all .2s;line-height:1.2}
+.bubble:hover{transform:scale(1.1);z-index:2}
+.bubble span{font-size:.55em;opacity:.7;display:block;font-weight:400}
+
+/* Legend */
+.legend{display:flex;gap:16px;justify-content:center;margin:10px 0 16px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:.8em;color:var(--mt)}
+.leg-dot{width:10px;height:10px;border-radius:50%}
+
+/* Footer */
+.footer{text-align:center;margin-top:20px;padding:14px;background:var(--c2);border-radius:10px;color:var(--mt);font-size:.82em}
+.back-link{display:inline-block;margin-top:8px;color:var(--cy);text-decoration:none;font-weight:600}
+.back-link:hover{text-decoration:underline}
+
+@media(max-width:768px){
+  .bar-label{width:100px;font-size:.8em}
+  .cloud{gap:5px}
+  .w-xl{font-size:1.3rem} .w-lg{font-size:1.05rem}
+}
+@media(max-width:480px){
+  body{padding:8px}
+  .hdr{padding:16px 12px;border-radius:12px;margin-bottom:14px}
+  .hdr h1{font-size:1.3rem}
+  .hdr p{font-size:.78em;margin-top:6px}
+  .tabs{gap:5px;margin-bottom:12px}
+  .tab{padding:7px 14px;font-size:.8em}
+  .cd{padding:14px 10px;border-radius:10px;margin-bottom:12px}
+  .cd h2{font-size:.95rem}
+  .cloud{gap:4px;padding:8px}
+  .w-xl{font-size:1.1rem!important}.w-lg{font-size:.92rem!important}
+  .w-md{font-size:.78rem!important}.w-sm{font-size:.68rem!important}
+  .w-xs{font-size:.6rem!important}
+  .w-xl,.w-lg,.w-md,.w-sm,.w-xs{padding:4px 8px!important}
+  .bar-item{margin:2px 0}
+  .bar-label{width:72px;font-size:.72em}
+  .bar-bg{height:20px}
+  .bar-fill{font-size:.65em}
+  .bd{font-size:.6rem;padding:2px 6px}
+  .back-link{font-size:.85em}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <h1>高頻關鍵字視覺化</h1>
+    <p>從 966 道題庫中提取各科最常出現的關鍵字 — 字越大 = 出現越多次 = 越可能考</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab a" data-t="all" onclick="showTab('all')">三科總覽</div>
+    <div class="tab" data-t="inv" onclick="showTab('inv')">投資學</div>
+    <div class="tab" data-t="fin" onclick="showTab('fin')">財務分析</div>
+    <div class="tab" data-t="law" onclick="showTab('law')">法規實務</div>
+  </div>
+
+  <div id="p-all" class="panel a"></div>
+  <div id="p-inv" class="panel"></div>
+  <div id="p-fin" class="panel"></div>
+  <div id="p-law" class="panel"></div>
+
+  <div class="footer">
+    資料來源：966 道去重題庫關鍵字頻率統計 | 分析日期：2026/04/15<br>
+    <a class="back-link" href="dashboard.html">← 返回題庫分析 Dashboard</a>
+  </div>
+</div>
+<script>
+const KW={"inv": [{"k": "報酬率", "v": 92}, {"k": "債券", "v": 72}, {"k": "Beta/β", "v": 60}, {"k": "投資組合", "v": 50}, {"k": "公司債", "v": 42}, {"k": "無風險", "v": 41}, {"k": "標準差", "v": 27}, {"k": "轉換公司債", "v": 24}, {"k": "買權/賣權", "v": 23}, {"k": "票面利率", "v": 22}, {"k": "系統風險", "v": 19}, {"k": "現金股利", "v": 19}, {"k": "殖利率", "v": 19}, {"k": "普通股", "v": 19}, {"k": "權證", "v": 18}, {"k": "認購/認售權證", "v": 17}, {"k": "淨值", "v": 17}, {"k": "本益比", "v": 16}, {"k": "通膨/通貨膨脹", "v": 16}, {"k": "非系統風險", "v": 15}, {"k": "物價", "v": 15}, {"k": "溢價", "v": 14}, {"k": "景氣", "v": 14}, {"k": "選擇權", "v": 13}, {"k": "風險溢酬", "v": 12}, {"k": "利率風險", "v": 12}, {"k": "期貨", "v": 12}, {"k": "變異數", "v": 11}, {"k": "股利成長", "v": 11}, {"k": "TDR/ADR存託憑證", "v": 11}, {"k": "特別股", "v": 11}, {"k": "國庫券", "v": 11}, {"k": "存續期間", "v": 10}, {"k": "折價", "v": 10}, {"k": "技術指標", "v": 10}, {"k": "匯率", "v": 10}, {"k": "共同基金", "v": 10}, {"k": "資本市場", "v": 10}, {"k": "履約", "v": 9}, {"k": "相關係數", "v": 9}, {"k": "均線", "v": 8}, {"k": "效率前緣/市場", "v": 8}, {"k": "股票股利", "v": 7}, {"k": "移動平均", "v": 7}, {"k": "權利金", "v": 7}, {"k": "再投資", "v": 7}, {"k": "除權", "v": 6}, {"k": "零息", "v": 6}, {"k": "永續債", "v": 6}, {"k": "分散風險", "v": 6}], "fin": [{"k": "資產", "v": 119}, {"k": "負債", "v": 98}, {"k": "權益", "v": 68}, {"k": "淨利", "v": 63}, {"k": "現金流量", "v": 51}, {"k": "稅前/稅後", "v": 33}, {"k": "折舊", "v": 31}, {"k": "存貨", "v": 29}, {"k": "每股盈餘", "v": 26}, {"k": "所得稅", "v": 24}, {"k": "應付", "v": 23}, {"k": "稅率", "v": 23}, {"k": "保留盈餘", "v": 22}, {"k": "流動/速動比率", "v": 21}, {"k": "總資產", "v": 21}, {"k": "槓桿度", "v": 20}, {"k": "銷貨收入", "v": 20}, {"k": "財務報表", "v": 20}, {"k": "權益報酬", "v": 19}, {"k": "應收帳款", "v": 19}, {"k": "銷貨成本", "v": 17}, {"k": "公允價值", "v": 17}, {"k": "負債比", "v": 16}, {"k": "營業活動", "v": 16}, {"k": "流動資產", "v": 15}, {"k": "淨利率", "v": 14}, {"k": "資產報酬", "v": 13}, {"k": "固定成本", "v": 12}, {"k": "投資活動", "v": 12}, {"k": "變動成本", "v": 10}, {"k": "毛利率", "v": 9}, {"k": "損益兩平", "v": 9}, {"k": "股東權益", "v": 9}, {"k": "租賃", "v": 9}, {"k": "綜合損益", "v": 9}, {"k": "利息保障", "v": 8}, {"k": "籌資活動", "v": 8}, {"k": "攤銷", "v": 8}, {"k": "獲利能力", "v": 7}, {"k": "資產負債表", "v": 7}, {"k": "加權平均", "v": 6}, {"k": "稀釋", "v": 6}, {"k": "合併報表", "v": 6}, {"k": "邊際貢獻", "v": 5}, {"k": "減損", "v": 5}, {"k": "IFRS", "v": 5}, {"k": "金融資產", "v": 5}, {"k": "回收期", "v": 4}, {"k": "自由現金", "v": 3}, {"k": "盈餘品質", "v": 3}], "law": [{"k": "發行", "v": 139}, {"k": "上市/上櫃", "v": 123}, {"k": "公開發行/募集", "v": 92}, {"k": "證券商", "v": 77}, {"k": "董事", "v": 62}, {"k": "投顧", "v": 37}, {"k": "投信", "v": 36}, {"k": "股東會", "v": 35}, {"k": "自營/經紀", "v": 31}, {"k": "監察人", "v": 29}, {"k": "融資/融券", "v": 25}, {"k": "股份有限", "v": 22}, {"k": "公司法", "v": 19}, {"k": "承銷", "v": 19}, {"k": "交割", "v": 18}, {"k": "獨立董事", "v": 17}, {"k": "保管機構", "v": 15}, {"k": "全權委託", "v": 13}, {"k": "結算", "v": 13}, {"k": "受益憑證", "v": 12}, {"k": "資本額", "v": 11}, {"k": "設立/解散/清算", "v": 11}, {"k": "負責人", "v": 11}, {"k": "擔保", "v": 11}, {"k": "內部控制", "v": 10}, {"k": "公開收購", "v": 9}, {"k": "審計委員會", "v": 9}, {"k": "私募", "v": 8}, {"k": "櫃買", "v": 8}, {"k": "漲跌幅", "v": 8}, {"k": "委託書", "v": 8}, {"k": "證交法", "v": 7}, {"k": "內線交易", "v": 6}, {"k": "刑事", "v": 5}, {"k": "競價", "v": 5}, {"k": "有期徒刑", "v": 5}, {"k": "信用交易", "v": 4}, {"k": "撮合", "v": 4}, {"k": "公積", "v": 4}, {"k": "借券", "v": 3}, {"k": "罰鍰/罰金", "v": 3}, {"k": "現金增資", "v": 3}, {"k": "關係企業", "v": 3}, {"k": "公司章程", "v": 2}, {"k": "內部人", "v": 2}, {"k": "集中市場", "v": 2}, {"k": "重大訊息", "v": 2}, {"k": "損害賠償", "v": 2}, {"k": "減資", "v": 2}, {"k": "庫藏股", "v": 2}]};
+
+function showTab(t){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('a',b.dataset.t===t));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('a'));
+  document.getElementById('p-'+t).classList.add('a');
+}
+
+function sizeClass(v, max){
+  const r=v/max;
+  if(r>=0.7) return 'w-xl';
+  if(r>=0.45) return 'w-lg';
+  if(r>=0.25) return 'w-md';
+  if(r>=0.12) return 'w-sm';
+  return 'w-xs';
+}
+
+function renderCloud(container, data, cls){
+  if(!data.length) return;
+  const max=data[0].v;
+  // Shuffle for visual variety but keep size ordering
+  const shuffled=[...data].sort(()=>Math.random()-0.5);
+  let h='';
+  shuffled.forEach(d=>{
+    const sc=sizeClass(d.v,max);
+    h+=`<div class="word ${sc}" title="${d.k}: ${d.v}次">${d.k}<span class="cnt">${d.v}</span></div>`;
+  });
+  container.innerHTML=h;
+}
+
+function renderBars(container, data, cls, n=15){
+  const top=data.slice(0,n);
+  const max=top[0]?.v||1;
+  let h='';
+  top.forEach((d,i)=>{
+    const rc=i<1?'r1':i<2?'r2':i<3?'r3':'';
+    const pct=Math.round(d.v/max*100);
+    h+=`<div class="bar-row">
+      <div class="bar-rank ${rc}">${i+1}</div>
+      <div class="bar-label">${d.k}</div>
+      <div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%">${d.v}</div></div>
+      <div class="bar-cnt">${d.v}題</div>
+    </div>`;
+  });
+  container.innerHTML=h;
+}
+
+function renderBubbles(container, data, colors, n=20){
+  const top=data.slice(0,n);
+  const max=top[0]?.v||1;
+  let h='';
+  top.forEach((d,i)=>{
+    const r=d.v/max;
+    const size=Math.round(50+r*80);
+    const ci=i%colors.length;
+    const fs=Math.round(9+r*8);
+    h+=`<div class="bubble" style="width:${size}px;height:${size}px;background:${colors[ci]};font-size:${fs}px" title="${d.k}: ${d.v}次">${d.k}<span>${d.v}</span></div>`;
+  });
+  container.innerHTML=h;
+}
+
+// --- ALL tab: three clouds + comparison ---
+(function(){
+  const el=document.getElementById('p-all');
+  el.innerHTML=`
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--bl)"></div>投資學</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--pu)"></div>財務分析</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--or)"></div>法規實務</div>
+      <div class="leg-item" style="margin-left:12px;color:var(--yw)">字越大＝出題頻率越高</div>
+    </div>
+    <div class="cloud-box inv"><h2>投資學 關鍵字雲 <span class="badge b-bl">${KW.inv.length} 個關鍵字</span></h2><div class="cloud" id="cloud-inv-all"></div></div>
+    <div class="cloud-box fin"><h2>財務分析 關鍵字雲 <span class="badge b-pu">${KW.fin.length} 個關鍵字</span></h2><div class="cloud" id="cloud-fin-all"></div></div>
+    <div class="cloud-box law"><h2>法規實務 關鍵字雲 <span class="badge b-or">${KW.law.length} 個關鍵字</span></h2><div class="cloud" id="cloud-law-all"></div></div>
+  `;
+  renderCloud(document.getElementById('cloud-inv-all'), KW.inv, 'inv');
+  renderCloud(document.getElementById('cloud-fin-all'), KW.fin, 'fin');
+  renderCloud(document.getElementById('cloud-law-all'), KW.law, 'law');
+})();
+
+// --- Individual subject tabs ---
+function buildSubjectTab(id, data, cls, title, badgeCls, colors){
+  const el=document.getElementById('p-'+id);
+  el.innerHTML=`
+    <div class="cloud-box ${cls}"><h2>${title} 關鍵字雲 <span class="badge ${badgeCls}">${data.length} 個</span></h2><div class="cloud" id="cloud-${id}"></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div class="bar-section"><h3>出題頻率 TOP 15</h3><div id="bars-${id}"></div></div>
+      <div class="bar-section"><h3>高頻關鍵字氣泡圖</h3><div class="bubble-wrap" id="bub-${id}"></div></div>
+    </div>
+  `;
+  renderCloud(document.getElementById('cloud-'+id), data, cls);
+  renderBars(document.getElementById('bars-'+id), data, cls);
+  renderBubbles(document.getElementById('bub-'+id), data, colors);
+}
+
+const invColors=['rgba(59,130,246,.5)','rgba(6,182,212,.5)','rgba(59,130,246,.35)','rgba(6,182,212,.35)','rgba(99,102,241,.4)'];
+const finColors=['rgba(139,92,246,.5)','rgba(236,72,153,.45)','rgba(139,92,246,.35)','rgba(236,72,153,.3)','rgba(167,139,250,.4)'];
+const lawColors=['rgba(249,115,22,.5)','rgba(251,191,36,.45)','rgba(249,115,22,.35)','rgba(251,191,36,.3)','rgba(234,179,8,.4)'];
+
+buildSubjectTab('inv', KW.inv, 'inv', '投資學', 'b-bl', invColors);
+buildSubjectTab('fin', KW.fin, 'fin', '財務分析', 'b-pu', finColors);
+buildSubjectTab('law', KW.law, 'law', '法規實務', 'b-or', lawColors);
+</script>
+</body>
+</html>
