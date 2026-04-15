@@ -105,26 +105,52 @@ body{font-family:'Noto Sans TC',system-ui,sans-serif;background:var(--bg);color:
   .cloud{gap:5px}
   .w-xl{font-size:1.3rem} .w-lg{font-size:1.05rem}
 }
-@media(max-width:480px){
+/* ── Desktop: slides shown normally ── */
+.carousel{position:relative}
+.carousel-track{display:block}
+.carousel-slide{display:block}
+/* Desktop: bar + bubble side by side */
+.carousel-slide:nth-child(2),.carousel-slide:nth-child(3){display:inline-block;width:calc(50% - 9px);vertical-align:top}
+.carousel-slide:nth-child(2){margin-right:14px}
+.carousel-dots{display:none;justify-content:center;gap:8px;padding:12px 0}
+.carousel-dots .dot{width:10px;height:10px;border-radius:50%;background:var(--bd);cursor:pointer;transition:all .2s}
+.carousel-dots .dot.a{background:var(--cy);transform:scale(1.2)}
+.slide-label{display:none;text-align:center;font-size:.75em;color:var(--mt);margin-top:-4px;margin-bottom:8px}
+
+@media(max-width:600px){
   body{padding:8px}
   .hdr{padding:16px 12px;border-radius:12px;margin-bottom:14px}
   .hdr h1{font-size:1.3rem}
   .hdr p{font-size:.78em;margin-top:6px}
-  .tabs{gap:5px;margin-bottom:12px}
-  .tab{padding:7px 14px;font-size:.8em}
-  .cd{padding:14px 10px;border-radius:10px;margin-bottom:12px}
-  .cd h2{font-size:.95rem}
-  .cloud{gap:4px;padding:8px}
-  .w-xl{font-size:1.1rem!important}.w-lg{font-size:.92rem!important}
-  .w-md{font-size:.78rem!important}.w-sm{font-size:.68rem!important}
-  .w-xs{font-size:.6rem!important}
-  .w-xl,.w-lg,.w-md,.w-sm,.w-xs{padding:4px 8px!important}
-  .bar-item{margin:2px 0}
-  .bar-label{width:72px;font-size:.72em}
-  .bar-bg{height:20px}
-  .bar-fill{font-size:.65em}
-  .bd{font-size:.6rem;padding:2px 6px}
-  .back-link{font-size:.85em}
+  .tabs{gap:4px;margin-bottom:12px}
+  .tab{padding:7px 12px;font-size:.78em;border-radius:8px}
+  .cloud-box{padding:16px 10px;border-radius:10px;margin-bottom:12px;min-height:auto}
+  .cloud-box h2{font-size:.95rem;margin-bottom:10px}
+  .cloud{gap:4px;padding:4px}
+  .w-xl{font-size:1rem!important;padding:5px 10px!important;font-weight:800!important}
+  .w-lg{font-size:.85rem!important;padding:4px 9px!important}
+  .w-md{font-size:.75rem!important;padding:3px 7px!important}
+  .w-sm{font-size:.66rem!important;padding:3px 6px!important}
+  .w-xs{font-size:.58rem!important;padding:2px 5px!important}
+  .word .cnt{font-size:.55em!important;margin-left:3px}
+  .bar-section{padding:16px 12px;border-radius:10px;margin-bottom:0}
+  .bar-section h3{font-size:.9em;margin-bottom:10px}
+  .bar-label{width:68px;font-size:.72em}
+  .bar-cnt{font-size:.72em;width:40px}
+  .bar-rank{font-size:.78em}
+  .bar-fill{font-size:.62em}
+  .bubble-wrap{padding:8px;gap:6px}
+  .badge{font-size:.55rem;padding:2px 7px}
+  .back-link{font-size:.82em}
+  .legend{gap:8px;margin:6px 0 12px}
+  .leg-item{font-size:.72em}
+
+  /* Carousel active on mobile */
+  .carousel{overflow:hidden}
+  .carousel-track{display:flex!important;transition:transform .35s ease}
+  .carousel-slide{min-width:100%!important;flex-shrink:0;display:block!important;width:100%!important;margin-right:0!important}
+  .carousel-dots{display:flex}
+  .slide-label{display:block}
 }
 </style>
 </head>
@@ -237,15 +263,60 @@ function renderBubbles(container, data, colors, n=20){
 function buildSubjectTab(id, data, cls, title, badgeCls, colors){
   const el=document.getElementById('p-'+id);
   el.innerHTML=`
-    <div class="cloud-box ${cls}"><h2>${title} 關鍵字雲 <span class="badge ${badgeCls}">${data.length} 個</span></h2><div class="cloud" id="cloud-${id}"></div></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
-      <div class="bar-section"><h3>出題頻率 TOP 15</h3><div id="bars-${id}"></div></div>
-      <div class="bar-section"><h3>高頻關鍵字氣泡圖</h3><div class="bubble-wrap" id="bub-${id}"></div></div>
+    <div class="carousel" id="carousel-${id}">
+      <div class="carousel-track">
+        <div class="carousel-slide">
+          <div class="cloud-box ${cls}"><h2>${title} 關鍵字雲 <span class="badge ${badgeCls}">${data.length} 個</span></h2><div class="cloud" id="cloud-${id}"></div></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="bar-section"><h3>出題頻率 TOP 15</h3><div id="bars-${id}"></div></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="bar-section"><h3>高頻關鍵字氣泡圖</h3><div class="bubble-wrap" id="bub-${id}"></div></div>
+        </div>
+      </div>
+      <div class="slide-label" id="slabel-${id}">關鍵字雲</div>
+      <div class="carousel-dots" id="dots-${id}">
+        <div class="dot a" data-i="0"></div>
+        <div class="dot" data-i="1"></div>
+        <div class="dot" data-i="2"></div>
+      </div>
     </div>
   `;
   renderCloud(document.getElementById('cloud-'+id), data, cls);
   renderBars(document.getElementById('bars-'+id), data, cls);
   renderBubbles(document.getElementById('bub-'+id), data, colors);
+  initCarousel(id);
+}
+
+const slideNames=['關鍵字雲','出題頻率 TOP 15','氣泡圖'];
+function isMobile(){return window.innerWidth<=600;}
+function initCarousel(id){
+  const wrap=document.getElementById('carousel-'+id);
+  const track=wrap.querySelector('.carousel-track');
+  const dots=wrap.querySelectorAll('.dot');
+  const label=document.getElementById('slabel-'+id);
+  let cur=0, startX=0, dragging=false;
+
+  function goTo(i){
+    if(!isMobile()){track.style.transform='';return;}
+    cur=Math.max(0,Math.min(2,i));
+    track.style.transform='translateX(-'+(cur*100)+'%)';
+    dots.forEach((d,j)=>d.classList.toggle('a',j===cur));
+    label.textContent=slideNames[cur];
+  }
+  dots.forEach(d=>d.addEventListener('click',()=>goTo(+d.dataset.i)));
+
+  // Touch swipe
+  track.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;dragging=true;},{passive:true});
+  track.addEventListener('touchend',e=>{
+    if(!dragging)return;dragging=false;
+    const dx=e.changedTouches[0].clientX-startX;
+    if(Math.abs(dx)>40){goTo(cur+(dx<0?1:-1));}
+  },{passive:true});
+
+  // Reset on resize
+  window.addEventListener('resize',()=>{if(!isMobile())track.style.transform='';});
 }
 
 const invColors=['rgba(59,130,246,.5)','rgba(6,182,212,.5)','rgba(59,130,246,.35)','rgba(6,182,212,.35)','rgba(99,102,241,.4)'];
