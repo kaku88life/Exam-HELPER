@@ -113,13 +113,30 @@ body{padding:8px}
 .ttp .tn{color:var(--yw);font-weight:700;display:block;margin-bottom:2px}
 .ttp .td{color:var(--mt);font-size:.92em}
 .ch-sec{display:none}.ch-sec.a{display:block}
+/* ── Mastery Tracking ── */
+.item-wrap{display:flex;align-items:flex-start;gap:8px;margin:4px 0}
+.item-wrap .kp,.item-wrap .fc{flex:1;min-width:0;margin:0}
+.m-cb{width:15px;height:15px;flex-shrink:0;margin-top:4px;cursor:pointer;accent-color:var(--gn)}
+.item-wrap.is-mastered .kp,.item-wrap.is-mastered .fc{opacity:.45;transition:opacity .25s}
+.item-wrap.is-mastered:hover .kp,.item-wrap.is-mastered:hover .fc{opacity:.8}
+@keyframes anim-master{0%{opacity:1;transform:translateX(0)}65%{opacity:.5;transform:translateX(5px)}100%{opacity:.45;transform:translateX(0)}}
+.item-wrap.anim-master{animation:anim-master .26s ease forwards}
+.prog-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap}
+.prog-label{font-size:.82em;color:var(--mt);font-weight:600}
+.prog-count{font-size:.78em;color:var(--cy);font-weight:700;white-space:nowrap}
+.prog-bar-wrap{flex:1;height:4px;background:var(--bd);border-radius:2px;min-width:50px;max-width:110px}
+.prog-bar-fill{height:100%;background:var(--gn);border-radius:2px;transition:width .35s ease}
+.mastered-sec{margin-top:5px;margin-bottom:10px}
+.mastered-toggle{width:100%;text-align:left;background:none;border:1px dashed rgba(148,163,184,.35);color:var(--mt);border-radius:7px;padding:5px 12px;font-size:.78em;cursor:pointer;transition:all .2s;font-family:inherit}
+.mastered-toggle:hover{border-color:var(--cy);color:var(--cy)}
+.mastered-items{border:1px dashed rgba(148,163,184,.2);border-radius:8px;padding:5px 6px;background:rgba(0,0,0,.18);margin-top:5px}
+@media(max-width:480px){.m-cb{width:13px;height:13px;margin-top:3px}.prog-bar-wrap{min-width:40px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="hdr">
     <h1>證券高業題庫分布深度分析</h1>
-    <div class="s">官方考古題 300 題 + JY筆記題庫 691 題 | 去重後 966 道獨立題目</div>
     <div class="w">考試日：2026/04/21 (二) | 電腦隨機出題 → 題庫比例 ≈ 出題比例</div>
   </div>
   <div class="stats" id="stats-row"></div>
@@ -412,10 +429,10 @@ document.getElementById('f-law').innerHTML=fmRender([
 // ── Glossary: abbreviations & key terms → tooltip ──
 var GL={
 // Market & Products
-'ETF':['Exchange-Traded Fund','指數股票型基金，由投信發行，在集中市場交易，追蹤特定指數'],
+'ETF':['Exchange-Traded Fund','指數股票型基金，由投信發行，在集中市場交易，追蹤特定指數（有追蹤誤差）'],
 'ETN':['Exchange-Traded Note','指數投資證券，由券商發行，無追蹤誤差但有發行人信用風險'],
 'TDR':['Taiwan Depositary Receipt','臺灣存託憑證，外國公司在台灣掛牌交易的憑證（新台幣計價）'],
-'ADR':['American Depositary Receipt','美國存託憑證，外國公司在美國掛牌交易的憑證（美元計價）'],
+'ADR':['American Depositary Receipt','美國存託憑證，台灣公司在美國掛牌交易的憑證（美元計價）'],
 'NAV':['Net Asset Value','淨資產價值（基金每單位淨值）= 總淨資產 ÷ 發行單位數'],
 'PMI':['Purchasing Managers\' Index','採購經理人指數，>50%表景氣擴張，<50%表緊縮'],
 'IRS':['Interest Rate Swap','利率交換，將固定利率與浮動利率互換的衍生性商品'],
@@ -444,11 +461,10 @@ var GL={
 'GDP':['Gross Domestic Product','國內生產毛額，衡量一國經濟規模的總體指標'],
 // Technical Analysis
 'KD':['Stochastic Oscillator (KD)','隨機指標，K線與D線交叉判斷買賣訊號，D<20超賣、D>80超買'],
-'MACD':['Moving Average Convergence Divergence','指數平滑異同移動平均，DIF突破DEM為買進訊號'],
+'MACD':['Moving Average Convergence Divergence','指數平滑異同移動平均，DIF向上突破DEM為買進訊號、向下突破為賣出訊號'],
 'RSI':['Relative Strength Index','相對強弱指標，只看收盤價，>80超買、<20超賣'],
 'OBV':['On-Balance Volume','能量潮指標，上漲日加成交量、下跌日減成交量'],
 'BIAS':['Bias Ratio','乖離率 = (收盤價-MA)/MA×100%，衡量股價偏離均線程度'],
-'ADR':['Advance-Decline Ratio','漲跌比率 = 上漲家數/下跌家數，市場寬幅指標'],
 'ADL':['Advance-Decline Line','騰落指標 = 累積(上漲-下跌家數)，可為負值'],
 'DMI':['Directional Movement Index','趨向指標，判斷趨勢方向與強弱'],
 'VR':['Volume Ratio','成交量比率，衡量市場人氣指標'],
@@ -472,9 +488,12 @@ var GL={
 '葛蘭碧':['Granville\'s Rules','葛蘭碧八大法則，MA與股價交叉的買賣訊號判斷'],
 };
 
-function applyTooltips(text){
+function applyTooltips(text, chId){
+  // Context-aware ADR: ch4=技術分析 uses Advance-Decline Ratio; others use American Depositary Receipt
+  var localGL=Object.assign({},GL);
+  if(chId===4){localGL['ADR']=['Advance-Decline Ratio','漲跌比率 = 上漲家數/下跌家數，市場寬幅指標'];}
   // Sort by length desc to match longer terms first
-  var keys=Object.keys(GL).sort(function(a,b){return b.length-a.length;});
+  var keys=Object.keys(localGL).sort(function(a,b){return b.length-a.length;});
   var result=text;
   var used={};
   keys.forEach(function(k){
@@ -483,7 +502,7 @@ function applyTooltips(text){
     var ek=k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     var re=new RegExp('(?<![\\w\\u4e00-\\u9fff])(' + ek + ')(?![\\w\\u4e00-\\u9fff]|[^<]*>)','g');
     if(re.test(result)){
-      var g=GL[k];
+      var g=localGL[k];
       var tip='<span class="tn">'+k+' — '+g[0]+'</span><span class="td">'+g[1]+'</span>';
       result=result.replace(re, function(m){
         if(used[k])return m;// only first occurrence
@@ -505,27 +524,110 @@ function applyTooltips(text){
   const content=document.getElementById('ch-content');
   let navH='';let conH='';
   N.chapters.forEach((ch,i)=>{
-    navH+=`<div class="ch-btn${i===0?' a':''}" onclick="showCh(${i})" data-ch="${i}">Ch${ch.id} ${ch.title}</div>`;
+    const cid=ch.id;
+    navH+=`<div class="ch-btn${i===0?' a':''}" onclick="showCh(${i})" data-ch="${i}">Ch${cid} ${ch.title}</div>`;
     conH+=`<div class="ch-sec${i===0?' a':''}" id="ch-${i}">`;
-    conH+=`<h3 style="color:var(--bl);margin-bottom:12px;font-size:1.05em">第${ch.id}章 ${ch.title}</h3>`;
-    conH+=`<div style="margin-bottom:16px">`;
-    ch.keypoints.forEach(kp=>{
-      conH+=`<div class="kp">${applyTooltips(kp)}</div>`;
+    conH+=`<h3 style="color:var(--bl);margin-bottom:12px;font-size:1.05em">第${cid}章 ${ch.title}</h3>`;
+    // Keypoints: progress header
+    conH+=`<div class="prog-hdr"><span class="prog-label">重點筆記</span><span class="prog-count" id="pnc-${cid}">0/${ch.keypoints.length} 已掌握</span><div class="prog-bar-wrap"><div class="prog-bar-fill" id="pnb-${cid}" style="width:0%"></div></div></div>`;
+    // Active keypoints container
+    conH+=`<div id="akp-${cid}">`;
+    ch.keypoints.forEach((kp,ki)=>{
+      const key=`mastered_ch${cid}_note_${ki}`;
+      conH+=`<div class="item-wrap" data-key="${key}" data-ch-id="${cid}" data-type="kp" data-idx="${ki}"><input type="checkbox" class="m-cb" onchange="onMasteryChange(this)"><div class="kp">${applyTooltips(kp,ch.id)}</div></div>`;
     });
     conH+=`</div>`;
+    // Mastered keypoints collapsible section (hidden until first item mastered)
+    conH+=`<div class="mastered-sec" id="mskp-${cid}" style="display:none"><button class="mastered-toggle" id="mtkp-${cid}" onclick="toggleMasteredSec(${cid},'kp')">顯示已掌握 (0)</button><div class="mastered-items" id="mikp-${cid}" style="display:none"></div></div>`;
+    // Formulas section
     if(ch.formulas&&ch.formulas.length){
-      conH+=`<h4 style="color:var(--yw);margin:10px 0 8px;font-size:.95em">必背公式</h4>`;
-      ch.formulas.forEach(f=>{
-        conH+=`<div class="fc"><div class="ft">${f[0]}</div>${f[1]}</div>`;
+      conH+=`<div class="prog-hdr" style="margin-top:16px"><span class="prog-label">必背公式</span><span class="prog-count" id="pfc-${cid}">0/${ch.formulas.length} 已掌握</span><div class="prog-bar-wrap"><div class="prog-bar-fill" id="pfb-${cid}" style="width:0%"></div></div></div>`;
+      conH+=`<div id="afc-${cid}">`;
+      ch.formulas.forEach((f,fi)=>{
+        const key=`mastered_ch${cid}_formula_${fi}`;
+        conH+=`<div class="item-wrap" data-key="${key}" data-ch-id="${cid}" data-type="fc" data-idx="${fi}"><input type="checkbox" class="m-cb" onchange="onMasteryChange(this)"><div class="fc"><div class="ft">${applyTooltips(f[0],ch.id)}</div>${applyTooltips(f[1],ch.id)}</div></div>`;
       });
+      conH+=`</div>`;
+      conH+=`<div class="mastered-sec" id="msfc-${cid}" style="display:none"><button class="mastered-toggle" id="mtfc-${cid}" onclick="toggleMasteredSec(${cid},'fc')">顯示已掌握 (0)</button><div class="mastered-items" id="mifc-${cid}" style="display:none"></div></div>`;
     }
     conH+=`</div>`;
   });
   nav.innerHTML=navH;content.innerHTML=conH;
+  initMastery();
 })();
 function showCh(idx){
   document.querySelectorAll('.ch-btn').forEach(b=>b.classList.toggle('a',parseInt(b.dataset.ch)===idx));
   document.querySelectorAll('.ch-sec').forEach((s,i)=>s.classList.toggle('a',i===idx));
+}
+function onMasteryChange(cb){
+  const wrap=cb.closest('.item-wrap');
+  const key=wrap.dataset.key;
+  const chId=wrap.dataset.chId;
+  const type=wrap.dataset.type;
+  localStorage.setItem(key,cb.checked?'1':'0');
+  const active=document.getElementById('a'+type+'-'+chId);
+  const mastered=document.getElementById('mi'+type+'-'+chId);
+  if(cb.checked){
+    wrap.classList.add('anim-master','is-mastered');
+    setTimeout(()=>{
+      wrap.classList.remove('anim-master');
+      mastered.appendChild(wrap);
+      updateProgress(chId,type);
+    },260);
+  } else {
+    wrap.classList.remove('is-mastered');
+    // Re-insert in original order by comparing data-idx
+    const idx=parseInt(wrap.dataset.idx);
+    const siblings=Array.from(active.querySelectorAll(':scope > .item-wrap'));
+    let inserted=false;
+    for(const sib of siblings){
+      if(parseInt(sib.dataset.idx)>idx){active.insertBefore(wrap,sib);inserted=true;break;}
+    }
+    if(!inserted) active.appendChild(wrap);
+    updateProgress(chId,type);
+  }
+}
+function updateProgress(chId,type){
+  const active=document.getElementById('a'+type+'-'+chId);
+  const mastered=document.getElementById('mi'+type+'-'+chId);
+  if(!active||!mastered) return;
+  const totalA=active.querySelectorAll(':scope > .item-wrap').length;
+  const totalM=mastered.querySelectorAll(':scope > .item-wrap').length;
+  const total=totalA+totalM;
+  const pref=type==='kp'?'pn':'pf';
+  const secEl=document.getElementById('ms'+type+'-'+chId);
+  const countEl=document.getElementById(pref+'c-'+chId);
+  const barEl=document.getElementById(pref+'b-'+chId);
+  const toggleEl=document.getElementById('mt'+type+'-'+chId);
+  if(countEl) countEl.textContent=totalM+'/'+total+' 已掌握';
+  if(barEl) barEl.style.width=(total>0?Math.round(totalM/total*100):0)+'%';
+  if(secEl) secEl.style.display=totalM>0?'block':'none';
+  if(toggleEl){
+    const open=mastered.style.display!=='none';
+    toggleEl.textContent=(open?'隱藏已掌握 (':'顯示已掌握 (')+totalM+')';
+  }
+}
+function toggleMasteredSec(chId,type){
+  const mi=document.getElementById('mi'+type+'-'+chId);
+  const toggle=document.getElementById('mt'+type+'-'+chId);
+  const open=mi.style.display!=='none';
+  mi.style.display=open?'none':'block';
+  const count=mi.querySelectorAll(':scope > .item-wrap').length;
+  toggle.textContent=(open?'顯示已掌握 (':'隱藏已掌握 (')+count+')';
+}
+function initMastery(){
+  // Restore state from localStorage, moving mastered items to their containers
+  document.querySelectorAll('.item-wrap').forEach(wrap=>{
+    if(localStorage.getItem(wrap.dataset.key)==='1'){
+      const mi=document.getElementById('mi'+wrap.dataset.type+'-'+wrap.dataset.chId);
+      if(mi){wrap.querySelector('.m-cb').checked=true;wrap.classList.add('is-mastered');mi.appendChild(wrap);}
+    }
+  });
+  // Update all progress counters after restoring
+  N.chapters.forEach(ch=>{
+    updateProgress(ch.id,'kp');
+    if(ch.formulas&&ch.formulas.length) updateProgress(ch.id,'fc');
+  });
 }
 
 // Strategy
