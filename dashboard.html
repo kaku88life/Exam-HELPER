@@ -545,7 +545,18 @@ function applyTooltips(text, chId){
       conH+=`<div id="afc-${cid}">`;
       ch.formulas.forEach((f,fi)=>{
         const key=`mastered_ch${cid}_formula_${fi}`;
-        conH+=`<div class="item-wrap" data-key="${key}" data-ch-id="${cid}" data-type="fc" data-idx="${fi}"><input type="checkbox" class="m-cb" onchange="onMasteryChange(this)"><div class="fc"><div class="ft">${applyTooltips(f[0],ch.id)}</div>${applyTooltips(f[1],ch.id)}</div></div>`;
+        const fe=findFE(f[0]);
+        let card=`<div class="${fe?'fc fcx':'fc'}"${fe?' onclick="this.classList.toggle(\'open\')"':''}>`;
+        if(fe) card+=`<span class="fe">說明 ▾</span>`;
+        card+=`<div class="ft">${applyTooltips(f[0],ch.id)}</div>${applyTooltips(f[1],ch.id)}`;
+        if(fe){
+          card+=`<div class="fd"><span class="dl">${fe[0]}</span>`;
+          if(fe[1]) card+=`<br><span class="dc">${fe[1]}</span>`;
+          if(fe[2]) card+=`<br><span style="color:var(--mt);margin-top:4px;display:block">${fe[2]}</span>`;
+          card+=`</div>`;
+        }
+        card+=`</div>`;
+        conH+=`<div class="item-wrap" data-key="${key}" data-ch-id="${cid}" data-type="fc" data-idx="${fi}"><input type="checkbox" class="m-cb" onchange="onMasteryChange(this)">${card}</div>`;
       });
       conH+=`</div>`;
       conH+=`<div class="mastered-sec" id="msfc-${cid}" style="display:none"><button class="mastered-toggle" id="mtfc-${cid}" onclick="toggleMasteredSec(${cid},'fc')">顯示已掌握 (0)</button><div class="mastered-items" id="mifc-${cid}" style="display:none"></div></div>`;
@@ -555,6 +566,14 @@ function applyTooltips(text, chId){
   nav.innerHTML=navH;content.innerHTML=conH;
   initMastery();
 })();
+function findFE(name){
+  if(FE[name]) return FE[name];
+  for(const k of Object.keys(FE)){
+    const core=k.split(' ')[0].split('(')[0];
+    if(core.length>1&&name.includes(core)) return FE[k];
+  }
+  return null;
+}
 function showCh(idx){
   document.querySelectorAll('.ch-btn').forEach(b=>b.classList.toggle('a',parseInt(b.dataset.ch)===idx));
   document.querySelectorAll('.ch-sec').forEach((s,i)=>s.classList.toggle('a',i===idx));
