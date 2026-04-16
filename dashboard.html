@@ -114,9 +114,9 @@ body{padding:8px}
 .ttp .td{color:var(--mt);font-size:.92em}
 .ch-sec{display:none}.ch-sec.a{display:block}
 /* ── Mastery Tracking ── */
-.item-wrap{display:flex;align-items:flex-start;gap:8px;margin:4px 0}
-.item-wrap .kp,.item-wrap .fc{flex:1;min-width:0;margin:0}
-.m-cb{width:15px;height:15px;flex-shrink:0;margin-top:4px;cursor:pointer;accent-color:var(--gn)}
+.item-wrap{display:flex;align-items:center;gap:8px;margin:4px 0}
+.item-wrap .kp,.item-wrap .fc{flex:1;min-width:0;margin:0;overflow:visible}
+.m-cb{width:15px;height:15px;flex-shrink:0;align-self:center;cursor:pointer;accent-color:var(--gn)}
 .item-wrap.is-mastered .kp,.item-wrap.is-mastered .fc{opacity:.45;transition:opacity .25s}
 .item-wrap.is-mastered:hover .kp,.item-wrap.is-mastered:hover .fc{opacity:.8}
 @keyframes anim-master{0%{opacity:1;transform:translateX(0)}65%{opacity:.5;transform:translateX(5px)}100%{opacity:.45;transform:translateX(0)}}
