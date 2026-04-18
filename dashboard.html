@@ -107,7 +107,8 @@ body{padding:8px}
 .kp{padding:8px 12px;margin:5px 0;background:var(--bg);border-radius:8px;font-size:.88em;line-height:1.6;border-left:3px solid var(--gn)}
 .kp strong{color:var(--yw)}
 .tt{position:relative;color:var(--cy);cursor:help;border-bottom:1px dashed var(--cy);font-weight:600}
-.tt:hover .ttp,.tt:focus .ttp{visibility:visible;opacity:1;transform:translateX(-50%) translateY(0)}
+.tt:hover .ttp,.tt:focus .ttp,.tt.open .ttp{visibility:visible;opacity:1;transform:translateX(-50%) translateY(0)}
+.tt.open{color:var(--yw)}
 .ttp{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);background:#1e293b;border:1px solid var(--cy);border-radius:8px;padding:8px 12px;font-size:.78em;font-weight:400;color:var(--tx);white-space:nowrap;max-width:320px;white-space:normal;line-height:1.5;z-index:50;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:all .15s;pointer-events:none}
 .ttp::after{content:'';position:absolute;top:100%;left:50%;margin-left:-5px;border:5px solid transparent;border-top-color:var(--cy)}
 .ttp .tn{color:var(--yw);font-weight:700;display:block;margin-bottom:2px}
@@ -771,6 +772,12 @@ var FN={
 };
 function fmRender(arr){return arr.map(function(a){var t=a[0],f=a[1],e=FE[t],n=FN[t];var h='<div class="fc'+(e?' fcx':'')+'"><div class="ft">'+t+(e?'<span class="fe">▶ 說明</span>':'')+'</div>'+(n?'<div style="font-size:.7em;color:var(--mt);font-family:\'Noto Sans TC\',sans-serif;margin-bottom:5px;font-style:italic">'+n+'</div>':'')+f;if(e){h+='<div class="fd"><div><span class="dl">📖 白話：</span>'+e[0]+'</div><div style="margin-top:5px"><span class="dc">💡 核心概念：</span>'+e[1]+'</div>';if(e[2])h+='<div style="margin-top:5px"><span style="color:var(--cy);font-weight:500">📌 符號說明：</span>'+e[2]+'</div>';h+='</div>';}return h+'</div>';}).join('');}
 document.addEventListener('click',function(e){var c=e.target.closest('.fcx');if(c){c.classList.toggle('open');var fe=c.querySelector('.fe');if(fe)fe.textContent=c.classList.contains('open')?'▼ 收合':'▶ 說明';}});
+// Tooltip click toggle (for touch/mobile support)
+document.addEventListener('click',function(e){
+  var tt=e.target.closest('.tt');
+  if(tt){e.stopPropagation();var was=tt.classList.contains('open');document.querySelectorAll('.tt.open').forEach(function(t){t.classList.remove('open');});if(!was)tt.classList.add('open');}
+  else if(!e.target.closest('.ttp')){document.querySelectorAll('.tt.open').forEach(function(t){t.classList.remove('open');});}
+});
 
 // Formulas
 document.getElementById('f-inv').innerHTML=fmRender([
@@ -895,6 +902,33 @@ var GL={
 '馬凱爾':['Malkiel\'s Theorems','馬凱爾債券定理：價格與殖利率反向，到期越長敏感度越高'],
 '免疫策略':['Immunization Strategy','利用存續期間配對規避利率風險的債券管理策略'],
 '葛蘭碧':['Granville\'s Rules','葛蘭碧八大法則，MA與股價交叉的買賣訊號判斷'],
+// Financial Statements & Analysis
+'PP&E':['Property, Plant & Equipment','不動產、廠房及設備，企業主要固定資產；採成本模型（成本-累計折舊）或重評價模型'],
+'OCI':['Other Comprehensive Income','其他綜合損益，不通過損益表的淨資產變動（避險損益、外幣換算差額、精算損益）'],
+'FVTPL':['Fair Value Through Profit or Loss','透過損益按公平價值衡量；期末評價差額直接列入損益表（最常見金融資產分類）'],
+'FVTOCI':['Fair Value Through Other Comprehensive Income','透過其他綜合損益按公平價值衡量；評價損益列OCI，出售時可重分類至損益'],
+'EBITDA':['Earnings Before Interest, Taxes, Depreciation & Amortization','息前稅前折舊攤銷前盈餘，衡量現金獲利能力的指標（非GAAP，各公司定義略有不同）'],
+'OCF':['Operating Cash Flow','營業活動現金流量；間接法 = 淨利 + 折舊/攤銷 ± 營運資金變動'],
+'CapEx':['Capital Expenditure','資本支出，購置固定資產的現金流出，列於投資活動現金流（ICF）'],
+'LCM':['Lower of Cost or Market / Net Realizable Value','成本與淨變現價值孰低法，存貨評價原則；跌價時認列損失（不得隨後回升認利益）'],
+'COGS':['Cost of Goods Sold','銷貨成本 = 期初存貨 + 本期進貨 - 期末存貨；損益表中最大費用項目'],
+'FCF':['Free Cash Flow','自由現金流量 = OCF - CapEx；企業扣除必要投資後可自由運用的現金'],
+'BPS':['Book Value Per Share','每股帳面淨值 = 普通股股東權益 ÷ 流通股數；P/B比的分母'],
+'ROA':['Return on Assets','資產報酬率 = 稅後淨利 ÷ 平均總資產；衡量企業運用全部資產的獲利效率'],
+'D/E':['Debt-to-Equity Ratio','負債權益比 = 總負債 ÷ 股東權益；衡量財務槓桿程度，越高風險越大'],
+// Law & Securities Market
+'CB':['Convertible Bond','可轉換公司債，持有人可在特定期間以轉換價格換為普通股（對公司有稀釋效果）'],
+'BW':['Bond with Warrants','附認股權公司債；認股權可與原債券分離交易，行使後原債券仍繼續存在'],
+'ECB':['Euro Convertible Bond','海外可轉換公司債；在海外發行、外幣計價，可轉換為台灣股票'],
+'MOPS':['Market Observation Post System','公開資訊觀測站（公開資訊平台）；上市公司重大訊息須於2日內輸入揭露'],
+'TWSE':['Taiwan Stock Exchange','台灣證券交易所；集中市場主管機關，上市股票在此撮合交易（採逐筆撮合）'],
+'TPEx':['Taipei Exchange (OTC)','證券櫃檯買賣中心；店頭市場主管機關，上櫃股票在此電子撮合交易'],
+'TAIFEX':['Taiwan Futures Exchange','台灣期貨交易所；台指期(TX)、小台(MTX)、選擇權等衍生性商品在此交易'],
+'FINI':['Foreign Institutional Investor','外資法人；投資台股需向金管會申請核准，透過保管銀行(Custodian)進行交易'],
+'iNAV':['Indicative Net Asset Value','ETF盤中即時指示性淨值；供投資人判斷ETF市價相對NAV的折溢價情況'],
+'T+2':['Trade Date Plus Two Days','成交後第二個營業日完成款券交割的交割制度'],
+'CMR':['Contribution Margin Ratio','邊際貢獻率 = 邊際貢獻 ÷ 銷售收入；損益兩平點(金額) = 固定成本 ÷ CMR'],
+'IFRS 16':['IFRS Lease Standard','租賃準則；承租人須認列使用權資產+租賃負債（短期和低值資產可豁免）'],
 };
 
 function applyTooltips(text, chId){
