@@ -202,57 +202,113 @@ button,input{font:inherit}
 }
 .mind-header h2{margin:0;font-size:24px}
 .mind-header p{margin:4px 0 0;color:var(--muted);font-size:14px}
-.mind-grid{
+.mind-grid{display:block;max-width:980px}
+.mind-subject{margin-bottom:18px}
+.mind-subject>summary,.mind-chapter>summary,.mind-term>summary{list-style:none;cursor:pointer}
+.mind-subject>summary::-webkit-details-marker,.mind-chapter>summary::-webkit-details-marker,.mind-term>summary::-webkit-details-marker{display:none}
+.mind-subject-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-radius:10px;
+  padding:13px 15px;
+  color:#fff;
+  background:var(--teal);
+  box-shadow:0 12px 28px rgba(23,33,29,.09);
+}
+.mind-subject-title strong{font-size:18px}
+.mind-subject-title span{font-size:12px;opacity:.9}
+.mind-subject[data-type="investment"] .mind-subject-title{background:#6d5a95}
+.mind-subject[data-type="finance"] .mind-subject-title{background:#087a73}
+.mind-subject[data-type="law"] .mind-subject-title{background:#9a4a62}
+.mind-branch{
+  position:relative;
+  margin-left:18px;
+  padding-left:22px;
+  border-left:2px solid rgba(23,33,29,.12);
+}
+.mind-chapter{margin:12px 0}
+.mind-chapter>summary,.mind-term>summary{position:relative}
+.mind-chapter>summary::before,.mind-term>summary::before{
+  content:"";
+  position:absolute;
+  left:-22px;
+  top:50%;
+  width:18px;
+  height:1px;
+  background:rgba(23,33,29,.18);
+}
+.mind-term>summary::before{left:-18px;width:14px;background:rgba(23,33,29,.14)}
+.chapter-node{
   display:grid;
-  grid-template-columns:repeat(2,minmax(260px,1fr));
-  gap:14px;
-}
-.mind-col{
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
   border:1px solid var(--line);
-  border-radius:8px;
-  background:var(--surface);
-  overflow:hidden;
+  border-radius:10px;
+  padding:11px 13px;
+  background:rgba(255,255,255,.9);
 }
-.mind-col h3{
-  margin:0;
-  padding:12px 14px;
-  font-size:15px;
-  background:var(--surface-2);
-  border-bottom:1px solid var(--line);
+.chapter-node strong,.term-node strong{display:block;line-height:1.35}
+.chapter-node span,.term-node span{display:block;margin-top:3px;color:var(--muted);font-size:12px;line-height:1.35}
+.term-list{
+  margin-left:18px;
+  padding-left:20px;
+  border-left:1px solid rgba(23,33,29,.14);
 }
-.branch{padding:8px 10px}
-.branch-title{
-  margin:8px 0 6px;
-  color:var(--muted);
+.mind-term{margin:10px 0}
+.term-node{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
+  border:1px solid rgba(23,33,29,.1);
+  border-radius:10px;
+  padding:10px 12px;
+  background:rgba(255,255,255,.84);
+}
+.term-node:hover,.term-node.active{border-color:var(--teal);background:rgba(8,122,115,.08)}
+.term-node.important{
+  border-color:rgba(8,122,115,.35);
+  background:linear-gradient(90deg,rgba(8,122,115,.12),rgba(255,255,255,.9) 38%);
+  box-shadow:inset 4px 0 0 rgba(8,122,115,.68);
+}
+.term-dot{width:12px;height:12px;border-radius:50%;background:var(--teal)}
+.term-dot.investment{background:#6d5a95}
+.term-dot.finance{background:#607243}
+.term-dot.formula{background:#b66516}
+.term-dot.law{background:#9a4a62}
+.term-badges{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.important-mark,.freq-mark{
+  display:inline-flex;
+  align-items:center;
+  min-height:23px;
+  border-radius:999px;
+  padding:3px 8px;
+  color:var(--teal);
+  background:rgba(8,122,115,.1);
   font-size:12px;
   font-weight:800;
+  white-space:nowrap;
 }
-.mind-node{
-  width:100%;
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:8px;
-  align-items:center;
-  border:1px solid transparent;
-  border-radius:7px;
-  background:transparent;
-  color:var(--ink);
-  padding:9px 10px;
-  cursor:pointer;
-  text-align:left;
+.freq-mark{color:var(--muted);background:var(--surface-2);font-weight:700}
+.question-branch{
+  margin:8px 0 0 22px;
+  padding-left:18px;
+  border-left:1px dashed rgba(23,33,29,.2);
 }
-.mind-node:hover,.mind-node.active{border-color:var(--teal);background:rgba(8,122,115,.08)}
-.mind-node small{color:var(--muted);font-size:12px}
-.dot{
-  width:9px;
-  height:9px;
-  border-radius:99px;
-  background:var(--teal);
+.question-node{
+  margin:8px 0;
+  border:1px solid rgba(23,33,29,.1);
+  border-radius:9px;
+  padding:10px 12px;
+  background:rgba(255,255,255,.72);
+  font-size:13px;
+  line-height:1.55;
 }
-.dot.blue{background:var(--blue)}
-.dot.amber{background:var(--amber)}
-.dot.rose{background:var(--rose)}
-.dot.olive{background:var(--olive)}
+.question-node strong{display:block;margin-bottom:4px}
+.question-node span{color:var(--muted)}
 .hidden{display:none!important}
 @media(max-width:980px){
   body{overflow:auto}
@@ -263,7 +319,10 @@ button,input{font:inherit}
   .graph-stage{height:62svh;min-height:430px}
   .floating{top:10px;bottom:auto}
   .inspector{border-left:0;border-top:1px solid var(--line)}
-  .mind-grid{grid-template-columns:1fr}
+  .mind-branch{margin-left:12px;padding-left:18px}
+  .term-list{margin-left:12px;padding-left:16px}
+  .mind-chapter>summary::before{left:-18px;width:14px}
+  .mind-term>summary::before{left:-16px;width:12px}
 }
 @media(max-width:560px){
   .case-grid{grid-template-columns:1fr}
@@ -755,32 +814,108 @@ const links = [
   ["companyLaw","roe"],["insider","income"],["securitiesDealer","underwriting"],["investmentTrust","derivatives"]
 ].map(([source,target])=>({source,target}));
 
+const makeTerm = ({nodeId,title,group,formula,plain,caseText,question,asks=[],solveSteps=[],traps=[],importance="考點",freq="中"}) => ({
+  nodeId,title,group,formula,plain,caseText,question,asks,solveSteps,traps,importance,freq,
+  subtitle: plain,
+  metrics:[
+    ["關聯節點",cards[nodeId]?.title || "跨科觀念"],
+    ["頻率",freq],
+    ["標記",importance],
+    ["題型",group]
+  ]
+});
+
+const mindTermCards = {
+  "inv-eps":makeTerm({nodeId:"basicAnalysis",title:"EPS（每股盈餘）",group:"基本分析",formula:"EPS（每股盈餘）= 普通股可分配盈餘 / 加權平均流通股數",plain:"基本分析常用 EPS（每股盈餘）評估股票獲利能力。",caseText:"把 kaku Holdings 當上市公司時，jikka.app 與章魚燒子公司淨利會影響 EPS（每股盈餘）。",question:"代表題：基本分析常利用每股盈餘評估普通股價值。",asks:["EPS（每股盈餘）高低代表什麼？","特別股股利是否要先扣除？"],solveSteps:["先找稅後淨利。","扣除特別股股利。","除以加權平均普通股股數。"],traps:["不要用期末股數直接取代加權平均股數。"],importance:"必背",freq:"高"}),
+  "inv-pe":makeTerm({nodeId:"basicAnalysis",title:"本益比",group:"基本分析",formula:"本益比 = 股價 / EPS（每股盈餘）",plain:"本益比用來看市場願意為每一元盈餘付多少價格。",caseText:"若 jikka.app 成長性高，本益比可能較高，但要和風險一起看。",question:"代表題：本益比相同不代表兩家公司成長性相同。",asks:["本益比高一定貴嗎？","會計方法變動會不會影響本益比？"],solveSteps:["先算 EPS（每股盈餘）。","用股價除以 EPS。","搭配成長性與風險判斷。"],traps:["本益比不能單獨判斷便宜或昂貴。"],importance:"必背",freq:"高"}),
+  "inv-pb":makeTerm({nodeId:"basicAnalysis",title:"市價淨值比",group:"基本分析",formula:"市價淨值比 = 股價 / 每股淨值",plain:"以會計保守原則看股價是否低估時常用淨值相關比率。",caseText:"Amy 股東權益可拆成每股淨值，用來練市價淨值比。",question:"代表題：以會計保守原則，較適合衡量股價是否低估的是市價淨值比。",asks:["每股淨值來自哪張表？","市價淨值比和本益比差在哪？"],solveSteps:["先找股東權益。","除以股數得到每股淨值。","再用股價除以每股淨值。"],traps:["淨值不是市值，兩者不要混。"],freq:"高"}),
+  "inv-dividend-discount":makeTerm({nodeId:"basicAnalysis",title:"股利折現模型",group:"基本分析",formula:"零成長股價 = 固定股利 / 必要報酬率",plain:"固定股利題常直接套零成長股利折現模型。",caseText:"如果 kaku Holdings 固定配息，可用股利折現模型估價。",question:"代表題：每年固定配發現金股利 4 元，必要報酬率 10%，股價為 40 元。",asks:["固定股利和成長股利公式差在哪？"],solveSteps:["確認是否零成長。","固定股利用股利除以必要報酬率。"],traps:["必要報酬率要用小數，不要用百分比整數。"],freq:"中"}),
+  "inv-capm":makeTerm({nodeId:"riskReturn",title:"CAPM（資本資產定價模型）",group:"風險報酬",formula:"E(R) = Rf + Beta（貝它係數）× (Rm - Rf)",plain:"用無風險利率、市場風險溢酬與 Beta（貝它係數）推估必要報酬。",caseText:"你的股票投資部位可用 CAPM（資本資產定價模型）估要求報酬。",question:"代表題：給定市場報酬、定存利率與 Beta（貝它係數）時，計算風險貼水。",asks:["哪一段是市場風險溢酬？","Beta（貝它係數）要不要乘進去？"],solveSteps:["找 Rf（無風險利率）。","算 Rm - Rf。","乘 Beta（貝它係數）後加回 Rf。"],traps:["風險貼水和必要報酬不要混。"],importance:"必背",freq:"高"}),
+  "inv-beta":makeTerm({nodeId:"riskReturn",title:"Beta（貝它係數）",group:"風險報酬",formula:"Beta（貝它係數）衡量系統風險",plain:"Beta（貝它係數）不是總風險，只反映相對市場的系統風險。",caseText:"若 kaku Holdings 股票投資很貼近大盤，Beta（貝它係數）可能接近 1。",question:"代表題：Beta（貝它係數）只衡量系統風險，變異數衡量總風險。",asks:["Beta（貝它係數）和標準差差在哪？"],solveSteps:["看到 Beta（貝它係數）先想到系統風險。","看到變異數或標準差先想到總風險。"],traps:["不要說 Beta（貝它係數）衡量非系統風險。"],importance:"必背",freq:"高"}),
+  "inv-sharpe":makeTerm({nodeId:"riskReturn",title:"夏普指標",group:"風險報酬",formula:"夏普指標 = (投資組合報酬 - 無風險利率) / 標準差",plain:"用總風險衡量每單位風險的超額報酬。",caseText:"比較你的股票部位和 ETF（指數股票型基金）時，可用夏普指標看風險調整後報酬。",question:"代表題：給平均報酬、無風險利率與標準差，計算夏普指標。",asks:["分母用標準差還是 Beta（貝它係數）？"],solveSteps:["先算超額報酬。","除以標準差。"],traps:["夏普用標準差，崔納用 Beta（貝它係數）。"],freq:"中"}),
+  "inv-treynor":makeTerm({nodeId:"riskReturn",title:"崔納指標",group:"風險報酬",formula:"崔納指標 = (投資組合報酬 - 無風險利率) / Beta（貝它係數）",plain:"用系統風險衡量每單位風險的超額報酬。",caseText:"若投資已充分分散，可用崔納指標看 Beta（貝它係數）風險報酬。",question:"代表題方向：崔納指標常和 Alpha（超額報酬）一起比較。",asks:["分母用 Beta（貝它係數）還是標準差？"],solveSteps:["先算超額報酬。","除以 Beta（貝它係數）。"],traps:["不要和夏普指標分母混用。"],freq:"中"}),
+  "inv-bond-yield":makeTerm({nodeId:"bonds",title:"殖利率與債券價格",group:"債券",formula:"市場利率上升，債券價格下降",plain:"債券價格與市場殖利率通常反向變動。",caseText:"若 kaku Holdings 未來買公司債，要知道利率上升會讓舊債價格下跌。",question:"代表題：債券存續期間越長，利率風險越高。",asks:["利率上升時價格方向？","溢價債券和折價債券怎麼判斷？"],solveSteps:["先看市場利率方向。","再看票面利率與到期殖利率。","最後判斷價格高低。"],traps:["殖利率不是票面利率。"],importance:"必背",freq:"高"}),
+  "inv-duration":makeTerm({nodeId:"bonds",title:"存續期間",group:"債券",formula:"存續期間越長，利率風險越高",plain:"存續期間衡量債券價格對利率變動的敏感度。",caseText:"長天期房貸和長天期債券都可用來理解利率敏感度。",question:"代表題：債券存續期間越長，利率風險越高。",asks:["到期期限和存續期間有何不同？"],solveSteps:["先判斷票息高低與到期期限。","期限越長、票息越低通常越敏感。"],traps:["不要說到期期限越短利率風險越大。"],importance:"必背",freq:"高"}),
+  "inv-etf-arb":makeTerm({nodeId:"derivatives",title:"ETF（指數股票型基金）套利",group:"衍生商品",formula:"ETF 溢價：買一籃子股票，賣出 ETF",plain:"ETF（指數股票型基金）市價高於淨值時，套利方向是買低賣高。",caseText:"若你的 ETF 部位有溢價，考題會問套利者如何操作。",question:"代表題：ETF 市價大於淨值時，買進一籃子股票並賣出 ETF。",asks:["市價大於淨值是溢價還是折價？"],solveSteps:["先判斷溢價或折價。","溢價時賣 ETF、買一籃子股票。"],traps:["溢價時不是買 ETF。"],importance:"必背",freq:"高"}),
+  "inv-option":makeTerm({nodeId:"derivatives",title:"買權與賣權",group:"衍生商品",formula:"買權看漲；賣權看跌",plain:"選擇權買方有權利，賣方有義務。",caseText:"股票看多可用買入買權或賣出賣權理解，但風險不同。",question:"代表題：看好股價時，買入買權與賣出賣權可獲利。",asks:["買權和賣權方向？","買方和賣方權利義務？"],solveSteps:["先判斷看多或看空。","再判斷買方或賣方。"],traps:["賣出買權不是看大漲。"],freq:"高"}),
+  "inv-warrant":makeTerm({nodeId:"derivatives",title:"權證",group:"衍生商品",formula:"權證價值與履約價、權利金、執行比例有關",plain:"權證題常把履約價、權利金、執行比例放進計算。",caseText:"若用權證操作股票部位，要先抓最大漲跌幅與履約價。",question:"代表題：給收盤價、履約價、權利金與執行比例，計算權證最大漲幅。",asks:["履約價與權利金如何影響損益？"],solveSteps:["先找標的價格變動。","乘執行比例。","和權利金比較。"],traps:["不要漏掉執行比例。"],freq:"中"}),
+  "inv-dow":makeTerm({nodeId:"technicalAnalysis",title:"道氏理論",group:"技術分析",formula:"主要趨勢常以指數表達",plain:"技術分析常考定義與指標方向。",caseText:"你的股票部位若看大盤趨勢，可用道氏理論理解市場方向。",question:"代表題：道氏理論中，主要市場趨勢方向以指數表達。",asks:["主要趨勢用什麼表達？"],solveSteps:["看到道氏理論先抓主要趨勢、次級趨勢。"],traps:["不要把成交量當主要趨勢答案。"],freq:"中"}),
+  "inv-obv":makeTerm({nodeId:"technicalAnalysis",title:"OBV（能量潮）",group:"技術分析",formula:"上漲日加成交量，下跌日減成交量",plain:"OBV（能量潮）用成交量累積判斷資金動能。",caseText:"股票成交量可以當作技術分析練習，但不要和基本面混淆。",question:"代表題方向：OBV 原則常考成交量與價格的關係。",asks:["今日上漲時 OBV 如何計算？"],solveSteps:["判斷當日漲跌。","上漲加成交量，下跌減成交量。"],traps:["量價背離方向容易反。"],freq:"中"}),
+  "inv-kd":makeTerm({nodeId:"technicalAnalysis",title:"KD 指標",group:"技術分析",formula:"D 線為慢速隨機指標",plain:"KD 題多為指標名稱與超買超賣定義。",caseText:"若用技術指標看股票進出場，KD 是常見考點。",question:"代表題：KD 指標中，D 線代表慢速隨機指標。",asks:["K 線與 D 線哪個較慢？"],solveSteps:["先辨識 K、D 名稱。","再看題目是否問超買超賣。"],traps:["D 線不是快速隨機指標。"],freq:"中"}),
+  "inv-inflation":makeTerm({nodeId:"macroIndicators",title:"通膨與實質報酬",group:"總體經濟",formula:"實質利率約 = 名目利率 - 通膨率",plain:"名目報酬要扣掉通膨，才接近實際購買力成長。",caseText:"如果投資報酬 8%、通膨 4%，真正購買力成長要看實質報酬。",question:"代表題：名目利率 8%、通膨 4%，實際購買力成長約 3.8%。",asks:["名目報酬和實質報酬差在哪？"],solveSteps:["用 1+名目報酬 除以 1+通膨。","再減 1。"],traps:["精算時不是直接相減。"],freq:"高"}),
+  "inv-fx":makeTerm({nodeId:"macroIndicators",title:"匯率升貶值",group:"總體經濟",formula:"本幣升值：利於進口，不利出口",plain:"匯率題常考進出口成本與匯兌損益方向。",caseText:"章魚燒若進口食材，新臺幣升值可能降低進口成本。",question:"代表題：新臺幣升值通常引起進口物價下跌。",asks:["升值對出口和進口各有何影響？"],solveSteps:["先判斷本幣升值或貶值。","再看公司是進口或出口。"],traps:["美元換回台幣的金額方向容易反。"],freq:"中"}),
+
+  "fin-equation":makeTerm({nodeId:"balance",title:"會計恆等式",group:"會計三表",formula:"資產 = 負債 + 權益",plain:"所有三表連動題都要先回到這個等式。",caseText:"kaku Holdings 總資產、總負債與 Amy 股東權益可用來檢查等式。",question:"代表題方向：資產、負債、權益分類題。",asks:["資產增加一定是收入嗎？"],solveSteps:["先分類資產、負債、權益。","檢查左右是否平衡。"],traps:["收入不等於資產，股東投入不等於收入。"],importance:"必背",freq:"高"}),
+  "fin-current-assets":makeTerm({nodeId:"balance",title:"流動資產",group:"資產負債表",formula:"一年內或一營業週期內可望變現、出售或耗用",plain:"流動資產是流動比率與速動比率的分子。",caseText:"股票、現金與章魚燒食材可作流動資產練習。",question:"代表題方向：判斷哪些項目屬流動資產。",asks:["存貨是否能放進速動資產？"],solveSteps:["看是否一年內變現或耗用。","再判斷是否為速動資產。"],traps:["流動資產品質不一定等於現金品質。"],freq:"高"}),
+  "fin-current-liabilities":makeTerm({nodeId:"balance",title:"流動負債",group:"資產負債表",formula:"一年內或一營業週期內需要清償",plain:"流動負債是短期償債公式的分母。",caseText:"短期信貸或一年內到期房貸可當流動負債。",question:"代表題方向：流動負債增加通常使流動比率下降。",asks:["一年內到期長期負債如何分類？"],solveSteps:["先看清償期限。","再放入流動或非流動負債。"],traps:["金額大小不是流動分類重點。"],freq:"高"}),
+  "fin-capital-stock":makeTerm({nodeId:"balance",title:"普通股股本",group:"股東權益",formula:"普通股股本 = 發行股數 × 每股面額",plain:"股本屬股東權益，不是收入。",caseText:"Amy 作為股東，可用增資練股本與資本公積。",question:"代表題：普通股發行股數與每股面額之乘積為普通股股本。",asks:["股本和資本公積差在哪？"],solveSteps:["找發行股數。","乘每股面額。"],traps:["不要把市價乘股數當股本。"],importance:"必背",freq:"高"}),
+  "fin-revenue-recognition":makeTerm({nodeId:"income",title:"收入認列",group:"損益表",formula:"IFRS 15（國際財務報導準則第 15 號）：履約義務完成時認列收入",plain:"收入認列常考交貨日、收款日與合約日差異。",caseText:"jikka.app 服務收入或章魚燒交付時點可練收入認列。",question:"代表題：商品於 12 月 10 日交付，應於交付日認列收入。",asks:["收款日等於收入認列日嗎？"],solveSteps:["先找履約義務。","確認控制移轉時點。"],traps:["收款不一定等於收入認列。"],importance:"必背",freq:"高"}),
+  "fin-cogs":makeTerm({nodeId:"inventory",title:"銷貨成本",group:"存貨",formula:"銷貨成本 = 期初存貨 + 本期進貨 - 期末存貨",plain:"定期盤存制最常考這條公式。",caseText:"章魚燒期初 30,000、本期進貨 90,000、期末 25,000，銷貨成本 95,000。",question:"代表題：定期盤存制下銷貨成本為期初存貨加本期進貨減期末存貨。",asks:["期末存貨高估時淨利如何變？"],solveSteps:["圈期初、本期進貨、期末。","套公式。","判斷毛利方向。"],traps:["買材料不等於立刻認列銷貨成本。"],importance:"必背",freq:"高"}),
+  "fin-nrv":makeTerm({nodeId:"inventory",title:"淨變現價值",group:"存貨",formula:"存貨評價採成本與淨變現價值孰低",plain:"存貨跌價題會問是否提列跌價損失。",caseText:"章魚燒材料若市價下跌，要判斷是否需要跌價損失。",question:"代表題方向：原材料是否提列存貨跌價損失，要看製成品是否跌價。",asks:["成本與淨變現價值誰低？"],solveSteps:["先算淨變現價值。","和成本比較。","低於成本才認列跌價。"],traps:["原材料跌價不一定立刻提列，還要看製成品。"],freq:"中"}),
+  "fin-consignment":makeTerm({nodeId:"inventory",title:"寄銷商品運費",group:"存貨",formula:"寄銷商品運至經銷商的必要支出可列入委託方存貨成本",plain:"寄銷商品仍屬委託方存貨。",caseText:"章魚燒材料若寄放他店代售，所有權未移轉前仍是你的存貨。",question:"代表題：乙公司將寄銷商品運至甲公司，運費理論上列為乙公司存貨成本。",asks:["寄銷商品屬誰的存貨？"],solveSteps:["先判斷所有權是否移轉。","再判斷運費是否讓存貨到達可銷售狀態。"],traps:["不要把經銷商誤認為存貨所有人。"],freq:"中"}),
+  "fin-depreciation":makeTerm({nodeId:"income",title:"折舊費用",group:"損益表",formula:"直線法折舊 = (成本 - 殘值) / 耐用年限",plain:"折舊可能影響銷貨成本、營業費用與現金流量表間接法。",caseText:"章魚燒設備或不動產房屋部分可用折舊練習。",question:"代表題：多提生產部門設備折舊會提高銷貨成本。",asks:["折舊是否有現金流出？"],solveSteps:["先判斷資產成本。","扣殘值後除以耐用年限。","看折舊屬製造成本或費用。"],traps:["土地不提折舊。"],importance:"必背",freq:"高"}),
+  "fin-cash-indirect":makeTerm({nodeId:"cashflow",title:"現金流量表間接法",group:"現金流量表",formula:"淨利 + 非現金費用 +/- 營運資金變動",plain:"間接法從淨利調整到營業現金流。",caseText:"AI agent 費用若已付款是現金流出；折舊則沒有現金流出。",question:"代表題：應收帳款減少是現金流量加項。",asks:["哪些項目要加回？"],solveSteps:["先找淨利。","加回折舊等非現金費用。","調整應收、存貨、應付變動。"],traps:["存貨增加通常是減項。"],importance:"必背",freq:"高"}),
+  "fin-cash-classification":makeTerm({nodeId:"cashflow",title:"營業、投資、籌資活動",group:"現金流量表",formula:"收回借出款項通常屬投資活動現金流入",plain:"現金流量表分類題常考借款、還款、購置資產與收款。",caseText:"買不動產是投資活動；房貸本金是籌資活動。",question:"代表題：企業收回借出的款項，列為投資活動現金流入。",asks:["購買設備屬哪一類？","借款本金屬哪一類？"],solveSteps:["先看交易性質。","資產投資歸投資活動。","資金來源歸籌資活動。"],traps:["利息分類要看準則與題目設定。"],freq:"高"}),
+  "fin-current-ratio":makeTerm({nodeId:"currentRatio",title:"流動比率",group:"財務比率",formula:"流動比率 = 流動資產 / 流動負債",plain:"短期償債能力基本公式。",caseText:"kaku Holdings 流動比率約 1.40x。",question:"代表題方向：流動資產增加通常使流動比率上升。",asks:["流動負債增加時比率方向？"],solveSteps:["判斷分子或分母變動。","分子上升比率上升，分母上升比率下降。"],traps:["比率高不代表資產品質好。"],importance:"必背",freq:"高"}),
+  "fin-quick-ratio":makeTerm({nodeId:"quickRatio",title:"速動比率",group:"財務比率",formula:"速動比率 = (流動資產 - 存貨 - 預付款) / 流動負債",plain:"比流動比率更保守，會扣掉存貨與預付款。",caseText:"章魚燒食材是存貨，計算速動比率時要扣掉。",question:"代表題方向：速動資產不含存貨與預付款。",asks:["哪些項目不是速動資產？"],solveSteps:["從流動資產扣存貨與預付款。","再除以流動負債。"],traps:["不要把全部流動資產都放入速動資產。"],importance:"必背",freq:"高"}),
+  "fin-debt-ratio":makeTerm({nodeId:"debtRatio",title:"負債比率",group:"財務比率",formula:"負債比率 = 總負債 / 總資產",plain:"衡量資產由債權人提供資金的比例。",caseText:"kaku Holdings 負債比率約 71.0%。",question:"代表題：長期債權人會關心資本結構與資金流量。",asks:["負債比率越高代表什麼？"],solveSteps:["找總負債與總資產。","相除得到比率。","搭配利息保障倍數判斷。"],traps:["高負債不是立刻違約，但風險較高。"],freq:"高"}),
+  "fin-roe":makeTerm({nodeId:"roe",title:"ROE（權益報酬率）",group:"財務比率",formula:"ROE = 淨利率 × 資產周轉率 × 權益乘數",plain:"杜邦分析把 ROE（權益報酬率）拆成獲利、效率與槓桿。",caseText:"Amy 可用 ROE（權益報酬率）看股東投入是否有效率。",question:"代表題方向：ROE 高可能是獲利好，也可能是槓桿高。",asks:["ROE 上升是哪一個因子造成？"],solveSteps:["拆淨利率、資產周轉率、權益乘數。","逐一判斷方向。"],traps:["ROE 高不一定低風險。"],importance:"必背",freq:"高"}),
+  "fin-ppe-cost":makeTerm({nodeId:"balance",title:"不動產、廠房及設備成本",group:"資產認列",formula:"成本 = 購價 - 折扣 + 使資產達可使用狀態之必要支出",plain:"設備成本題常考運費、安裝費、關稅與異常損失。",caseText:"章魚燒設備購入時，安裝費可列成本，搬運不慎損壞通常列損失。",question:"代表題：機器設備成本包含購價扣折扣、運費與安裝費，不含不慎損壞修理費。",asks:["哪些支出能資本化？"],solveSteps:["先扣現金折扣。","加必要支出。","排除異常損失。"],traps:["意外損壞不是讓資產達可用狀態的必要支出。"],freq:"中"}),
+  "fin-investment-property":makeTerm({nodeId:"property",title:"投資性不動產",group:"資產認列",formula:"重點看持有目的：出租、資本增值或尚未決定用途",plain:"投資性不動產常和自用不動產混考。",caseText:"飄花同 2 樓出租可作投資性不動產練習。",question:"代表題：目前尚未決定未來用途土地、營業租賃出租且服務不重大者，常列投資性不動產。",asks:["供員工使用是否為投資性不動產？"],solveSteps:["先看用途。","再看租賃服務是否重大。"],traps:["自用不動產不是投資性不動產。"],freq:"高"}),
+
+  "law-public-offering":makeTerm({nodeId:"underwriting",title:"公開募集",group:"承銷募集",formula:"向不特定人募集有價證券",plain:"公開募集與私募的對象、程序與限制不同。",caseText:"kaku Holdings 若向市場募資，會進入公開募集與承銷程序。",question:"代表題方向：公開募集、私募、承銷程序差異。",asks:["募集對象是否特定？"],solveSteps:["先判斷對象。","再看是否需申報生效。"],traps:["公開募集不等於私募。"],importance:"必背",freq:"高"}),
+  "law-private-placement":makeTerm({nodeId:"underwriting",title:"私募",group:"承銷募集",formula:"向特定人募集，通常伴隨轉讓限制",plain:"私募題常考人數、資格與轉讓限制。",caseText:"若 kaku Holdings 找少數特定投資人入股，可用私募情境理解。",question:"代表題方向：私募限制與公開募集差異。",asks:["私募可否自由轉讓？"],solveSteps:["先看對象是否特定。","再找轉讓限制與申報要求。"],traps:["私募不是不用遵守規範。"],freq:"高"}),
+  "law-warrant-issuer":makeTerm({nodeId:"underwriting",title:"認購售權證發行人",group:"承銷募集",formula:"先看發行人資格、風險控管與主管機關規範",plain:"權證法規和投資學權證計算會跨科出現。",caseText:"如果用權證操作股票，要同時知道投資工具與發行規範。",question:"代表題方向：證券商得為認購售權證發行人資格條件。",asks:["發行人資格有哪些限制？"],solveSteps:["先判斷工具是權證。","再看發行人資格與申請條件。"],traps:["投資學算價格，法規看資格。"],freq:"中"}),
+  "law-company-bond":makeTerm({nodeId:"underwriting",title:"公司債發行",group:"承銷募集",formula:"公司債連動公司法、承銷與財務槓桿",plain:"公司債題會跨財務分析負債比率與投資學債券。",caseText:"kaku Holdings 若發公司債，負債比率會上升，也涉及承銷程序。",question:"代表題方向：公司債發行限制、承銷與債券特性。",asks:["公司債是權益還是負債？"],solveSteps:["先判斷工具性質。","再連到發行限制與債權人保護。"],traps:["公司債持有人不是股東。"],freq:"高"}),
+  "law-responsible-person":makeTerm({nodeId:"companyLaw",title:"公司負責人",group:"公司法",formula:"董事、經理人及其他於執行職務範圍內之人員",plain:"公司法題常考哪些身分在執行職務範圍內是負責人。",caseText:"Amy 股東不一定是公司負責人；要看是否兼任董事或經理人。",question:"代表題：股份有限公司人員於執行職務範圍內亦為負責人的判斷。",asks:["股東一定是負責人嗎？"],solveSteps:["先看公司型態。","再看身分與執行職務範圍。"],traps:["發起人、重整人、檢查人等身分容易混。"],freq:"高"}),
+  "law-financial-report-liability":makeTerm({nodeId:"companyLaw",title:"財報不實責任",group:"證券交易法",formula:"財務報告虛偽不實涉及民事賠償與責任主體",plain:"財報不實把財務分析和證券法規連在一起。",caseText:"若 jikka.app 的財務資訊對外揭露不實，可能影響投資人判斷與賠償責任。",question:"代表題方向：發行人公告申報財務報告主要內容虛偽時的賠償責任。",asks:["誰可以舉證免責？"],solveSteps:["先看是否為公開發行公司。","再判斷財報內容是否重大不實。","最後找責任主體。"],traps:["不是所有人都能免責，需看法定條件。"],freq:"中"}),
+  "law-material-info":makeTerm({nodeId:"insider",title:"重大消息",group:"內線交易",formula:"重大消息公開前，不得利用消息交易",plain:"內線交易要先判斷消息是否重大且未公開。",caseText:"jikka.app 若有併購、募資或重大財報消息，內部人不能先交易。",question:"代表題方向：重大消息公開前後交易禁止。",asks:["什麼算重大消息？"],solveSteps:["先判斷消息重大性。","再看是否公開。","最後看交易時點。"],traps:["不是只有董事才可能成立內線交易。"],importance:"必背",freq:"高"}),
+  "law-damage-calc":makeTerm({nodeId:"insider",title:"內線交易損害賠償",group:"內線交易",formula:"常用消息公開後十個營業日收盤平均價格作比較",plain:"內線交易題常考公開後時間與差額計算。",caseText:"若內部人利用 kaku Holdings 重大消息買賣股票，損害賠償會看交易價格與基準價格差額。",question:"代表題：損害賠償以消息公開後十個營業日收盤平均價格比較。",asks:["比較基準是哪幾天？"],solveSteps:["找交易價格。","算公開後十個營業日平均。","比較差額。"],traps:["不要把公開前十日看成公開後十日。"],importance:"必背",freq:"高"}),
+  "law-margin-financing":makeTerm({nodeId:"marginTrading",title:"融資",group:"融資融券",formula:"投資人向證券金融機構借錢買股票",plain:"融資題看額度、擔保與維持率。",caseText:"你的股票部位若使用借款買進，可用融資理解槓桿風險。",question:"代表題方向：融資融券額度與維持率。",asks:["融資和融券差在哪？"],solveSteps:["先判斷借錢或借券。","再看擔保與維持率。"],traps:["融資不是放空。"],freq:"中"}),
+  "law-short-selling":makeTerm({nodeId:"marginTrading",title:"融券與強制回補",group:"融資融券",formula:"融券人借券賣出，遇特定公司事件可能需回補",plain:"融券題常考除權、減資、股東會等事件。",caseText:"若你的股票部位放空，需要知道哪些事件要強制回補。",question:"代表題：融券人遇標的公司何種情況不用強制回補。",asks:["哪些事件要強制回補？"],solveSteps:["先判斷是否融券。","列出公司事件。","比對例外。"],traps:["股東常會、臨時股東會、除權息常混。"],freq:"中"}),
+  "law-dealer-business":makeTerm({nodeId:"securitiesDealer",title:"證券商業務別",group:"證券商管理",formula:"承銷、自營、經紀要分清",plain:"證券商管理題常考業務範圍與禁止行為。",caseText:"kaku Holdings 募資時接觸的是承銷商；你下單買股票接觸的是經紀商。",question:"代表題方向：證券商各業務別資格與限制。",asks:["承銷、自營、經紀差在哪？"],solveSteps:["先看證券商扮演角色。","再對應業務別。"],traps:["自營是自己買賣，經紀是受託買賣。"],freq:"高"}),
+  "law-fund-custodian":makeTerm({nodeId:"investmentTrust",title:"基金保管機構",group:"投信投顧",formula:"基金資產由保管機構保管，和投信管理角色不同",plain:"投信投顧題常考角色分工。",caseText:"若你的資產透過基金配置，要分清經理公司與保管銀行。",question:"代表題方向：基金保管機構開立信用帳戶或保管限制。",asks:["投信和保管機構分工？"],solveSteps:["先判斷主體。","再看管理、銷售、保管或建議。"],traps:["投信不是基金資產的保管人。"],freq:"中"}),
+  "law-private-fund":makeTerm({nodeId:"investmentTrust",title:"私募基金",group:"投信投顧",formula:"私募基金重點在投資人資格、銷售對象與限制",plain:"私募基金題常考何者錯誤。",caseText:"若 kaku Holdings 作為投資人參與私募基金，要看是否符合資格。",question:"代表題方向：投信事業辦理私募股權基金業務敘述何者錯誤。",asks:["私募基金和公募基金差在哪？"],solveSteps:["先看投資人是否特定。","再看銷售與轉讓限制。"],traps:["私募不代表完全不受監理。"],freq:"中"})
+};
+
 const mindData = [
   {
     title:"投資學",
     type:"investment",
+    count:"6 章 / 18 個考點",
     sections:[
-      {title:"評價與風險",ids:["basicAnalysis","riskReturn","bonds"]},
-      {title:"工具與市場",ids:["derivatives","technicalAnalysis","macroIndicators"]},
-      {title:"跨科連動",ids:["income","roe","debtRatio"]}
+      {title:"基本分析",summary:"EPS、本益比、淨值與股利模型",terms:["inv-eps","inv-pe","inv-pb","inv-dividend-discount"]},
+      {title:"風險與報酬",summary:"CAPM、Beta、夏普與崔納",terms:["inv-capm","inv-beta","inv-sharpe","inv-treynor"]},
+      {title:"債券與利率",summary:"價格、殖利率、存續期間",terms:["inv-bond-yield","inv-duration"]},
+      {title:"ETF（指數股票型基金）與衍生商品",summary:"ETF 套利、選擇權、權證",terms:["inv-etf-arb","inv-option","inv-warrant"]},
+      {title:"技術分析",summary:"道氏理論、OBV、KD",terms:["inv-dow","inv-obv","inv-kd"]},
+      {title:"總體經濟",summary:"通膨、實質報酬、匯率",terms:["inv-inflation","inv-fx"]}
     ]
   },
   {
     title:"財務分析",
     type:"finance",
+    count:"6 章 / 18 個考點",
     sections:[
-      {title:"會計三表",ids:["balance","income","cashflow"]},
-      {title:"存貨與比率",ids:["inventory","grossMargin","currentRatio","quickRatio","debtRatio","roe"]},
-      {title:"案例備註",ids:["property"]}
+      {title:"資產負債表",summary:"會計恆等式、流動分類、股東權益",terms:["fin-equation","fin-current-assets","fin-current-liabilities","fin-capital-stock"]},
+      {title:"損益表",summary:"收入認列、銷貨成本、折舊",terms:["fin-revenue-recognition","fin-cogs","fin-depreciation"]},
+      {title:"存貨",summary:"盤存制、淨變現價值、寄銷",terms:["fin-cogs","fin-nrv","fin-consignment"]},
+      {title:"現金流量表",summary:"間接法、三類活動分類",terms:["fin-cash-indirect","fin-cash-classification"]},
+      {title:"財務比率",summary:"短償、長償、ROE",terms:["fin-current-ratio","fin-quick-ratio","fin-debt-ratio","fin-roe"]},
+      {title:"資產認列與衡量",summary:"設備成本、投資性不動產",terms:["fin-ppe-cost","fin-investment-property"]}
     ]
   },
   {
     title:"證券法規",
     type:"law",
+    count:"6 章 / 13 個考點",
     sections:[
-      {title:"高頻法規",ids:["underwriting","companyLaw","insider"]},
-      {title:"交易與業者",ids:["marginTrading","securitiesDealer","investmentTrust"]},
-      {title:"跨科連動",ids:["bonds","derivatives","income"]}
+      {title:"承銷與募集發行",summary:"公開募集、私募、權證、公司債",terms:["law-public-offering","law-private-placement","law-warrant-issuer","law-company-bond"]},
+      {title:"公司法與財報責任",summary:"負責人、財報不實責任",terms:["law-responsible-person","law-financial-report-liability"]},
+      {title:"內線交易",summary:"重大消息、公開時點、賠償計算",terms:["law-material-info","law-damage-calc"]},
+      {title:"融資融券",summary:"融資、融券、強制回補",terms:["law-margin-financing","law-short-selling"]},
+      {title:"證券商管理",summary:"承銷、自營、經紀業務別",terms:["law-dealer-business"]},
+      {title:"投信投顧",summary:"基金保管、私募基金",terms:["law-fund-custodian","law-private-fund"]}
     ]
   }
 ];
@@ -803,6 +938,7 @@ let draggingNode = null;
 let draggingStage = false;
 let lastPoint = null;
 let mastered = new Set(JSON.parse(localStorage.getItem("kakuCramMastered") || "[]"));
+let selectedMindTermId = "fin-equation";
 
 function saveMastered(){
   localStorage.setItem("kakuCramMastered", JSON.stringify([...mastered]));
@@ -998,7 +1134,7 @@ function renderPanel(target){
     else mastered.add(selectedId);
     saveMastered();
     renderPanel(graphPanel);
-    renderPanel(mindPanel);
+    renderMindTermPanel();
     renderMind();
     draw();
   });
@@ -1006,33 +1142,159 @@ function renderPanel(target){
 
 function renderMind(){
   const activeFilter = document.querySelector("[data-mind-filter].active")?.dataset.mindFilter || "all";
-  mindGrid.innerHTML = mindData
-    .filter(col=>activeFilter==="all" || col.type===activeFilter)
-    .map(col=>`
-      <div class="mind-col">
-        <h3>${col.title}</h3>
-        ${col.sections.map(section=>`
-          <div class="branch">
-            <div class="branch-title">${section.title}</div>
-            ${section.ids.map(id=>{
-              const n = nodeById.get(id);
-              const colorClass = n.group === "statement" ? "blue" : n.group === "formula" ? "amber" : n.group === "law" ? "rose" : n.group === "finance" ? "olive" : n.group === "investment" ? "blue" : "";
-              return `<button class="mind-node ${selectedId===id ? "active" : ""}" data-node-id="${id}">
-                <span>${n.label}<br><small>${cards[id].formula}</small></span>
-                <span class="dot ${colorClass}"></span>
-              </button>`;
-            }).join("")}
-          </div>
+  const visibleSubjects = mindData
+    .filter(subject=>activeFilter==="all" || subject.type===activeFilter)
+    .map(subject=>{
+      const sections = subject.sections
+        .map(section=>{
+          const sectionHit = matchesMindText([section.title,section.summary]);
+          const terms = section.terms.filter(id=>sectionHit || matchesMindTerm(id));
+          return {...section,terms};
+        })
+        .filter(section=>section.terms.length);
+      return {...subject,sections};
+    })
+    .filter(subject=>subject.sections.length);
+
+  mindGrid.innerHTML = visibleSubjects.length ? visibleSubjects.map(subject=>`
+    <details class="mind-subject" data-type="${subject.type}" open>
+      <summary>
+        <div class="mind-subject-title">
+          <strong>${subject.title}</strong>
+          <span>${subject.count}</span>
+        </div>
+      </summary>
+      <div class="mind-branch">
+        ${subject.sections.map(section=>`
+          <details class="mind-chapter" open>
+            <summary>
+              <div class="chapter-node">
+                <div>
+                  <strong>${section.title}</strong>
+                  <span>${section.summary}</span>
+                </div>
+                <span class="freq-mark">${section.terms.length} 個名詞</span>
+              </div>
+            </summary>
+            <div class="term-list">
+              ${section.terms.map(id=>renderMindTermNode(id,subject.type)).join("")}
+            </div>
+          </details>
         `).join("")}
       </div>
-    `).join("");
-  mindGrid.querySelectorAll("[data-node-id]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      selectedId = btn.dataset.nodeId;
-      renderPanel(mindPanel);
+    </details>
+  `).join("") : `<div class="question-node"><strong>找不到符合搜尋的心智圖節點</strong><span>可改搜：EPS、存貨、內線交易、融資融券、現金流量表。</span></div>`;
+
+  mindGrid.querySelectorAll("[data-term-id]").forEach(node=>{
+    node.addEventListener("click",()=>{
+      const term = mindTermCards[node.dataset.termId];
+      selectedMindTermId = node.dataset.termId;
+      if(term?.nodeId) selectedId = term.nodeId;
+      renderMindTermPanel();
       renderMind();
       draw();
     });
+  });
+}
+
+function matchesMindText(parts){
+  const q = query.trim().toLowerCase();
+  if(!q) return false;
+  return parts.join(" ").toLowerCase().includes(q);
+}
+
+function matchesMindTerm(id){
+  const q = query.trim().toLowerCase();
+  if(!q) return true;
+  const term = mindTermCards[id];
+  if(!term) return false;
+  return [
+    term.title,term.group,term.formula,term.plain,term.caseText,term.question,
+    ...(term.asks||[]),...(term.solveSteps||[]),...(term.traps||[])
+  ].join(" ").toLowerCase().includes(q);
+}
+
+function renderMindTermNode(id,type){
+  const term = mindTermCards[id];
+  if(!term) return "";
+  const active = id === selectedMindTermId ? " active" : "";
+  const important = term.importance === "必背" ? " important" : "";
+  const masteredClass = mastered.has("mind:"+id) ? " 已掌握" : term.importance;
+  return `
+    <details class="mind-term" ${active ? "open" : ""}>
+      <summary data-term-id="${id}">
+        <div class="term-node${active}${important}">
+          <span class="term-dot ${type}"></span>
+          <div>
+            <strong>${term.title}</strong>
+            <span>${term.formula}</span>
+          </div>
+          <div class="term-badges">
+            <span class="important-mark">${masteredClass}</span>
+            <span class="freq-mark">${term.freq}</span>
+          </div>
+        </div>
+      </summary>
+      <div class="question-branch">
+        <div class="question-node">
+          <strong>代表考法</strong>
+          <span>${term.question}</span>
+        </div>
+      </div>
+    </details>
+  `;
+}
+
+function renderMindTermPanel(){
+  const term = mindTermCards[selectedMindTermId] || mindTermCards["fin-equation"];
+  const key = "mind:" + selectedMindTermId;
+  const tags = [
+    `<span class="tag teal">${term.group}</span>`,
+    mastered.has(key) ? `<span class="tag amber">已掌握</span>` : `<span class="tag">待複習</span>`
+  ].join("");
+  const metrics = (term.metrics || []).map(([k,v])=>`<div class="metric"><span>${k}</span><strong>${v}</strong></div>`).join("");
+  const asks = (term.asks || []).map(x=>`<li>${x}</li>`).join("");
+  const steps = (term.solveSteps || []).map(x=>`<li>${x}</li>`).join("");
+  const traps = (term.traps || []).map(x=>`<li>${x}</li>`).join("");
+  mindPanel.innerHTML = `
+    <div class="eyebrow">心智圖細項</div>
+    <h2 class="panel-title">${term.title}</h2>
+    <p class="panel-sub">${term.subtitle}</p>
+    <div class="meta-row">${tags}</div>
+    <div class="section">
+      <h3>公式或定義</h3>
+      <div class="formula">${term.formula}</div>
+      <ul class="text-list"><li>${term.plain}</li></ul>
+    </div>
+    <div class="section">
+      <h3>考法拆解</h3>
+      <ul class="text-list">${asks}</ul>
+    </div>
+    <div class="section">
+      <h3>解題步驟</h3>
+      <ul class="text-list">${steps}</ul>
+    </div>
+    <div class="section">
+      <h3>kaku Holdings 案例備註</h3>
+      <p class="panel-sub">${term.caseText}</p>
+      <div class="case-grid">${metrics}</div>
+    </div>
+    <div class="section">
+      <h3>常見陷阱</h3>
+      <ul class="text-list">${traps}</ul>
+    </div>
+    <div class="section">
+      <h3>代表考題</h3>
+      <div class="question"><b>題庫方向：</b>${term.question}</div>
+      <button class="mark-btn ${mastered.has(key) ? "active" : ""}" id="mindMasterBtn">${mastered.has(key) ? "取消已掌握" : "標記已掌握"}</button>
+    </div>
+  `;
+  mindPanel.querySelector("#mindMasterBtn").addEventListener("click",()=>{
+    if(mastered.has(key)) mastered.delete(key);
+    else mastered.add(key);
+    saveMastered();
+    renderMindTermPanel();
+    renderMind();
   });
 }
 
@@ -1045,7 +1307,7 @@ canvas.addEventListener("pointerdown",event=>{
     selectedId = hit.id;
     draggingNode = hit;
     renderPanel(graphPanel);
-    renderPanel(mindPanel);
+    renderMindTermPanel();
     renderMind();
     draw();
   }else{
@@ -1091,13 +1353,19 @@ canvas.addEventListener("wheel",event=>{
   draw();
 },{passive:false});
 
+function activateView(view){
+  document.querySelectorAll("[data-view]").forEach(btn=>btn.classList.toggle("active",btn.dataset.view===view));
+  document.getElementById("graphView").classList.toggle("active",view==="graph");
+  document.getElementById("mindView").classList.toggle("active",view==="mind");
+  if(view==="graph") requestAnimationFrame(resize);
+  if(view==="mind"){
+    renderMindTermPanel();
+    renderMind();
+  }
+}
+
 document.querySelectorAll("[data-view]").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b===btn));
-    document.getElementById("graphView").classList.toggle("active",btn.dataset.view==="graph");
-    document.getElementById("mindView").classList.toggle("active",btn.dataset.view==="mind");
-    if(btn.dataset.view==="graph") requestAnimationFrame(resize);
-  });
+  btn.addEventListener("click",()=>activateView(btn.dataset.view));
 });
 
 document.querySelectorAll("[data-mode]").forEach(btn=>{
@@ -1106,7 +1374,7 @@ document.querySelectorAll("[data-mode]").forEach(btn=>{
     mode = btn.dataset.mode;
     if(!visibleNode(nodeById.get(selectedId))) selectedId = defaultNodeForMode();
     renderPanel(graphPanel);
-    renderPanel(mindPanel);
+    renderMindTermPanel();
     renderMind();
     draw();
   });
@@ -1121,19 +1389,22 @@ document.querySelectorAll("[data-mind-filter]").forEach(btn=>{
 
 searchInput.addEventListener("input",()=>{
   query = searchInput.value;
+  renderMind();
   draw();
 });
 document.getElementById("clearSearch").addEventListener("click",()=>{
   searchInput.value = "";
   query = "";
+  renderMind();
   draw();
 });
 
 window.addEventListener("resize",resize);
 layout();
 renderPanel(graphPanel);
-renderPanel(mindPanel);
+renderMindTermPanel();
 renderMind();
+if(location.hash === "#mind") activateView("mind");
 resize();
 </script>
 </body>
