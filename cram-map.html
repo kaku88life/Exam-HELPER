@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>證券高業 kaku Holdings 衝刺圖</title>
+<style>
+:root{
+  --bg:#f5f7f3;
+  --surface:#ffffff;
+  --surface-2:#eef3ef;
+  --ink:#17211d;
+  --muted:#66736d;
+  --line:#d7ded8;
+  --teal:#087a73;
+  --blue:#315f94;
+  --amber:#b66516;
+  --rose:#9a4a62;
+  --olive:#607243;
+  --danger:#b84a42;
+  --shadow:0 16px 42px rgba(23,33,29,.12);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  letter-spacing:0;
+  overflow:hidden;
+}
+button,input{font:inherit}
+.app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr)}
+.topbar{
+  display:grid;
+  grid-template-columns:minmax(220px,1fr) auto minmax(220px,360px) auto;
+  gap:14px;
+  align-items:center;
+  padding:12px 18px;
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(18px);
+}
+.brand h1{margin:0;font-size:21px;line-height:1.2;font-weight:800}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.35}
+.seg,.modes{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
+.seg button,.modes button,.tool-link,.clear-btn,.mark-btn{
+  border:0;
+  min-height:34px;
+  border-radius:6px;
+  padding:0 12px;
+  color:var(--muted);
+  background:transparent;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.seg button.active,.modes button.active{
+  color:#fff;
+  background:var(--ink);
+}
+.search{position:relative;min-width:0}
+.search input{
+  width:100%;
+  height:40px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:0 40px 0 12px;
+  background:var(--surface);
+  color:var(--ink);
+  outline:none;
+}
+.search input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(8,122,115,.12)}
+.clear-btn{
+  position:absolute;
+  right:4px;
+  top:4px;
+  width:32px;
+  padding:0;
+}
+.links{display:flex;gap:8px;justify-content:flex-end}
+.tool-link{
+  display:inline-flex;
+  align-items:center;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--ink);
+  text-decoration:none;
+}
+.workspace{min-height:0;position:relative}
+.view{display:none;height:100%;min-height:0}
+.view.active{display:grid}
+#graphView{grid-template-columns:minmax(0,1fr) 390px}
+.graph-stage{position:relative;min-width:0;min-height:0;background:linear-gradient(180deg,#fbfcfa,#eef3ef)}
+#graphCanvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#graphCanvas.dragging{cursor:grabbing}
+.floating{
+  position:absolute;
+  left:16px;
+  bottom:16px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  max-width:calc(100% - 32px);
+}
+.pill{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 10px;
+  background:rgba(255,255,255,.88);
+  color:var(--muted);
+  font-size:12px;
+}
+.inspector{
+  min-height:0;
+  overflow:auto;
+  border-left:1px solid var(--line);
+  background:var(--surface);
+  padding:18px;
+}
+.eyebrow{color:var(--teal);font-size:12px;font-weight:800;letter-spacing:0;text-transform:uppercase}
+.panel-title{margin:4px 0 8px;font-size:25px;line-height:1.2}
+.panel-sub{margin:0 0 14px;color:var(--muted);line-height:1.6;font-size:14px}
+.meta-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px}
+.tag{
+  display:inline-flex;
+  align-items:center;
+  min-height:24px;
+  border-radius:999px;
+  padding:0 9px;
+  background:var(--surface-2);
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+.tag.teal{background:rgba(8,122,115,.1);color:var(--teal)}
+.tag.amber{background:rgba(182,101,22,.12);color:var(--amber)}
+.tag.rose{background:rgba(154,74,98,.12);color:var(--rose)}
+.section{
+  border-top:1px solid var(--line);
+  padding-top:14px;
+  margin-top:14px;
+}
+.section h3{margin:0 0 9px;font-size:14px;color:var(--ink)}
+.formula{
+  border-left:4px solid var(--teal);
+  background:#f8faf7;
+  padding:12px;
+  border-radius:0 8px 8px 0;
+  font-family:"Cascadia Mono","Consolas",monospace;
+  font-size:14px;
+  line-height:1.55;
+}
+.case-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.metric{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px;
+  background:#fbfcfa;
+}
+.metric span{display:block;color:var(--muted);font-size:12px}
+.metric strong{display:block;margin-top:3px;font-size:17px}
+.text-list{margin:0;padding:0;list-style:none}
+.text-list li{
+  padding:8px 0;
+  border-bottom:1px solid rgba(215,222,216,.7);
+  color:var(--muted);
+  line-height:1.55;
+  font-size:14px;
+}
+.text-list li:last-child{border-bottom:0}
+.question{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:12px;
+  background:#fbfcfa;
+  line-height:1.55;
+  font-size:14px;
+}
+.question b{color:var(--ink)}
+.mark-btn{
+  width:100%;
+  margin-top:12px;
+  border:1px solid var(--line);
+  background:var(--surface-2);
+  color:var(--ink);
+}
+.mark-btn.active{background:rgba(8,122,115,.12);border-color:var(--teal);color:var(--teal);font-weight:800}
+#mindView{grid-template-columns:minmax(0,1fr) 390px}
+.mind-area{
+  min-width:0;
+  min-height:0;
+  overflow:auto;
+  padding:20px;
+}
+.mind-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+.mind-header h2{margin:0;font-size:24px}
+.mind-header p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.mind-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(260px,1fr));
+  gap:14px;
+}
+.mind-col{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--surface);
+  overflow:hidden;
+}
+.mind-col h3{
+  margin:0;
+  padding:12px 14px;
+  font-size:15px;
+  background:var(--surface-2);
+  border-bottom:1px solid var(--line);
+}
+.branch{padding:8px 10px}
+.branch-title{
+  margin:8px 0 6px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+}
+.mind-node{
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+  align-items:center;
+  border:1px solid transparent;
+  border-radius:7px;
+  background:transparent;
+  color:var(--ink);
+  padding:9px 10px;
+  cursor:pointer;
+  text-align:left;
+}
+.mind-node:hover,.mind-node.active{border-color:var(--teal);background:rgba(8,122,115,.08)}
+.mind-node small{color:var(--muted);font-size:12px}
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:99px;
+  background:var(--teal);
+}
+.dot.blue{background:var(--blue)}
+.dot.amber{background:var(--amber)}
+.dot.rose{background:var(--rose)}
+.dot.olive{background:var(--olive)}
+.hidden{display:none!important}
+@media(max-width:980px){
+  body{overflow:auto}
+  .app{min-height:100%;height:auto}
+  .topbar{grid-template-columns:1fr;align-items:stretch}
+  .seg,.modes,.links{justify-content:flex-start;overflow-x:auto}
+  #graphView,#mindView{grid-template-columns:1fr;height:auto}
+  .graph-stage{height:62svh;min-height:430px}
+  .inspector{border-left:0;border-top:1px solid var(--line)}
+  .mind-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .case-grid{grid-template-columns:1fr}
+  .brand h1{font-size:18px}
+  .panel-title{font-size:21px}
+  .seg button,.modes button,.tool-link{padding:0 10px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <h1>kaku Holdings 財務分析衝刺圖</h1>
+      <p>用自己的公司、股東、子公司與不動產，把會計三表、公式與法規題型串起來。</p>
+    </div>
+    <div class="seg" aria-label="檢視切換">
+      <button class="active" data-view="graph">關聯圖</button>
+      <button data-view="mind">心智圖</button>
+    </div>
+    <div class="search">
+      <input id="searchInput" type="search" placeholder="搜尋：存貨、現金流量、股東、承銷、內線交易">
+      <button class="clear-btn" id="clearSearch" aria-label="清除搜尋">X</button>
+    </div>
+    <div class="links">
+      <a class="tool-link" href="dashboard.html">完整題庫</a>
+      <a class="tool-link" href="mock-exam.html">模擬考</a>
+    </div>
+  </header>
+  <main class="workspace">
+    <section class="view active" id="graphView">
+      <div class="graph-stage">
+        <canvas id="graphCanvas"></canvas>
+        <div class="floating">
+          <div class="modes" aria-label="圖層篩選">
+            <button class="active" data-mode="focus">財務優先</button>
+            <button data-mode="law">法規補強</button>
+            <button data-mode="all">全部</button>
+          </div>
+          <span class="pill" id="nodeCount">0 個節點</span>
+          <span class="pill">拖曳節點，滾輪縮放</span>
+        </div>
+      </div>
+      <aside class="inspector" id="graphPanel"></aside>
+    </section>
+    <section class="view" id="mindView">
+      <div class="mind-area">
+        <div class="mind-header">
+          <div>
+            <h2>心智圖模式</h2>
+            <p>只留公式、案例、考題問法與易混陷阱。</p>
+          </div>
+          <div class="modes" aria-label="心智圖篩選">
+            <button class="active" data-mind-filter="all">全部</button>
+            <button data-mind-filter="finance">財務分析</button>
+            <button data-mind-filter="law">法規實務</button>
+          </div>
+        </div>
+        <div class="mind-grid" id="mindGrid"></div>
+      </div>
+      <aside class="inspector" id="mindPanel"></aside>
+    </section>
+  </main>
+</div>
+<script>
+const formatNT = value => "NT$" + Math.round(value).toLocaleString("zh-TW");
+
+const companyMetrics = {
+  totalAssets: 11421619,
+  totalLiabilities: 8113287,
+  equity: 3308332,
+  currentAssets: 2221619,
+  currentLiabilities: 1591963,
+  propertyValue: 7760000,
+  propertyLoan: 6208000,
+  monthlyRent: 21000,
+  monthlyMortgage: 28000,
+  propertyCapRate: "2.83%",
+  propertyDscr: "1.28x",
+  takoyakiBeginningInventory: 30000,
+  takoyakiPurchases: 90000,
+  takoyakiEndingInventory: 25000,
+  takoyakiSales: 180000
+};
+companyMetrics.takoyakiCogs = companyMetrics.takoyakiBeginningInventory + companyMetrics.takoyakiPurchases - companyMetrics.takoyakiEndingInventory;
+companyMetrics.takoyakiGrossProfit = companyMetrics.takoyakiSales - companyMetrics.takoyakiCogs;
+companyMetrics.takoyakiGrossMargin = Math.round(companyMetrics.takoyakiGrossProfit / companyMetrics.takoyakiSales * 1000) / 10 + "%";
+
+const groups = {
+  core:{label:"案例主體",color:"#087a73"},
+  statement:{label:"會計三表",color:"#315f94"},
+  formula:{label:"公式",color:"#b66516"},
+  operation:{label:"營運案例",color:"#607243"},
+  law:{label:"法規補強",color:"#9a4a62"}
+};
+
+const cards = {
+  core:{
+    title:"kaku Holdings",
+    group:"案例主體",
+    subtitle:"把個人財務狀況視為一間控股公司，用考題語言重組資產、負債、權益、收入與費用。",
+    formula:"資產 = 負債 + 權益",
+    plain:"這是會計恆等式。所有財務分析都先確認三者是否能對上。",
+    caseText:"目前可用數字：總資產約 11,421,619，總負債約 8,113,287，權益約 3,308,332。",
+    metrics:[
+      ["總資產",formatNT(companyMetrics.totalAssets)],
+      ["總負債",formatNT(companyMetrics.totalLiabilities)],
+      ["股東權益",formatNT(companyMetrics.equity)],
+      ["股東", "Amy"]
+    ],
+    asks:["資產、負債、權益的分類題。","公司資金來源來自負債或股東權益的判斷。"],
+    traps:["不要把收入直接當成資產增加，還要看是否收現。","股東投入資金是權益，不是營業收入。"],
+    question:"普通股發行股數與每股面額之乘積為何？這類題目在考股本與股東權益的基本分類。"
+  },
+  balance:{
+    title:"資產負債表",
+    group:"會計三表",
+    subtitle:"某一個時點的財務狀況：kaku Holdings 擁有什麼、欠了什麼、股東剩下什麼。",
+    formula:"資產 = 負債 + 權益",
+    plain:"像資產清單。股票、現金、不動產、jikka.app 價值是資產；貸款是負債；剩下歸股東。",
+    caseText:"股票與現金偏流動資產，不動產偏非流動資產，jikka.app 可作為無形資產或事業部價值練習。",
+    metrics:[
+      ["流動資產",formatNT(companyMetrics.currentAssets)],
+      ["流動負債",formatNT(companyMetrics.currentLiabilities)],
+      ["非流動資產例子","不動產 / jikka.app"],
+      ["非流動負債例子","房貸"]
+    ],
+    asks:["哪些項目屬於流動資產？","不可辨認無形資產與可辨認無形資產怎麼分？"],
+    traps:["投資性不動產和自用不動產在分類上不同。","AI agent 費用若尚未資本化，通常先視為費用。"],
+    question:"根據 IFRS，下列何者屬於不可辨認無形資產？這類題目會測無形資產分類。"
+  },
+  income:{
+    title:"損益表",
+    group:"會計三表",
+    subtitle:"一段期間內的收入、成本、費用與淨利。",
+    formula:"淨利 = 收入 - 成本 - 費用 - 所得稅",
+    plain:"章魚燒賣出是收入，食材是銷貨成本，AI agent 訂閱和網站營運可以視為費用。",
+    caseText:"章魚燒子公司可用來練收入、銷貨成本、毛利率；jikka.app 可練營業費用與研發費用。",
+    metrics:[
+      ["章魚燒銷貨收入",formatNT(companyMetrics.takoyakiSales)],
+      ["章魚燒銷貨成本",formatNT(companyMetrics.takoyakiCogs)],
+      ["章魚燒毛利",formatNT(companyMetrics.takoyakiGrossProfit)],
+      ["AI agent","營業或研發費用"]
+    ],
+    asks:["銷貨成本增加會讓毛利率如何變動？","折舊多提對損益表與資產負債表有何影響？"],
+    traps:["銷貨收入不等於現金收入。","費用會降低淨利，但不一定立刻有現金流出。"],
+    question:"四海企業刻意多提列生產部門機器設備的折舊費用，其影響是什麼？這類題目會考成本、毛利與淨利。"
+  },
+  cashflow:{
+    title:"現金流量表",
+    group:"會計三表",
+    subtitle:"看現金實際怎麼流進流出，避免只看帳面獲利。",
+    formula:"營業現金流量 = 淨利 + 非現金費用 +/- 營運資金變動",
+    plain:"折舊會減少淨利，但沒有現金流出，所以間接法通常要加回。",
+    caseText:"租金收入、章魚燒收現、AI agent 付款、房貸利息與本金，都可以拆進現金流量表。",
+    metrics:[
+      ["每月租金",formatNT(companyMetrics.monthlyRent)],
+      ["每月房貸",formatNT(companyMetrics.monthlyMortgage)],
+      ["營業活動","租金 / 章魚燒收現"],
+      ["籌資活動","貸款本金收支"]
+    ],
+    asks:["間接法哪些項目要加回？","營業活動、投資活動、籌資活動如何分類？"],
+    traps:["購買不動產通常是投資活動，不是營業費用。","償還貸款本金是籌資活動，利息常與營業或籌資分類有關。"],
+    question:"以間接法編製現金流量表，何種狀況是現金流量的加項？常見答案方向包含折舊等非現金費用。"
+  },
+  currentRatio:{
+    title:"流動比率",
+    group:"公式",
+    subtitle:"短期償債能力指標。",
+    formula:"流動比率 = 流動資產 / 流動負債",
+    plain:"看短期資產是否足以覆蓋短期負債。",
+    caseText:"kaku Holdings 流動資產約 2,221,619，流動負債約 1,591,963。",
+    metrics:[
+      ["流動資產",formatNT(companyMetrics.currentAssets)],
+      ["流動負債",formatNT(companyMetrics.currentLiabilities)],
+      ["流動比率",(companyMetrics.currentAssets/companyMetrics.currentLiabilities).toFixed(2)+"x"],
+      ["考點","短期償債"]
+    ],
+    asks:["流動比率下降可能代表什麼？","流動比率與速動比率差在哪？"],
+    traps:["流動比率高不一定代表品質好，存貨與應收款品質也要看。"],
+    question:"題庫常用『哪些原因會造成流動比率降低』或『哪些項目不列入速動比率』測觀念。"
+  },
+  quickRatio:{
+    title:"速動比率",
+    group:"公式",
+    subtitle:"比流動比率更保守的短期償債能力。",
+    formula:"速動比率 = (流動資產 - 存貨 - 預付款) / 流動負債",
+    plain:"把比較不容易立刻變現的存貨與預付款扣掉。",
+    caseText:"章魚燒食材雖然是流動資產，但不一定能立刻拿來還債，所以速動比率會扣除存貨。",
+    metrics:[
+      ["扣除項目","存貨 / 預付款"],
+      ["用途","保守看短期償債"],
+      ["章魚燒食材","存貨"],
+      ["AI agent 預付","可能為預付款"]
+    ],
+    asks:["存貨過高時，速動比率與流動比率如何變化？"],
+    traps:["現金與應收帳款通常比存貨更速動。","不要把所有流動資產都放入速動資產。"],
+    question:"JY 題庫中有『速動比率不含存貨與預付款』相關題，這是公式定義題。"
+  },
+  inventory:{
+    title:"存貨與銷貨成本",
+    group:"營運案例",
+    subtitle:"章魚燒子公司最適合用來練存貨、銷貨成本與毛利率。",
+    formula:"銷貨成本 = 期初存貨 + 本期進貨 - 期末存貨",
+    plain:"期初食材加上本期買的食材，扣掉還沒賣掉的期末食材，就是本期賣掉的成本。",
+    caseText:"章魚燒事業假設期初食材 30,000，本期進貨 90,000，期末食材 25,000。",
+    metrics:[
+      ["期初存貨",formatNT(companyMetrics.takoyakiBeginningInventory)],
+      ["本期進貨",formatNT(companyMetrics.takoyakiPurchases)],
+      ["期末存貨",formatNT(companyMetrics.takoyakiEndingInventory)],
+      ["銷貨成本",formatNT(companyMetrics.takoyakiCogs)]
+    ],
+    asks:["定期盤存制下，銷貨成本如何計算？","存貨多估或少估會如何影響淨利？"],
+    traps:["期末存貨越高，銷貨成本越低，淨利越高。","不要把尚未賣掉的食材直接當成本。"],
+    question:"官方題庫：在定期盤存制下，銷貨成本的計算方式為何？"
+  },
+  grossMargin:{
+    title:"毛利率",
+    group:"公式",
+    subtitle:"章魚燒子公司是否賺得到食材價差。",
+    formula:"毛利率 = (銷貨收入 - 銷貨成本) / 銷貨收入",
+    plain:"先看產品本身賺不賺，再看營業費用與其他費用。",
+    caseText:"章魚燒銷貨收入 180,000，銷貨成本 95,000。",
+    metrics:[
+      ["銷貨收入",formatNT(companyMetrics.takoyakiSales)],
+      ["銷貨成本",formatNT(companyMetrics.takoyakiCogs)],
+      ["毛利",formatNT(companyMetrics.takoyakiGrossProfit)],
+      ["毛利率",companyMetrics.takoyakiGrossMargin]
+    ],
+    asks:["折舊若列入製造成本，會如何影響毛利？"],
+    traps:["毛利率不是淨利率，還沒扣營業費用、利息與所得稅。"],
+    question:"多提生產部門機器設備折舊，會提高銷貨成本並壓低毛利。"
+  },
+  property:{
+    title:"投資性不動產",
+    group:"營運案例",
+    subtitle:"用飄花同 2 樓練投資性不動產、貸款、租金與償債指標。",
+    formula:"DSCR = 營業淨現金流 / 年度債務支出",
+    plain:"DSCR 大於 1 代表現金流大致能覆蓋債務支出。",
+    caseText:"物件總價 776 萬，貸款 620.8 萬，月租 2.1 萬，月房貸約 2.8 萬。",
+    metrics:[
+      ["物件總價","NT$776 萬"],
+      ["貸款金額","NT$620.8 萬"],
+      ["Cap Rate",companyMetrics.propertyCapRate],
+      ["DSCR",companyMetrics.propertyDscr]
+    ],
+    asks:["哪些不動產屬投資性不動產？","租賃收入與貸款利息分別影響哪張表？"],
+    traps:["自用不動產與投資性不動產分類不同。","房貸本金償還不是損益表費用。"],
+    question:"官方題庫有投資性不動產分類題，常把自用、融資租賃出租、營業租賃出租混在一起考。"
+  },
+  aiExpense:{
+    title:"AI agent 費用",
+    group:"營運案例",
+    subtitle:"把 AI agent 視為 jikka.app 的營業費用或研發費用。",
+    formula:"營業利益 = 營業收入 - 營業成本 - 營業費用",
+    plain:"AI agent 若是每月訂閱或工具使用費，通常先練成費用，會降低當期淨利。",
+    caseText:"如果 AI agent 用於開發 jikka.app，可討論是否符合資本化條件；考前先用費用處理最直覺。",
+    metrics:[
+      ["常見分類","營業費用"],
+      ["可能分類","研發費用"],
+      ["影響","降低淨利"],
+      ["現金流","付款時現金流出"]
+    ],
+    asks:["費用化與資本化差異是什麼？","研發支出對損益表與資產負債表如何影響？"],
+    traps:["不是所有開發支出都能資本化。","費用不等於負債，未付款才可能形成應付。"],
+    question:"財務分析常考 IFRS 與無形資產，請把 AI agent 當成判斷費用化的練習。"
+  },
+  jikkaApp:{
+    title:"jikka.app 本業",
+    group:"營運案例",
+    subtitle:"把 jikka.app 視為 kaku Holdings 的主要營運品牌，用來練收入、費用、無形資產。",
+    formula:"營業利益 = 營業收入 - 營業成本 - 營業費用",
+    plain:"網站品牌可以幫你把抽象的損益表變成一門事業：有收入、有工具費，也可能有可辨認資產。",
+    caseText:"jikka.app 是母公司的本業；AI agent、雲端服務、外包開發都可以練費用化與資本化判斷。",
+    metrics:[
+      ["事業定位","母公司本業"],
+      ["收入方向","服務收入"],
+      ["常見成本","雲端與工具費"],
+      ["考點","收入費用配合"]
+    ],
+    asks:["網站品牌收入應進哪張表？","開發支出何時可能成為無形資產？"],
+    traps:["品牌價值不一定能自行認列為資產。","現金支出不一定全部立刻進損益表。"],
+    question:"把 jikka.app 當成收入與費用的主體，練會計三表如何互相連動。"
+  },
+  takoyaki:{
+    title:"章魚燒子公司",
+    group:"營運案例",
+    subtitle:"用小吃事業練存貨、銷貨成本、毛利率與合併報表觀念。",
+    formula:"銷貨成本 = 期初存貨 + 本期進貨 - 期末存貨",
+    plain:"章魚燒材料還沒賣掉是存貨，賣出去後才轉成銷貨成本。",
+    caseText:"章魚燒店可當子公司：麵糊、章魚塊、包材是存貨；賣出後變銷貨成本，再算毛利率。",
+    metrics:[
+      ["定位","子公司"],
+      ["主要資產","存貨"],
+      ["主要成本","銷貨成本"],
+      ["分析指標","毛利率"]
+    ],
+    asks:["進貨與銷貨成本差在哪裡？","期末存貨變多時銷貨成本如何變化？"],
+    traps:["買材料不等於立刻認列銷貨成本。","毛利率高不代表淨利率一定高，還要扣營業費用。"],
+    question:"存貨題常考期初、進貨、期末三個數字，請用章魚燒材料流動練公式。"
+  },
+  amyEquity:{
+    title:"Amy 股東權益",
+    group:"案例主體",
+    subtitle:"太太 Amy 視為股東，用來練股本、資本公積、保留盈餘與權益變動。",
+    formula:"權益 = 股本 + 資本公積 + 保留盈餘 + 其他權益",
+    plain:"公司不是只看賺多少，也要看股東投入與累積留下的盈餘。",
+    caseText:"Amy 可作為 kaku Holdings 股東，練習增資、分配盈餘、股東權益報酬率。",
+    metrics:[
+      ["股東","Amy"],
+      ["目前權益",formatNT(companyMetrics.equity)],
+      ["相關比率","ROE"],
+      ["考點","股本與權益分類"]
+    ],
+    asks:["股本是什麼？","保留盈餘與現金餘額是否相同？"],
+    traps:["保留盈餘不等於公司手上現金。","股利發放會降低保留盈餘。"],
+    question:"普通股發行股數與每股面額之乘積為股本，是權益分類基本題。"
+  },
+  roe:{
+    title:"ROE 與杜邦分析",
+    group:"公式",
+    subtitle:"股東 Amy 會關心投入權益能不能產生報酬。",
+    formula:"ROE = 淨利率 × 資產周轉率 × 權益乘數",
+    plain:"杜邦分析把股東權益報酬拆成賺錢能力、資產使用效率與財務槓桿。",
+    caseText:"kaku Holdings 可以分別看 jikka.app 是否有利潤、章魚燒資產周轉、不動產貸款槓桿。",
+    metrics:[
+      ["淨利率","獲利能力"],
+      ["資產周轉率","效率"],
+      ["權益乘數","槓桿"],
+      ["股東","Amy"]
+    ],
+    asks:["ROE 上升可能是獲利改善，也可能是槓桿提高。"],
+    traps:["ROE 高不一定低風險，可能是負債過高造成。"],
+    question:"財務比率題常把 ROA、ROE、負債比與權益乘數放在一起比較。"
+  },
+  debtRatio:{
+    title:"負債比率",
+    group:"公式",
+    subtitle:"衡量公司資產有多少由債權人提供資金。",
+    formula:"負債比率 = 總負債 / 總資產",
+    plain:"比率越高，財務槓桿越高，償債壓力也越高。",
+    caseText:"kaku Holdings 總負債約 8,113,287，總資產約 11,421,619。",
+    metrics:[
+      ["總負債",formatNT(companyMetrics.totalLiabilities)],
+      ["總資產",formatNT(companyMetrics.totalAssets)],
+      ["負債比率",(companyMetrics.totalLiabilities/companyMetrics.totalAssets*100).toFixed(1)+"%"],
+      ["主要負債","房貸 / 信貸"]
+    ],
+    asks:["長期債權人關心哪些指標？","負債比率與利息保障倍數如何搭配看？"],
+    traps:["高負債不一定立刻危險，但會提高利息與本金償付壓力。"],
+    question:"一般而言，企業的長期債權人會關心長期獲利能力、資本結構與資金流量。"
+  },
+  companyLaw:{
+    title:"公司法",
+    group:"法規補強",
+    subtitle:"法規實務高頻核心：公司組織、股東會、董事、監察人與公司債。",
+    formula:"公司債上限常與公司資產、負債、權益概念相連",
+    plain:"法規題常把公司法文字和財務概念混合考。",
+    caseText:"kaku Holdings 可用母公司、Amy 股東、章魚燒子公司練股東會與董事責任情境。",
+    metrics:[
+      ["高頻主題","公司法 / 股份有限公司"],
+      ["題庫量級","約 118 題"],
+      ["關聯財務","資產 / 負債 / 權益"],
+      ["優先度","高"]
+    ],
+    asks:["哪些人於執行職務範圍內為公司負責人？","公司債發行限制如何判斷？"],
+    traps:["公司法題常考『何者不是』，要逐字看身分與條件。"],
+    question:"依公司法規定，股份有限公司人員於執行職務範圍內亦為負責人的判斷題。"
+  },
+  underwriting:{
+    title:"承銷與募集發行",
+    group:"法規補強",
+    subtitle:"法規實務題庫最高頻之一。",
+    formula:"公開發行 / 募集 / 承銷 / 私募：先分清對象與程序",
+    plain:"看到發行新股、公司債、認購權證、受益憑證，要先判斷走公開募集或私募。",
+    caseText:"若 kaku Holdings 未來募資，就可用承銷、公開發行與私募來練流程題。",
+    metrics:[
+      ["高頻主題","承銷 / 募集發行"],
+      ["題庫量級","約 191 題"],
+      ["常見問法","何者正確 / 何者錯誤"],
+      ["優先度","最高"]
+    ],
+    asks:["證券商得為認購售權證發行人資格條件為何？","公開發行與私募限制差異？"],
+    traps:["公開募集、私募、承銷不是同一件事。","看到人數限制、申報生效、主管機關要特別標記。"],
+    question:"官方題庫有認購售權證發行人資格條件題，屬承銷與發行規範。"
+  },
+  insider:{
+    title:"內線交易",
+    group:"法規補強",
+    subtitle:"證交法高頻陷阱：重大消息、公開時點、損害賠償。",
+    formula:"重大消息未公開前，不得利用消息買賣相關有價證券",
+    plain:"核心是資訊不對稱與交易禁止。",
+    caseText:"如果 jikka.app 有重大財務或併購消息，內部人不能在消息公開前先交易相關證券。",
+    metrics:[
+      ["高頻主題","證交法 / 內線交易"],
+      ["題庫量級","約 45 題"],
+      ["常見數字","公開後時點 / 十個營業日"],
+      ["優先度","中高"]
+    ],
+    asks:["損害賠償額度如何計算？","重大消息公開前後時間怎麼判斷？"],
+    traps:["內線交易不是只有董事才會成立，取得消息來源與交易行為都要看。"],
+    question:"官方題庫：違反內線交易規定，損害賠償額度如何以消息公開後十個營業日收盤平均價格計算。"
+  },
+  marginTrading:{
+    title:"融資融券",
+    group:"法規補強",
+    subtitle:"法規實務的數字與條件題。",
+    formula:"信用交易題先抓：資格、額度、維持率、強制回補",
+    plain:"這類題目不是算財報，而是背交易規則與例外。",
+    caseText:"可把股票投資部位拿來練融資融券，但考試重點在制度條件。",
+    metrics:[
+      ["高頻主題","信用交易"],
+      ["題庫量級","約 24 題"],
+      ["常見問法","不用強制回補的情況"],
+      ["優先度","中"]
+    ],
+    asks:["融券人遇哪些公司事件需強制回補？","融資融券額度不得超過多少比例？"],
+    traps:["除權、減資、股東常會、臨時股東會常混在選項。"],
+    question:"官方題庫：融券人遇標的證券公司有哪種情況不用強制回補？"
+  }
+};
+
+const nodes = [
+  {id:"core",label:"kaku Holdings",group:"core",layer:"finance",x:0,y:0,r:34},
+  {id:"balance",label:"資產負債表",group:"statement",layer:"finance",x:0,y:0,r:28},
+  {id:"income",label:"損益表",group:"statement",layer:"finance",x:0,y:0,r:27},
+  {id:"cashflow",label:"現金流量表",group:"statement",layer:"finance",x:0,y:0,r:27},
+  {id:"currentRatio",label:"流動比率",group:"formula",layer:"finance",x:0,y:0,r:22},
+  {id:"quickRatio",label:"速動比率",group:"formula",layer:"finance",x:0,y:0,r:21},
+  {id:"debtRatio",label:"負債比率",group:"formula",layer:"finance",x:0,y:0,r:22},
+  {id:"roe",label:"ROE 杜邦",group:"formula",layer:"finance",x:0,y:0,r:22},
+  {id:"inventory",label:"存貨與銷貨成本",group:"operation",layer:"finance",x:0,y:0,r:25},
+  {id:"grossMargin",label:"毛利率",group:"formula",layer:"finance",x:0,y:0,r:21},
+  {id:"property",label:"投資性不動產",group:"operation",layer:"finance",x:0,y:0,r:24},
+  {id:"jikkaApp",label:"jikka.app 本業",group:"operation",layer:"finance",x:0,y:0,r:23},
+  {id:"takoyaki",label:"章魚燒子公司",group:"operation",layer:"finance",x:0,y:0,r:23},
+  {id:"aiExpense",label:"AI agent 費用",group:"operation",layer:"finance",x:0,y:0,r:22},
+  {id:"amyEquity",label:"Amy 股東權益",group:"core",layer:"finance",x:0,y:0,r:23},
+  {id:"companyLaw",label:"公司法",group:"law",layer:"law",x:0,y:0,r:24},
+  {id:"underwriting",label:"承銷募集",group:"law",layer:"law",x:0,y:0,r:26},
+  {id:"insider",label:"內線交易",group:"law",layer:"law",x:0,y:0,r:22},
+  {id:"marginTrading",label:"融資融券",group:"law",layer:"law",x:0,y:0,r:21}
+];
+
+const links = [
+  ["core","balance"],["core","income"],["core","cashflow"],["core","amyEquity"],["core","jikkaApp"],
+  ["balance","currentRatio"],["balance","quickRatio"],["balance","debtRatio"],["balance","property"],
+  ["income","inventory"],["income","grossMargin"],["income","aiExpense"],["income","takoyaki"],["income","jikkaApp"],
+  ["cashflow","property"],["cashflow","aiExpense"],
+  ["inventory","grossMargin"],["takoyaki","inventory"],["takoyaki","grossMargin"],["jikkaApp","aiExpense"],
+  ["amyEquity","roe"],["balance","roe"],["income","roe"],
+  ["companyLaw","amyEquity"],["companyLaw","debtRatio"],["underwriting","companyLaw"],
+  ["underwriting","amyEquity"],["insider","companyLaw"],["marginTrading","underwriting"]
+].map(([source,target])=>({source,target}));
+
+const mindData = [
+  {
+    title:"財務分析",
+    type:"finance",
+    sections:[
+      {title:"會計三表",ids:["balance","income","cashflow"]},
+      {title:"常考比率",ids:["currentRatio","quickRatio","debtRatio","roe"]},
+      {title:"kaku Holdings 案例",ids:["jikkaApp","takoyaki","inventory","grossMargin","property","aiExpense","amyEquity"]}
+    ]
+  },
+  {
+    title:"法規實務",
+    type:"law",
+    sections:[
+      {title:"高頻法規節點",ids:["companyLaw","underwriting","insider","marginTrading"]},
+      {title:"和財務分析連動",ids:["debtRatio","amyEquity","property"]}
+    ]
+  }
+];
+
+const canvas = document.getElementById("graphCanvas");
+const ctx = canvas.getContext("2d");
+const graphPanel = document.getElementById("graphPanel");
+const mindPanel = document.getElementById("mindPanel");
+const mindGrid = document.getElementById("mindGrid");
+const searchInput = document.getElementById("searchInput");
+const nodeCount = document.getElementById("nodeCount");
+const nodeById = new Map(nodes.map(n=>[n.id,n]));
+let mode = "focus";
+let selectedId = "core";
+let query = "";
+let scale = 1;
+let offsetX = 0;
+let offsetY = 0;
+let draggingNode = null;
+let draggingStage = false;
+let lastPoint = null;
+let mastered = new Set(JSON.parse(localStorage.getItem("kakuCramMastered") || "[]"));
+
+function saveMastered(){
+  localStorage.setItem("kakuCramMastered", JSON.stringify([...mastered]));
+}
+
+function visibleNode(node){
+  const q = query.trim().toLowerCase();
+  const byMode = mode === "all" || (mode === "focus" && node.layer === "finance") || (mode === "law" && (node.layer === "law" || node.id === "core"));
+  if(!byMode) return false;
+  if(!q) return true;
+  const card = cards[node.id] || {};
+  return [node.label,card.title,card.subtitle,card.formula,card.caseText].join(" ").toLowerCase().includes(q);
+}
+
+function resize(){
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+  canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  if(!nodes.some(n=>n.x || n.y)) layout();
+  draw();
+}
+
+function layout(){
+  const rect = canvas.getBoundingClientRect();
+  const cx = rect.width/2;
+  const cy = rect.height/2;
+  const positions = {
+    core:[cx,cy],
+    balance:[cx-190,cy-105],
+    income:[cx+45,cy-135],
+    cashflow:[cx+210,cy+20],
+    currentRatio:[cx-325,cy-165],
+    quickRatio:[cx-330,cy-55],
+    debtRatio:[cx-205,cy+95],
+    roe:[cx-5,cy+130],
+    inventory:[cx+65,cy-255],
+    grossMargin:[cx+215,cy-190],
+    property:[cx+300,cy+130],
+    jikkaApp:[cx+280,cy-75],
+    takoyaki:[cx+285,cy-260],
+    aiExpense:[cx+120,cy+235],
+    amyEquity:[cx-115,cy+220],
+    companyLaw:[cx-250,cy+255],
+    underwriting:[cx-360,cy+145],
+    insider:[cx-390,cy+35],
+    marginTrading:[cx-380,cy-80]
+  };
+  nodes.forEach(n=>{
+    const p = positions[n.id] || [cx,cy];
+    n.x = p[0];
+    n.y = p[1];
+  });
+}
+
+function toScreen(x,y){return {x:x*scale+offsetX,y:y*scale+offsetY}}
+function toWorld(x,y){return {x:(x-offsetX)/scale,y:(y-offsetY)/scale}}
+
+function draw(){
+  const rect = canvas.getBoundingClientRect();
+  ctx.clearRect(0,0,rect.width,rect.height);
+  const visible = nodes.filter(visibleNode);
+  const visibleIds = new Set(visible.map(n=>n.id));
+  nodeCount.textContent = visible.length + " 個節點";
+  ctx.lineCap = "round";
+
+  links.forEach(link=>{
+    if(!visibleIds.has(link.source) || !visibleIds.has(link.target)) return;
+    const a = nodeById.get(link.source);
+    const b = nodeById.get(link.target);
+    const pa = toScreen(a.x,a.y);
+    const pb = toScreen(b.x,b.y);
+    const selected = selectedId === link.source || selectedId === link.target;
+    ctx.strokeStyle = selected ? "rgba(8,122,115,.55)" : "rgba(23,33,29,.13)";
+    ctx.lineWidth = selected ? 2.4 : 1.4;
+    ctx.beginPath();
+    ctx.moveTo(pa.x,pa.y);
+    ctx.lineTo(pb.x,pb.y);
+    ctx.stroke();
+  });
+
+  visible.forEach(node=>{
+    const p = toScreen(node.x,node.y);
+    const selected = node.id === selectedId;
+    const color = groups[node.group].color;
+    const radius = node.r * (selected ? 1.12 : 1) * scale;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,radius+7,0,Math.PI*2);
+    ctx.fillStyle = selected ? "rgba(8,122,115,.14)" : "rgba(255,255,255,.65)";
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,radius,0,Math.PI*2);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.lineWidth = mastered.has(node.id) ? 4 : 2;
+    ctx.strokeStyle = mastered.has(node.id) ? "#17211d" : "rgba(255,255,255,.88)";
+    ctx.stroke();
+    ctx.fillStyle = "#17211d";
+    ctx.font = "700 13px 'Noto Sans TC','Microsoft JhengHei',sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    const labelY = p.y + radius + 9;
+    const words = labelLines(node.label);
+    words.forEach((line,i)=>{
+      ctx.fillText(line,p.x,labelY+i*17);
+    });
+  });
+}
+
+function labelLines(label){
+  if(label === "kaku Holdings") return ["kaku","Holdings"];
+  if(label === "jikka.app 本業") return ["jikka.app","本業"];
+  if(label === "AI agent 費用") return ["AI agent","費用"];
+  if(label.length <= 8) return [label];
+  return [label.slice(0,8),label.slice(8)];
+}
+
+function hitTest(clientX,clientY){
+  const rect = canvas.getBoundingClientRect();
+  const p = toWorld(clientX-rect.left, clientY-rect.top);
+  const visible = nodes.filter(visibleNode).slice().reverse();
+  return visible.find(node=>{
+    const dx = p.x-node.x;
+    const dy = p.y-node.y;
+    return Math.sqrt(dx*dx+dy*dy) <= node.r + 12;
+  }) || null;
+}
+
+function renderPanel(target){
+  const card = cards[selectedId] || cards.core;
+  const node = nodeById.get(selectedId) || nodeById.get("core");
+  const tags = [
+    `<span class="tag teal">${card.group}</span>`,
+    mastered.has(selectedId) ? `<span class="tag amber">已掌握</span>` : `<span class="tag">待複習</span>`
+  ].join("");
+  const metrics = (card.metrics || []).map(([k,v])=>`<div class="metric"><span>${k}</span><strong>${v}</strong></div>`).join("");
+  const asks = (card.asks || []).map(x=>`<li>${x}</li>`).join("");
+  const traps = (card.traps || []).map(x=>`<li>${x}</li>`).join("");
+  target.innerHTML = `
+    <div class="eyebrow">${groups[node.group].label}</div>
+    <h2 class="panel-title">${card.title}</h2>
+    <p class="panel-sub">${card.subtitle}</p>
+    <div class="meta-row">${tags}</div>
+    <div class="section">
+      <h3>公式卡</h3>
+      <div class="formula">${card.formula}</div>
+      <ul class="text-list"><li>${card.plain}</li></ul>
+    </div>
+    <div class="section">
+      <h3>kaku Holdings 案例</h3>
+      <p class="panel-sub">${card.caseText}</p>
+      <div class="case-grid">${metrics}</div>
+    </div>
+    <div class="section">
+      <h3>考題問法</h3>
+      <ul class="text-list">${asks}</ul>
+    </div>
+    <div class="section">
+      <h3>常見陷阱</h3>
+      <ul class="text-list">${traps}</ul>
+    </div>
+    <div class="section">
+      <h3>相關考題</h3>
+      <div class="question"><b>題庫方向：</b>${card.question}</div>
+      <button class="mark-btn ${mastered.has(selectedId) ? "active" : ""}" id="masterBtn">${mastered.has(selectedId) ? "取消已掌握" : "標記已掌握"}</button>
+    </div>
+  `;
+  target.querySelector("#masterBtn").addEventListener("click",()=>{
+    if(mastered.has(selectedId)) mastered.delete(selectedId);
+    else mastered.add(selectedId);
+    saveMastered();
+    renderPanel(graphPanel);
+    renderPanel(mindPanel);
+    renderMind();
+    draw();
+  });
+}
+
+function renderMind(){
+  const activeFilter = document.querySelector("[data-mind-filter].active")?.dataset.mindFilter || "all";
+  mindGrid.innerHTML = mindData
+    .filter(col=>activeFilter==="all" || col.type===activeFilter)
+    .map(col=>`
+      <div class="mind-col">
+        <h3>${col.title}</h3>
+        ${col.sections.map(section=>`
+          <div class="branch">
+            <div class="branch-title">${section.title}</div>
+            ${section.ids.map(id=>{
+              const n = nodeById.get(id);
+              const colorClass = n.group === "statement" ? "blue" : n.group === "formula" ? "amber" : n.group === "law" ? "rose" : n.group === "operation" ? "olive" : "";
+              return `<button class="mind-node ${selectedId===id ? "active" : ""}" data-node-id="${id}">
+                <span>${n.label}<br><small>${cards[id].formula}</small></span>
+                <span class="dot ${colorClass}"></span>
+              </button>`;
+            }).join("")}
+          </div>
+        `).join("")}
+      </div>
+    `).join("");
+  mindGrid.querySelectorAll("[data-node-id]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      selectedId = btn.dataset.nodeId;
+      renderPanel(mindPanel);
+      renderMind();
+      draw();
+    });
+  });
+}
+
+canvas.addEventListener("pointerdown",event=>{
+  const hit = hitTest(event.clientX,event.clientY);
+  canvas.setPointerCapture(event.pointerId);
+  const rect = canvas.getBoundingClientRect();
+  lastPoint = {x:event.clientX-rect.left,y:event.clientY-rect.top};
+  if(hit){
+    selectedId = hit.id;
+    draggingNode = hit;
+    renderPanel(graphPanel);
+    renderPanel(mindPanel);
+    renderMind();
+    draw();
+  }else{
+    draggingStage = true;
+  }
+  canvas.classList.add("dragging");
+});
+
+canvas.addEventListener("pointermove",event=>{
+  if(!lastPoint) return;
+  const rect = canvas.getBoundingClientRect();
+  const point = {x:event.clientX-rect.left,y:event.clientY-rect.top};
+  const dx = point.x - lastPoint.x;
+  const dy = point.y - lastPoint.y;
+  if(draggingNode){
+    draggingNode.x += dx/scale;
+    draggingNode.y += dy/scale;
+  }else if(draggingStage){
+    offsetX += dx;
+    offsetY += dy;
+  }
+  lastPoint = point;
+  draw();
+});
+
+canvas.addEventListener("pointerup",event=>{
+  draggingNode = null;
+  draggingStage = false;
+  lastPoint = null;
+  canvas.classList.remove("dragging");
+  try{canvas.releasePointerCapture(event.pointerId)}catch(e){}
+});
+
+canvas.addEventListener("wheel",event=>{
+  event.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const before = toWorld(event.clientX-rect.left,event.clientY-rect.top);
+  const next = Math.min(1.8, Math.max(.55, scale * (event.deltaY < 0 ? 1.08 : .92)));
+  scale = next;
+  const after = toScreen(before.x,before.y);
+  offsetX += (event.clientX-rect.left) - after.x;
+  offsetY += (event.clientY-rect.top) - after.y;
+  draw();
+},{passive:false});
+
+document.querySelectorAll("[data-view]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b===btn));
+    document.getElementById("graphView").classList.toggle("active",btn.dataset.view==="graph");
+    document.getElementById("mindView").classList.toggle("active",btn.dataset.view==="mind");
+    if(btn.dataset.view==="graph") requestAnimationFrame(resize);
+  });
+});
+
+document.querySelectorAll("[data-mode]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll("[data-mode]").forEach(b=>b.classList.toggle("active",b===btn));
+    mode = btn.dataset.mode;
+    if(!visibleNode(nodeById.get(selectedId))) selectedId = mode === "law" ? "companyLaw" : "core";
+    renderPanel(graphPanel);
+    renderPanel(mindPanel);
+    renderMind();
+    draw();
+  });
+});
+
+document.querySelectorAll("[data-mind-filter]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll("[data-mind-filter]").forEach(b=>b.classList.toggle("active",b===btn));
+    renderMind();
+  });
+});
+
+searchInput.addEventListener("input",()=>{
+  query = searchInput.value;
+  draw();
+});
+document.getElementById("clearSearch").addEventListener("click",()=>{
+  searchInput.value = "";
+  query = "";
+  draw();
+});
+
+window.addEventListener("resize",resize);
+layout();
+renderPanel(graphPanel);
+renderPanel(mindPanel);
+renderMind();
+resize();
+</script>
+</body>
+</html>
