@@ -2326,6 +2326,7 @@ let draggingStage = false;
 let lastPoint = null;
 let mastered = new Set(JSON.parse(localStorage.getItem("kakuCramMastered") || "[]"));
 let selectedMindTermId = "fin-equation";
+const openMindSections = new Set();
 
 function saveMastered(){
   localStorage.setItem("kakuCramMastered", JSON.stringify([...mastered]));
@@ -2499,6 +2500,28 @@ function relatedQuestionsForNode(nodeId){
   return questions.slice(0,4);
 }
 
+function mindSectionKey(subjectType,sectionTitle){
+  return subjectType + "::" + sectionTitle;
+}
+
+function preserveScroll(callback){
+  const y = window.scrollY;
+  callback();
+  requestAnimationFrame(()=>window.scrollTo({top:y,left:0,behavior:"auto"}));
+}
+
+function preserveTermPosition(termId,previousTop,fallbackY){
+  requestAnimationFrame(()=>{
+    const node = [...mindGrid.querySelectorAll("[data-term-id]")]
+      .find(item=>item.dataset.termId === termId);
+    if(node && typeof previousTop === "number"){
+      window.scrollBy({top:node.getBoundingClientRect().top - previousTop,left:0,behavior:"auto"});
+    }else{
+      window.scrollTo({top:fallbackY,left:0,behavior:"auto"});
+    }
+  });
+}
+
 function renderQuestionCards(questions){
   if(!questions.length){
     return `<div class="question"><b>題庫方向：</b>這個節點目前以觀念筆記為主，完整練習可到模擬考頁依科目刷題。</div>`;
@@ -2602,7 +2625,7 @@ function renderMind(){
       </summary>
       <div class="mind-branch">
         ${subject.sections.map((section,sectionIndex)=>`
-          <details class="mind-chapter" ${query.trim() || sectionIndex === 0 ? "open" : ""}>
+          <details class="mind-chapter" data-section-key="${safeInline(mindSectionKey(subject.type,section.title))}" ${query.trim() || sectionIndex === 0 || openMindSections.has(mindSectionKey(subject.type,section.title)) || section.terms.includes(selectedMindTermId) ? "open" : ""}>
             <summary>
               <div class="chapter-node">
                 <div>
@@ -2621,14 +2644,28 @@ function renderMind(){
     </details>
   `).join("") : `<div class="question-node"><strong>找不到符合搜尋的心智圖節點</strong><span>可改搜：EPS、存貨、內線交易、融資融券、現金流量表。</span></div>`;
 
+  mindGrid.querySelectorAll(".mind-chapter").forEach(chapter=>{
+    chapter.addEventListener("toggle",()=>{
+      const key = chapter.dataset.sectionKey;
+      if(!key) return;
+      if(chapter.open) openMindSections.add(key);
+      else openMindSections.delete(key);
+    });
+  });
+
   mindGrid.querySelectorAll("[data-term-id]").forEach(node=>{
-    node.addEventListener("click",()=>{
+    node.addEventListener("click",event=>{
+      event.preventDefault();
+      event.stopPropagation();
       const term = completeMindTermCards[node.dataset.termId];
       selectedMindTermId = node.dataset.termId;
       if(term?.nodeId) selectedId = term.nodeId;
+      const previousTop = node.getBoundingClientRect().top;
+      const previousY = window.scrollY;
       renderMindTermPanel();
       renderMind();
       draw();
+      preserveTermPosition(selectedMindTermId,previousTop,previousY);
     });
   });
 }
@@ -2732,8 +2769,10 @@ function renderMindTermPanel(){
     if(mastered.has(key)) mastered.delete(key);
     else mastered.add(key);
     saveMastered();
-    renderMindTermPanel();
-    renderMind();
+    preserveScroll(()=>{
+      renderMindTermPanel();
+      renderMind();
+    });
   });
 }
 
@@ -2822,19 +2861,19 @@ document.querySelectorAll("[data-mode]").forEach(btn=>{
 document.querySelectorAll("[data-mind-filter]").forEach(btn=>{
   btn.addEventListener("click",()=>{
     document.querySelectorAll("[data-mind-filter]").forEach(b=>b.classList.toggle("active",b===btn));
-    renderMind();
+    preserveScroll(renderMind);
   });
 });
 
 searchInput.addEventListener("input",()=>{
   query = searchInput.value;
-  renderMind();
+  preserveScroll(renderMind);
   draw();
 });
 document.getElementById("clearSearch").addEventListener("click",()=>{
   searchInput.value = "";
   query = "";
-  renderMind();
+  preserveScroll(renderMind);
   draw();
 });
 
