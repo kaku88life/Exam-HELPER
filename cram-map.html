@@ -152,6 +152,15 @@ button,input{font:inherit}
   line-height:1.55;
 }
 .case-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.case-detail{display:grid;gap:8px;margin:10px 0}
+.case-block{
+  border:1px solid rgba(8,122,115,.18);
+  border-radius:8px;
+  padding:10px 12px;
+  background:#f8faf7;
+}
+.case-block b{display:block;margin-bottom:5px;color:var(--ink);font-size:13px}
+.case-block ul{margin:0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.6}
 .metric{
   border:1px solid var(--line);
   border-radius:8px;
@@ -457,6 +466,306 @@ const companyMetrics = {
 companyMetrics.takoyakiCogs = companyMetrics.takoyakiBeginningInventory + companyMetrics.takoyakiPurchases - companyMetrics.takoyakiEndingInventory;
 companyMetrics.takoyakiGrossProfit = companyMetrics.takoyakiSales - companyMetrics.takoyakiCogs;
 companyMetrics.takoyakiGrossMargin = Math.round(companyMetrics.takoyakiGrossProfit / companyMetrics.takoyakiSales * 1000) / 10 + "%";
+companyMetrics.currentRatio = (companyMetrics.currentAssets / companyMetrics.currentLiabilities).toFixed(2) + "x";
+companyMetrics.quickRatio = ((companyMetrics.currentAssets - companyMetrics.takoyakiEndingInventory) / companyMetrics.currentLiabilities).toFixed(2) + "x";
+companyMetrics.debtRatio = (companyMetrics.totalLiabilities / companyMetrics.totalAssets * 100).toFixed(1) + "%";
+companyMetrics.propertyEquity = companyMetrics.propertyValue - companyMetrics.propertyLoan;
+companyMetrics.monthlyPropertyGap = companyMetrics.monthlyRent - companyMetrics.monthlyMortgage;
+companyMetrics.annualRent = companyMetrics.monthlyRent * 12;
+companyMetrics.estimatedLoanInterest = Math.round(companyMetrics.propertyLoan * .0255);
+
+function moneyText(value){
+  return formatNT(value);
+}
+
+function signedMoneyText(value){
+  return (value < 0 ? "-" : "") + moneyText(Math.abs(value));
+}
+
+function renderCaseDetail(detail){
+  if(!detail) return "";
+  const blocks = [
+    ["資料來源", detail.source],
+    ["重算過程", detail.process],
+    ["記憶鉤子", detail.memory]
+  ].filter(([,items])=>items && items.length);
+  return `<div class="case-detail">${blocks.map(([title,items])=>`
+    <div class="case-block">
+      <b>${title}</b>
+      <ul>${items.map(item=>`<li>${item}</li>`).join("")}</ul>
+    </div>
+  `).join("")}</div>`;
+}
+
+function caseStudyFor(nodeId,title){
+  const c = companyMetrics;
+  const byNode = {
+    financeSubject:{
+      source:[
+        `本頁 kaku Holdings 整理表：總資產 ${moneyText(c.totalAssets)}、總負債 ${moneyText(c.totalLiabilities)}、Amy 股東權益 ${moneyText(c.equity)}。`,
+        `使用者提供的不動產報表：翫花同 2 樓總價 NT$776 萬、貸款 NT$620.8 萬、月租 ${moneyText(c.monthlyRent)}、月付房貸 ${moneyText(c.monthlyMortgage)}。`,
+        `章魚燒子公司假設：期初存貨 ${moneyText(c.takoyakiBeginningInventory)}、進貨 ${moneyText(c.takoyakiPurchases)}、期末存貨 ${moneyText(c.takoyakiEndingInventory)}、銷貨 ${moneyText(c.takoyakiSales)}。`
+      ],
+      process:[
+        `先把資料放入三表：不動產與股票/現金進資產，房貸進負債，Amy 的投入與累積盈餘進權益。`,
+        `用會計恆等式檢查：${moneyText(c.totalLiabilities)} + ${moneyText(c.equity)} = ${moneyText(c.totalAssets)}。`,
+        `章魚燒毛利先用銷貨成本算出來，再回到損益表看淨利。`
+      ],
+      memory:["看到財務分析題，先問它是在考分類、認列、公式，還是三表連動。","你的公司故事順序：資產負債表定位置，損益表看賺賠，現金流量表看錢有沒有真的進出。"]
+    },
+    balance:{
+      source:[
+        `流動資產 ${moneyText(c.currentAssets)}、投資/不動產價值 ${moneyText(c.propertyValue)}、總資產 ${moneyText(c.totalAssets)}。`,
+        `流動負債 ${moneyText(c.currentLiabilities)}、不動產貸款 ${moneyText(c.propertyLoan)}、總負債 ${moneyText(c.totalLiabilities)}、Amy 權益 ${moneyText(c.equity)}。`
+      ],
+      process:[
+        `用資產 = 負債 + 權益檢查：${moneyText(c.totalAssets)} = ${moneyText(c.totalLiabilities)} + ${moneyText(c.equity)}。`,
+        `不動產淨值可拆成：${moneyText(c.propertyValue)} - ${moneyText(c.propertyLoan)} = ${moneyText(c.propertyEquity)}。`
+      ],
+      memory:["資產負債表是某一天的照片：你擁有什麼、欠誰錢、Amy 作為股東剩下多少。","考分類題時，不要把股東投入當收入，也不要把貸款本金當費用。"]
+    },
+    income:{
+      source:[
+        `章魚燒收入 ${moneyText(c.takoyakiSales)}，銷貨成本 ${moneyText(c.takoyakiCogs)}，毛利 ${moneyText(c.takoyakiGrossProfit)}。`,
+        `jikka.app 可作母公司品牌收入來源；AI agent（人工智慧代理）訂閱與工具成本作營業費用。`
+      ],
+      process:[
+        `章魚燒毛利 = ${moneyText(c.takoyakiSales)} - ${moneyText(c.takoyakiCogs)} = ${moneyText(c.takoyakiGrossProfit)}。`,
+        `損益表流程：收入 - 銷貨成本 = 毛利；毛利 - 營業費用 - 所得稅 = 淨利。`
+      ],
+      memory:["損益表是期間影片，不是時點照片。","AI agent 是費用、章魚燒食材賣出後才變銷貨成本，這兩個不要混。"]
+    },
+    inventory:{
+      source:[
+        `章魚燒子公司：期初存貨 ${moneyText(c.takoyakiBeginningInventory)}、本期進貨 ${moneyText(c.takoyakiPurchases)}、期末存貨 ${moneyText(c.takoyakiEndingInventory)}。`,
+        `銷貨收入 ${moneyText(c.takoyakiSales)}，用來接毛利與毛利率。`
+      ],
+      process:[
+        `銷貨成本 = 期初存貨 + 本期進貨 - 期末存貨 = ${moneyText(c.takoyakiBeginningInventory)} + ${moneyText(c.takoyakiPurchases)} - ${moneyText(c.takoyakiEndingInventory)} = ${moneyText(c.takoyakiCogs)}。`,
+        `毛利 = ${moneyText(c.takoyakiSales)} - ${moneyText(c.takoyakiCogs)} = ${moneyText(c.takoyakiGrossProfit)}；毛利率 = ${moneyText(c.takoyakiGrossProfit)} / ${moneyText(c.takoyakiSales)} = ${c.takoyakiGrossMargin}。`
+      ],
+      memory:["考到存貨就想章魚燒食材：買進不一定立刻是成本，賣掉才轉成銷貨成本。","期末存貨越高，銷貨成本越低，淨利越高，這是常見陷阱。"]
+    },
+    grossMargin:{
+      source:[
+        `章魚燒收入 ${moneyText(c.takoyakiSales)}、銷貨成本 ${moneyText(c.takoyakiCogs)}、毛利 ${moneyText(c.takoyakiGrossProfit)}。`
+      ],
+      process:[
+        `毛利率 = 毛利 / 銷貨收入 = ${moneyText(c.takoyakiGrossProfit)} / ${moneyText(c.takoyakiSales)} = ${c.takoyakiGrossMargin}。`,
+        `若考題改成食材漲價，先讓銷貨成本上升，再看毛利與毛利率下降。`
+      ],
+      memory:["毛利率題要先找收入和銷貨成本，不要直接拿淨利率代替。"]
+    },
+    cashflow:{
+      source:[
+        `不動產月租 ${moneyText(c.monthlyRent)}、月付房貸 ${moneyText(c.monthlyMortgage)}，每月現金差額 ${signedMoneyText(c.monthlyPropertyGap)}。`,
+        `章魚燒收現、AI agent（人工智慧代理）付款、房貸本金/利息都可拿來拆現金流量表。`
+      ],
+      process:[
+        `營業活動：章魚燒營運收付、jikka.app 服務收入、AI agent 費用付款。`,
+        `投資活動：買賣不動產或設備。`,
+        `籌資活動：取得貸款、償還房貸本金；利息分類依題目與準則設定判斷。`
+      ],
+      memory:["現金流量表回答的是錢怎麼動，不是有沒有賺錢。","折舊會影響損益，但不會直接讓現金流出。"]
+    },
+    currentRatio:{
+      source:[
+        `流動資產 ${moneyText(c.currentAssets)}、流動負債 ${moneyText(c.currentLiabilities)}。`
+      ],
+      process:[
+        `流動比率 = ${moneyText(c.currentAssets)} / ${moneyText(c.currentLiabilities)} = ${c.currentRatio}。`,
+        `若短期借款增加，分母變大，流動比率通常下降。`
+      ],
+      memory:["流動比率是短期償債安全墊，但安全墊裡有存貨時，品質要再用速動比率檢查。"]
+    },
+    quickRatio:{
+      source:[
+        `流動資產 ${moneyText(c.currentAssets)}、章魚燒期末存貨 ${moneyText(c.takoyakiEndingInventory)}、流動負債 ${moneyText(c.currentLiabilities)}。`
+      ],
+      process:[
+        `速動比率示範 = (${moneyText(c.currentAssets)} - ${moneyText(c.takoyakiEndingInventory)}) / ${moneyText(c.currentLiabilities)} = ${c.quickRatio}。`,
+        `考題若另給預付款，也要從流動資產扣掉。`
+      ],
+      memory:["速動比率把不夠快變現的東西踢掉；章魚燒食材會賣，但不是立刻拿來還債。"]
+    },
+    debtRatio:{
+      source:[
+        `總負債 ${moneyText(c.totalLiabilities)}、總資產 ${moneyText(c.totalAssets)}，其中不動產貸款 ${moneyText(c.propertyLoan)}。`
+      ],
+      process:[
+        `負債比率 = ${moneyText(c.totalLiabilities)} / ${moneyText(c.totalAssets)} = ${c.debtRatio}。`,
+        `不動產貸款占資產比重高時，利率、DSCR（償債覆蓋率）和現金流壓力要一起看。`
+      ],
+      memory:["負債比不是越低越好，而是看槓桿是否能被現金流支撐。"]
+    },
+    roe:{
+      source:[
+        `Amy 股東權益 ${moneyText(c.equity)}；章魚燒毛利 ${moneyText(c.takoyakiGrossProfit)} 可作淨利來源之一。`
+      ],
+      process:[
+        `ROE（權益報酬率）= 淨利 / 平均股東權益。若先用章魚燒毛利粗估，${moneyText(c.takoyakiGrossProfit)} / ${moneyText(c.equity)} 可幫你理解分子分母。`,
+        `杜邦分析再拆成淨利率、資產周轉率、權益乘數。`
+      ],
+      memory:["ROE 上升可能是賺更多，也可能是借更多；看到 ROE 要立刻問是哪個因子變了。"]
+    },
+    property:{
+      source:[
+        `不動產報表：翫花同 2 樓總價 NT$776 萬、貸款 NT$620.8 萬、月租 ${moneyText(c.monthlyRent)}、月付房貸 ${moneyText(c.monthlyMortgage)}。`,
+        `估計年租金 ${moneyText(c.annualRent)}；報表另有 Cap Rate（淨收益率）${c.propertyCapRate}、DSCR（償債覆蓋率）${c.propertyDscr}。`
+      ],
+      process:[
+        `自備款/權益感 = ${moneyText(c.propertyValue)} - ${moneyText(c.propertyLoan)} = ${moneyText(c.propertyEquity)}。`,
+        `月租 - 月付房貸 = ${moneyText(c.monthlyRent)} - ${moneyText(c.monthlyMortgage)} = ${signedMoneyText(c.monthlyPropertyGap)}，可連到現金流壓力。`
+      ],
+      memory:["不動產題先看用途：出租或增值偏投資性不動產，自用就不是。","考財務分析時看分類與衡量；考投資學時看利率風險；考法規時看募資與揭露。"]
+    },
+    investSubject:{
+      source:[
+        `把流動資產 ${moneyText(c.currentAssets)} 視為股票、ETF（指數股票型基金）與現金投資池。`,
+        `不動產貸款 ${moneyText(c.propertyLoan)} 與利率 2.55% 可拿來理解利率風險。`
+      ],
+      process:[
+        `若用 CAPM（資本資產定價模型）題型：Rf 3%、Rm 8%、Beta 1.2，必要報酬 = 3% + 1.2 × (8% - 3%) = 9%。`,
+        `套到投資池：${moneyText(c.currentAssets)} × 9% 約 ${moneyText(c.currentAssets * .09)}，用來感受風險補償不是抽象公式。`
+      ],
+      memory:["投資學公式要有錢感：先想這筆資產是股票池、債券池，還是不動產/房貸利率風險。"]
+    },
+    basicAnalysis:{
+      source:[
+        `kaku Holdings 可把 jikka.app 與章魚燒子公司的獲利合併看成股東可分配盈餘來源。`,
+        `Amy 股東權益 ${moneyText(c.equity)} 可拿來理解每股淨值、市價淨值比與 ROE。`
+      ],
+      process:[
+        `若考 EPS（每股盈餘），流程是淨利先扣特別股股利，再除以加權平均普通股股數。`,
+        `若考本益比，流程是股價 / EPS；若考市價淨值比，流程是股價 / 每股淨值。`
+      ],
+      memory:["基本分析就是把損益表的獲利、資產負債表的淨值，轉成股票評價。"]
+    },
+    riskReturn:{
+      source:[
+        `流動資產 ${moneyText(c.currentAssets)} 可視為投資組合；不動產與房貸則提醒你風險不只股價波動。`
+      ],
+      process:[
+        `CAPM（資本資產定價模型）範例：必要報酬 = Rf + Beta × (Rm - Rf)。`,
+        `夏普指標用標準差，崔納指標用 Beta（貝它係數）；分母不同就是考點。`
+      ],
+      memory:["Beta 只看市場系統風險；標準差看總風險。考場看到分母先決定是夏普還是崔納。"]
+    },
+    bonds:{
+      source:[
+        `不動產貸款 ${moneyText(c.propertyLoan)}、利率 2.55%，估計年利息約 ${moneyText(c.estimatedLoanInterest)}。`,
+        `月租 ${moneyText(c.monthlyRent)}、月房貸 ${moneyText(c.monthlyMortgage)}，利率變動會直接改變現金流壓力。`
+      ],
+      process:[
+        `債券價格與市場利率反向；房貸則是利率上升會讓未來付款壓力上升。`,
+        `存續期間越長，對利率越敏感，這可用長天期房貸直覺記。`
+      ],
+      memory:["利率題就想房貸：利率上升，資金成本變重；債券價格方向則相反下跌。"]
+    },
+    derivatives:{
+      source:[
+        `流動投資池 ${moneyText(c.currentAssets)} 可作 ETF（指數股票型基金）、權證、選擇權的標的資金情境。`
+      ],
+      process:[
+        `ETF 溢價：買一籃子股票、賣 ETF；ETF 折價方向相反。`,
+        `買權損益兩平 = 履約價 + 權利金；賣權損益兩平 = 履約價 - 權利金。`
+      ],
+      memory:["衍生商品先判斷看多/看空，再判斷買方/賣方；權利金和履約價是選擇權題核心。"]
+    },
+    technicalAnalysis:{
+      source:[
+        `你的股票或 ETF（指數股票型基金）部位可以當作觀察價格、成交量與技術指標的標的。`
+      ],
+      process:[
+        `技術分析題先分類：價格指標、量能指標、市場寬幅指標或型態。`,
+        `OBV（能量潮）上漲日加成交量、下跌日減成交量；KD、RSI 常考超買超賣。`
+      ],
+      memory:["技術分析不要混到基本分析：技術看價量，基本看財報與評價。"]
+    },
+    macroIndicators:{
+      source:[
+        `章魚燒若有進口食材，可用匯率理解成本；投資池與房貸可用通膨和利率理解報酬。`
+      ],
+      process:[
+        `實質報酬率 = (1 + 名目報酬率) / (1 + 通膨率) - 1。`,
+        `新臺幣升值通常利於進口成本，貶值通常利於出口收入。`
+      ],
+      memory:["總經題要把方向畫出來：通膨吃掉購買力，升值幫進口，利率上升壓債券價格。"]
+    },
+    lawSubject:{
+      source:[
+        `公司架構：kaku Holdings 作母公司，jikka.app 作品牌/業務，Amy 作股東，章魚燒作子公司。`,
+        `資產與負債規模可作未來募資、發債、公開發行與重大消息情境。`
+      ],
+      process:[
+        `法規題先拆主體：發行公司、證券商、投信投顧、內部人或投資人。`,
+        `再拆行為：募集、承銷、交易、揭露、借券、融資融券或投資建議。`
+      ],
+      memory:["法規不是背散文，是把人、事、時間、比例、責任放到正確格子。"]
+    },
+    companyLaw:{
+      source:[
+        `Amy 作為股東；kaku Holdings 作股份有限公司情境；jikka.app 與章魚燒可作子公司/事業部情境。`
+      ],
+      process:[
+        `先判斷 Amy 只是股東，還是兼任董事、經理人或其他負責人。`,
+        `股東會、董事會、章程與特別決議題，都從公司治理角色開始拆。`
+      ],
+      memory:["股東不一定是負責人；公司法題最常偷換身分。"]
+    },
+    underwriting:{
+      source:[
+        `若 kaku Holdings 未來用不動產與事業規模籌資，可能發股、發公司債、私募或申請上市櫃。`
+      ],
+      process:[
+        `先分公開募集或私募，再看是否需要承銷、申報生效、公開說明書。`,
+        `公司債會讓負債上升，也會回到財務分析的負債比率。`
+      ],
+      memory:["承銷募集題要先問：向誰募、用什麼工具、誰承銷、能不能轉讓。"]
+    },
+    insider:{
+      source:[
+        `jikka.app 若有募資、併購、重大財報或公開收購消息，就可作內線交易情境。`
+      ],
+      process:[
+        `先判斷消息是否重大，再判斷是否公開，最後看交易時點。`,
+        `損害賠償題常用消息公開後十個營業日收盤平均價格作比較基準。`
+      ],
+      memory:["內線交易三步：重大、未公開、有交易。少一個條件就要重判。"]
+    },
+    marginTrading:{
+      source:[
+        `若你的股票部位使用融資融券，就可作信用交易情境；流動資產 ${moneyText(c.currentAssets)} 是擔保與資金池直覺。`
+      ],
+      process:[
+        `融資是借錢買股票，融券是借券賣出。`,
+        `維持率不足會追繳或處分，除權息、股東會等事件可能牽涉強制回補。`
+      ],
+      memory:["融資想借錢，融券想借股票；考題常故意把兩個動作互換。"]
+    },
+    securitiesDealer:{
+      source:[
+        `kaku Holdings 募資會接觸承銷商；你下單買股票接觸經紀商；證券商自己買賣叫自營。`
+      ],
+      process:[
+        `先看證券商在題目中扮演的角色，再對應承銷、自營、經紀。`,
+        `交易實務題再看委託、撮合、交割、結算與漲跌幅限制。`
+      ],
+      memory:["同一家證券商可能有不同業務別，題目問角色，不是問公司名稱。"]
+    },
+    investmentTrust:{
+      source:[
+        `若 kaku Holdings 把資金交給基金、投信、投顧或全權委託管理，就進入投信投顧法規。`
+      ],
+      process:[
+        `投信發行/管理基金，保管機構保管資產，投顧提供建議或全權委託操作。`,
+        `基金 NAV（淨值）= 總淨資產 / 受益單位數。`
+      ],
+      memory:["投信、投顧、保管機構三個角色分開記，法規題就不容易混。"]
+    }
+  };
+  return byNode[nodeId] || byNode.financeSubject;
+}
 
 const groups = {
   subject:{label:"科目中心",color:"#087a73"},
@@ -650,7 +959,7 @@ const cards = {
     subtitle:"分類題常把自用、出租、融資租賃與營業租賃混在一起。",
     formula:"投資性不動產重點 = 持有目的",
     plain:"不是看到不動產就都一樣，要看持有目的與使用方式。",
-    caseText:"飄花同 2 樓可用來練投資性不動產、租金收入、房貸負債與現金流分類。",
+    caseText:"翫花同 2 樓可用來練投資性不動產、租金收入、房貸負債與現金流分類。",
     metrics:[["物件總價","NT$776 萬"],["貸款","NT$620.8 萬"],["Cap Rate 淨收益率",companyMetrics.propertyCapRate],["DSCR 償債覆蓋",companyMetrics.propertyDscr]],
     asks:["哪些不動產屬於投資性不動產？","租金收入與貸款利息影響哪張表？"],
     solveSteps:["先看用途：自用、出租、待增值或尚未決定用途。","再判斷租賃服務是否重大。","最後連到資產分類與現金流。"],
@@ -906,7 +1215,7 @@ const mindTermCards = {
   "fin-debt-ratio":makeTerm({nodeId:"debtRatio",title:"負債比率",group:"財務比率",formula:"負債比率 = 總負債 / 總資產",plain:"衡量資產由債權人提供資金的比例。",caseText:"kaku Holdings 負債比率約 71.0%。",question:"代表題：長期債權人會關心資本結構與資金流量。",asks:["負債比率越高代表什麼？"],solveSteps:["找總負債與總資產。","相除得到比率。","搭配利息保障倍數判斷。"],traps:["高負債不是立刻違約，但風險較高。"],freq:"高"}),
   "fin-roe":makeTerm({nodeId:"roe",title:"ROE（權益報酬率）",group:"財務比率",formula:"ROE = 淨利率 × 資產周轉率 × 權益乘數",plain:"杜邦分析把 ROE（權益報酬率）拆成獲利、效率與槓桿。",caseText:"Amy 可用 ROE（權益報酬率）看股東投入是否有效率。",question:"代表題方向：ROE 高可能是獲利好，也可能是槓桿高。",asks:["ROE 上升是哪一個因子造成？"],solveSteps:["拆淨利率、資產周轉率、權益乘數。","逐一判斷方向。"],traps:["ROE 高不一定低風險。"],importance:"必背",freq:"高"}),
   "fin-ppe-cost":makeTerm({nodeId:"balance",title:"不動產、廠房及設備成本",group:"資產認列",formula:"成本 = 購價 - 折扣 + 使資產達可使用狀態之必要支出",plain:"設備成本題常考運費、安裝費、關稅與異常損失。",caseText:"章魚燒設備購入時，安裝費可列成本，搬運不慎損壞通常列損失。",question:"代表題：機器設備成本包含購價扣折扣、運費與安裝費，不含不慎損壞修理費。",asks:["哪些支出能資本化？"],solveSteps:["先扣現金折扣。","加必要支出。","排除異常損失。"],traps:["意外損壞不是讓資產達可用狀態的必要支出。"],freq:"中"}),
-  "fin-investment-property":makeTerm({nodeId:"property",title:"投資性不動產",group:"資產認列",formula:"重點看持有目的：出租、資本增值或尚未決定用途",plain:"投資性不動產常和自用不動產混考。",caseText:"飄花同 2 樓出租可作投資性不動產練習。",question:"代表題：目前尚未決定未來用途土地、營業租賃出租且服務不重大者，常列投資性不動產。",asks:["供員工使用是否為投資性不動產？"],solveSteps:["先看用途。","再看租賃服務是否重大。"],traps:["自用不動產不是投資性不動產。"],freq:"高"}),
+  "fin-investment-property":makeTerm({nodeId:"property",title:"投資性不動產",group:"資產認列",formula:"重點看持有目的：出租、資本增值或尚未決定用途",plain:"投資性不動產常和自用不動產混考。",caseText:"翫花同 2 樓出租可作投資性不動產練習。",question:"代表題：目前尚未決定未來用途土地、營業租賃出租且服務不重大者，常列投資性不動產。",asks:["供員工使用是否為投資性不動產？"],solveSteps:["先看用途。","再看租賃服務是否重大。"],traps:["自用不動產不是投資性不動產。"],freq:"高"}),
 
   "law-public-offering":makeTerm({nodeId:"underwriting",title:"公開募集",group:"承銷募集",formula:"向不特定人募集有價證券",plain:"公開募集與私募的對象、程序與限制不同。",caseText:"kaku Holdings 若向市場募資，會進入公開募集與承銷程序。",question:"代表題方向：公開募集、私募、承銷程序差異。",asks:["募集對象是否特定？"],solveSteps:["先判斷對象。","再看是否需申報生效。"],traps:["公開募集不等於私募。"],importance:"必背",freq:"高"}),
   "law-private-placement":makeTerm({nodeId:"underwriting",title:"私募",group:"承銷募集",formula:"向特定人募集，通常伴隨轉讓限制",plain:"私募題常考人數、資格與轉讓限制。",caseText:"若 kaku Holdings 找少數特定投資人入股，可用私募情境理解。",question:"代表題方向：私募限制與公開募集差異。",asks:["私募可否自由轉讓？"],solveSteps:["先看對象是否特定。","再找轉讓限制與申報要求。"],traps:["私募不是不用遵守規範。"],freq:"高"}),
@@ -2193,7 +2502,7 @@ function caseTextForFullTerm(type,chapterTitle,text){
     if(/所得稅|EPS|盈餘|淨利|損益|收入|費用|折舊/.test(hay)) return "jikka.app 可視為母公司品牌收入來源，AI agent（人工智慧代理）訂閱與工具成本可視為營業費用，章魚燒毛利會進入合併損益。";
     if(/負債|借款|流動負債|非流動負債|負債比/.test(hay)) return "不動產貸款可作長期負債例子，一年內到期部分再重分類為流動負債，用來練短期與長期償債能力。";
     if(/權益|股本|保留盈餘|庫藏股|股利/.test(hay)) return "Amy 可視為股東，投入資本、保留盈餘與分配股利都放在權益章理解，不要和收入混在一起。";
-    if(/不動產|租賃|非流動資產|投資性不動產|PPE/.test(hay)) return "飄花同 2 樓可作投資性不動產或自用不動產分類練習；分類會影響衡量、折舊與財報揭露。";
+    if(/不動產|租賃|非流動資產|投資性不動產|PPE/.test(hay)) return "翫花同 2 樓可作投資性不動產或自用不動產分類練習；分類會影響衡量、折舊與財報揭露。";
     return "把個人資產整合成 kaku Holdings：股票與現金偏流動資產，不動產偏非流動資產，房貸是負債，Amy 權益是股東權益。";
   }
   if(type === "investment"){
@@ -2338,7 +2647,12 @@ function visibleNode(node){
   if(!byMode) return false;
   if(!q) return true;
   const card = cards[node.id] || {};
-  return [node.label,card.title,card.subtitle,card.formula,card.caseText,(card.asks||[]).join(" "),(card.traps||[]).join(" ")].join(" ").toLowerCase().includes(q);
+  const detail = caseStudyFor(node.id,card.title);
+  return [
+    node.label,card.title,card.subtitle,card.formula,card.caseText,
+    ...(detail.source || []),...(detail.process || []),...(detail.memory || []),
+    (card.asks||[]).join(" "),(card.traps||[]).join(" ")
+  ].join(" ").toLowerCase().includes(q);
 }
 
 function defaultNodeForMode(){
@@ -2554,6 +2868,7 @@ function renderPanel(target){
   const steps = (card.solveSteps || []).map(x=>`<li>${x}</li>`).join("");
   const traps = (card.traps || []).map(x=>`<li>${x}</li>`).join("");
   const questions = relatedQuestionsForNode(selectedId);
+  const caseDetail = renderCaseDetail(caseStudyFor(selectedId,card.title));
   target.innerHTML = `
     <div class="eyebrow">${groups[node.group].label}</div>
     <h2 class="panel-title">${card.title}</h2>
@@ -2575,6 +2890,7 @@ function renderPanel(target){
     <div class="section">
       <h3>kaku Holdings 案例備註</h3>
       <p class="panel-sub">${card.caseText}</p>
+      ${caseDetail}
       <div class="case-grid">${metrics}</div>
     </div>
     <div class="section">
@@ -2683,6 +2999,9 @@ function matchesMindTerm(id){
   if(!term) return false;
   return [
     term.title,term.group,term.formula,term.plain,term.caseText,term.question,
+    ...(caseStudyFor(term.nodeId,term.title).source || []),
+    ...(caseStudyFor(term.nodeId,term.title).process || []),
+    ...(caseStudyFor(term.nodeId,term.title).memory || []),
     ...(term.asks||[]),...(term.solveSteps||[]),...(term.traps||[])
   ].join(" ").toLowerCase().includes(q);
 }
@@ -2731,6 +3050,7 @@ function renderMindTermPanel(){
   const steps = (term.solveSteps || []).map(x=>`<li>${x}</li>`).join("");
   const traps = (term.traps || []).map(x=>`<li>${x}</li>`).join("");
   const questions = relatedExamQuestions[selectedMindTermId] || [];
+  const caseDetail = renderCaseDetail(caseStudyFor(term.nodeId,term.title));
   mindPanel.innerHTML = `
     <div class="eyebrow">心智圖細項</div>
     <h2 class="panel-title">${term.title}</h2>
@@ -2752,6 +3072,7 @@ function renderMindTermPanel(){
     <div class="section">
       <h3>kaku Holdings 案例備註</h3>
       <p class="panel-sub">${term.caseText}</p>
+      ${caseDetail}
       <div class="case-grid">${metrics}</div>
     </div>
     <div class="section">
