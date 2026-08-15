@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>初階外匯 題庫分析</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:26px 18px 50px}
+h1{font-size:1.5em;margin-bottom:4px}
+.sub{color:var(--mt);font-size:.82em;margin-bottom:6px}
+.src{color:var(--mt);font-size:.72em;margin-bottom:26px;padding-bottom:14px;border-bottom:1px solid var(--cd)}
+h2{font-size:1.1em;margin:32px 0 10px;padding-left:9px;border-left:3px solid var(--cy)}
+h3{font-size:.94em;margin:18px 0 8px;color:var(--vi)}
+p{font-size:.87em;margin-bottom:10px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:8px;padding:15px 17px;margin-bottom:13px}
+table{width:100%;border-collapse:collapse;font-size:.82em;margin:8px 0 12px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--cd);text-align:left}
+th{color:var(--mt);font-weight:700;font-size:.9em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.barbox{display:flex;align-items:center;gap:8px}
+.b{height:9px;background:var(--cy);border-radius:2px;min-width:2px}
+.b.alt{background:var(--vi)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin-bottom:14px}
+.kpi div{background:var(--sf);border:1px solid var(--cd);border-radius:8px;padding:12px}
+.kpi b{display:block;font-size:1.45em;color:var(--cy);font-variant-numeric:tabular-nums;line-height:1.2}
+.kpi span{font-size:.72em;color:var(--mt)}
+.good{color:var(--gn);font-weight:700}
+.bad{color:var(--rd);font-weight:700}
+.warn{border-left:3px solid var(--rd);background:rgba(179,69,58,.06);padding:10px 13px;border-radius:0 6px 6px 0;font-size:.83em;margin-bottom:11px}
+.ok{border-left:3px solid var(--gn);background:rgba(96,114,67,.07);padding:10px 13px;border-radius:0 6px 6px 0;font-size:.83em;margin-bottom:11px}
+ul{margin:0 0 10px 20px;font-size:.85em}
+li{margin-bottom:5px}
+code{background:var(--bg);padding:1px 5px;border-radius:3px;font-size:.9em}
+.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--cd);font-size:.74em;color:var(--mt);text-align:center}
+a{color:var(--cy)}
+.up{color:var(--rd);font-weight:700}.dn{color:var(--mt)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>初階外匯人員 題庫分析</h1>
+<div class="sub">台灣金融研訓院 · 國外匯兌業務 50 題／進出口外匯業務 80 題 · 兩科均需 70 分</div>
+<div class="src">
+分析樣本：第 23–47 屆（約 2014 ～ 2026-04，橫跨 12 年）共 3221 題，去重後 1856 題。<br>
+本頁僅公開統計與方法結論，不含題目內容。試題著作權屬台灣金融研訓院。
+</div>
+
+<div class="kpi">
+  <div><b>3221</b><span>解析題數（25 屆）</span></div>
+  <div><b>1856</b><span>去重後獨立題</span></div>
+  <div><b>60 / 81%</b><span>47 屆原題重現率<br>匯兌／進出口</span></div>
+  <div><b>33%</b><span>官方合格率</span></div>
+</div>
+
+<h2>一、這是題庫型考試，但回鍋週期很長</h2>
+
+<p>以第 47 屆（2026-04）當新考卷、只用它之前的屆次當題庫，計算「原題重現」（題幹與選項幾乎相同且答案一致）：</p>
+
+<table>
+<tr><th>科目</th><th class="n">原題重現</th><th class="n">考點回鍋</th><th class="n">全新題</th></tr>
+<tr><td>國外匯兌</td><td class="n good">60.0%</td><td class="n">10.0%</td><td class="n">30.0%</td></tr>
+<tr><td>進出口外匯</td><td class="n good">81.2%</td><td class="n">5.0%</td><td class="n">13.8%</td></tr>
+</table>
+
+<div class="warn">
+<b>⚠️ 但沒有「只刷最近幾屆」的捷徑。</b>
+第 47 屆的重複題來源平均散落在 23–43 屆，<b>第 45、46 屆貢獻 0 題</b>——官方明顯刻意避開最近兩屆。
+</div>
+
+<table>
+<tr><th>只讀最近 K 屆</th><th class="n">匯兌命中率</th><th class="n">進出口命中率</th></tr>
+<tr><td>最近 2 屆</td><td class="n bad">0%</td><td class="n bad">0%</td></tr>
+<tr><td>最近 4 屆</td><td class="n">10.0%</td><td class="n">17.5%</td></tr>
+<tr><td>最近 8 屆</td><td class="n">38.0%</td><td class="n">38.8%</td></tr>
+<tr><td><b>全部 24 屆</b></td><td class="n good">60.0%</td><td class="n good">81.2%</td></tr>
+</table>
+
+<p>依「回鍋次數」排序優先讀也同樣不集中（讀前 500 題僅 42%／37.5%）。<b>要拿回鍋紅利，只能整批掃完去重後的全部題目。</b></p>
+
+<div class="card">
+<h3>方法論教訓：樣本窗小於回鍋週期，會得到假的 0%</h3>
+<p style="margin:0">最初只取得官方公告的近三期（390 題），算出的跨屆重複率是 <b>0%</b>，據此誤判為「非題庫制」。取得完整 25 屆後，真實原題重現率是 60–81%。<b>判定一場考試是否為題庫制之前，必須先確認手上屆次數是否涵蓋一個完整回鍋週期。</b></p>
+</div>
+
+<h2>二、考點比重與趨勢</h2>
+<p>單一歸類（每題只計入一個主要考點）。趨勢＝近 8 屆（40 屆／2022-11 以後）每屆題數與全期平均的比較。</p>
+
+<h3>國外匯兌業務（每屆 50 題）</h3>
+<table>
+<tr><th>考點</th><th class="n">每屆</th><th>近期趨勢</th></tr>
+<tr><td>匯入匯款解付</td><td class="n">8.6</td><td><div class="barbox"><i class="b" style="width:105px"></i><span class="up">↑ 9.5</span></div></td></tr>
+<tr><td>匯出匯款程序</td><td class="n">8.6</td><td><div class="barbox"><i class="b" style="width:93px"></i><span>→ 8.4</span></div></td></tr>
+<tr><td>外匯申報辦法</td><td class="n">4.5</td><td><div class="barbox"><i class="b" style="width:44px"></i><span class="dn">↓ 4.0</span></div></td></tr>
+<tr><td>銀行業辦理外匯業務管理辦法</td><td class="n">4.4</td><td><div class="barbox"><i class="b" style="width:51px"></i><span>→ 4.6</span></div></td></tr>
+<tr><td>SWIFT 電文與通匯</td><td class="n">3.8</td><td><div class="barbox"><i class="b" style="width:44px"></i><span>→ 4.0</span></div></td></tr>
+<tr><td>光票買入及託收</td><td class="n">2.9</td><td><div class="barbox"><i class="b" style="width:29px"></i><span>→ 2.6</span></div></td></tr>
+<tr><td>外幣現鈔與收兌處</td><td class="n">2.6</td><td><div class="barbox"><i class="b" style="width:28px"></i><span>→ 2.5</span></div></td></tr>
+<tr><td><b>NDF 與衍生商品</b></td><td class="n">2.3</td><td><div class="barbox"><i class="b" style="width:33px"></i><span class="up">↑↑ 3.0</span></div></td></tr>
+<tr><td>外匯存款</td><td class="n">2.2</td><td><div class="barbox"><i class="b" style="width:27px"></i><span>→ 2.4</span></div></td></tr>
+<tr><td><b>大陸與人民幣業務</b></td><td class="n">1.4</td><td><div class="barbox"><i class="b" style="width:22px"></i><span class="up">↑↑ 2.0</span></div></td></tr>
+<tr><td><s>旅行支票</s></td><td class="n">1.2</td><td><div class="barbox"><i class="b" style="width:2px"></i><span class="dn">↓↓ 0.1</span></div></td></tr>
+</table>
+<p>匯出＋匯入合計每屆 18 題（36%），是絕對主戰場。<b>NDF 與人民幣業務逐年加重；旅行支票近 8 屆平均僅 0.1 題，已可略過。</b></p>
+
+<h3>進出口外匯業務（每屆 80 題）</h3>
+<table>
+<tr><th>考點</th><th class="n">每屆</th><th>近期趨勢</th></tr>
+<tr><td><b>信用狀當事人與性質</b></td><td class="n">20.7</td><td><div class="barbox"><i class="b alt" style="width:202px"></i><span>→ 20.2</span></div></td></tr>
+<tr><td><b>UCP600 條文與審單</b></td><td class="n">18.6</td><td><div class="barbox"><i class="b alt" style="width:195px"></i><span>→ 19.5</span></div></td></tr>
+<tr><td>託收 URC522</td><td class="n">6.7</td><td><div class="barbox"><i class="b alt" style="width:68px"></i><span>→ 6.8</span></div></td></tr>
+<tr><td>運送單據（提單）</td><td class="n">6.5</td><td><div class="barbox"><i class="b alt" style="width:74px"></i><span class="up">↑ 7.4</span></div></td></tr>
+<tr><td>進口業務</td><td class="n">5.3</td><td><div class="barbox"><i class="b alt" style="width:61px"></i><span class="up">↑ 6.1</span></div></td></tr>
+<tr><td>信用狀種類</td><td class="n">3.7</td><td><div class="barbox"><i class="b alt" style="width:39px"></i><span>→ 3.9</span></div></td></tr>
+<tr><td>貿易條件 Incoterms</td><td class="n">2.2</td><td><div class="barbox"><i class="b alt" style="width:15px"></i><span class="dn">↓↓ 1.5</span></div></td></tr>
+<tr><td>出口押匯</td><td class="n">2.1</td><td><div class="barbox"><i class="b alt" style="width:19px"></i><span>→ 1.9</span></div></td></tr>
+<tr><td>外幣保證與 URDG</td><td class="n">1.2</td><td><div class="barbox"><i class="b alt" style="width:11px"></i><span>→ 1.1</span></div></td></tr>
+<tr><td>Factoring 應收帳款承購</td><td class="n">0.8</td><td><div class="barbox"><i class="b alt" style="width:6px"></i><span class="dn">↓ 0.6</span></div></td></tr>
+</table>
+<p><b>信用狀當事人＋UCP600 條文＝每屆約 40 題（50%）。</b>這兩塊讀熟，56 題及格門檻已完成七成。</p>
+
+<p style="font-size:.82em;color:var(--mt)">規則引用頻率（總題數）：UCP600 <b>411</b>｜URC522 <b>154</b>｜ISBP 51｜ISP98 50｜國貿條規 42｜eUCP 32｜URDG 26</p>
+
+<h2>三、題族結構：為什麼沒有小抄</h2>
+<table>
+<tr><th>題族大小</th><th class="n">族數</th><th class="n">涵蓋題數</th><th class="n">佔 47 屆</th></tr>
+<tr><td>出現 ≥2 次</td><td class="n">324</td><td class="n">824</td><td class="n good">70%</td></tr>
+<tr><td>出現 ≥3 次</td><td class="n">114</td><td class="n">404</td><td class="n">36%</td></tr>
+<tr><td>出現 ≥4 次</td><td class="n">34</td><td class="n">164</td><td class="n">20%</td></tr>
+<tr><td>出現 ≥5 次</td><td class="n">8</td><td class="n">60</td><td class="n bad">8%</td></tr>
+</table>
+<p>（國外匯兌科數據；進出口結構類似。）<b>重複紅利集中在「只出現 2 次」的長尾</b>，不在少數超高頻題——這正是無法用小抄取代整批掃題的原因。</p>
+
+<div class="card">
+<h3>單一最高頻考點</h3>
+<p style="margin:0">進出口科的「<b>信用狀之保兌</b>」在 25 屆內出現 <b>58 次</b>，幾乎每屆必考，佔全期總題數約 3%。其次為 URC522 託收（16 次）、可轉讓信用狀（10 次）。<br>
+匯兌科則為換匯交易 SWAP（12 次）、DBU 外匯存款（11 次）、外幣收兌處管理辦法（11 次）。<br>
+⚠️ 同族題目的答案一致率僅 <b>75.5%</b>——同一題幹會換選項、正反問法互換，<b>必須背原理而非答案</b>。</p>
+</div>
+
+<h2>四、猜題規則（交叉驗證後）</h2>
+<p>測試 13 種選項訊號 × 3 種題型 × 2 科。一律以 23–44 屆（2831 題）推導、45–47 屆（390 題）驗證。採用門檻：推導組 Wilson 95% CI 下界 &gt; 25% 且驗證組命中率 &gt; 25%。</p>
+
+<table>
+<tr><th>規則</th><th class="n">推導組</th><th class="n">驗證組</th><th>結論</th></tr>
+<tr><td>進出口・正向題猜最長選項</td><td class="n">31.9%</td><td class="n">36.7%</td><td class="good">✅ 可用</td></tr>
+<tr><td>進出口・何者錯誤題猜最長</td><td class="n">29.6%</td><td class="n">27.3%</td><td class="good">✅ 勉強可用</td></tr>
+<tr><td>匯兌・猜最長選項</td><td class="n">27.4%</td><td class="n">26.9%</td><td class="bad">❌ 等於亂猜</td></tr>
+<tr><td>猜次長／最短選項</td><td class="n">—</td><td class="n">18–28%</td><td class="bad">❌</td></tr>
+<tr><td>數字題猜中間值</td><td class="n">37.5%</td><td class="n">25.0%</td><td class="bad">❌ 未過驗證</td></tr>
+<tr><td>三訊號一致時再猜</td><td class="n">29.0%</td><td class="n">40.0%</td><td class="bad">❌ 推導組未過</td></tr>
+</table>
+
+<div class="warn">
+<b>兩個被推翻的常見技巧：</b>
+<ul style="margin-bottom:0">
+<li><b>「看到一律／必須就刪」不成立。</b>含絕對詞的選項在驗證組命中率反而略高（40.9%）。</li>
+<li><b>「以上皆是」技巧完全無用。</b>3221 題中<b>零出現</b>這種選項。</li>
+</ul>
+</div>
+
+<div class="ok">
+<b>實務結論：</b>進出口科不會的題猜最長選項（36.7%）；匯兌科無規律可循，純猜。
+位置規律不可用——電腦應試選項會重排。<br>
+<b>別高估猜題：</b>15 題全不會時，猜最長比亂猜只多對約 1.8 題＝2.2 分。猜題是救援網，不是及格計畫。
+</div>
+
+<h2>五、法規時效警報</h2>
+<p>題庫橫跨 12 年，部分舊題答案已被修法作廢。以下為逐條查證結果（查證日 2026-08-15）。</p>
+
+<div class="warn">
+<b>🔴 已確認過時</b>
+<ul style="margin-bottom:0">
+<li><b>外幣收兌處每筆上限：1 萬美元 → 3 千美元</b>（2022 年修正）。題庫可見 29／36 屆答案為 1 萬、46 屆為 3 千。</li>
+<li><b>Incoterms 2010 → 2020</b>。<code>DAT</code> 改名 <code>DPU</code>；<b>CIP 最低投保提高為 ICC(A)</b>（CIF 維持 ICC(C)）。條規數量仍為 11 種未變。</li>
+<li><b>SWIFT MT → ISO 20022 MX</b>（測驗自 2025-11-03 適用）。47 屆匯兌科已考 6 題 MX＝12 分，進出口科 0 題（信用狀 MT700 系列未遷移）。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>🟡 近期修法，影響有限</h3>
+<p style="margin:0"><b>銀行業辦理外匯業務管理辦法</b>於 2025-07-15 修正 13 條，簡化自動化服務設備、後勤作業委外、外匯金融債券的申辦程序 → 45 屆以前的相關程序題須存疑。</p>
+</div>
+
+<div class="ok">
+<b>🟢 已查證未變，可安心背</b>
+<ul style="margin-bottom:0">
+<li><b>外匯收支或交易申報辦法數字全部沒變</b>：新臺幣 50 萬申報門檻；單筆檢附文件 公司 100 萬／個人團體 50 萬美元；年度額度 公司 5000 萬／個人團體 500 萬美元。</li>
+<li><b>人民幣匯大陸</b>：每人每日匯款 8 萬人民幣、換匯 2 萬人民幣。</li>
+<li><b>ICC 規則除 Incoterms 外全未改版</b>：UCP600(2007)、eUCP 2.1(2019)、ISBP 821、URC522、URDG758、ISP98 → <b>UCP600 那 411 題答案全部可信</b>，這是進出口科能穩過的根本原因。</li>
+</ul>
+</div>
+
+<h2>六、及格數學</h2>
+<table>
+<tr><th>科目</th><th class="n">題數</th><th class="n">需對</th><th class="n">去重題庫</th><th class="n">預期覆蓋</th></tr>
+<tr><td>國外匯兌</td><td class="n">50</td><td class="n">35</td><td class="n">745</td><td class="n">60% ≈ 30 題</td></tr>
+<tr><td>進出口外匯</td><td class="n">80</td><td class="n">56</td><td class="n">1111</td><td class="n good">81% ≈ 65 題</td></tr>
+</table>
+<p>進出口科掃完題庫即遠超門檻；<b>匯兌科覆蓋後仍差約 5 題，缺口需靠 ISO 20022 新制那 6 題（題庫外的純新題）補上</b>——這也使該章成為投報率最高的複習標的。</p>
+<p><b>⚠️ 電腦應試成績不保留，兩科須同一場次均達 70 分</b>，任一科未過則兩科重考。</p>
+
+<div class="foot">
+資料來源：台灣金融研訓院公告之歷屆試題（第 23–47 屆）· 分析日 2026-08-15<br>
+試題著作權屬台灣金融研訓院，本頁不重製題目內容。<br>
+<a href="../index.html">← 回考試總覽</a>
+</div>
+
+</div>
+</body>
+</html>

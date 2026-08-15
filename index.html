@@ -3,56 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>證券高業 考前衝刺包</title>
+<title>Exam HELPER 考前衝刺包</title>
 <style>
-:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516}
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;align-items:center;justify-content:center}
-.wrap{max-width:520px;width:100%;padding:24px}
-h1{font-size:1.6em;text-align:center;margin-bottom:8px;color:var(--tx)}
-.sub{text-align:center;color:var(--mt);font-size:.85em;margin-bottom:28px}
-.card{display:block;background:var(--sf);border:1px solid var(--cd);border-radius:8px;padding:20px;margin-bottom:14px;text-decoration:none;color:var(--tx);transition:all .2s}
-.card:hover{border-color:var(--cy);transform:translateY(-2px);box-shadow:0 8px 24px rgba(23,33,29,.12)}
-.card h2{font-size:1.1em;margin-bottom:4px}
-.card p{font-size:.8em;color:var(--mt);line-height:1.5}
-.card .icon{font-size:.72em;float:left;margin-right:12px;margin-top:3px;min-width:38px;text-align:center;border:1px solid var(--cd);border-radius:999px;padding:3px 6px;color:var(--cy);font-weight:800}
-.tag{display:inline-block;font-size:.65em;padding:2px 8px;border-radius:4px;margin-left:6px;vertical-align:middle}
-.t1{background:rgba(34,211,238,.15);color:var(--cy)}
-.t2{background:rgba(74,222,128,.15);color:var(--gn)}
-.t3{background:rgba(250,204,21,.15);color:var(--yw)}
-.foot{text-align:center;margin-top:20px;font-size:.72em;color:var(--cd)}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+.wrap{max-width:560px;width:100%;padding:28px 20px 40px;margin:0 auto}
+h1{font-size:1.55em;text-align:center;margin-bottom:6px}
+.sub{text-align:center;color:var(--mt);font-size:.82em;margin-bottom:26px}
+
+.exam{margin-bottom:26px}
+.exam>h2{font-size:.95em;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.exam>.when{font-size:.74em;color:var(--mt);margin-bottom:10px;padding-left:2px}
+.pill{font-size:.66em;padding:2px 9px;border-radius:999px;font-weight:700}
+.p-now{background:rgba(179,69,58,.12);color:var(--rd)}
+.p-done{background:rgba(96,114,67,.15);color:var(--gn)}
+.p-soon{background:rgba(182,101,22,.15);color:var(--yw)}
+
+.card{display:block;background:var(--sf);border:1px solid var(--cd);border-radius:8px;padding:15px 16px;margin-bottom:10px;text-decoration:none;color:var(--tx);transition:all .18s}
+.card:hover{border-color:var(--cy);transform:translateY(-2px);box-shadow:0 8px 24px rgba(23,33,29,.1)}
+.card h3{font-size:1.02em;margin-bottom:3px}
+.card p{font-size:.78em;color:var(--mt);line-height:1.5}
+.card .icon{font-size:.68em;float:left;margin-right:11px;margin-top:3px;min-width:38px;text-align:center;border:1px solid var(--cd);border-radius:999px;padding:3px 6px;color:var(--cy);font-weight:800}
+.tag{display:inline-block;font-size:.64em;padding:2px 8px;border-radius:4px;margin-left:5px;vertical-align:middle}
+.t1{background:rgba(8,122,115,.13);color:var(--cy)}
+.t2{background:rgba(96,114,67,.15);color:var(--gn)}
+.t3{background:rgba(182,101,22,.15);color:var(--yw)}
+
+.note{background:var(--sf);border:1px dashed var(--cd);border-radius:8px;padding:13px 15px;font-size:.76em;color:var(--mt);line-height:1.6}
+.foot{text-align:center;margin-top:24px;font-size:.7em;color:var(--mt)}
 </style>
 </head>
 <body>
 <div class="wrap">
-<h1>證券高業 考前衝刺包</h1>
-<div class="sub">證券商高級業務員資格測驗 | 考試日 2026/04/21</div>
+<h1>Exam HELPER</h1>
+<div class="sub">證照考前衝刺包 · 題庫分析與刷題工具</div>
 
-<a class="card" href="cram-map.html">
-<span class="icon">NEW</span>
-<h2>kaku Holdings 衝刺圖 <span class="tag t1">關聯圖</span></h2>
-<p>以 kaku Holdings、jikka.app、Amy 股東、章魚燒子公司與不動產案例練會計三表、公式與法規陷阱</p>
-</a>
+<div class="exam">
+  <h2>初階外匯人員 <span class="pill p-now">備考中</span></h2>
+  <div class="when">台灣金融研訓院 · 電腦應試 · 2026/08/22＋08/27 兩場</div>
 
-<a class="card" href="dashboard.html">
-<span class="icon">DATA</span>
-<h2>題庫分析儀表板 <span class="tag t1">966 題</span></h2>
-<p>各科主題分布、章節熱點、高頻考點、必背公式、讀書筆記一站式總覽</p>
-</a>
+  <a class="card" href="fx/analysis.html">
+    <span class="icon">DATA</span>
+    <h3>題庫分析 <span class="tag t1">25 屆 3221 題</span></h3>
+    <p>回鍋率與回鍋週期、兩科考點比重與趨勢、題族結構、猜題規則交叉驗證、法規時效警報、及格數學</p>
+  </a>
 
-<a class="card" href="mock-exam.html">
-<span class="icon">TEST</span>
-<h2>模擬考 <span class="tag t2">645 題</span></h2>
-<p>三科隨機 50 題、倒數計時、即時批改、錯題回顧、歷史紀錄</p>
-</a>
+  <div class="note">
+    <b>兩科各需 70 分，成績不保留。</b>進出口外匯覆蓋 81% 優先做完，國外匯兌覆蓋 60%，缺口靠 ISO 20022 新制 6 題補。<br>
+    刷題工具與重點整理為個人備考用，未公開發布。
+  </div>
+</div>
 
-<a class="card" href="keywords.html">
-<span class="icon">KEY</span>
-<h2>高頻關鍵字 <span class="tag t3">視覺化</span></h2>
-<p>各科文字雲、出題頻率排行，快速掌握命題方向</p>
-</a>
+<div class="exam">
+  <h2>證券商高級業務員 <span class="pill p-done">2026/04 已考</span></h2>
+  <div class="when">證基會 · 三科 966 題題庫分析</div>
 
-<div class="foot">Built with Claude Code | Data: 證基會考古題 + JY筆記 V9.6.0</div>
+  <a class="card" href="cram-map.html">
+    <span class="icon">MAP</span>
+    <h3>kaku Holdings 衝刺圖 <span class="tag t1">關聯圖</span></h3>
+    <p>以自家公司、jikka.app、不動產案例練會計三表、公式與法規陷阱</p>
+  </a>
+
+  <a class="card" href="dashboard.html">
+    <span class="icon">DATA</span>
+    <h3>題庫分析儀表板 <span class="tag t1">966 題</span></h3>
+    <p>各科主題分布、章節熱點、高頻考點、必背公式一站式總覽</p>
+  </a>
+
+  <a class="card" href="mock-exam.html">
+    <span class="icon">TEST</span>
+    <h3>模擬考 <span class="tag t2">645 題</span></h3>
+    <p>三科隨機 50 題、倒數計時、即時批改、錯題回顧</p>
+  </a>
+
+  <a class="card" href="keywords.html">
+    <span class="icon">KEY</span>
+    <h3>高頻關鍵字 <span class="tag t3">視覺化</span></h3>
+    <p>各科文字雲、出題頻率排行</p>
+  </a>
+</div>
+
+<div class="exam">
+  <h2>規劃中 <span class="pill p-soon">待整合</span></h2>
+  <div class="when">既有備考資料在 Obsidian，尚未搬上來</div>
+  <div class="note">
+    財產保險業務員（2026/07 已通過 154 分）· 人身保險業務員（重考中）· iPAS AI 應用規劃師（放榜中）· 金融常識與職業道德（2026/08/26）· 不動產經紀人（2027/11，題庫 2240 題已備齊）
+  </div>
+</div>
+
+<div class="foot">Built with Claude Code</div>
 </div>
 </body>
 </html>
