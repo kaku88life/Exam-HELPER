@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>初階外匯 衝刺筆記</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 50px}
+
+nav{position:sticky;top:0;background:var(--bg);z-index:30;padding:10px 0 8px;border-bottom:1px solid var(--cd);margin-bottom:6px}
+nav .row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+nav .row::-webkit-scrollbar{display:none}
+nav a{flex:0 0 auto;font-size:.76em;padding:5px 11px;border:1px solid var(--cd);border-radius:999px;background:var(--sf);text-decoration:none;color:var(--tx);white-space:nowrap}
+nav a:active{background:var(--cy);color:#fff}
+
+h1{font-size:1.42em;margin:18px 0 4px}
+.lede{color:var(--mt);font-size:.84em;margin-bottom:20px}
+h2{font-size:1.14em;margin:34px 0 12px;padding-left:10px;border-left:4px solid var(--cy);scroll-margin-top:60px}
+h3{font-size:.99em;margin:22px 0 8px;color:var(--vi)}
+h4{font-size:.9em;margin:16px 0 6px}
+p{font-size:.88em;margin-bottom:11px}
+ul,ol{margin:0 0 12px 22px;font-size:.87em}
+li{margin-bottom:6px}
+b{font-weight:700}
+code{background:var(--sf);border:1px solid var(--cd);padding:1px 5px;border-radius:3px;font-size:.88em}
+
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:9px;padding:15px 17px;margin-bottom:13px}
+.key{border-left:4px solid var(--cy);background:rgba(8,122,115,.06);padding:12px 15px;border-radius:0 7px 7px 0;margin-bottom:13px;font-size:.88em}
+.key b:first-child{color:var(--cy)}
+.warn{border-left:4px solid var(--rd);background:rgba(179,69,58,.06);padding:12px 15px;border-radius:0 7px 7px 0;margin-bottom:13px;font-size:.86em}
+.ok{border-left:4px solid var(--gn);background:rgba(96,114,67,.07);padding:12px 15px;border-radius:0 7px 7px 0;margin-bottom:13px;font-size:.86em}
+
+table{width:100%;border-collapse:collapse;font-size:.82em;margin:10px 0 14px}
+th,td{padding:7px 9px;border-bottom:1px solid var(--cd);text-align:left;vertical-align:top}
+th{color:var(--mt);font-weight:700;font-size:.92em;background:var(--sf)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+.rank{display:flex;align-items:baseline;gap:9px;margin:24px 0 8px}
+.rank i{font-style:normal;font-size:.72em;font-weight:800;color:#fff;background:var(--cy);border-radius:5px;padding:3px 8px;white-space:nowrap}
+.rank i.g{background:var(--yw)}
+.rank h3{margin:0;color:var(--tx);font-size:1.02em}
+.rank em{font-style:normal;font-size:.75em;color:var(--mt);white-space:nowrap}
+
+/* 圖：維持原尺寸以保字級可讀，手機上改為橫向捲動 */
+.svgwrap{background:var(--sf);border:1px solid var(--cd);border-radius:9px;padding:12px 10px 8px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.svgwrap svg{display:block;height:auto;margin:0 auto}
+.svgwrap::after{content:'← 可左右滑動 →';display:block;text-align:center;font-size:.68em;color:var(--cd);margin-top:4px}
+@media(min-width:700px){.svgwrap::after{display:none}}
+
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--cd);font-size:.76em;color:var(--mt);text-align:center;line-height:1.9}
+a{color:var(--cy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav><div class="row">
+  <a href="#core">核心理念</a>
+  <a href="#fx">匯兌骨架</a>
+  <a href="#trade">進出口骨架</a>
+  <a href="#rank">必背排行</a>
+  <a href="#iso">ISO 20022</a>
+  <a href="#law">法規警報</a>
+  <a href="#guess">猜題卡</a>
+  <a href="#jargon">名詞白話</a>
+</div></nav>
+
+<h1>初階外匯 衝刺筆記</h1>
+<div class="lede">
+依第 23–47 屆共 3221 題的實測頻率排序。<b>背原理不背答案</b>——同一考點會正反問法互換、選項重排，只有原理能通吃。
+</div>
+
+<!-- ============ 核心理念 ============ -->
+<h2 id="core">一、兩科到底在考什麼</h2>
+
+<div class="scroll"><table>
+<tr><th></th><th>國外匯兌業務</th><th>進出口外匯業務</th></tr>
+<tr><td><b>在問什麼</b></td><td>台灣的外匯管制怎麼運作，錢怎麼跨國移動</td><td>跨國貿易雙方互不信任，怎麼靠銀行解決</td></tr>
+<tr><td><b>法源性質</b></td><td><b>國內法規</b>（強制）</td><td><b>國際慣例</b>（要約定才適用）</td></tr>
+<tr><td><b>主管</b></td><td>中央銀行</td><td>無主管機關，ICC 國際商會</td></tr>
+<tr><td><b>手感</b></td><td>這筆錢該發什麼單、要不要申報、額度多少</td><td>這張單據有無瑕疵、誰該付錢、風險在誰身上</td></tr>
+<tr><td><b>怎麼準備</b></td><td>靠<b>記憶</b></td><td>靠<b>推理</b></td></tr>
+</table></div>
+
+<div class="key">
+<b>最重要的觀念差：</b>匯兌科背的是「法規怎麼規定」，進出口科背的是「規則怎麼分配責任」。
+搞懂原理後，<b>進出口科反而比匯兌科好拿分</b>——這也是它題庫覆蓋率能到 81% 的原因。
+</div>
+
+<!-- ============ 匯兌 ============ -->
+<h2 id="fx">二、國外匯兌：新台幣不是國際貨幣</h2>
+
+<div class="key">
+<b>一句話：</b>台灣是「有限度外匯管制」國家。新台幣不能在國際上自由買賣，
+所以央行必須盯住每一筆「新台幣 ↔ 外幣」的轉換。<br>
+<b>整科 50 題，八成都是這句話推導出來的。</b>
+</div>
+
+<h3>推論 1：為什麼要「掣發水單」</h3>
+<p>水單＝央行統計外匯進出的憑證。判斷發哪種單只問一件事：<b>這筆交易有沒有動到新台幣？站在銀行角度是買還是賣？</b></p>
+<div class="scroll"><table>
+<tr><th>情境</th><th>銀行的動作</th><th>發什麼</th></tr>
+<tr><td>客戶拿新台幣<b>買</b>外匯匯出</td><td>銀行<b>賣</b>外匯</td><td><b>賣匯水單</b></td></tr>
+<tr><td>匯入外匯<b>賣</b>給銀行換新台幣</td><td>銀行<b>買</b>外匯</td><td><b>買匯水單</b></td></tr>
+<tr><td>用既有外匯存款匯出（沒動新台幣）</td><td>無買賣行為</td><td><b>其他交易憑證</b></td></tr>
+</table></div>
+<div class="ok"><b>🔑 記法：站在銀行角度看買賣，不是站在客戶角度。</b>這一條就解掉 5 次以上的高頻題。</div>
+
+<h3>推論 2：為什麼有申報書與額度</h3>
+<p>防止熱錢大進大出衝擊匯率，所以是三段式，金額越大管越嚴：</p>
+<div class="svgwrap">
+<svg width="620" height="132" viewBox="0 0 620 132" role="img" aria-label="外匯申報三道關卡">
+<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#66736d"/></marker></defs>
+<rect x="4" y="26" width="186" height="66" rx="7" fill="#fff" stroke="#087a73" stroke-width="1.5"/>
+<text x="97" y="49" text-anchor="middle" font-size="13" font-weight="700" fill="#17211d">等值新臺幣 50 萬↑</text>
+<text x="97" y="70" text-anchor="middle" font-size="12" fill="#66736d">填「外匯收支或</text>
+<text x="97" y="86" text-anchor="middle" font-size="12" fill="#66736d">交易申報書」</text>
+<line x1="192" y1="59" x2="212" y2="59" stroke="#66736d" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="216" y="26" width="186" height="66" rx="7" fill="#fff" stroke="#b66516" stroke-width="1.5"/>
+<text x="309" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="#17211d">單筆 100 萬美元(公司)</text>
+<text x="309" y="62" text-anchor="middle" font-size="12.5" font-weight="700" fill="#17211d">／50 萬美元(個人)</text>
+<text x="309" y="82" text-anchor="middle" font-size="12" fill="#66736d">還要檢附證明文件</text>
+<line x1="404" y1="59" x2="424" y2="59" stroke="#66736d" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="428" y="26" width="188" height="66" rx="7" fill="#fff" stroke="#b3453a" stroke-width="1.5"/>
+<text x="522" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="#17211d">年度 5000 萬美元(公司)</text>
+<text x="522" y="62" text-anchor="middle" font-size="12.5" font-weight="700" fill="#17211d">／500 萬美元(個人)</text>
+<text x="522" y="82" text-anchor="middle" font-size="12" fill="#66736d">超過須央行核准</text>
+<text x="310" y="115" text-anchor="middle" font-size="12" fill="#66736d">50 萬台幣先報備 → 大額要證明 → 超額要核准</text>
+</svg>
+</div>
+<p style="font-size:.83em;color:var(--mt)">⚠️ 這組數字<b>跨 12 年沒變過</b>，是題庫數字題的最大宗，可安心背。</p>
+
+<h3>推論 3：錢其實沒有飛過太平洋</h3>
+<div class="key">
+<b>最反直覺、也最該先懂的一點：</b>銀行之間沒有現金往來，只有<b>帳上加減＋電文指示</b>。
+你匯錢到美國，是台灣的銀行在美國開了戶（<b>存匯行</b>），發電文請對方扣款。
+</div>
+<div class="svgwrap">
+<svg width="640" height="150" viewBox="0 0 640 150" role="img" aria-label="匯出匯款流程">
+<defs><marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#087a73"/></marker></defs>
+<rect x="4" y="40" width="104" height="46" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="56" y="60" text-anchor="middle" font-size="12.5" font-weight="700">匯款人</text>
+<text x="56" y="76" text-anchor="middle" font-size="11" fill="#66736d">台灣</text>
+<line x1="110" y1="63" x2="146" y2="63" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
+<text x="128" y="55" text-anchor="middle" font-size="10" fill="#66736d">①錢+申報</text>
+<rect x="150" y="40" width="112" height="46" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.5"/>
+<text x="206" y="60" text-anchor="middle" font-size="12.5" font-weight="700">匯款行</text>
+<text x="206" y="76" text-anchor="middle" font-size="11" fill="#66736d">掣發賣匯水單</text>
+<line x1="264" y1="63" x2="306" y2="63" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
+<text x="285" y="55" text-anchor="middle" font-size="10" fill="#66736d">②電文</text>
+<rect x="310" y="40" width="118" height="46" rx="6" fill="#fff" stroke="#315f94" stroke-width="1.5"/>
+<text x="369" y="60" text-anchor="middle" font-size="12.5" font-weight="700">存匯行／中介行</text>
+<text x="369" y="76" text-anchor="middle" font-size="11" fill="#66736d">帳上扣款</text>
+<line x1="430" y1="63" x2="466" y2="63" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
+<rect x="470" y="40" width="104" height="46" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.5"/>
+<text x="522" y="60" text-anchor="middle" font-size="12.5" font-weight="700">解款行</text>
+<text x="522" y="76" text-anchor="middle" font-size="11" fill="#66736d">通知洽領</text>
+<line x1="576" y1="63" x2="612" y2="63" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
+<text x="620" y="67" text-anchor="middle" font-size="12.5" font-weight="700">受</text>
+<path d="M206,92 Q206,124 369,124 Q369,124 369,92" fill="none" stroke="#66736d" stroke-dasharray="4 3"/>
+<text x="288" y="139" text-anchor="middle" font-size="11" fill="#66736d">帳戶關係（我在你那裡有開戶）</text>
+</svg>
+</div>
+
+<div class="scroll"><table>
+<tr><th>名詞</th><th>白話</th><th>關鍵差別</th></tr>
+<tr><td><b>通匯行</b> Correspondent</td><td>「我們談好了，可互相認證電文」</td><td>有押碼/簽樣，<b>不一定有帳戶</b></td></tr>
+<tr><td><b>存匯行</b> Depository</td><td>「我在你那裡有開戶」</td><td>通匯行再進一步，<b>真的有錢放著</b></td></tr>
+<tr><td><b>押碼</b> Test Key</td><td>電文驗證碼</td><td>解款前必須核驗</td></tr>
+<tr><td><b>解款行</b></td><td>最後把錢交給受款人的銀行</td><td>近 5 屆考很兇（3→5→9 題）</td></tr>
+</table></div>
+
+<h3>三種匯款方式</h3>
+<div class="scroll"><table>
+<tr><th></th><th>電匯 T/T</th><th>信匯 M/T</th><th>票匯 D/D</th></tr>
+<tr><td>怎麼傳</td><td>SWIFT 電文</td><td>郵寄付款委託書</td><td>開匯票給匯款人</td></tr>
+<tr><td>誰拿著</td><td>銀行對銀行</td><td>銀行對銀行</td><td><b>匯款人自己拿去</b></td></tr>
+<tr><td>驗什麼</td><td><b>押碼</b></td><td><b>簽樣</b></td><td>匯票簽章</td></tr>
+</table></div>
+<div class="ok"><b>🔑 票匯的本質是「光票託收行為」</b>——匯票是票據不是電文。高頻考點。</div>
+
+<!-- ============ 進出口 ============ -->
+<h2 id="trade">三、進出口外匯：解決互不信任</h2>
+
+<div class="key">
+國內交易可以銀貨兩訖，跨國隔著海洋、時間與法律做不到。於是有<b>兩個恐懼</b>：<br>
+出口商怕「貨出去了收不到錢」／進口商怕「錢付了收不到貨」。<br>
+<b>整科 80 題，都在處理這一個問題。</b>不同付款方式＝把風險分配給不同的人。
+</div>
+
+<h3>付款方式風險光譜（整科骨架）</h3>
+<div class="svgwrap">
+<svg width="640" height="128" viewBox="0 0 640 128" role="img" aria-label="付款方式風險光譜">
+<defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#f4c9c4"/><stop offset="1" stop-color="#cfe0bf"/></linearGradient></defs>
+<rect x="10" y="30" width="620" height="30" rx="15" fill="url(#g1)"/>
+<text x="70" y="50" text-anchor="middle" font-size="12.5" font-weight="700">預付款</text>
+<text x="192" y="50" text-anchor="middle" font-size="12.5" font-weight="700">信用狀 L/C</text>
+<text x="320" y="50" text-anchor="middle" font-size="12.5" font-weight="700">D/P</text>
+<text x="435" y="50" text-anchor="middle" font-size="12.5" font-weight="700">D/A</text>
+<text x="565" y="50" text-anchor="middle" font-size="12.5" font-weight="700">O/A 記帳</text>
+<text x="70" y="80" text-anchor="middle" font-size="11" fill="#b3453a">進口商全險</text>
+<text x="192" y="80" text-anchor="middle" font-size="11" fill="#607243">雙方都安全</text>
+<text x="320" y="80" text-anchor="middle" font-size="11" fill="#66736d">付錢才給單</text>
+<text x="435" y="80" text-anchor="middle" font-size="11" fill="#66736d">承兌就給單</text>
+<text x="565" y="80" text-anchor="middle" font-size="11" fill="#b3453a">出口商全險</text>
+<line x1="70" y1="98" x2="600" y2="98" stroke="#66736d" stroke-width="1"/>
+<text x="320" y="116" text-anchor="middle" font-size="12" fill="#66736d">越往右，出口商越危險，銀行責任越輕</text>
+</svg>
+</div>
+
+<div class="ok">
+這張圖直接解釋兩個高頻考點：<br>
+· <b>D/A 與 O/A 才需要 Factoring</b>（應收帳款承購）——因為出口商風險最大，才要把帳款賣掉<br>
+· <b>Forfaiting 買的是遠期信用狀</b>（Seller's Usance L/C）——那是有銀行信用的債權
+</div>
+
+<h3>信用狀的本質</h3>
+<div class="key">
+進口商說「我一定付錢」→ 出口商不信。換成<b>開狀銀行</b>說「我一定付錢」→ 出口商信了。<br>
+<b>這就是信用狀的全部：用銀行信用取代商業信用。</b>
+</div>
+
+<div class="svgwrap">
+<svg width="660" height="300" viewBox="0 0 660 300" role="img" aria-label="信用狀流程">
+<defs><marker id="a3" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#087a73"/></marker></defs>
+<rect x="6" y="8" width="120" height="34" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="66" y="30" text-anchor="middle" font-size="12" font-weight="700">進口商 申請人</text>
+<rect x="176" y="8" width="120" height="34" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.5"/>
+<text x="236" y="30" text-anchor="middle" font-size="12" font-weight="700">開狀銀行</text>
+<rect x="356" y="8" width="120" height="34" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="416" y="30" text-anchor="middle" font-size="12" font-weight="700">通知銀行</text>
+<rect x="526" y="8" width="126" height="34" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="589" y="30" text-anchor="middle" font-size="12" font-weight="700">出口商 受益人</text>
+
+<line x1="126" y1="25" x2="172" y2="25" stroke="#087a73" stroke-width="1.4" marker-end="url(#a3)"/>
+<text x="149" y="18" text-anchor="middle" font-size="10" fill="#66736d">①申請</text>
+<line x1="296" y1="25" x2="352" y2="25" stroke="#087a73" stroke-width="1.4" marker-end="url(#a3)"/>
+<text x="324" y="18" text-anchor="middle" font-size="10" fill="#66736d">②MT700</text>
+<line x1="476" y1="25" x2="522" y2="25" stroke="#087a73" stroke-width="1.4" marker-end="url(#a3)"/>
+<text x="499" y="18" text-anchor="middle" font-size="10" fill="#66736d">③通知</text>
+
+<text x="416" y="62" text-anchor="middle" font-size="11" fill="#b3453a">通知行只驗真偽，不負兌付</text>
+
+<rect x="526" y="84" width="126" height="34" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="589" y="106" text-anchor="middle" font-size="12">④出貨・取得單據</text>
+<line x1="589" y1="42" x2="589" y2="80" stroke="#087a73" stroke-width="1.4" marker-end="url(#a3)"/>
+
+<rect x="330" y="150" width="146" height="34" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.5"/>
+<text x="403" y="172" text-anchor="middle" font-size="12" font-weight="700">押匯銀行</text>
+<line x1="560" y1="118" x2="450" y2="146" stroke="#087a73" stroke-width="1.4" marker-end="url(#a3)"/>
+<text x="520" y="140" text-anchor="middle" font-size="10" fill="#66736d">⑤提示單據</text>
+<line x1="450" y1="188" x2="560" y2="160" stroke="#087a73" stroke-width="1.4" marker-end="url(#a3)"/>
+<text x="524" y="198" text-anchor="middle" font-size="10" fill="#b3453a">⑥墊款（有追索權！）</text>
+
+<line x1="330" y1="167" x2="250" y2="60" stroke="#087a73" stroke-width="1.4" marker-end="url(#a3)"/>
+<text x="270" y="120" text-anchor="middle" font-size="10" fill="#66736d">⑦寄單求償</text>
+<text x="236" y="80" text-anchor="middle" font-size="10.5" fill="#b3453a">⑧審單 5 個銀行營業日</text>
+
+<rect x="150" y="150" width="146" height="34" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="223" y="172" text-anchor="middle" font-size="12">⑨開狀行付款</text>
+<line x1="326" y1="167" x2="300" y2="167" stroke="#087a73" stroke-width="1.4" marker-end="url(#a3)"/>
+
+<rect x="150" y="216" width="146" height="34" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="223" y="238" text-anchor="middle" font-size="12">⑩⑪進口商贖單提貨</text>
+<line x1="223" y1="184" x2="223" y2="212" stroke="#087a73" stroke-width="1.4" marker-end="url(#a3)"/>
+
+<text x="330" y="278" text-anchor="middle" font-size="11.5" fill="#66736d">提單日後 21 曆日內提示，且不逾信用狀有效期</text>
+</svg>
+</div>
+
+<h3>兩大原理（解釋 90% 的 UCP600 考題）</h3>
+<div class="key">
+<b>① 獨立性</b>：信用狀與買賣契約<b>完全分離</b>。銀行不管貨有沒有問題、契約有沒有糾紛。<br>
+→ 進口商說「他貨送錯了，別付錢」，銀行<b>不理你</b>，單據相符就得付。<br><br>
+<b>② 文義性（單據交易）</b>：銀行只審<b>單據表面</b>，不看貨物。<br>
+→ 單據寫 100 台冷氣、實際送 100 塊磚頭，銀行<b>照付</b>；單據少一個字母，銀行<b>可以拒付</b>。
+</div>
+<p><b>考試遇到「銀行要不要負責」的題目，先套這兩條，幾乎都能推出答案。</b></p>
+
+<h3>各角色的責任（必考對照）</h3>
+<div class="scroll"><table>
+<tr><th>角色</th><th>負不負付款責任</th><th>記法</th></tr>
+<tr><td>開狀銀行 Issuing</td><td><b>負最終責任</b></td><td>老闆</td></tr>
+<tr><td><b>保兌銀行 Confirming</b></td><td><b>負最終責任</b>（與開狀行同等、獨立）</td><td><b>第二個老闆</b></td></tr>
+<tr><td>通知銀行 Advising</td><td><b>不負</b>，只驗真偽</td><td>郵差</td></tr>
+<tr><td>押匯銀行 Negotiating</td><td><b>不負</b>，是墊款、<b>有追索權</b></td><td>借錢給你的人</td></tr>
+<tr><td>補償銀行 Reimbursing</td><td><b>不負</b>，代開狀行付錢</td><td>出納</td></tr>
+</table></div>
+
+<h3>法源：這些不是法律，是「慣例」</h3>
+<div class="warn">
+<b>⚠️ UCP600 沒有國家強制力。</b>它是國際商會（ICC）訂的規則，<b>必須在信用狀上載明適用才有拘束力</b>。
+</div>
+<div class="scroll"><table>
+<tr><th>規則</th><th>管什麼</th><th class="n">題庫題數</th></tr>
+<tr><td><b>UCP600</b>（2007）</td><td>信用狀 — 主角</td><td class="n">411</td></tr>
+<tr><td><b>URC522</b>（1996）</td><td>託收（D/P、D/A），沒有信用狀時用</td><td class="n">154</td></tr>
+<tr><td><b>ISBP 821</b></td><td>審單細節 — UCP600 的「施行細則」</td><td class="n">51</td></tr>
+<tr><td><b>ISP98</b></td><td>擔保信用狀 Standby</td><td class="n">50</td></tr>
+<tr><td><b>Incoterms 2020</b></td><td><b>風險與費用的分界點</b>，⚠️ 完全不管付款</td><td class="n">54</td></tr>
+<tr><td><b>eUCP 2.1</b></td><td>電子單據提示，要搭配 UCP 一起用</td><td class="n">32</td></tr>
+<tr><td><b>URDG758</b></td><td>見索即付保證（保證函 L/G）</td><td class="n">26</td></tr>
+</table></div>
+<div class="warn"><b>Incoterms 最常被誤解：</b>FOB、CIF 這些<b>不是付款條件</b>，是「運費誰付、風險哪裡移轉、通關誰辦」。考題常拿這點設陷阱。</div>
+
+<!-- ============ 排行榜 ============ -->
+<h2 id="rank">四、必背觀念排行榜</h2>
+<p>依 25 屆同一題族出現次數排序。時間不夠時，從第 1 名往下讀。</p>
+
+<h3 style="color:var(--tx);font-size:1.05em;margin-top:20px">進出口外匯（80 題／需對 56）</h3>
+
+<div class="rank"><i class="g">58 次</i><h3>信用狀之保兌</h3><em>幾乎每屆必考</em></div>
+<div class="card">
+<p style="margin-bottom:8px">整份題庫的王者，單一考點佔 25 屆總題數約 3%。47 屆仍考 3 題。</p>
+<ul style="margin-bottom:0">
+<li>保兌銀行負<b>最終兌付責任</b>，與開狀銀行<b>各自獨立、責任相同</b>（不是保證人，是第二個付款人）</li>
+<li>通知銀行只驗<b>外觀真實性</b>，<b>不負兌付</b></li>
+<li>🔑 <b>修改書必須經保兌行「延伸保兌」才對它生效</b>；未延伸者，<b>保兌行不受該修改拘束</b>（47 屆考這句）</li>
+<li>保兌行<b>得拒絕</b>開狀行的保兌授權，但須<b>儘速通知</b>開狀行</li>
+<li>保兌是應開狀行「授權或委託」而為，<b>不是</b>受益人可單方要求</li>
+</ul>
+</div>
+
+<div class="rank"><i>16 次</i><h3>URC522 託收規則</h3></div>
+<div class="card"><ul style="margin-bottom:0">
+<li>🔑 銀行在託收下只是<b>單據傳遞者</b>：對貨物、對第三者之作為不負責，<b>但採取保全貨物行動時須儘速通知託收銀行</b></li>
+<li>託收銀行＝<b>REMITTING BANK</b>；代收銀行＝COLLECTING；提示銀行＝PRESENTING</li>
+<li>提示銀行通知拒付／拒絕承兌後，<b>60 日</b>內未接獲指示，得將單據退回</li>
+<li>託收指示載明<b>利息／費用不得拋棄</b>時，付款人拒付該費用 → <b>提示銀行不得交單</b></li>
+<li>PROTEST＝<b>拒絕證書</b></li>
+</ul></div>
+
+<div class="rank"><i>10 次</i><h3>可轉讓信用狀</h3></div>
+<div class="card"><ul style="margin-bottom:0">
+<li>信用狀<b>只能轉讓一次</b>（第二受益人不得再轉讓，但可轉回第一受益人）</li>
+<li>🔑 <b>各第二受益人對修改書的接受與否互相獨立</b>——「一個拒絕＝全體拒絕」是<b>錯的</b>（47 屆考這句）</li>
+<li>須載明 TRANSFERABLE；轉讓可減金額、減單價、縮短有效期與提示期、<b>提高</b>投保成數</li>
+</ul></div>
+
+<div class="rank"><i>8 次</i><h3>商業發票</h3></div>
+<div class="card"><ul style="margin-bottom:0">
+<li>🔑 <b>不須經受益人簽署</b>（除非信用狀另有要求）——最常考的陷阱</li>
+<li>🔑 <b>貨物說明必須與信用狀相符合</b>（其他單據只要不牴觸即可，只有商業發票要「相符」）</li>
+</ul></div>
+
+<div class="scroll"><table>
+<tr><th class="n">次數</th><th>考點</th><th>關鍵結論</th></tr>
+<tr><td class="n">7</td><td>出口外幣貸款</td><td>出口<b>後</b>之出口外幣貸款<b>不得</b>兌換為新臺幣（出口前可）</td></tr>
+<tr><td class="n">6</td><td>出口押匯拒付</td><td>押匯具<b>追索權</b>，得依「保結書」請出口商償還</td></tr>
+<tr><td class="n">6</td><td>O/A 記帳</td><td>單據直接寄買方、到期再匯款；O/A 與 D/A 都可承作 Factoring</td></tr>
+<tr><td class="n">6</td><td>進口託收匯率風險</td><td>代收行未掛牌之幣別，風險由<b>付款人（進口商）</b>承擔</td></tr>
+<tr><td class="n">6</td><td>保險單據</td><td><b>Cover Note 銀行不接受</b>；至少投保 CIF/CIP 的 <b>110%</b>；生效日不得晚於裝運日</td></tr>
+<tr><td class="n">5×2</td><td>運送單據性質</td><td><b>海運提單 B/L 是物權證書；空運提單 AWB 不是</b>——這組互換出題</td></tr>
+<tr><td class="n">5</td><td>裝運期間用語</td><td><b>AFTER 不包括</b>所提及之期日（BEFORE 亦不含；TO／UNTIL／TILL／FROM 則包括）</td></tr>
+<tr><td class="n">5</td><td>Factoring 當事人</td><td>Single-Factor <b>無</b>「進口帳款承購商」（那是 Two-Factor）</td></tr>
+<tr><td class="n">5</td><td>ISBP 包裝單</td><td>要求 Packing List 卻<b>無包裝資訊</b>者不可接受</td></tr>
+<tr><td class="n">5</td><td>URDG758 審單</td><td><b>5 個營業日</b>（與 UCP600 相同）</td></tr>
+<tr><td class="n">4</td><td>Standby L/C</td><td>用途為<b>保證</b>，備而不用</td></tr>
+<tr><td class="n">4</td><td>Forfaiting 標的</td><td><b>Seller's Usance L/C</b></td></tr>
+<tr><td class="n">4</td><td>Avalized draft</td><td>代收行與進口商無授信往來時，應<b>請託收行取消該指示後始承作</b></td></tr>
+<tr><td class="n">4</td><td>非瑕疵情形</td><td>提單 shipper 為受益人以外第三者，<b>不算瑕疵</b></td></tr>
+<tr><td class="n">4</td><td>Incoterms 2020 CPT</td><td>多運送人未約定交貨地 → 風險於<b>交付第一運送人</b>時移轉</td></tr>
+</table></div>
+
+<h3 style="color:var(--tx);font-size:1.05em;margin-top:26px">國外匯兌（50 題／需對 35）</h3>
+
+<div class="rank"><i class="g">12 次</i><h3>換匯交易 SWAP</h3></div>
+<div class="card"><ul style="margin-bottom:0">
+<li>🔑 可規避<b>匯率</b>風險，<b>不能</b>規避<b>利率</b>風險（最常考的陷阱）</li>
+<li>兩個兌換匯率之價差＝<b>換匯點</b>；保證金由承作銀行與客戶<b>議定</b></li>
+</ul></div>
+
+<div class="rank"><i>11 次</i><h3>DBU 辦理外匯存款</h3></div>
+<div class="card"><ul style="margin-bottom:0">
+<li>🔑 <b>不得</b>以「支票存款」辦理；<b>得</b>以「可轉讓定期存單」辦理</li>
+<li>得以<b>外匯綜合存款</b>方式為之；實際繳存之<b>準備金不予計息</b></li>
+</ul></div>
+
+<div class="rank"><i>11 次</i><h3>外幣收兌處管理辦法</h3></div>
+<div class="card"><ul style="margin-bottom:0">
+<li>🔑 執照由<b>臺灣銀行</b>發給（⚠️ 非中央銀行——最常考的錯誤選項）</li>
+<li>每季終了次月 <b>15 日</b>前向臺灣銀行列報；憑證至少保存 <b>5 年</b></li>
+<li>⚠️ 每筆收兌上限 <b>3 千美元</b>（2022 年由 1 萬調降，舊題答案作廢）</li>
+</ul></div>
+
+<div class="scroll"><table>
+<tr><th class="n">次數</th><th>考點</th><th>關鍵結論</th></tr>
+<tr><td class="n">6</td><td>自然人匯人民幣至大陸</td><td>匯款每日<b>人民幣 8 萬</b>（⚠️陷阱寫「新臺幣八萬」＝錯）；換匯每日 2 萬人民幣；非自然人現鈔<b>無限額</b></td></tr>
+<tr><td class="n">5×2</td><td>NDF 無本金交割</td><td>🔑 <b>國內銀行對其國內客戶不得承作</b>（送分題）</td></tr>
+<tr><td class="n">5</td><td>結購外匯匯出發什麼單</td><td><b>賣匯水單</b>（答案穩定＝送分）</td></tr>
+<tr><td class="n">4</td><td>光票抬頭 care of</td><td>Lily c/o Mary → <b>不得</b>存入 Mary 帳內</td></tr>
+<tr><td class="n">4</td><td>SWIFT 電文結尾 PDE</td><td>避免<b>重複付款</b>（Possible Duplicate Emission）</td></tr>
+<tr><td class="n">4</td><td>申報書金額填錯</td><td><b>重新填寫</b>申報書（不得塗改）</td></tr>
+<tr><td class="n">4</td><td>加拿大清算碼 CC code</td><td><b>九碼</b></td></tr>
+<tr><td class="n">4</td><td>陸資銀行認定</td><td>陸資直接或間接持股超過 <b>30%</b></td></tr>
+<tr><td class="n">4</td><td>匯入款名稱／帳號不符</td><td>請受款人通知<b>匯款人</b>辦理更正</td></tr>
+<tr><td class="n">4</td><td>制裁國家</td><td>敘利亞等不得經<b>美系銀行</b>清算轉匯</td></tr>
+<tr><td class="n">4</td><td>外匯定存單質借質押</td><td>兩者<b>皆可</b>；不得以<b>第三者</b>定存單質借</td></tr>
+<tr><td class="n">4</td><td>跨行通匯核對責任</td><td>帳號戶名由<b>設帳銀行</b>負責核對</td></tr>
+<tr><td class="n">4</td><td>申報書委託他人辦理</td><td>由<b>委託人</b>負申報責任</td></tr>
+<tr><td class="n">4</td><td>匯票提示查核</td><td>匯票<b>須</b>背書（「不得背書」是錯誤敘述）</td></tr>
+<tr><td class="n">4</td><td>CASH LETTER</td><td>特點是<b>可全額入帳</b></td></tr>
+</table></div>
+
+<!-- ============ ISO 20022 ============ -->
+<h2 id="iso">五、ISO 20022 新制（匯兌科 12 分）</h2>
+<div class="key">
+<b>CP 值最高的一節。</b>47 屆匯兌 50 題中有 <b>6 題是 MX 新電文＝12 分</b>，進出口科 0 題。
+內容只有一張表，卻能補上匯兌科覆蓋率的缺口。
+</div>
+
+<div class="ok">
+<b>一句話記住整套：</b>客戶匯款 <code>pacs.008</code>，銀行匯款 <code>pacs.009</code>，加 (cov) 是補位，<b>錢的事 pacs、帳與費的事 camt</b>。<br>
+<span style="font-size:.92em">pacs = Payments Clearing and Settlement → <b>錢在動</b>　·　camt = Cash Management → <b>對帳、收費、票據通知</b></span>
+</div>
+
+<div class="scroll"><table>
+<tr><th>舊 MT</th><th>新 MX</th><th>用途</th></tr>
+<tr><td>MT103</td><td><b>pacs.008</b></td><td>客戶匯款（非銀行客戶電匯）</td></tr>
+<tr><td>MT202</td><td><b>pacs.009</b></td><td>銀行間匯款（開狀行付押匯行、代收行付託收行）</td></tr>
+<tr><td>MT202COV</td><td><b>pacs.009(cov)</b></td><td>補償／掩護付款，跟 pacs.008 <b>成對</b>拍發</td></tr>
+<tr><td>MT191／291</td><td><b>camt.106</b></td><td><b>請求</b>付費（洽收手續費用它）</td></tr>
+<tr><td>MT290／990</td><td>camt.105</td><td>費用<b>通知</b></td></tr>
+<tr><td>MT110</td><td>camt.107</td><td>票據提示通知（票匯 D/D 用，<b>不是電匯</b>）</td></tr>
+<tr><td>MT111</td><td>camt.108</td><td>票據止付／撤銷</td></tr>
+<tr><td>MT940／950</td><td>camt.053</td><td>帳戶對帳單</td></tr>
+<tr><td>MT900／910</td><td>camt.054</td><td>借記／貸記通知</td></tr>
+</table></div>
+
+<div class="warn">
+<b>兩組最容易混：</b><br>
+· <code>camt.106</code> 是「<b>請求</b>付費」（我要跟你收錢）、<code>camt.105</code> 是「費用<b>通知</b>」（告訴你收了）<br>
+· <code>camt.107/108</code> 是<b>票據</b>類，電匯題出現它們一律是<b>誘答</b>
+</div>
+
+<h3>考場 3 秒決策</h3>
+<div class="card" style="font-size:.86em">
+① 是<b>信用狀</b>的事？ → 還是 MT700/707/740（未遷移）<br>
+② 是<b>票據／票匯</b>的事？ → camt.107/108/109<br>
+③ 是<b>手續費／對帳單</b>的事？ → camt.106（請求收費）／105（通知）／053（對帳單）<br>
+④ <b>錢在動</b> → 非銀行客戶 <b>pacs.008</b>／銀行自己 <b>pacs.009</b>／兩條線並行 <b>pacs.008 + pacs.009(cov)</b>
+</div>
+
+<div class="ok" style="font-size:.84em">
+<b>額外送分小知識：</b><code>IntrBkSttlmDt</code> ＝ Interbank Settlement Date ＝<b>銀行間清算日</b>。
+收到電文 ≠ 有錢，受款人可領款日<b>以清算日為準</b>。
+</div>
+
+<!-- ============ 法規警報 ============ -->
+<h2 id="law">六、法規時效警報</h2>
+<p>題庫橫跨 12 年，部分舊題答案已被修法作廢。刷到 ⚠️ 標記的題，<b>只讀觀念不記答案</b>。</p>
+
+<div class="warn">
+<b>🔴 已確認過時</b>
+<ul style="margin-bottom:0">
+<li><b>外幣收兌處每筆上限：1 萬美元 → 3 千美元</b>（2022 年修正）</li>
+<li><b>Incoterms 2010 → 2020</b>：<code>DAT</code> 改名 <code>DPU</code>；<b>CIP 最低投保提高為 ICC(A)</b>（CIF 維持 ICC(C)）。條規仍是 11 種未變</li>
+<li><b>SWIFT MT → ISO 20022 MX</b>（2025-11-03 起適用）</li>
+</ul>
+</div>
+
+<div class="card" style="font-size:.86em">
+<b>🟡 近期修法，影響有限</b><br>
+銀行業辦理外匯業務管理辦法於 <b>2025-07-15</b> 修正 13 條，簡化自動化服務設備、後勤委外、外匯金融債券的<b>申辦程序</b> → 45 屆以前的相關程序題須存疑。
+</div>
+
+<div class="ok">
+<b>🟢 已查證未變，安心背</b>
+<ul style="margin-bottom:0">
+<li><b>外匯申報辦法數字全部沒變</b>：50 萬台幣／100 萬・50 萬美元／5000 萬・500 萬美元</li>
+<li><b>人民幣匯大陸</b>：每日匯款 8 萬、換匯 2 萬人民幣</li>
+<li><b>ICC 規則除 Incoterms 外全未改版</b> → <b>UCP600 那 411 題答案全部可信</b>，這是進出口科能穩過的根本原因</li>
+<li>旅客攜帶外幣現鈔逾等值 <b>1 萬美元</b>應向海關申報</li>
+</ul>
+</div>
+
+<!-- ============ 猜題卡 ============ -->
+<h2 id="guess">七、猜題決策卡</h2>
+<p>13 種選項訊號 × 3 種題型 × 2 科，推導組 23–44 屆 → 驗證組 45–47 屆，兩關都過才採用。</p>
+
+<div class="ok">
+<b>✅ 唯一實用規則：進出口科不會的題 → 猜最長選項（36.7%）</b><br>
+<span style="font-size:.92em">國外匯兌科 13 種訊號<b>全部沒過</b>（26.9%＝亂猜），不會就純猜，別浪費時間找訊號。</span>
+</div>
+
+<div class="warn">
+<b>兩個要丟掉的常見技巧</b>
+<ul style="margin-bottom:0">
+<li><b>「看到一律／必須就刪」不成立</b>——含絕對詞的選項驗證組命中率反而<b>略高</b>（40.9%）</li>
+<li><b>「以上皆是」完全無用</b>——3221 題中<b>零出現</b>這種選項</li>
+</ul>
+<b>位置規律也不能用</b>：電腦應試選項會重排，不要依賴代號。
+</div>
+
+<h3>考場三輪作答法</h3>
+<ol>
+<li><b>第一輪</b>：只寫確定的題，不猶豫，把送分題全部收下</li>
+<li><b>第二輪</b>：處理二選一——<b>圈主詞</b>（開狀行？通知行？押匯行？保兌行？）·
+<b>切時點</b>（出口前後／裝運前後／修改前後）· <b>套效果</b>（不負責／不受拘束／須通知／得拒絕）·
+<b>看正反</b>（何者正確 vs 何者錯誤）</li>
+<li><b>第三輪</b>：才用猜題規則。進出口猜最長；匯兌純猜</li>
+<li><b>一題不留空白</b>——單選不倒扣</li>
+</ol>
+
+<div class="card" style="font-size:.86em">
+<b>時間其實寬裕</b>：匯兌 72 秒／題、進出口 67 秒／題。<br>
+<b>第二輪比猜題划算得多</b>——猜題只能把 25% 拉到 36%（15 題全不會時只多對 1.8 題＝2.2 分），
+第二輪的二選一卻能拉到 50% 以上。<b>猜題是救援網，不是及格計畫。</b>
+</div>
+
+<!-- ============ 名詞 ============ -->
+<h2 id="jargon">八、生硬名詞白話對照</h2>
+<div class="scroll"><table>
+<tr><th>名詞</th><th>白話</th><th>具體案例</th></tr>
+<tr><td><b>押匯</b></td><td>拿單據跟銀行<b>借錢</b>（不是賣斷）</td><td>出貨後不想等 30 天，拿提單去銀行先領 90%。<b>銀行收不到會來找你要回去</b></td></tr>
+<tr><td><b>擔保提貨 L/G</b></td><td>貨到了單據還沒到，銀行擔保讓你先提貨</td><td>高雄到上海 2 天，單據郵寄 5 天，貨在港口每天燒倉租</td></tr>
+<tr><td><b>副提單背書</b></td><td>同上，但用進口商手上的提單副本</td><td>出口商直接寄一份提單給進口商，銀行背書即可提貨</td></tr>
+<tr><td><b>光票 Clean Bill</b></td><td><b>沒有附貨運單據</b>的票據</td><td>收到一張美國銀行支票，沒有提單發票 → 拿去託收或買入</td></tr>
+<tr><td><b>CASH LETTER</b></td><td>一整批光票包成一封寄去收款</td><td>特點是<b>可全額入帳</b>（不逐筆扣費）</td></tr>
+<tr><td><b>保結書</b></td><td>「單據有瑕疵我認了，被拒付我還錢」的切結</td><td>押匯時有小瑕疵，銀行說「簽這個我就照押」</td></tr>
+<tr><td><b>轉押匯</b></td><td>押匯行不是指定銀行，得透過指定銀行求償</td><td>L/C 限押 A 銀行，但出口商往來的是 B 銀行</td></tr>
+<tr><td><b>NDF</b></td><td>只結算<b>差額</b>，不真的交換本金</td><td>約定 1 個月後 32，到期市價 32.5 → 只付 0.5 差額</td></tr>
+<tr><td><b>換匯交易 SWAP</b></td><td>現在換回來、未來換回去，兩筆綁一起</td><td>鎖<b>匯率</b>風險，⚠️<b>不能</b>鎖利率風險</td></tr>
+<tr><td><b>Forfaiting</b></td><td>把遠期信用狀債權<b>無追索權</b>賣掉</td><td>拿 180 天遠期 L/C 折價賣斷，<b>賣掉就跟你無關</b></td></tr>
+<tr><td><b>Factoring</b></td><td>把 D/A、O/A 的應收帳款賣給承購商</td><td>沒有 L/C 的交易，靠承購商查買方信用並承擔倒帳風險</td></tr>
+<tr><td><b>Standby L/C</b></td><td>長得像信用狀，用途是<b>保證</b></td><td>「我沒履約，你可憑這張跟銀行要錢」——備而不用</td></tr>
+</table></div>
+
+<div class="foot">
+資料來源：台灣金融研訓院第 23–47 屆歷屆試題（3221 題）· 整理日 2026-08-15<br>
+試題著作權屬台灣金融研訓院<br>
+<a href="drill.html">認題衝刺</a>　·　<a href="analysis.html">題庫分析</a>　·　<a href="../index.html">回考試總覽</a>
+</div>
+
+</div>
+</body>
+</html>
