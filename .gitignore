@@ -5,6 +5,9 @@
 *.pdf
 *.txt
 
+# 例外：網頁執行時需載入的資料
+!fx/deck.json
+
 # Old/intermediate HTML with Chinese filenames
 證券高業_*.html
 exam_analysis.html

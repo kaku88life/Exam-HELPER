@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>初階外匯 認題衝刺</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:640px;margin:0 auto;padding:12px}
+
+header{position:sticky;top:0;background:var(--bg);z-index:20;padding:8px 0 10px;border-bottom:1px solid var(--cd)}
+.topbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.topbar h1{font-size:1em;font-weight:800;flex:1;min-width:110px}
+.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:6px;padding:5px 10px;font-size:.78em;cursor:pointer;font-family:inherit}
+.btn:active{transform:scale(.97)}
+.btn.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+select{border:1px solid var(--cd);background:var(--sf);border-radius:6px;padding:5px 8px;font-size:.78em;font-family:inherit;max-width:100%}
+
+.bar{height:5px;background:var(--cd);border-radius:99px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--cy);width:0;transition:width .2s}
+.meta{display:flex;justify-content:space-between;font-size:.72em;color:var(--mt);margin-top:5px}
+
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:16px;margin-top:12px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;font-size:.68em}
+.tag{padding:2px 8px;border-radius:4px;background:rgba(8,122,115,.12);color:var(--cy);font-weight:700}
+.tag.hot{background:rgba(182,101,22,.15);color:var(--yw)}
+.tag.src{background:var(--bg);color:var(--mt);font-weight:400}
+.stem{font-size:1.02em;font-weight:600;margin-bottom:14px}
+.opt{border:1px solid var(--cd);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:.92em;display:flex;gap:8px;cursor:pointer}
+.opt b{color:var(--mt);flex-shrink:0}
+.opt.ans{border-color:var(--gn);background:rgba(96,114,67,.1)}
+.opt.ans b{color:var(--gn)}
+.warn{border-left:3px solid var(--rd);background:rgba(179,69,58,.07);padding:8px 10px;border-radius:0 6px 6px 0;font-size:.78em;color:var(--rd);margin-bottom:10px}
+.hidden{display:none}
+
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.acts .btn{padding:13px;font-size:.92em;font-weight:700}
+.big{background:var(--cy);color:#fff;border-color:var(--cy)}
+.ok{background:var(--gn);color:#fff;border-color:var(--gn)}
+.no{background:var(--yw);color:#fff;border-color:var(--yw)}
+.full{grid-column:1/-1}
+
+.toc{margin-top:12px}
+.toc div{display:flex;justify-content:space-between;padding:7px 10px;border-bottom:1px solid var(--cd);font-size:.82em;cursor:pointer}
+.toc div:active{background:var(--sf)}
+.toc small{color:var(--mt)}
+.done{color:var(--gn);font-weight:700}
+.foot{text-align:center;font-size:.7em;color:var(--mt);margin:18px 0;line-height:1.8}
+a{color:var(--cy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="topbar">
+    <h1>初階外匯 認題衝刺</h1>
+    <select id="subj"></select>
+    <select id="topic"></select>
+    <button class="btn" id="mode">全部</button>
+    <button class="btn" id="tocBtn">目錄</button>
+  </div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="pos"></span><span id="stat"></span></div>
+</header>
+
+<div id="tocView" class="toc hidden"></div>
+
+<div id="quiz">
+  <div class="card">
+    <div class="tags" id="tags"></div>
+    <div id="warns"></div>
+    <div class="stem" id="stem">載入中…</div>
+    <div id="opts"></div>
+  </div>
+  <div class="acts">
+    <button class="btn big full" id="reveal">顯示答案（空白鍵）</button>
+    <button class="btn ok hidden" id="gotIt">懂了 →</button>
+    <button class="btn no hidden" id="mark">不懂・標記 →</button>
+    <button class="btn full hidden" id="prev">← 上一題</button>
+  </div>
+</div>
+
+<div class="foot">
+  1856 題（去重自第 23–47 屆共 3221 題）依考點分組排序<br>
+  配速目標 30 秒／題・進度自動存於本機瀏覽器<br><br>
+  題目為台灣金融研訓院公告之歷屆試題（第 23–47 屆），著作權屬該院，僅供個人備考練習<br>
+  <a href="https://www.tabf.org.tw/LicenseHistoryExam.aspx" target="_blank" rel="noopener">官方歷屆試題</a>　·
+  <a href="analysis.html">題庫分析</a>　·
+  <a href="../index.html">回考試總覽</a>
+</div>
+</div>
+
+<script>
+const KEY='fx-drill-v1';
+let DECK=null, subj='進出口外匯', topicSel='ALL', onlyUndone=false;
+let list=[], idx=0, shown=false;
+const state=JSON.parse(localStorage.getItem(KEY)||'{}'); // id -> 1 懂 / 2 不懂
+
+const $=s=>document.querySelector(s);
+const idOf=(s,i)=>s[0]+i;
+
+function build(){
+  const d=DECK[subj];
+  list=d.qs.map((q,i)=>({q,i})).filter(o=>topicSel==='ALL'||d.topics[o.q[0]]===topicSel);
+  if(onlyUndone) list=list.filter(o=>!state[idOf(subj,o.i)]);
+  if(list.length===0){onlyUndone=false;$('#mode').classList.remove('on');$('#mode').textContent='全部';build();return;}
+  idx=Math.min(idx,list.length-1);
+  render();
+}
+
+function render(){
+  const d=DECK[subj], o=list[idx]; if(!o)return;
+  const [t,cnt,src,stem,opts,ans,warns]=o.q;
+  shown=false;
+  $('#tags').innerHTML=
+    `<span class="tag">${d.topics[t]}</span>`+
+    (cnt>1?`<span class="tag hot">回鍋 ${cnt} 次</span>`:'')+
+    `<span class="tag src">${src}</span>`;
+  $('#warns').innerHTML=warns.map(w=>`<div class="warn">⚠️ ${w}</div>`).join('');
+  $('#stem').textContent=stem;
+  $('#opts').innerHTML=opts.map((v,i)=>
+    `<div class="opt" data-i="${i+1}"><b>(${i+1})</b><span>${v}</span></div>`).join('');
+  $('#opts').querySelectorAll('.opt').forEach(el=>el.onclick=reveal);
+  $('#reveal').classList.remove('hidden');
+  $('#gotIt').classList.add('hidden'); $('#mark').classList.add('hidden');
+  $('#prev').classList.toggle('hidden',idx===0);
+  const flag=state[idOf(subj,o.i)];
+  $('#pos').textContent=`${idx+1} / ${list.length}`+(flag===2?'　🔶已標記':flag===1?'　✅已懂':'');
+  const all=DECK[subj].qs.length;
+  let done=0,bad=0;
+  for(let i=0;i<all;i++){const f=state[idOf(subj,i)]; if(f===1)done++; if(f===2)bad++;}
+  $('#stat').textContent=`懂 ${done}／標記 ${bad}／共 ${all}`;
+  $('#bar').style.width=(done+bad)/all*100+'%';
+  window.scrollTo({top:0});
+}
+
+function reveal(){
+  if(shown)return; shown=true;
+  const ans=list[idx].q[5];
+  $('#opts').querySelectorAll('.opt').forEach(el=>{
+    if(+el.dataset.i===ans) el.classList.add('ans');
+  });
+  $('#reveal').classList.add('hidden');
+  $('#gotIt').classList.remove('hidden'); $('#mark').classList.remove('hidden');
+}
+
+function judge(v){
+  state[idOf(subj,list[idx].i)]=v;
+  localStorage.setItem(KEY,JSON.stringify(state));
+  if(idx<list.length-1){idx++;render();}
+  else{alert('這一組做完了！');build();}
+}
+
+$('#reveal').onclick=reveal;
+$('#gotIt').onclick=()=>judge(1);
+$('#mark').onclick=()=>judge(2);
+$('#prev').onclick=()=>{if(idx>0){idx--;render();}};
+$('#mode').onclick=e=>{onlyUndone=!onlyUndone;e.target.classList.toggle('on',onlyUndone);
+  e.target.textContent=onlyUndone?'只看未做':'全部';idx=0;build();};
+$('#tocBtn').onclick=()=>{
+  const v=$('#tocView'); v.classList.toggle('hidden'); $('#quiz').classList.toggle('hidden');
+  if(!v.classList.contains('hidden'))drawToc();
+};
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space'){e.preventDefault(); shown?judge(1):reveal();}
+  if(e.key==='ArrowRight'&&shown)judge(1);
+  if(e.key==='ArrowLeft'&&idx>0){idx--;render();}
+});
+
+function drawToc(){
+  const d=DECK[subj];
+  let html='',n=0;
+  d.topics.forEach(t=>{
+    const g=d.qs.map((q,i)=>({q,i})).filter(o=>d.topics[o.q[0]]===t);
+    const done=g.filter(o=>state[idOf(subj,o.i)]).length;
+    html+=`<div data-t="${t}"><span>${n+1}–${n+g.length}　${t}</span>
+      <small class="${done===g.length?'done':''}">${done}/${g.length}</small></div>`;
+    n+=g.length;
+  });
+  const v=$('#tocView'); v.innerHTML=html;
+  v.querySelectorAll('div[data-t]').forEach(el=>el.onclick=()=>{
+    topicSel=el.dataset.t; $('#topic').value=topicSel; idx=0; build();
+    v.classList.add('hidden'); $('#quiz').classList.remove('hidden');
+  });
+}
+
+function fillSelects(){
+  $('#subj').innerHTML=Object.keys(DECK).map(s=>
+    `<option${s===subj?' selected':''}>${s}</option>`).join('');
+  $('#topic').innerHTML='<option value="ALL">全部考點</option>'+
+    DECK[subj].topics.map(t=>`<option${t===topicSel?' selected':''}>${t}</option>`).join('');
+}
+$('#subj').onchange=e=>{subj=e.target.value;topicSel='ALL';idx=0;fillSelects();build();};
+$('#topic').onchange=e=>{topicSel=e.target.value;idx=0;build();};
+
+fetch('deck.json').then(r=>r.json()).then(d=>{DECK=d;fillSelects();build();})
+  .catch(e=>{$('#stem').textContent='deck.json 載入失敗：'+e;});
+</script>
+</body>
+</html>
