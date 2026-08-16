@@ -66,7 +66,7 @@ a{color:var(--cy)}
   <a href="#iso">ISO 20022</a>
   <a href="#law">法規警報</a>
   <a href="#guess">猜題卡</a>
-  <a href="#jargon">名詞白話</a>
+  <a href="#jargon">用語大辭典</a>
 </div></nav>
 
 <h1>初階外匯 衝刺筆記</h1>
@@ -100,15 +100,56 @@ a{color:var(--cy)}
 <b>整科 50 題，八成都是這句話推導出來的。</b>
 </div>
 
-<h3>推論 1：為什麼要「掣發水單」</h3>
-<p>水單＝央行統計外匯進出的憑證。判斷發哪種單只問一件事：<b>這筆交易有沒有動到新台幣？站在銀行角度是買還是賣？</b></p>
+<h3>推論 1：為什麼要「掣發」單證</h3>
+<p><span style="color:var(--mt)">（<b>掣發</b>＝開立、發給。銀行界的老派說法，看到就當「開一張給你」。）</span></p>
+<p>這些單證＝央行統計外匯進出的憑證。<b>題庫裡有 94 題在問「該掣發什麼」</b>，判斷只要兩層：</p>
+
+<div class="svgwrap">
+<svg width="660" height="212" viewBox="0 0 660 212" role="img" aria-label="掣發單證決策樹">
+<defs><marker id="a5" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#66736d"/></marker></defs>
+<rect x="196" y="8" width="268" height="34" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.6"/>
+<text x="330" y="30" text-anchor="middle" font-size="13" font-weight="700">這筆交易有沒有動到新臺幣？</text>
+
+<line x1="290" y1="42" x2="150" y2="70" stroke="#66736d" stroke-width="1.3" marker-end="url(#a5)"/>
+<text x="196" y="58" text-anchor="middle" font-size="11.5" fill="#b3453a" font-weight="700">沒有</text>
+<rect x="34" y="74" width="228" height="40" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="148" y="90" text-anchor="middle" font-size="12.5" font-weight="700">其他交易憑證</text>
+<text x="148" y="107" text-anchor="middle" font-size="11" fill="#66736d">例：用既有外匯存款直接匯出</text>
+
+<line x1="376" y1="42" x2="440" y2="70" stroke="#66736d" stroke-width="1.3" marker-end="url(#a5)"/>
+<text x="424" y="58" text-anchor="middle" font-size="11.5" fill="#607243" font-weight="700">有</text>
+<rect x="330" y="74" width="300" height="34" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.6"/>
+<text x="480" y="96" text-anchor="middle" font-size="12.5" font-weight="700">是「貨品進出口」的結匯嗎？</text>
+
+<line x1="410" y1="108" x2="300" y2="140" stroke="#66736d" stroke-width="1.3" marker-end="url(#a5)"/>
+<text x="336" y="126" text-anchor="middle" font-size="11.5" fill="#607243" font-weight="700">是</text>
+<rect x="150" y="144" width="228" height="56" rx="6" fill="#fff" stroke="#315f94" stroke-width="1.6"/>
+<text x="264" y="163" text-anchor="middle" font-size="12.5" font-weight="700">出口／進口 結匯證實書</text>
+<text x="264" y="180" text-anchor="middle" font-size="11" fill="#b3453a" font-weight="700">⚠️ 顧客免填申報書</text>
+<text x="264" y="194" text-anchor="middle" font-size="10.5" fill="#66736d">（有報關資料可查，不必再申報）</text>
+
+<line x1="550" y1="108" x2="550" y2="140" stroke="#66736d" stroke-width="1.3" marker-end="url(#a5)"/>
+<text x="586" y="128" text-anchor="middle" font-size="11.5" fill="#66736d" font-weight="700">不是</text>
+<rect x="396" y="144" width="248" height="56" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.6"/>
+<text x="520" y="163" text-anchor="middle" font-size="12.5" font-weight="700">買匯水單／賣匯水單</text>
+<text x="520" y="180" text-anchor="middle" font-size="11" fill="#66736d">一般匯款、勞務等無形交易</text>
+<text x="520" y="194" text-anchor="middle" font-size="10.5" fill="#66736d">顧客<b>要</b>填申報書</text>
+</svg>
+</div>
+
 <div class="scroll"><table>
-<tr><th>情境</th><th>銀行的動作</th><th>發什麼</th></tr>
-<tr><td>客戶拿新台幣<b>買</b>外匯匯出</td><td>銀行<b>賣</b>外匯</td><td><b>賣匯水單</b></td></tr>
-<tr><td>匯入外匯<b>賣</b>給銀行換新台幣</td><td>銀行<b>買</b>外匯</td><td><b>買匯水單</b></td></tr>
-<tr><td>用既有外匯存款匯出（沒動新台幣）</td><td>無買賣行為</td><td><b>其他交易憑證</b></td></tr>
+<tr><th>情境</th><th>站在銀行角度</th><th>掣發</th></tr>
+<tr><td>客戶拿新臺幣<b>結購</b>外匯匯出（一般匯款）</td><td>銀行<b>賣</b>外匯給客戶</td><td><b>賣匯水單</b></td></tr>
+<tr><td>匯入外匯<b>結售</b>換新臺幣（一般匯款）</td><td>銀行<b>買</b>進外匯</td><td><b>買匯水單</b></td></tr>
+<tr><td><b>出口</b>押匯所得外匯結售為新臺幣</td><td>貨品貿易</td><td><b>出口結匯證實書</b></td></tr>
+<tr><td>用既有外匯存款匯出（沒動新臺幣）</td><td>無買賣行為</td><td><b>其他交易憑證</b></td></tr>
 </table></div>
-<div class="ok"><b>🔑 記法：站在銀行角度看買賣，不是站在客戶角度。</b>這一條就解掉 5 次以上的高頻題。</div>
+
+<div class="ok">
+<b>🔑 兩個記法：</b><br>
+① <b>買賣站在銀行角度看</b>，不是客戶角度——客戶「結購」外匯＝銀行「賣」外匯＝<b>賣</b>匯水單。<br>
+② <b>有貨的走證實書，沒貨的走水單</b>，沒動新臺幣的走其他交易憑證。
+</div>
 
 <h3>推論 2：為什麼有申報書與額度</h3>
 <p>防止熱錢大進大出衝擊匯率，所以是三段式，金額越大管越嚴：</p>
@@ -647,21 +688,195 @@ D/A 之下，進口商簽個名就把貨提走了，出口商手上只有一張�
 </div>
 
 <!-- ============ 名詞 ============ -->
-<h2 id="jargon">八、生硬名詞白話對照</h2>
+<h2 id="jargon">八、銀行用語白話大辭典</h2>
+<p>下面的字全部按<b>題庫實際出現次數</b>排序（3221 題掃出來的），括號內是題數。
+先看「你以為」那一欄——這些字最大的問題是<b>字面意思會把你帶錯方向</b>。</p>
+
+<h3>A. 最容易誤解的動作用語</h3>
 <div class="scroll"><table>
-<tr><th>名詞</th><th>白話</th><th>具體案例</th></tr>
-<tr><td><b>押匯</b></td><td>拿單據跟銀行<b>借錢</b>（不是賣斷）</td><td>出貨後不想等 30 天，拿提單去銀行先領 90%。<b>銀行收不到會來找你要回去</b></td></tr>
-<tr><td><b>擔保提貨 L/G</b></td><td>貨到了單據還沒到，銀行擔保讓你先提貨</td><td>高雄到上海 2 天，單據郵寄 5 天，貨在港口每天燒倉租</td></tr>
-<tr><td><b>副提單背書</b></td><td>同上，但用進口商手上的提單副本</td><td>出口商直接寄一份提單給進口商，銀行背書即可提貨</td></tr>
-<tr><td><b>光票 Clean Bill</b></td><td><b>沒有附貨運單據</b>的票據</td><td>收到一張美國銀行支票，沒有提單發票 → 拿去託收或買入</td></tr>
-<tr><td><b>CASH LETTER</b></td><td>一整批光票包成一封寄去收款</td><td>特點是<b>可全額入帳</b>（不逐筆扣費）</td></tr>
-<tr><td><b>保結書</b></td><td>「單據有瑕疵我認了，被拒付我還錢」的切結</td><td>押匯時有小瑕疵，銀行說「簽這個我就照押」</td></tr>
-<tr><td><b>轉押匯</b></td><td>押匯行不是指定銀行，得透過指定銀行求償</td><td>L/C 限押 A 銀行，但出口商往來的是 B 銀行</td></tr>
-<tr><td><b>NDF</b></td><td>只結算<b>差額</b>，不真的交換本金</td><td>約定 1 個月後 32，到期市價 32.5 → 只付 0.5 差額</td></tr>
-<tr><td><b>換匯交易 SWAP</b></td><td>現在換回來、未來換回去，兩筆綁一起</td><td>鎖<b>匯率</b>風險，⚠️<b>不能</b>鎖利率風險</td></tr>
-<tr><td><b>Forfaiting</b></td><td>把遠期信用狀債權<b>無追索權</b>賣掉</td><td>拿 180 天遠期 L/C 折價賣斷，<b>賣掉就跟你無關</b></td></tr>
-<tr><td><b>Factoring</b></td><td>把 D/A、O/A 的應收帳款賣給承購商</td><td>沒有 L/C 的交易，靠承購商查買方信用並承擔倒帳風險</td></tr>
-<tr><td><b>Standby L/C</b></td><td>長得像信用狀，用途是<b>保證</b></td><td>「我沒履約，你可憑這張跟銀行要錢」——備而不用</td></tr>
+<tr><th>用語</th><th>字面上你以為</th><th>其實是</th><th>例句</th></tr>
+<tr><td><b>提示</b><br><span style="color:var(--mt);font-size:.9em">(448)</span></td>
+<td>給提示、給暗示</td>
+<td><b>把單據或匯票拿到銀行面前，要求付款或承兌</b><br>英文 Presentation</td>
+<td>「出口商向押匯行<b>提示</b>單據」＝把提單發票交過去請銀行處理</td></tr>
+
+<tr><td><b>掣發</b><br><span style="color:var(--mt);font-size:.9em">(94)</span></td>
+<td>牽引、拉扯？</td>
+<td><b>開立、發給</b>（銀行界老派用詞）</td>
+<td>「<b>掣發</b>賣匯水單」＝開一張賣匯水單給客戶</td></tr>
+
+<tr><td><b>解付／解款</b><br><span style="color:var(--mt);font-size:.9em">(60／123)</span></td>
+<td>解除付款？取消？</td>
+<td><b>把錢付給受款人</b>。<b>解款行</b>＝最後付錢那家銀行</td>
+<td>「<b>解付</b>匯入匯款」＝把國外匯進來的錢交給收款人</td></tr>
+
+<tr><td><b>讓購</b><br><span style="color:var(--mt);font-size:.9em">(73)</span></td>
+<td>讓給別人購買</td>
+<td><b>就是「押匯」的正式說法</b>。銀行「買下」你的匯票與單據，先把錢墊給你<br>英文 Negotiation</td>
+<td>UCP600 條文寫「讓購」，題目寫「押匯」，<b>同一件事</b></td></tr>
+
+<tr><td><b>求償</b><br><span style="color:var(--mt);font-size:.9em">(45)</span></td>
+<td>索賠、告人</td>
+<td><b>向對方要回我先墊出去的錢</b></td>
+<td>「押匯行向開狀行<b>求償</b>」＝我先付給出口商了，請把錢還我</td></tr>
+
+<tr><td><b>補償</b><br><span style="color:var(--mt);font-size:.9em">(99)</span></td>
+<td>賠償損失</td>
+<td><b>代替開狀行把錢付給押匯行</b>。<b>補償銀行</b>＝開狀行的出納</td>
+<td>開狀行說「錢在紐約那家，你去跟它拿」，那家就是補償行</td></tr>
+
+<tr><td><b>結購／結售</b><br><span style="color:var(--mt);font-size:.9em">(99／94)</span></td>
+<td>結束購買？</td>
+<td><b>站在「客戶」角度</b>：結購＝拿新臺幣<b>買</b>外匯；結售＝把外匯<b>賣</b>掉換新臺幣<br>⚠️ 但<b>水單的買賣是站銀行角度</b>，剛好相反</td>
+<td>客戶<b>結購</b>外匯 → 銀行是<b>賣</b>方 → 掣發<b>賣</b>匯水單</td></tr>
+
+<tr><td><b>承兌</b><br><span style="color:var(--mt);font-size:.9em">(153)</span></td>
+<td>承認、兌換</td>
+<td><b>在匯票上簽名，承諾「到期我會付」</b><br>英文 Acceptance</td>
+<td>D/A＝Documents against <b>Acceptance</b>＝簽個名就把單據給你</td></tr>
+
+<tr><td><b>背書</b><br><span style="color:var(--mt);font-size:.9em">(129)</span></td>
+<td>幫人掛保證</td>
+<td><b>在票據「背面」簽名，把權利轉給下一手</b>（字面就是「在背面書寫」）</td>
+<td>「副提單<b>背書</b>」＝銀行在提單背面簽名，讓進口商能提貨</td></tr>
+
+<tr><td><b>追索</b><br><span style="color:var(--mt);font-size:.9em">(53)</span></td>
+<td>追查、搜索</td>
+<td><b>銀行反過來跟你把錢要回去</b><br>「有追索權」＝出事我可以找你</td>
+<td>押匯<b>有</b>追索權；Forfaiting <b>無</b>追索權（賣掉就沒你的事）</td></tr>
+
+<tr><td><b>贖單</b><br><span style="color:var(--mt);font-size:.9em">(7)</span></td>
+<td>贖回罰單？</td>
+<td><b>進口商拿錢把單據「贖」回來</b>（跟當鋪贖東西一樣）</td>
+<td>單據在開狀行手上，付了錢才放給你去提貨</td></tr>
+
+<tr><td><b>保結</b><br><span style="color:var(--mt);font-size:.9em">(23)</span></td>
+<td>保住結果？</td>
+<td><b>簽切結書擔保</b>：「有問題我負責」</td>
+<td>單據有小瑕疵，出口商簽<b>保結書</b>，銀行才肯照押</td></tr>
+
+<tr><td><b>拋棄</b><br><span style="color:var(--mt);font-size:.9em">(13)</span></td>
+<td>丟掉</td>
+<td><b>放棄（收取利息或費用的權利）</b></td>
+<td>託收指示寫「費用不得<b>拋棄</b>」＝這筆費用一定要收到，不能算了</td></tr>
+
+<tr><td><b>洽收</b><br><span style="color:var(--mt);font-size:.9em">(7)</span></td>
+<td>洽談收購</td>
+<td><b>去跟對方請款</b></td>
+<td>「解款行向匯款行<b>洽收</b>手續費」→ 用 camt.106（請求付費）</td></tr>
+
+<tr><td><b>止付</b><br><span style="color:var(--mt);font-size:.9em">(11)</span></td>
+<td>停止支付</td>
+<td>就是字面意思：<b>叫對方別付了</b>（票據掛失時用）</td>
+<td>匯票掉了 → 通知付款行<b>止付</b> → 新制電文 camt.108</td></tr>
+
+<tr><td><b>質借／質押</b><br><span style="color:var(--mt);font-size:.9em">(19／18)</span></td>
+<td>質問、押人</td>
+<td>拿東西當<b>擔保品</b>去借錢。<b>質借</b>＝我拿我的存單借；<b>質押</b>＝拿存單擔保別的債務</td>
+<td>外匯定存單可質借也可質押，<b>但不能拿第三者的定存單質借</b></td></tr>
+</table></div>
+
+<h3>B. 角色一覽：誰是誰、負什麼責任</h3>
+<p>角色一換，答案全變——這是第二輪作答時「圈主詞」的依據。</p>
+
+<h4>信用狀的世界</h4>
+<div class="scroll"><table>
+<tr><th>角色</th><th>英文</th><th>白話</th><th>負付款責任？</th></tr>
+<tr><td><b>申請人</b> (183)</td><td>Applicant</td><td>去銀行申請開信用狀的人＝<b>進口商／買方</b></td><td>—</td></tr>
+<tr><td><b>受益人</b> (318)</td><td>Beneficiary</td><td>信用狀開給誰、誰收錢＝<b>出口商／賣方</b></td><td>—</td></tr>
+<tr><td><b>開狀銀行</b> (368)</td><td>Issuing Bank</td><td>開出信用狀的銀行（進口商的往來銀行）</td><td><b>✅ 負最終責任</b></td></tr>
+<tr><td><b>通知銀行</b> (129)</td><td>Advising Bank</td><td><b>郵差</b>：把信用狀轉交給出口商</td><td>❌ 只驗外觀真實性</td></tr>
+<tr><td><b>保兌銀行</b> (95)</td><td>Confirming Bank</td><td><b>第二個開狀行</b>：再加一層保證</td><td><b>✅ 負最終責任</b>（與開狀行獨立、同等）</td></tr>
+<tr><td><b>押匯銀行</b> (140)</td><td>Negotiating Bank</td><td><b>先借你錢的人</b>：買下單據墊款給出口商</td><td>❌ 是墊款，<b>有追索權</b></td></tr>
+<tr><td><b>補償銀行</b> (69)</td><td>Reimbursing Bank</td><td><b>出納</b>：代開狀行付錢給押匯行</td><td>❌ 只是照指示付錢</td></tr>
+<tr><td><b>指定銀行</b> (376)</td><td>Nominated Bank</td><td>⚠️ <b>兩個意思，看科目分</b>：<br>·進出口科＝信用狀<b>指定</b>由哪家銀行押匯／付款<br>·匯兌科＝<b>央行指定</b>可辦外匯業務的銀行</td><td>依被指定的角色而定</td></tr>
+<tr><td><b>第二受益人</b> (34)</td><td>Second Beneficiary</td><td>可轉讓信用狀被轉讓給的下一手</td><td>—</td></tr>
+</table></div>
+
+<h4>託收的世界（沒有信用狀時）</h4>
+<div class="scroll"><table>
+<tr><th>角色</th><th>英文</th><th>白話</th></tr>
+<tr><td><b>委託人</b> (47)</td><td>Principal</td><td>叫銀行去收錢的人＝<b>出口商</b></td></tr>
+<tr><td><b>託收銀行</b> (126)</td><td><b>Remitting</b> Bank</td><td>出口商這邊、把單據<b>寄出去</b>的銀行<br><span style="color:var(--mt)">⚠️ 英文是 Remitting（寄送），不是 Collecting，最常搞混</span></td></tr>
+<tr><td><b>代收銀行</b> (125)</td><td><b>Collecting</b> Bank</td><td>進口商那邊、負責<b>收錢</b>的銀行</td></tr>
+<tr><td><b>提示銀行</b> (68)</td><td><b>Presenting</b> Bank</td><td>實際把單據拿去給進口商看的銀行（通常就是代收行）</td></tr>
+<tr><td><b>付款人</b> (82)</td><td>Drawee</td><td>被要求付錢的人＝<b>進口商</b></td></tr>
+</table></div>
+<div class="ok"><b>🔑 託收三行記法：出口這邊「寄」(Remitting)、進口那邊「收」(Collecting)、實際拿去給人看的「提示」(Presenting)。</b></div>
+
+<h4>匯款的世界</h4>
+<div class="scroll"><table>
+<tr><th>角色</th><th>白話</th></tr>
+<tr><td><b>匯款人</b> (58) Remitter</td><td>付錢的客戶</td></tr>
+<tr><td><b>受款人</b> (139) Beneficiary</td><td>收錢的人</td></tr>
+<tr><td><b>解款行</b> (104) Paying Bank</td><td>最後把錢交給受款人的銀行</td></tr>
+<tr><td><b>通匯行</b> (32) Correspondent</td><td>能互相認證電文的往來銀行（<b>不一定有帳戶</b>）</td></tr>
+<tr><td><b>存匯行</b> (25) Depositary</td><td>我<b>真的在它那裡開戶存錢</b>的銀行 → 扣款從這裡扣</td></tr>
+</table></div>
+
+<h3>C. 單據與憑證</h3>
+<div class="scroll"><table>
+<tr><th>單據</th><th>白話</th><th>必考重點</th></tr>
+<tr><td><b>信用狀</b> (932)</td><td>銀行開的付款保證書</td><td>獨立性、文義性</td></tr>
+<tr><td><b>匯票</b> (249)<br>Draft / Bill</td><td>一張「請你付錢給某人」的命令書</td><td>票匯由<b>匯款人自己寄</b>；承兌＝在上面簽字</td></tr>
+<tr><td><b>提單</b> (202)<br>B/L</td><td>船公司給的收據＋<b>物權證書</b></td><td>🔑 <b>海運提單是物權證書、空運提單 AWB 不是</b>——拿到提單才能提貨，這是整套付款方式的核心</td></tr>
+<tr><td><b>保險單</b> (118)</td><td>貨物保險</td><td>至少投保 <b>110%</b>；<b>Cover Note 暫保單銀行不收</b>；生效日不得晚於裝運日</td></tr>
+<tr><td><b>託收指示</b> (107)</td><td>出口商給銀行的作業說明書</td><td>銀行<b>只能照指示做</b>，不能自作主張</td></tr>
+<tr><td><b>申報書</b> (107)</td><td>外匯收支或交易申報書</td><td>50 萬台幣以上要填；<b>貨品進出口結匯免填</b></td></tr>
+<tr><td><b>商業發票</b> (93)</td><td>賣方開的帳單</td><td>🔑 <b>不須受益人簽署</b>；貨物說明<b>必須與信用狀相符</b></td></tr>
+<tr><td><b>水單</b> (88)</td><td>結匯的憑證（無形交易用）</td><td>買匯／賣匯<b>站銀行角度</b>分</td></tr>
+<tr><td><b>結匯證實書</b> (44)</td><td>結匯的憑證（<b>貨品進出口</b>用）</td><td>🔑 用這張時<b>顧客免填申報書</b></td></tr>
+<tr><td><b>其他交易憑證</b> (56)</td><td>沒動到新臺幣時發的</td><td>例：用外匯存款直接匯出</td></tr>
+<tr><td><b>拒絕證書</b> (33)<br>PROTEST</td><td>公證人開的「他真的不付」證明</td><td>託收指示會註明要不要作成</td></tr>
+<tr><td><b>副提單</b> (24)</td><td>正本提單以外的那份</td><td>銀行<b>背書</b>後可先提貨</td></tr>
+<tr><td><b>保結書</b> (20)</td><td>出口商的切結書</td><td>瑕疵押匯時用；拒付時銀行憑此<b>追償</b></td></tr>
+</table></div>
+
+<h3>D. 英文縮寫速查</h3>
+<div class="scroll"><table>
+<tr><th>縮寫</th><th>原文</th><th>意思</th></tr>
+<tr><td><b>L/C</b> (136)</td><td><b>L</b>etter <b>o</b>f <b>C</b>redit</td><td>信用狀</td></tr>
+<tr><td><b>D/P</b> (80)</td><td><b>D</b>ocuments against <b>P</b>ayment</td><td>付款交單：<b>付錢</b>換單據</td></tr>
+<tr><td><b>D/A</b> (101)</td><td><b>D</b>ocuments against <b>A</b>cceptance</td><td>承兌交單：<b>簽字承諾</b>換單據</td></tr>
+<tr><td><b>O/A</b> (47)</td><td><b>O</b>pen <b>A</b>ccount</td><td>記帳：先出貨，之後再結</td></tr>
+<tr><td><b>T/T</b> (22)</td><td><b>T</b>elegraphic <b>T</b>ransfer</td><td>電匯</td></tr>
+<tr><td><b>M/T</b> (14)</td><td><b>M</b>ail <b>T</b>ransfer</td><td>信匯（郵寄）</td></tr>
+<tr><td><b>D/D</b> (11)</td><td><b>D</b>emand <b>D</b>raft</td><td>票匯（即期匯票）</td></tr>
+<tr><td><b>B/L</b> (39)</td><td><b>B</b>ill of <b>L</b>ading</td><td>海運提單（<b>物權證書</b>）</td></tr>
+<tr><td><b>AWB</b></td><td><b>A</b>ir <b>W</b>ay<b>b</b>ill</td><td>空運提單（<b>不是</b>物權證書）</td></tr>
+<tr><td><b>L/G</b></td><td><b>L</b>etter of <b>G</b>uarantee</td><td>保證函／擔保提貨書</td></tr>
+<tr><td><b>Sight</b> (9)</td><td>見票</td><td><b>即期</b>：見票就付</td></tr>
+<tr><td><b>Usance</b> (8)</td><td>—</td><td><b>遠期</b>：見票後 30／60／90／180 天才付</td></tr>
+<tr><td><b>Standby L/C</b></td><td>Standby ＝ 待命</td><td>擔保信用狀：<b>備而不用</b>，用途是保證</td></tr>
+<tr><td><b>Forfaiting</b> (33)</td><td>法文 forfait＝放棄（權利）</td><td>遠期信用狀<b>無追索權</b>賣斷</td></tr>
+<tr><td><b>Factoring</b> (31)</td><td>factor＝代理商</td><td>應收帳款承購（D/A、O/A 用）</td></tr>
+<tr><td><b>DBU</b> (19)</td><td><b>D</b>omestic <b>B</b>anking <b>U</b>nit</td><td>國內金融業務分行（一般分行）</td></tr>
+<tr><td><b>OBU</b> (35)</td><td><b>O</b>ff<b>s</b>hore <b>B</b>anking <b>U</b>nit</td><td>國際金融業務分行（境外，稅務優惠）</td></tr>
+<tr><td><b>NDF</b> (6)</td><td><b>N</b>on-<b>D</b>eliverable <b>F</b>orward</td><td>無本金交割遠期外匯：只結<b>差額</b></td></tr>
+<tr><td><b>Nostro／Vostro</b></td><td>拉丁文「我們的／你們的」</td><td>同一個帳戶的兩種叫法：我在你那的戶頭，對我是 Nostro、對你是 Vostro</td></tr>
+<tr><td><b>SWIFT</b> (140)</td><td>環球銀行金融電信協會</td><td>銀行之間發電文的網路</td></tr>
+<tr><td><b>UCP</b> (450)</td><td><b>U</b>niform <b>C</b>ustoms and <b>P</b>ractice</td><td>信用狀統一慣例（現行 600）</td></tr>
+<tr><td><b>URC</b> (175)</td><td><b>U</b>niform <b>R</b>ules for <b>C</b>ollections</td><td>託收統一規則（現行 522）</td></tr>
+<tr><td><b>ISBP</b> (51)</td><td><b>I</b>nternational <b>S</b>tandard <b>B</b>anking <b>P</b>ractice</td><td>審單實務——UCP600 的「施行細則」</td></tr>
+<tr><td><b>URDG</b> (26)</td><td><b>U</b>niform <b>R</b>ules for <b>D</b>emand <b>G</b>uarantees</td><td>見索即付保證（現行 758）</td></tr>
+<tr><td><b>ISP98</b> (50)</td><td><b>I</b>nternational <b>S</b>tandby <b>P</b>ractices</td><td>擔保信用狀慣例</td></tr>
+</table></div>
+
+<h3>E. 最容易混淆的成對詞</h3>
+<div class="scroll"><table>
+<tr><th>這個</th><th>那個</th><th>怎麼分</th></tr>
+<tr><td><b>通知</b>銀行</td><td><b>保兌</b>銀行</td><td>郵差 vs 第二個老闆：一個不負責、一個負最終責任</td></tr>
+<tr><td><b>託收</b>銀行 Remitting</td><td><b>代收</b>銀行 Collecting</td><td>出口這邊「寄」、進口那邊「收」</td></tr>
+<tr><td><b>押匯</b>（讓購）</td><td><b>Forfaiting</b>（賣斷）</td><td>押匯是<b>借錢</b>（有追索權）；賣斷是<b>賣掉</b>（無追索權）</td></tr>
+<tr><td><b>Factoring</b></td><td><b>Forfaiting</b></td><td>Factoring 買 D/A、O/A 的<b>商業</b>信用；Forfaiting 買遠期 L/C 的<b>銀行</b>信用</td></tr>
+<tr><td><b>D/P</b></td><td><b>D/A</b></td><td>拿到<b>錢</b>才給單 vs 拿到<b>承諾</b>就給單</td></tr>
+<tr><td><b>買匯</b>水單</td><td><b>賣匯</b>水單</td><td>站<b>銀行</b>角度：客戶結售→銀行買；客戶結購→銀行賣</td></tr>
+<tr><td><b>水單</b></td><td><b>結匯證實書</b></td><td>無形交易 vs <b>貨品進出口</b>（後者免填申報書）</td></tr>
+<tr><td><b>海運提單 B/L</b></td><td><b>空運提單 AWB</b></td><td>B/L <b>是</b>物權證書、AWB <b>不是</b></td></tr>
+<tr><td><b>押碼</b> Test Key</td><td><b>簽樣</b> Signature</td><td>電文驗押碼（電匯）、紙本驗簽樣（信匯）</td></tr>
+<tr><td><b>通匯行</b></td><td><b>存匯行</b></td><td>認得電文 vs 認得電文<b>且</b>錢放在那</td></tr>
+<tr><td><b>即期</b> Sight</td><td><b>遠期</b> Usance</td><td>見票就付 vs 到期才付</td></tr>
+<tr><td><b>DBU</b></td><td><b>OBU</b></td><td>國內分行 vs 境外分行</td></tr>
 </table></div>
 
 <div class="foot">
