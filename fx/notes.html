@@ -137,51 +137,126 @@ a{color:var(--cy)}
 <h3>推論 3：錢其實沒有飛過太平洋</h3>
 <div class="key">
 <b>最反直覺、也最該先懂的一點：</b>銀行之間沒有現金往來，只有<b>帳上加減＋電文指示</b>。
-你匯錢到美國，是台灣的銀行在美國開了戶（<b>存匯行</b>），發電文請對方扣款。
 </div>
+
+<div class="card">
+<b>實際案例</b>：台北的<b>王先生</b>要匯 <b>USD 10,000</b> 給紐約的 <b>John Smith</b>（John 的戶頭在花旗紐約分行）。<br>
+<span style="color:var(--mt);font-size:.93em">全程<b>沒有任何一張美鈔離開美國</b>——玉山銀行本來就在紐約梅隆銀行存了一筆美元，整筆交易只是把那筆錢的歸屬換個人。</span>
+</div>
+
 <div class="svgwrap">
-<svg width="640" height="150" viewBox="0 0 640 150" role="img" aria-label="匯出匯款流程">
+<svg width="700" height="228" viewBox="0 0 700 228" role="img" aria-label="匯出匯款實例流程">
 <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#087a73"/></marker></defs>
-<rect x="4" y="40" width="104" height="46" rx="6" fill="#fff" stroke="#d7ded8"/>
-<text x="56" y="60" text-anchor="middle" font-size="12.5" font-weight="700">匯款人</text>
-<text x="56" y="76" text-anchor="middle" font-size="11" fill="#66736d">台灣</text>
-<line x1="110" y1="63" x2="146" y2="63" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
-<text x="128" y="55" text-anchor="middle" font-size="10" fill="#66736d">①錢+申報</text>
-<rect x="150" y="40" width="112" height="46" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.5"/>
-<text x="206" y="60" text-anchor="middle" font-size="12.5" font-weight="700">匯款行</text>
-<text x="206" y="76" text-anchor="middle" font-size="11" fill="#66736d">掣發賣匯水單</text>
-<line x1="264" y1="63" x2="306" y2="63" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
-<text x="285" y="55" text-anchor="middle" font-size="10" fill="#66736d">②電文</text>
-<rect x="310" y="40" width="118" height="46" rx="6" fill="#fff" stroke="#315f94" stroke-width="1.5"/>
-<text x="369" y="60" text-anchor="middle" font-size="12.5" font-weight="700">存匯行／中介行</text>
-<text x="369" y="76" text-anchor="middle" font-size="11" fill="#66736d">帳上扣款</text>
-<line x1="430" y1="63" x2="466" y2="63" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
-<rect x="470" y="40" width="104" height="46" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.5"/>
-<text x="522" y="60" text-anchor="middle" font-size="12.5" font-weight="700">解款行</text>
-<text x="522" y="76" text-anchor="middle" font-size="11" fill="#66736d">通知洽領</text>
-<line x1="576" y1="63" x2="612" y2="63" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
-<text x="620" y="67" text-anchor="middle" font-size="12.5" font-weight="700">受</text>
-<path d="M206,92 Q206,124 369,124 Q369,124 369,92" fill="none" stroke="#66736d" stroke-dasharray="4 3"/>
-<text x="288" y="139" text-anchor="middle" font-size="11" fill="#66736d">帳戶關係（我在你那裡有開戶）</text>
+
+<text x="176" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="#66736d">— 台灣 —</text>
+<text x="500" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="#66736d">— 美國 —</text>
+<line x1="338" y1="8" x2="338" y2="180" stroke="#d7ded8" stroke-dasharray="5 4"/>
+
+<rect x="6" y="42" width="128" height="52" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="70" y="64" text-anchor="middle" font-size="12.5" font-weight="700">王先生</text>
+<text x="70" y="82" text-anchor="middle" font-size="11" fill="#66736d">匯款人 Remitter</text>
+
+<line x1="136" y1="68" x2="176" y2="68" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
+<text x="156" y="60" text-anchor="middle" font-size="10" fill="#66736d">①交錢</text>
+<text x="156" y="86" text-anchor="middle" font-size="10" fill="#66736d">+申報書</text>
+
+<rect x="180" y="42" width="150" height="52" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.8"/>
+<text x="255" y="62" text-anchor="middle" font-size="12.5" font-weight="700">玉山銀行 敦南分行</text>
+<text x="255" y="79" text-anchor="middle" font-size="11" fill="#66736d">匯款行・掣發賣匯水單</text>
+
+<line x1="332" y1="68" x2="382" y2="68" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
+<text x="357" y="60" text-anchor="middle" font-size="10" fill="#66736d">②SWIFT</text>
+<text x="357" y="86" text-anchor="middle" font-size="10" fill="#66736d">pacs.008</text>
+
+<rect x="386" y="42" width="152" height="52" rx="6" fill="#fff" stroke="#315f94" stroke-width="1.8"/>
+<text x="462" y="62" text-anchor="middle" font-size="12.5" font-weight="700">紐約梅隆銀行</text>
+<text x="462" y="79" text-anchor="middle" font-size="11" fill="#315f94">存匯行・扣玉山的帳</text>
+
+<line x1="540" y1="68" x2="574" y2="68" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
+<text x="557" y="60" text-anchor="middle" font-size="10" fill="#66736d">③付款</text>
+
+<rect x="578" y="42" width="116" height="52" rx="6" fill="#fff" stroke="#087a73" stroke-width="1.8"/>
+<text x="636" y="62" text-anchor="middle" font-size="12.5" font-weight="700">花旗 紐約分行</text>
+<text x="636" y="79" text-anchor="middle" font-size="11" fill="#66736d">解款行</text>
+
+<line x1="636" y1="96" x2="636" y2="126" stroke="#087a73" stroke-width="1.5" marker-end="url(#a2)"/>
+<text x="672" y="115" text-anchor="middle" font-size="10" fill="#66736d">④通知</text>
+<rect x="578" y="130" width="116" height="44" rx="6" fill="#fff" stroke="#d7ded8"/>
+<text x="636" y="150" text-anchor="middle" font-size="12.5" font-weight="700">John Smith</text>
+<text x="636" y="166" text-anchor="middle" font-size="11" fill="#66736d">受款人 Beneficiary</text>
+
+<path d="M255,96 L255,150 L380,150" fill="none" stroke="#315f94" stroke-dasharray="5 4"/>
+<line x1="380" y1="150" x2="462" y2="150" stroke="#315f94" stroke-dasharray="5 4"/>
+<line x1="462" y1="150" x2="462" y2="98" stroke="#315f94" stroke-dasharray="5 4"/>
+<text x="360" y="168" text-anchor="middle" font-size="11.5" fill="#315f94" font-weight="700">玉山在梅隆開有美元帳戶（存匯關係）</text>
+<text x="360" y="185" text-anchor="middle" font-size="10.5" fill="#66736d">對玉山＝Nostro「我們的帳」　對梅隆＝Vostro「你們的帳」</text>
+
+<text x="350" y="214" text-anchor="middle" font-size="11.5" fill="#66736d">錢只是在梅隆的帳上：玉山的餘額 −10,000，花旗的餘額 +10,000</text>
 </svg>
 </div>
 
+<h4>通匯行 vs 存匯行：差在有沒有帳戶</h4>
 <div class="scroll"><table>
-<tr><th>名詞</th><th>白話</th><th>關鍵差別</th></tr>
-<tr><td><b>通匯行</b> Correspondent</td><td>「我們談好了，可互相認證電文」</td><td>有押碼/簽樣，<b>不一定有帳戶</b></td></tr>
-<tr><td><b>存匯行</b> Depository</td><td>「我在你那裡有開戶」</td><td>通匯行再進一步，<b>真的有錢放著</b></td></tr>
-<tr><td><b>押碼</b> Test Key</td><td>電文驗證碼</td><td>解款前必須核驗</td></tr>
-<tr><td><b>解款行</b></td><td>最後把錢交給受款人的銀行</td><td>近 5 屆考很兇（3→5→9 題）</td></tr>
+<tr><th>名詞</th><th>白話</th><th>用剛才的例子說</th></tr>
+<tr><td><b>通匯行</b><br>Correspondent Bank</td><td>「我們簽過約、可以互相<b>認證電文</b>」的往來銀行</td><td>玉山和花旗紐約有交換 SWIFT 押碼，<b>電文彼此認得</b>——但玉山在花旗<b>沒有存款</b></td></tr>
+<tr><td><b>存匯行</b><br>Depositary Correspondent</td><td>通匯行再進一步：<b>我真的在你那裡開了戶、放了錢</b></td><td>玉山在<b>紐約梅隆</b>開了美元帳戶，錢實際放在那裡 → 扣款要從這裡扣</td></tr>
+<tr><td><b>中介行</b><br>Intermediary Bank</td><td>匯款行與解款行沒有直接關係時，中間轉一手的銀行</td><td>若玉山跟花旗完全沒關係，就得再找一家雙方都認識的銀行轉</td></tr>
+</table></div>
+<div class="ok">
+<b>🔑 一句話分辨：通匯 = 認得你的電文；存匯 = 認得你的電文，<u>而且</u>你的錢放在我這裡。</b><br>
+<span style="font-size:.93em">所以「扣款」只能從<b>存匯行</b>扣，通匯行沒有你的錢可扣。</span>
+</div>
+
+<div class="scroll"><table>
+<tr><th>名詞</th><th>白話</th><th>考點</th></tr>
+<tr><td><b>押碼</b> Test Key</td><td>電文的驗證碼，證明「這封真的是我發的」</td><td>SWIFT 自動押碼；<b>解款前必須核驗</b></td></tr>
+<tr><td><b>簽樣</b> Signature Specimen</td><td>預留印鑑：紙本文件用的驗證方式</td><td>信匯 M/T 驗這個（不是押碼）</td></tr>
+<tr><td><b>解款行</b> Paying Bank</td><td>最後把錢交給受款人的銀行</td><td>近 5 屆考很兇（3→5→9 題）</td></tr>
 </table></div>
 
-<h3>三種匯款方式</h3>
+<h3>三種匯款方式：差別在「付款指示怎麼送過去」</h3>
+<p>沿用同一個案例：王先生要把 USD 10,000 送到 John 手上。玉山有三種做法。</p>
+
+<div class="card">
+<h4 style="margin-top:0">① 電匯 T/T — <span style="font-weight:400">Telegraphic Transfer（電報轉帳）</span></h4>
+<p style="margin-bottom:6px">玉山發一封 <b>SWIFT 電文</b>給對方銀行：「請付 USD 10,000 給 John Smith」。</p>
+<ul style="margin-bottom:0">
+<li>指示走<b>銀行對銀行</b>的電子網路，王先生手上什麼都沒拿到</li>
+<li>對方用<b>押碼</b>驗證這封電文是真的</li>
+<li><b>最快</b>，1–2 個營業日；現在 99% 的匯款都走這個</li>
+</ul>
+</div>
+
+<div class="card">
+<h4 style="margin-top:0">② 信匯 M/T — <span style="font-weight:400">Mail Transfer（信件轉帳）</span></h4>
+<p style="margin-bottom:6px">玉山寫一張<b>付款委託書</b>（Payment Order），<b>用郵寄的</b>寄給對方銀行。</p>
+<ul style="margin-bottom:0">
+<li>一樣是<b>銀行對銀行</b>，王先生手上也沒東西</li>
+<li>但因為是紙本，對方驗的是<b>簽樣</b>（有權簽章人的預留印鑑），<b>不是押碼</b></li>
+<li>慢，實務上幾乎絕跡，但<b>考試會考</b>——重點就是「郵寄」＋「驗簽樣」</li>
+</ul>
+</div>
+
+<div class="card">
+<h4 style="margin-top:0">③ 票匯 D/D — <span style="font-weight:400">Demand Draft（即期匯票）</span></h4>
+<p style="margin-bottom:6px">玉山開一張<b>美元匯票</b>，付款人寫「紐約梅隆銀行」，然後<b>把匯票交給王先生本人</b>。</p>
+<ul style="margin-bottom:0">
+<li>🔑 <b>王先生自己把匯票寄給 John</b>（不是銀行寄！這是高頻陷阱）</li>
+<li>John 拿匯票去銀行提示兌現，銀行核對<b>匯票上的簽章</b></li>
+<li>🔑 <b>本質是「光票託收行為」</b>——匯票是一張<b>票據</b>，不是電文。所以票匯歸在票據的世界，不歸在電文的世界</li>
+</ul>
+</div>
+
 <div class="scroll"><table>
 <tr><th></th><th>電匯 T/T</th><th>信匯 M/T</th><th>票匯 D/D</th></tr>
-<tr><td>怎麼傳</td><td>SWIFT 電文</td><td>郵寄付款委託書</td><td>開匯票給匯款人</td></tr>
-<tr><td>誰拿著</td><td>銀行對銀行</td><td>銀行對銀行</td><td><b>匯款人自己拿去</b></td></tr>
-<tr><td>驗什麼</td><td><b>押碼</b></td><td><b>簽樣</b></td><td>匯票簽章</td></tr>
+<tr><td><b>原文</b></td><td>Telegraphic Transfer</td><td>Mail Transfer</td><td>Demand Draft</td></tr>
+<tr><td><b>指示怎麼送</b></td><td>SWIFT 電文</td><td><b>郵寄</b>付款委託書</td><td>開<b>匯票</b>給匯款人</td></tr>
+<tr><td><b>誰拿著憑證</b></td><td>銀行對銀行</td><td>銀行對銀行</td><td><b>匯款人自己拿</b></td></tr>
+<tr><td><b>驗什麼</b></td><td><b>押碼</b> Test Key</td><td><b>簽樣</b> Signature</td><td>匯票<b>簽章</b></td></tr>
+<tr><td><b>誰寄給受款人</b></td><td>—（不需要）</td><td>—（不需要）</td><td><b>匯款人</b></td></tr>
+<tr><td><b>速度</b></td><td>最快</td><td>最慢</td><td>看郵寄</td></tr>
 </table></div>
-<div class="ok"><b>🔑 票匯的本質是「光票託收行為」</b>——匯票是票據不是電文。高頻考點。</div>
+<div class="ok"><b>🔑 三個字記住差別：電（電文）／信（郵寄）／票（票據）。</b>驗證方式跟著走：電文驗押碼、紙本驗簽樣、票據驗簽章。</div>
 
 <!-- ============ 進出口 ============ -->
 <h2 id="trade">三、進出口外匯：解決互不信任</h2>
@@ -192,30 +267,89 @@ a{color:var(--cy)}
 <b>整科 80 題，都在處理這一個問題。</b>不同付款方式＝把風險分配給不同的人。
 </div>
 
+<h3>先破解英文：關鍵在「單據」兩個字</h3>
+
+<div class="key">
+<b>為什麼一直在講「單據」？</b>因為<b>提單 B/L 是物權證書</b>——<b>拿到提單才能去碼頭領貨</b>。<br>
+所以「銀行給不給你單據」＝「你能不能提到貨」。<b>整套付款方式，就是在決定「憑什麼條件把單據交給進口商」。</b>
+</div>
+
+<p>看懂 <code>D/P</code> 和 <code>D/A</code> 的關鍵是拆開它的英文結構：</p>
+
+<div class="card" style="font-size:.9em">
+<b>D</b>ocuments &nbsp;<b>against</b>&nbsp; <b>X</b> ＝ <b>用 X 來換單據</b><br>
+<span style="color:var(--mt)">against 在這裡是「以…交換」的意思，不是「反對」。</span>
+<hr style="border:0;border-top:1px solid var(--cd);margin:10px 0">
+<b>D/P</b> ＝ Documents against <b>Payment</b> ＝ <b>付款</b>交單 →「<b>付了錢</b>才給你單據」<br>
+<b>D/A</b> ＝ Documents against <b>Acceptance</b> ＝ <b>承兌</b>交單 →「<b>在匯票上簽字承諾到期付</b>就給你單據」
+</div>
+
+<div class="warn">
+<b>🔑 D/P 與 D/A 的差別，就是出口商拿到的是「錢」還是「一張承諾」。</b><br>
+D/A 之下，進口商簽個名就把貨提走了，出口商手上只有一張到期才兌現的匯票 →
+<b>所以 D/A 的出口商風險遠大於 D/P</b>，這是必考的對照組。
+</div>
+
+<div class="scroll"><table>
+<tr><th>簡寫</th><th>英文原文</th><th>字面拆解</th><th>中文</th></tr>
+<tr><td><b>Prepayment</b></td><td>Payment in Advance</td><td>advance＝事先</td><td>預付款</td></tr>
+<tr><td><b>L/C</b></td><td><b>L</b>etter <b>o</b>f <b>C</b>redit</td><td>credit＝信用 → 一封「信用的信」</td><td>信用狀</td></tr>
+<tr><td><b>D/P</b></td><td><b>D</b>ocuments against <b>P</b>ayment</td><td>用<b>付款</b>換單據</td><td>付款交單</td></tr>
+<tr><td><b>D/A</b></td><td><b>D</b>ocuments against <b>A</b>cceptance</td><td>用<b>承兌</b>換單據</td><td>承兌交單</td></tr>
+<tr><td><b>O/A</b></td><td><b>O</b>pen <b>A</b>ccount</td><td>開個帳<b>先記著</b>，之後再結</td><td>記帳</td></tr>
+</table></div>
+
+<div class="card" style="font-size:.88em">
+<b>順便記住這幾個常一起出現的字：</b><br>
+<b>Acceptance 承兌</b>＝在匯票上簽字，承諾到期付款（動詞 accept）<br>
+<b>Sight 即期</b>＝見票就付　·　<b>Usance 遠期</b>＝見票後 30／60／90／180 天才付<br>
+<b>Negotiation 押匯／讓購</b>＝銀行「買下」你的單據先墊錢給你<br>
+<b>Beneficiary 受益人</b>＝收錢的人（出口商）　·　<b>Applicant 申請人</b>＝去開狀的人（進口商）
+</div>
+
 <h3>付款方式風險光譜（整科骨架）</h3>
 <div class="svgwrap">
-<svg width="640" height="128" viewBox="0 0 640 128" role="img" aria-label="付款方式風險光譜">
-<defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#f4c9c4"/><stop offset="1" stop-color="#cfe0bf"/></linearGradient></defs>
-<rect x="10" y="30" width="620" height="30" rx="15" fill="url(#g1)"/>
-<text x="70" y="50" text-anchor="middle" font-size="12.5" font-weight="700">預付款</text>
-<text x="192" y="50" text-anchor="middle" font-size="12.5" font-weight="700">信用狀 L/C</text>
-<text x="320" y="50" text-anchor="middle" font-size="12.5" font-weight="700">D/P</text>
-<text x="435" y="50" text-anchor="middle" font-size="12.5" font-weight="700">D/A</text>
-<text x="565" y="50" text-anchor="middle" font-size="12.5" font-weight="700">O/A 記帳</text>
-<text x="70" y="80" text-anchor="middle" font-size="11" fill="#b3453a">進口商全險</text>
-<text x="192" y="80" text-anchor="middle" font-size="11" fill="#607243">雙方都安全</text>
-<text x="320" y="80" text-anchor="middle" font-size="11" fill="#66736d">付錢才給單</text>
-<text x="435" y="80" text-anchor="middle" font-size="11" fill="#66736d">承兌就給單</text>
-<text x="565" y="80" text-anchor="middle" font-size="11" fill="#b3453a">出口商全險</text>
-<line x1="70" y1="98" x2="600" y2="98" stroke="#66736d" stroke-width="1"/>
-<text x="320" y="116" text-anchor="middle" font-size="12" fill="#66736d">越往右，出口商越危險，銀行責任越輕</text>
+<svg width="700" height="176" viewBox="0 0 700 176" role="img" aria-label="付款方式風險光譜">
+<defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#f0bdb6"/><stop offset="0.5" stop-color="#f5f0d8"/><stop offset="1" stop-color="#c3daae"/></linearGradient></defs>
+<rect x="12" y="34" width="676" height="26" rx="13" fill="url(#g1)"/>
+<text x="16" y="24" font-size="11.5" font-weight="700" fill="#b3453a">進口商風險大</text>
+<text x="684" y="24" text-anchor="end" font-size="11.5" font-weight="700" fill="#b3453a">出口商風險大</text>
+
+<text x="74" y="52" text-anchor="middle" font-size="12.5" font-weight="700">預付款</text>
+<text x="212" y="52" text-anchor="middle" font-size="12.5" font-weight="700">信用狀 L/C</text>
+<text x="350" y="52" text-anchor="middle" font-size="12.5" font-weight="700">D/P</text>
+<text x="488" y="52" text-anchor="middle" font-size="12.5" font-weight="700">D/A</text>
+<text x="626" y="52" text-anchor="middle" font-size="12.5" font-weight="700">O/A</text>
+
+<text x="74" y="76" text-anchor="middle" font-size="10.5" fill="#66736d">Payment in Advance</text>
+<text x="212" y="76" text-anchor="middle" font-size="10.5" fill="#66736d">Letter of Credit</text>
+<text x="350" y="76" text-anchor="middle" font-size="10.5" fill="#66736d">Docs against Payment</text>
+<text x="488" y="76" text-anchor="middle" font-size="10.5" fill="#66736d">Docs against Acceptance</text>
+<text x="626" y="76" text-anchor="middle" font-size="10.5" fill="#66736d">Open Account</text>
+
+<text x="74" y="98" text-anchor="middle" font-size="11" fill="#17211d">先付錢</text>
+<text x="74" y="113" text-anchor="middle" font-size="11" fill="#17211d">才出貨</text>
+<text x="212" y="98" text-anchor="middle" font-size="11" fill="#607243" font-weight="700">銀行擔保付款</text>
+<text x="212" y="113" text-anchor="middle" font-size="11" fill="#607243">雙方都安全</text>
+<text x="350" y="98" text-anchor="middle" font-size="11" fill="#17211d">付錢</text>
+<text x="350" y="113" text-anchor="middle" font-size="11" fill="#17211d">才給單據</text>
+<text x="488" y="98" text-anchor="middle" font-size="11" fill="#17211d">簽字承諾</text>
+<text x="488" y="113" text-anchor="middle" font-size="11" fill="#17211d">就給單據</text>
+<text x="626" y="98" text-anchor="middle" font-size="11" fill="#17211d">單據直接寄</text>
+<text x="626" y="113" text-anchor="middle" font-size="11" fill="#17211d">到期再收錢</text>
+
+<line x1="74" y1="128" x2="626" y2="128" stroke="#d7ded8"/>
+<text x="212" y="146" text-anchor="middle" font-size="11" fill="#087a73" font-weight="700">← 銀行負付款責任 →</text>
+<text x="557" y="146" text-anchor="middle" font-size="11" fill="#66736d">銀行只傳單據／只匯款，不負責</text>
+<text x="350" y="167" text-anchor="middle" font-size="11.5" fill="#66736d">越往右，出口商越危險，銀行責任越輕</text>
 </svg>
 </div>
 
 <div class="ok">
-這張圖直接解釋兩個高頻考點：<br>
+這張圖直接解釋三個高頻考點：<br>
 · <b>D/A 與 O/A 才需要 Factoring</b>（應收帳款承購）——因為出口商風險最大，才要把帳款賣掉<br>
-· <b>Forfaiting 買的是遠期信用狀</b>（Seller's Usance L/C）——那是有銀行信用的債權
+· <b>Forfaiting 買的是遠期信用狀</b>（Seller's Usance L/C）——那是有<b>銀行信用</b>的債權，所以敢無追索權買斷<br>
+· <b>託收（D/P、D/A）下銀行只是傳遞單據</b>，不負付款責任——因為它們在光譜右半邊
 </div>
 
 <h3>信用狀的本質</h3>
