@@ -3,201 +3,449 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>初階外匯 認題衝刺</title>
+<title>初階外匯 刷題器</title>
 <style>
-:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;padding-bottom:env(safe-area-inset-bottom)}
-.wrap{max-width:640px;margin:0 auto;padding:12px}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+.wrap{max-width:660px;margin:0 auto;padding:10px 12px}
 
-header{position:sticky;top:0;background:var(--bg);z-index:20;padding:8px 0 10px;border-bottom:1px solid var(--cd)}
-.topbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.topbar h1{font-size:1em;font-weight:800;flex:1;min-width:110px}
-.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:6px;padding:5px 10px;font-size:.78em;cursor:pointer;font-family:inherit}
-.btn:active{transform:scale(.97)}
+/* 模式列 */
+.modes{display:flex;gap:5px;margin-bottom:8px}
+.modes button{flex:1;border:1px solid var(--cd);background:var(--sf);color:var(--mt);border-radius:7px;padding:8px 2px;font-size:.79em;font-family:inherit;font-weight:700;cursor:pointer;line-height:1.3}
+.modes button small{display:block;font-size:.8em;font-weight:400;opacity:.8}
+.modes button.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+.modes button:disabled{opacity:.4}
+
+header{position:sticky;top:0;background:var(--bg);z-index:20;padding-top:4px;padding-bottom:8px;border-bottom:1px solid var(--cd)}
+.bar2{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:6px;padding:5px 9px;font-size:.78em;font-family:inherit;cursor:pointer}
 .btn.on{background:var(--cy);color:#fff;border-color:var(--cy)}
-select{border:1px solid var(--cd);background:var(--sf);border-radius:6px;padding:5px 8px;font-size:.78em;font-family:inherit;max-width:100%}
+.prog{height:5px;background:var(--cd);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--cy);width:0;transition:width .25s}
+.meta{display:flex;justify-content:space-between;font-size:.71em;color:var(--mt);margin-top:4px;gap:8px}
+.meta b{color:var(--rd)}
 
-.bar{height:5px;background:var(--cd);border-radius:99px;margin-top:8px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--cy);width:0;transition:width .2s}
-.meta{display:flex;justify-content:space-between;font-size:.72em;color:var(--mt);margin-top:5px}
-
-.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:16px;margin-top:12px}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;font-size:.68em}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:15px;margin-top:11px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px;font-size:.67em}
 .tag{padding:2px 8px;border-radius:4px;background:rgba(8,122,115,.12);color:var(--cy);font-weight:700}
 .tag.hot{background:rgba(182,101,22,.15);color:var(--yw)}
+.tag.err{background:rgba(179,69,58,.13);color:var(--rd)}
 .tag.src{background:var(--bg);color:var(--mt);font-weight:400}
-.stem{font-size:1.02em;font-weight:600;margin-bottom:14px}
-.opt{border:1px solid var(--cd);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:.92em;display:flex;gap:8px;cursor:pointer}
-.opt b{color:var(--mt);flex-shrink:0}
-.opt.ans{border-color:var(--gn);background:rgba(96,114,67,.1)}
+.stem{font-size:1.01em;font-weight:600;margin-bottom:13px}
+.opt{border:1px solid var(--cd);border-radius:8px;padding:10px 12px;margin-bottom:7px;font-size:.92em;display:flex;gap:9px;cursor:pointer;background:var(--sf);transition:background .12s}
+.opt:active{background:var(--bg)}
+.opt b{color:var(--mt);flex-shrink:0;font-variant-numeric:tabular-nums}
+.opt.ans{border-color:var(--gn);background:rgba(78,122,61,.11)}
 .opt.ans b{color:var(--gn)}
-.warn{border-left:3px solid var(--rd);background:rgba(179,69,58,.07);padding:8px 10px;border-radius:0 6px 6px 0;font-size:.78em;color:var(--rd);margin-bottom:10px}
+.opt.bad{border-color:var(--rd);background:rgba(179,69,58,.09)}
+.opt.bad b{color:var(--rd)}
+.opt.dim{opacity:.55}
+.warn{border-left:3px solid var(--rd);background:rgba(179,69,58,.07);padding:8px 10px;border-radius:0 6px 6px 0;font-size:.78em;color:var(--rd);margin-bottom:9px}
+.verdict{margin-top:10px;padding:9px 12px;border-radius:7px;font-size:.87em;font-weight:700}
+.verdict.ok{background:rgba(78,122,61,.13);color:var(--gn)}
+.verdict.no{background:rgba(179,69,58,.11);color:var(--rd)}
 .hidden{display:none}
 
-.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.acts .btn{padding:13px;font-size:.92em;font-weight:700}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.acts .btn{padding:12px;font-size:.9em;font-weight:700;text-align:center}
 .big{background:var(--cy);color:#fff;border-color:var(--cy)}
-.ok{background:var(--gn);color:#fff;border-color:var(--gn)}
-.no{background:var(--yw);color:#fff;border-color:var(--yw)}
 .full{grid-column:1/-1}
 
-.toc{margin-top:12px}
-.toc div{display:flex;justify-content:space-between;padding:7px 10px;border-bottom:1px solid var(--cd);font-size:.82em;cursor:pointer}
-.toc div:active{background:var(--sf)}
-.toc small{color:var(--mt)}
-.done{color:var(--gn);font-weight:700}
-.foot{text-align:center;font-size:.7em;color:var(--mt);margin:18px 0;line-height:1.8}
+.panel{margin-top:11px}
+.panel h3{font-size:.92em;margin:14px 0 6px;color:var(--vi)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:7px 9px;border-bottom:1px solid var(--cd);font-size:.82em;cursor:pointer;gap:8px}
+.row:active{background:var(--sf)}
+.row small{color:var(--mt);white-space:nowrap}
+.rate{display:inline-block;min-width:42px;text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.r-bad{color:var(--rd)}.r-mid{color:var(--yw)}.r-good{color:var(--gn)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;margin:10px 0}
+.kpi div{background:var(--sf);border:1px solid var(--cd);border-radius:8px;padding:10px 8px;text-align:center}
+.kpi b{display:block;font-size:1.3em;color:var(--cy);font-variant-numeric:tabular-nums}
+.kpi span{font-size:.68em;color:var(--mt)}
+.empty{text-align:center;color:var(--mt);font-size:.85em;padding:26px 10px}
+.foot{text-align:center;font-size:.69em;color:var(--mt);margin:20px 0;line-height:1.9}
 a{color:var(--cy)}
+.timer{font-variant-numeric:tabular-nums;font-weight:700}
+.timer.hot{color:var(--rd)}
 </style>
 </head>
 <body>
 <div class="wrap">
 
+<div class="modes">
+  <button data-m="learn" class="on">背誦<small>直接看答案</small></button>
+  <button data-m="quiz">測驗<small>作答後判定</small></button>
+  <button data-m="wrong">錯題<small id="wcount">0</small></button>
+  <button data-m="exam">模擬考<small>計時批改</small></button>
+  <button data-m="stat">統計<small>弱點分析</small></button>
+</div>
+
 <header>
-  <div class="topbar">
-    <h1>初階外匯 認題衝刺</h1>
+  <div class="bar2" id="bar2">
     <select id="subj"></select>
     <select id="topic"></select>
-    <button class="btn" id="mode">全部</button>
-    <button class="btn" id="tocBtn">目錄</button>
+    <button class="btn" id="undone">只看未做</button>
+    <button class="btn" id="toc">目錄</button>
+    <span class="timer hidden" id="timer"></span>
+    <button class="btn hidden" id="submit">交卷</button>
   </div>
-  <div class="bar"><i id="bar"></i></div>
+  <div class="prog"><i id="pbar"></i></div>
   <div class="meta"><span id="pos"></span><span id="stat"></span></div>
 </header>
 
-<div id="tocView" class="toc hidden"></div>
-
-<div id="quiz">
-  <div class="card">
-    <div class="tags" id="tags"></div>
-    <div id="warns"></div>
-    <div class="stem" id="stem">載入中…</div>
-    <div id="opts"></div>
-  </div>
-  <div class="acts">
-    <button class="btn big full" id="reveal">顯示答案（空白鍵）</button>
-    <button class="btn ok hidden" id="gotIt">懂了 →</button>
-    <button class="btn no hidden" id="mark">不懂・標記 →</button>
-    <button class="btn full hidden" id="prev">← 上一題</button>
-  </div>
-</div>
+<div id="view"></div>
 
 <div class="foot">
   1856 題（去重自第 23–47 屆共 3221 題）依考點分組排序<br>
-  配速目標 30 秒／題・進度自動存於本機瀏覽器<br><br>
+  作答紀錄存在本機瀏覽器・<a href="#" id="reset">清除全部紀錄</a><br><br>
   題目為台灣金融研訓院公告之歷屆試題（第 23–47 屆），著作權屬該院，僅供個人備考練習<br>
   <a href="https://www.tabf.org.tw/LicenseHistoryExam.aspx" target="_blank" rel="noopener">官方歷屆試題</a>　·
+  <a href="notes.html">衝刺筆記</a>　·
   <a href="analysis.html">題庫分析</a>　·
-  <a href="../index.html">回考試總覽</a>
+  <a href="../index.html">回總覽</a>
 </div>
 </div>
 
 <script>
-const KEY='fx-drill-v1';
-let DECK=null, subj='進出口外匯', topicSel='ALL', onlyUndone=false;
-let list=[], idx=0, shown=false;
-const state=JSON.parse(localStorage.getItem(KEY)||'{}'); // id -> 1 懂 / 2 不懂
+const KEY = 'fx-drill-v2';
+const GRAD = 2;                       // 錯題連續答對幾次才「畢業」
+let DECK = null;
+let S = { q:{}, exams:[] };           // q[id] = {r:對次數, w:錯次數, s:連續對, seen:出現次數}
+let mode = 'learn', subj = '進出口外匯', topicSel = 'ALL', onlyUndone = false;
+let list = [], idx = 0, revealed = false, picked = null;
+let exam = null, tick = null;
 
-const $=s=>document.querySelector(s);
-const idOf=(s,i)=>s[0]+i;
+const $ = s => document.querySelector(s);
+const id = (sb, i) => sb[0] + i;
+const rec = k => S.q[k] || {r:0,w:0,s:0,seen:0};
+const isWrong = k => { const o = rec(k); return o.w > 0 && o.s < GRAD; };
 
-function build(){
-  const d=DECK[subj];
-  list=d.qs.map((q,i)=>({q,i})).filter(o=>topicSel==='ALL'||d.topics[o.q[0]]===topicSel);
-  if(onlyUndone) list=list.filter(o=>!state[idOf(subj,o.i)]);
-  if(list.length===0){onlyUndone=false;$('#mode').classList.remove('on');$('#mode').textContent='全部';build();return;}
-  idx=Math.min(idx,list.length-1);
-  render();
+function load(){ try{ const raw = JSON.parse(localStorage.getItem(KEY)); if(raw && raw.q) S = raw; }catch(e){} }
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+
+/* ---------- 題目集合 ---------- */
+function pool(){
+  const d = DECK[subj];
+  let a = d.qs.map((q,i)=>({q,i,k:id(subj,i)}));
+  if (mode === 'wrong') return a.filter(o => isWrong(o.k));
+  if (topicSel !== 'ALL') a = a.filter(o => d.topics[o.q[0]] === topicSel);
+  if (onlyUndone && mode !== 'exam') a = a.filter(o => rec(o.k).seen === 0);
+  return a;
 }
 
+function startExam(){
+  const d = DECK[subj];
+  const n = subj === '國外匯兌' ? 50 : 80;
+  const mins = subj === '國外匯兌' ? 60 : 90;
+  const all = d.qs.map((q,i)=>({q,i,k:id(subj,i)}));
+  for (let i = all.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [all[i],all[j]] = [all[j],all[i]]; }
+  list = all.slice(0, Math.min(n, all.length));
+  exam = { answers:{}, end: Date.now() + mins*60000, n:list.length, submitted:false };
+  idx = 0;
+  clearInterval(tick);
+  tick = setInterval(()=>{
+    if (!exam || exam.submitted) return clearInterval(tick);
+    const left = exam.end - Date.now();
+    if (left <= 0){ submitExam(); return; }
+    const m = Math.floor(left/60000), s = Math.floor(left%60000/1000);
+    const t = $('#timer'); t.textContent = `${m}:${String(s).padStart(2,'0')}`;
+    t.classList.toggle('hot', left < 5*60000);
+  }, 500);
+}
+
+/* ---------- 渲染 ---------- */
 function render(){
-  const d=DECK[subj], o=list[idx]; if(!o)return;
-  const [t,cnt,src,stem,opts,ans,warns]=o.q;
-  shown=false;
-  $('#tags').innerHTML=
-    `<span class="tag">${d.topics[t]}</span>`+
-    (cnt>1?`<span class="tag hot">回鍋 ${cnt} 次</span>`:'')+
-    `<span class="tag src">${src}</span>`;
-  $('#warns').innerHTML=warns.map(w=>`<div class="warn">⚠️ ${w}</div>`).join('');
-  $('#stem').textContent=stem;
-  $('#opts').innerHTML=opts.map((v,i)=>
-    `<div class="opt" data-i="${i+1}"><b>(${i+1})</b><span>${v}</span></div>`).join('');
-  $('#opts').querySelectorAll('.opt').forEach(el=>el.onclick=reveal);
-  $('#reveal').classList.remove('hidden');
-  $('#gotIt').classList.add('hidden'); $('#mark').classList.add('hidden');
-  $('#prev').classList.toggle('hidden',idx===0);
-  const flag=state[idOf(subj,o.i)];
-  $('#pos').textContent=`${idx+1} / ${list.length}`+(flag===2?'　🔶已標記':flag===1?'　✅已懂':'');
-  const all=DECK[subj].qs.length;
-  let done=0,bad=0;
-  for(let i=0;i<all;i++){const f=state[idOf(subj,i)]; if(f===1)done++; if(f===2)bad++;}
-  $('#stat').textContent=`懂 ${done}／標記 ${bad}／共 ${all}`;
-  $('#bar').style.width=(done+bad)/all*100+'%';
+  $('#timer').classList.toggle('hidden', mode !== 'exam' || !exam || exam.submitted);
+  $('#submit').classList.toggle('hidden', mode !== 'exam' || !exam || exam.submitted);
+  $('#undone').classList.toggle('hidden', mode === 'wrong' || mode === 'exam' || mode === 'stat');
+  $('#toc').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
+  $('#topic').classList.toggle('hidden', mode === 'wrong' || mode === 'exam' || mode === 'stat');
+
+  if (mode === 'stat') return renderStat();
+  if (mode === 'exam' && exam && exam.submitted) return renderResult();
+  if (!list.length) return renderEmpty();
+
+  const d = DECK[subj], o = list[idx];
+  const [t, cnt, src, stem, opts, ans, warns] = o.q;
+  const r = rec(o.k);
+  revealed = (mode === 'learn');
+  picked = (mode === 'exam') ? (exam.answers[o.k] ?? null) : null;
+
+  const inExam = mode === 'exam';
+  $('#view').innerHTML = `
+    <div class="card">
+      <div class="tags">
+        <span class="tag">${d.topics[t]}</span>
+        ${cnt>1?`<span class="tag hot">回鍋 ${cnt} 次</span>`:''}
+        ${(!inExam && r.w>0)?`<span class="tag err">錯過 ${r.w} 次</span>`:''}
+        <span class="tag src">${src}</span>
+      </div>
+      ${(!inExam && warns.length)?warns.map(w=>`<div class="warn">⚠️ ${w}</div>`).join(''):''}
+      <div class="stem">${stem}</div>
+      <div id="opts">${opts.map((v,i)=>`<div class="opt" data-i="${i+1}"><b>(${i+1})</b><span>${v}</span></div>`).join('')}</div>
+      <div id="verdict"></div>
+    </div>
+    <div class="acts" id="acts"></div>`;
+
+  $('#opts').querySelectorAll('.opt').forEach(el => el.onclick = () => pick(+el.dataset.i));
+  if (mode === 'learn') showAnswer(false);
+  if (inExam && picked) markPick(picked);
+  drawActs();
+  updateBars();
   window.scrollTo({top:0});
 }
 
-function reveal(){
-  if(shown)return; shown=true;
-  const ans=list[idx].q[5];
-  $('#opts').querySelectorAll('.opt').forEach(el=>{
-    if(+el.dataset.i===ans) el.classList.add('ans');
-  });
-  $('#reveal').classList.add('hidden');
-  $('#gotIt').classList.remove('hidden'); $('#mark').classList.remove('hidden');
+function drawActs(){
+  const a = $('#acts');
+  if (mode === 'exam'){
+    a.innerHTML = `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題 →</button>`;
+    $('#prev').onclick = () => go(-1); $('#next').onclick = () => go(1);
+  } else if (mode === 'learn'){
+    a.innerHTML = `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題（空白鍵）→</button>`;
+    $('#prev').onclick = () => go(-1); $('#next').onclick = () => go(1);
+  } else {
+    a.innerHTML = revealed
+      ? `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題 →</button>`
+      : `<button class="btn full" id="skip">看答案（不計分）</button>`;
+    if (revealed){ $('#prev').onclick = () => go(-1); $('#next').onclick = () => go(1); }
+    else $('#skip').onclick = () => { showAnswer(false); revealed = true; drawActs(); };
+  }
 }
 
-function judge(v){
-  state[idOf(subj,list[idx].i)]=v;
-  localStorage.setItem(KEY,JSON.stringify(state));
-  if(idx<list.length-1){idx++;render();}
-  else{alert('這一組做完了！');build();}
+function pick(n){
+  const o = list[idx];
+  if (mode === 'exam'){ exam.answers[o.k] = n; markPick(n); updateBars(); return; }
+  if (mode === 'learn' || revealed) return;
+  const correct = (n === o.q[5]);
+  const r = {...rec(o.k)};
+  r.seen++; if (correct){ r.r++; r.s++; } else { r.w++; r.s = 0; }
+  S.q[o.k] = r; save();
+  revealed = true;
+  showAnswer(true, n, correct);
+  drawActs(); updateBars(); refreshWrongCount();
 }
 
-$('#reveal').onclick=reveal;
-$('#gotIt').onclick=()=>judge(1);
-$('#mark').onclick=()=>judge(2);
-$('#prev').onclick=()=>{if(idx>0){idx--;render();}};
-$('#mode').onclick=e=>{onlyUndone=!onlyUndone;e.target.classList.toggle('on',onlyUndone);
-  e.target.textContent=onlyUndone?'只看未做':'全部';idx=0;build();};
-$('#tocBtn').onclick=()=>{
-  const v=$('#tocView'); v.classList.toggle('hidden'); $('#quiz').classList.toggle('hidden');
-  if(!v.classList.contains('hidden'))drawToc();
-};
-document.addEventListener('keydown',e=>{
-  if(e.code==='Space'){e.preventDefault(); shown?judge(1):reveal();}
-  if(e.key==='ArrowRight'&&shown)judge(1);
-  if(e.key==='ArrowLeft'&&idx>0){idx--;render();}
-});
+function markPick(n){
+  $('#opts').querySelectorAll('.opt').forEach(el => {
+    el.classList.toggle('ans', +el.dataset.i === n);
+  });
+}
 
-function drawToc(){
-  const d=DECK[subj];
-  let html='',n=0;
-  d.topics.forEach(t=>{
-    const g=d.qs.map((q,i)=>({q,i})).filter(o=>d.topics[o.q[0]]===t);
-    const done=g.filter(o=>state[idOf(subj,o.i)]).length;
-    html+=`<div data-t="${t}"><span>${n+1}–${n+g.length}　${t}</span>
-      <small class="${done===g.length?'done':''}">${done}/${g.length}</small></div>`;
-    n+=g.length;
+function showAnswer(judged, n, correct){
+  const ans = list[idx].q[5];
+  $('#opts').querySelectorAll('.opt').forEach(el => {
+    const i = +el.dataset.i;
+    if (i === ans) el.classList.add('ans');
+    else if (judged && i === n) el.classList.add('bad');
+    else el.classList.add('dim');
   });
-  const v=$('#tocView'); v.innerHTML=html;
-  v.querySelectorAll('div[data-t]').forEach(el=>el.onclick=()=>{
-    topicSel=el.dataset.t; $('#topic').value=topicSel; idx=0; build();
-    v.classList.add('hidden'); $('#quiz').classList.remove('hidden');
+  if (judged){
+    $('#verdict').innerHTML = correct
+      ? `<div class="verdict ok">✅ 正確！${rec(list[idx].k).s >= GRAD ? '（已從錯題本畢業）' : ''}</div>`
+      : `<div class="verdict no">❌ 答錯了，正解是 (${ans})　→ 已加入錯題本，答對 ${GRAD} 次才畢業</div>`;
+  }
+}
+
+function go(step){
+  if (idx + step < 0) return;
+  if (idx + step >= list.length){
+    if (mode === 'exam') return submitExam();
+    alert('這一組做完了！');
+    if (mode === 'wrong'){ build(); return; }
+    return;
+  }
+  idx += step; render();
+}
+
+function updateBars(){
+  const total = DECK[subj].qs.length;
+  let seen = 0, right = 0, wrongPool = 0;
+  for (let i = 0; i < total; i++){
+    const r = rec(id(subj,i));
+    if (r.seen) seen++;
+    right += r.r;
+    if (isWrong(id(subj,i))) wrongPool++;
+  }
+  if (mode === 'exam' && exam){
+    const done = Object.keys(exam.answers).length;
+    $('#pbar').style.width = done/exam.n*100 + '%';
+    $('#pos').textContent = `第 ${idx+1} / ${exam.n} 題`;
+    $('#stat').innerHTML = `已作答 ${done}／${exam.n}`;
+  } else {
+    $('#pbar').style.width = (list.length ? (idx+1)/list.length*100 : 0) + '%';
+    $('#pos').textContent = list.length ? `${idx+1} / ${list.length}` : '—';
+    $('#stat').innerHTML = `做過 ${seen}/${total}　錯題 <b>${wrongPool}</b>`;
+  }
+}
+
+function refreshWrongCount(){
+  let n = 0;
+  for (const sb of Object.keys(DECK))
+    for (let i = 0; i < DECK[sb].qs.length; i++) if (isWrong(id(sb,i))) n++;
+  $('#wcount').textContent = n;
+}
+
+/* ---------- 模擬考批改 ---------- */
+function submitExam(){
+  clearInterval(tick);
+  exam.submitted = true;
+  let right = 0;
+  list.forEach(o => {
+    const pickd = exam.answers[o.k];
+    const ok = pickd === o.q[5];
+    const r = {...rec(o.k)};
+    r.seen++; if (ok){ r.r++; r.s++; } else { r.w++; r.s = 0; }
+    S.q[o.k] = r;
+    if (ok) right++;
   });
+  const per = subj === '國外匯兌' ? 2 : 1.25;
+  S.exams.unshift({ d:new Date().toISOString().slice(0,16).replace('T',' '), subj, right, total:list.length, score:+(right*per).toFixed(2) });
+  S.exams = S.exams.slice(0,20);
+  save(); refreshWrongCount(); render();
+}
+
+function renderResult(){
+  const per = subj === '國外匯兌' ? 2 : 1.25;
+  const right = list.filter(o => exam.answers[o.k] === o.q[5]).length;
+  const score = +(right*per).toFixed(2);
+  const pass = score >= 70;
+  const wrongs = list.filter(o => exam.answers[o.k] !== o.q[5]);
+  const d = DECK[subj];
+  const byTopic = {};
+  wrongs.forEach(o => { const t = d.topics[o.q[0]]; byTopic[t] = (byTopic[t]||0)+1; });
+  $('#view').innerHTML = `
+    <div class="card" style="text-align:center">
+      <div style="font-size:2.4em;font-weight:800;color:${pass?'var(--gn)':'var(--rd)'};font-variant-numeric:tabular-nums">${score}</div>
+      <div style="font-size:.9em;color:var(--mt)">答對 ${right}／${list.length}　門檻 70 分</div>
+      <div class="verdict ${pass?'ok':'no'}" style="margin-top:10px">${pass?'✅ 及格':`❌ 未達門檻，差 ${(70-score).toFixed(2)} 分`}</div>
+    </div>
+    <div class="panel">
+      <h3>錯題考點分布（${wrongs.length} 題）</h3>
+      ${Object.entries(byTopic).sort((a,b)=>b[1]-a[1]).map(([t,n])=>
+        `<div class="row"><span>${t}</span><small>錯 ${n} 題</small></div>`).join('') || '<div class="empty">全對！</div>'}
+    </div>
+    <div class="acts">
+      <button class="btn full big" id="reviewWrong">複習這次的錯題 →</button>
+      <button class="btn full" id="again">再考一次</button>
+    </div>`;
+  $('#reviewWrong').onclick = () => setMode('wrong');
+  $('#again').onclick = () => { startExam(); render(); };
+  $('#pbar').style.width = '100%';
+  $('#pos').textContent = '批改完成';
+  $('#stat').textContent = `${subj}　${right}/${list.length}`;
+}
+
+/* ---------- 統計 ---------- */
+function renderStat(){
+  let html = '';
+  for (const sb of Object.keys(DECK)){
+    const d = DECK[sb], total = d.qs.length;
+    let seen = 0, r = 0, w = 0, pool = 0;
+    const tp = {};
+    d.qs.forEach((q,i) => {
+      const o = rec(id(sb,i)), t = d.topics[q[0]];
+      tp[t] = tp[t] || {r:0,w:0,seen:0,total:0};
+      tp[t].total++;
+      if (o.seen){ seen++; tp[t].seen++; }
+      r += o.r; w += o.w; tp[t].r += o.r; tp[t].w += o.w;
+      if (isWrong(id(sb,i))) pool++;
+    });
+    const acc = (r+w) ? r/(r+w)*100 : 0;
+    html += `<h3>${sb}</h3>
+      <div class="kpi">
+        <div><b>${seen}</b><span>做過／${total}</span></div>
+        <div><b>${acc.toFixed(0)}%</b><span>正確率</span></div>
+        <div><b>${pool}</b><span>待複習錯題</span></div>
+      </div>`;
+    const rows = Object.entries(tp).filter(([,v]) => v.r+v.w > 0)
+      .map(([t,v]) => [t, v.r/(v.r+v.w)*100, v.r+v.w, v.seen, v.total])
+      .sort((a,b) => a[1]-b[1]);
+    if (rows.length){
+      html += `<div style="font-size:.72em;color:var(--mt);margin:6px 0 2px">各考點正確率（低→高，先補最上面的）</div>`;
+      html += rows.map(([t,ac,n,seenN,tot]) => {
+        const cls = ac < 60 ? 'r-bad' : ac < 75 ? 'r-mid' : 'r-good';
+        return `<div class="row" data-sb="${sb}" data-t="${t}"><span>${t}<br><small>進度 ${seenN}/${tot}</small></span>
+          <span><span class="rate ${cls}">${ac.toFixed(0)}%</span> <small>(${n} 次)</small></span></div>`;
+      }).join('');
+    } else html += `<div class="empty">還沒有作答紀錄</div>`;
+  }
+  if (S.exams.length){
+    html += `<h3>模擬考紀錄</h3>` + S.exams.map(e =>
+      `<div class="row"><span>${e.d}　${e.subj}</span>
+       <span class="rate ${e.score>=70?'r-good':'r-bad'}">${e.score} 分</span></div>`).join('');
+  }
+  $('#view').innerHTML = `<div class="panel">${html}</div>`;
+  $('#view').querySelectorAll('.row[data-t]').forEach(el => el.onclick = () => {
+    subj = el.dataset.sb; topicSel = el.dataset.t;
+    fillSelects(); setMode('quiz');
+  });
+  $('#pbar').style.width = '0';
+  $('#pos').textContent = '統計';
+  $('#stat').textContent = '點考點可直接練該區';
+}
+
+function renderEmpty(){
+  const msg = mode === 'wrong'
+    ? '目前沒有錯題 🎉<br><br>用「測驗」模式作答，答錯的題會自動收集到這裡。<br>錯題要連續答對 ' + GRAD + ' 次才會畢業。'
+    : '這個範圍沒有題目，試著取消篩選。';
+  $('#view').innerHTML = `<div class="empty">${msg}</div>`;
+  $('#pbar').style.width = '0'; $('#pos').textContent = '—';
+  updateBars();
+}
+
+/* ---------- 控制 ---------- */
+function build(){ list = pool(); idx = 0; render(); }
+
+function setMode(m){
+  mode = m;
+  document.querySelectorAll('.modes button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+  if (m === 'exam'){ startExam(); render(); }
+  else { clearInterval(tick); exam = null; build(); }
 }
 
 function fillSelects(){
-  $('#subj').innerHTML=Object.keys(DECK).map(s=>
-    `<option${s===subj?' selected':''}>${s}</option>`).join('');
-  $('#topic').innerHTML='<option value="ALL">全部考點</option>'+
-    DECK[subj].topics.map(t=>`<option${t===topicSel?' selected':''}>${t}</option>`).join('');
+  $('#subj').innerHTML = Object.keys(DECK).map(s => `<option${s===subj?' selected':''}>${s}</option>`).join('');
+  $('#topic').innerHTML = '<option value="ALL">全部考點</option>' +
+    DECK[subj].topics.map(t => `<option${t===topicSel?' selected':''}>${t}</option>`).join('');
 }
-$('#subj').onchange=e=>{subj=e.target.value;topicSel='ALL';idx=0;fillSelects();build();};
-$('#topic').onchange=e=>{topicSel=e.target.value;idx=0;build();};
 
-fetch('deck.json').then(r=>r.json()).then(d=>{DECK=d;fillSelects();build();})
-  .catch(e=>{$('#stem').textContent='deck.json 載入失敗：'+e;});
+document.querySelectorAll('.modes button').forEach(b => b.onclick = () => setMode(b.dataset.m));
+$('#subj').onchange = e => { subj = e.target.value; topicSel = 'ALL'; fillSelects(); mode==='exam'?setMode('exam'):build(); };
+$('#topic').onchange = e => { topicSel = e.target.value; build(); };
+$('#undone').onclick = e => { onlyUndone = !onlyUndone; e.target.classList.toggle('on', onlyUndone); build(); };
+$('#submit').onclick = () => { if (confirm('確定交卷批改？')) submitExam(); };
+$('#reset').onclick = e => { e.preventDefault(); if (confirm('清除所有作答紀錄與模擬考成績？')){ S = {q:{},exams:[]}; save(); refreshWrongCount(); build(); } };
+
+$('#toc').onclick = () => {
+  const d = DECK[subj];
+  let html = '', n = 0;
+  d.topics.forEach(t => {
+    const g = d.qs.map((q,i)=>({q,i})).filter(o => d.topics[o.q[0]] === t);
+    let seen = 0, wr = 0;
+    g.forEach(o => { if (rec(id(subj,o.i)).seen) seen++; if (isWrong(id(subj,o.i))) wr++; });
+    html += `<div class="row" data-t="${t}"><span>${n+1}–${n+g.length}　${t}</span>
+      <small>${seen}/${g.length}${wr?`　<span style="color:var(--rd)">錯 ${wr}</span>`:''}</small></div>`;
+    n += g.length;
+  });
+  $('#view').innerHTML = `<div class="panel">${html}</div>`;
+  $('#view').querySelectorAll('.row[data-t]').forEach(el => el.onclick = () => {
+    topicSel = el.dataset.t; $('#topic').value = topicSel; build();
+  });
+};
+
+document.addEventListener('keydown', e => {
+  if (mode === 'stat') return;
+  if (e.key >= '1' && e.key <= '4'){ e.preventDefault(); pick(+e.key); return; }
+  if (e.code === 'Space'){ e.preventDefault(); revealed || mode === 'learn' ? go(1) : $('#skip')?.click(); }
+  if (e.key === 'ArrowRight') go(1);
+  if (e.key === 'ArrowLeft') go(-1);
+});
+
+load();
+fetch('deck.json').then(r => r.json()).then(d => {
+  DECK = d; fillSelects(); refreshWrongCount(); build();
+}).catch(e => { $('#view').innerHTML = `<div class="empty">deck.json 載入失敗：${e}</div>`; });
 </script>
 </body>
 </html>
