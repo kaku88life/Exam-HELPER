@@ -32,6 +32,8 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
 .tag.hot{background:rgba(182,101,22,.15);color:var(--yw)}
 .tag.err{background:rgba(179,69,58,.13);color:var(--rd)}
 .tag.src{background:var(--bg);color:var(--mt);font-weight:400}
+.tag.new{background:rgba(49,95,148,.14);color:var(--vi)}
+.why{border-left:3px solid var(--vi);background:rgba(49,95,148,.06);padding:8px 10px;border-radius:0 6px 6px 0;font-size:.8em;color:var(--tx);margin-bottom:9px}
 .stem{font-size:1.01em;font-weight:600;margin-bottom:13px}
 .opt{border:1px solid var(--cd);border-radius:8px;padding:10px 12px;margin-bottom:7px;font-size:.92em;display:flex;gap:9px;cursor:pointer;background:var(--sf);transition:background .12s}
 .opt:active{background:var(--bg)}
@@ -87,6 +89,8 @@ a{color:var(--cy)}
     <select id="topic"></select>
     <button class="btn" id="undone">只看未做</button>
     <button class="btn" id="toc">目錄</button>
+    <button class="btn on" id="shuf" title="題序與選項位置隨機">🔀 洗牌</button>
+    <button class="btn on" id="stale" title="排除答案已因修法作廢的題目">排除作廢</button>
     <span class="timer hidden" id="timer"></span>
     <button class="btn hidden" id="submit">交卷</button>
   </div>
@@ -117,6 +121,22 @@ let list = [], idx = 0, revealed = false, picked = null;
 let exam = null, tick = null;
 
 const $ = s => document.querySelector(s);
+const md = t => t.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+
+/* ---------- 洗牌：選項位置隨機化 ----------
+   以「題目 key + 本輪 seed」產生確定性排列：同一題在本輪內位置固定
+   （回上一題不會變），換一輪才重排。關掉時維持原順序。 */
+let shuffleOpt = true, shuffleQ = true, hideStale = true, seed = Date.now() % 100000;
+function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } }
+function hash(str){ let h = 2166136261; for (let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function orderOf(o){
+  const raw = o.q[4], ansRaw = o.q[5];
+  if (!shuffleOpt) return { opts: raw, ans: ansRaw, map: [1,2,3,4] };
+  let h = hash(o.k + ':' + seed);
+  const idxs = [0,1,2,3];
+  for (let i = 3; i > 0; i--){ h = (h * 1103515245 + 12345) >>> 0; const j = h % (i+1); [idxs[i], idxs[j]] = [idxs[j], idxs[i]]; }
+  return { opts: idxs.map(i => raw[i]), ans: idxs.indexOf(ansRaw - 1) + 1, map: idxs };
+}
 const id = (sb, i) => sb[0] + i;
 const rec = k => S.q[k] || {r:0,w:0,s:0,seen:0};
 const isWrong = k => { const o = rec(k); return o.w > 0 && o.s < GRAD; };
@@ -131,6 +151,8 @@ function pool(){
   if (mode === 'wrong') return a.filter(o => isWrong(o.k));
   if (topicSel !== 'ALL') a = a.filter(o => d.topics[o.q[0]] === topicSel);
   if (onlyUndone && mode !== 'exam') a = a.filter(o => rec(o.k).seen === 0);
+  if (hideStale) a = a.filter(o => o.q[7] !== 2);          // 排除答案已作廢的題
+  if (shuffleQ && mode !== 'learn') shuffle(a);            // 題序隨機
   return a;
 }
 
@@ -138,7 +160,8 @@ function startExam(){
   const d = DECK[subj];
   const n = subj === '國外匯兌' ? 50 : 80;
   const mins = subj === '國外匯兌' ? 60 : 90;
-  const all = d.qs.map((q,i)=>({q,i,k:id(subj,i)}));
+  let all = d.qs.map((q,i)=>({q,i,k:id(subj,i)}));
+  if (hideStale) all = all.filter(o => o.q[7] !== 2);
   for (let i = all.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [all[i],all[j]] = [all[j],all[i]]; }
   list = all.slice(0, Math.min(n, all.length));
   exam = { answers:{}, end: Date.now() + mins*60000, n:list.length, submitted:false };
@@ -160,6 +183,8 @@ function render(){
   $('#submit').classList.toggle('hidden', mode !== 'exam' || !exam || exam.submitted);
   $('#undone').classList.toggle('hidden', mode === 'wrong' || mode === 'exam' || mode === 'stat');
   $('#toc').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
+  $('#shuf').classList.toggle('hidden', mode === 'stat');
+  $('#stale').classList.toggle('hidden', mode === 'stat');
   $('#topic').classList.toggle('hidden', mode === 'wrong' || mode === 'exam' || mode === 'stat');
 
   if (mode === 'stat') return renderStat();
@@ -167,7 +192,8 @@ function render(){
   if (!list.length) return renderEmpty();
 
   const d = DECK[subj], o = list[idx];
-  const [t, cnt, src, stem, opts, ans, warns] = o.q;
+  const [t, cnt, src, stem, rawOpts, rawAns, warns, stale, why] = o.q;
+  const { opts, ans } = orderOf(o);
   const r = rec(o.k);
   revealed = (mode === 'learn');
   picked = (mode === 'exam') ? (exam.answers[o.k] ?? null) : null;
@@ -179,9 +205,11 @@ function render(){
         <span class="tag">${d.topics[t]}</span>
         ${cnt>1?`<span class="tag hot">回鍋 ${cnt} 次</span>`:''}
         ${(!inExam && r.w>0)?`<span class="tag err">錯過 ${r.w} 次</span>`:''}
-        <span class="tag src">${src}</span>
+        ${src==='模擬新題'?`<span class="tag new">🆕 模擬新題</span>`:`<span class="tag src">${src}</span>`}
+        ${(stale===2)?`<span class="tag err">🔴 答案已作廢</span>`:(stale===1?`<span class="tag hot">🟡 存疑</span>`:'')}
       </div>
       ${(!inExam && warns.length)?warns.map(w=>`<div class="warn">⚠️ ${w}</div>`).join(''):''}
+      ${(!inExam && why)?`<div class="why">💡 ${md(why)}</div>`:''}
       <div class="stem">${stem}</div>
       <div id="opts">${opts.map((v,i)=>`<div class="opt" data-i="${i+1}"><b>(${i+1})</b><span>${v}</span></div>`).join('')}</div>
       <div id="verdict"></div>
@@ -217,7 +245,7 @@ function pick(n){
   const o = list[idx];
   if (mode === 'exam'){ exam.answers[o.k] = n; markPick(n); updateBars(); return; }
   if (mode === 'learn' || revealed) return;
-  const correct = (n === o.q[5]);
+  const correct = (n === orderOf(o).ans);
   const r = {...rec(o.k)};
   r.seen++; if (correct){ r.r++; r.s++; } else { r.w++; r.s = 0; }
   S.q[o.k] = r; save();
@@ -233,7 +261,7 @@ function markPick(n){
 }
 
 function showAnswer(judged, n, correct){
-  const ans = list[idx].q[5];
+  const ans = orderOf(list[idx]).ans;
   $('#opts').querySelectorAll('.opt').forEach(el => {
     const i = +el.dataset.i;
     if (i === ans) el.classList.add('ans');
@@ -293,7 +321,7 @@ function submitExam(){
   let right = 0;
   list.forEach(o => {
     const pickd = exam.answers[o.k];
-    const ok = pickd === o.q[5];
+    const ok = pickd === orderOf(o).ans;
     const r = {...rec(o.k)};
     r.seen++; if (ok){ r.r++; r.s++; } else { r.w++; r.s = 0; }
     S.q[o.k] = r;
@@ -307,10 +335,10 @@ function submitExam(){
 
 function renderResult(){
   const per = subj === '國外匯兌' ? 2 : 1.25;
-  const right = list.filter(o => exam.answers[o.k] === o.q[5]).length;
+  const right = list.filter(o => exam.answers[o.k] === orderOf(o).ans).length;
   const score = +(right*per).toFixed(2);
   const pass = score >= 70;
-  const wrongs = list.filter(o => exam.answers[o.k] !== o.q[5]);
+  const wrongs = list.filter(o => exam.answers[o.k] !== orderOf(o).ans);
   const d = DECK[subj];
   const byTopic = {};
   wrongs.forEach(o => { const t = d.topics[o.q[0]]; byTopic[t] = (byTopic[t]||0)+1; });
@@ -414,6 +442,10 @@ document.querySelectorAll('.modes button').forEach(b => b.onclick = () => setMod
 $('#subj').onchange = e => { subj = e.target.value; topicSel = 'ALL'; fillSelects(); mode==='exam'?setMode('exam'):build(); };
 $('#topic').onchange = e => { topicSel = e.target.value; build(); };
 $('#undone').onclick = e => { onlyUndone = !onlyUndone; e.target.classList.toggle('on', onlyUndone); build(); };
+$('#shuf').onclick = e => { shuffleOpt = shuffleQ = !shuffleOpt; e.target.classList.toggle('on', shuffleOpt);
+  seed = Date.now() % 100000; build(); };
+$('#stale').onclick = e => { hideStale = !hideStale; e.target.classList.toggle('on', hideStale);
+  e.target.textContent = hideStale ? '排除作廢' : '含作廢題'; build(); };
 $('#submit').onclick = () => { if (confirm('確定交卷批改？')) submitExam(); };
 $('#reset').onclick = e => { e.preventDefault(); if (confirm('清除所有作答紀錄與模擬考成績？')){ S = {q:{},exams:[]}; save(); refreshWrongCount(); build(); } };
 
