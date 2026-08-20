@@ -398,6 +398,19 @@ function renderStat(){
       }).join('');
     } else html += `<div class="empty">還沒有作答紀錄</div>`;
   }
+  html += `
+  <h3>跨裝置同步</h3>
+  <div style="font-size:.76em;color:var(--mt);line-height:1.75;margin-bottom:8px">
+    作答紀錄存在<b>這台裝置的瀏覽器</b>，手機與桌機各自獨立。<br>
+    要合併：在來源裝置按「複製進度碼」，到另一台按「貼上合併」。
+  </div>
+  <div class="acts" style="grid-template-columns:1fr 1fr">
+    <button class="btn" id="expCode">複製進度碼</button>
+    <button class="btn" id="impCode">貼上合併</button>
+    <button class="btn full" id="expWrong">複製錯題清單（給 AI 分析）</button>
+  </div>
+  <textarea id="io" style="width:100%;height:78px;margin-top:8px;font-size:.7em;font-family:ui-monospace,monospace;
+    border:1px solid var(--cd);border-radius:7px;padding:8px;display:none"></textarea>`;
   if (S.exams.length){
     html += `<h3>模擬考紀錄</h3>` + S.exams.map(e =>
       `<div class="row"><span>${e.d}　${e.subj}</span>
@@ -411,6 +424,60 @@ function renderStat(){
   $('#pbar').style.width = '0';
   $('#pos').textContent = '統計';
   $('#stat').textContent = '點考點可直接練該區';
+  bindSync();
+}
+
+/* ---------- 跨裝置同步 ---------- */
+function copyOut(text, btn, okMsg){
+  const ta = $('#io'); ta.style.display = 'block'; ta.value = text; ta.select();
+  const done = () => { const t = btn.textContent; btn.textContent = okMsg; setTimeout(() => btn.textContent = t, 1600); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done);
+  else { try { document.execCommand('copy'); } catch(e){} done(); }
+}
+
+function mergeState(inc){
+  let added = 0;
+  for (const k in inc.q){
+    const a = S.q[k], b = inc.q[k];
+    if (!a){ S.q[k] = b; added++; }
+    else {                                   // 兩邊都有 → 累加次數，連續對取較差者（保守）
+      S.q[k] = { r: a.r + b.r, w: a.w + b.w, seen: a.seen + b.seen, s: Math.min(a.s, b.s) };
+      added++;
+    }
+  }
+  const seen = new Set(S.exams.map(e => e.d + e.subj + e.score));
+  (inc.exams || []).forEach(e => { if (!seen.has(e.d + e.subj + e.score)) S.exams.push(e); });
+  save(); refreshWrongCount();
+  return added;
+}
+
+function bindSync(){
+  const ta = $('#io');
+  $('#expCode').onclick = e => copyOut(JSON.stringify(S), e.target, '✅ 已複製');
+  $('#impCode').onclick = e => {
+    ta.style.display = 'block';
+    if (!ta.value.trim()){ ta.placeholder = '把另一台裝置複製的進度碼貼在這裡，再按一次「貼上合併」'; ta.focus(); return; }
+    try {
+      const inc = JSON.parse(ta.value.trim());
+      if (!inc || !inc.q) throw 0;
+      const n = mergeState(inc);
+      ta.value = ''; alert('已合併 ' + n + ' 題的紀錄');
+      renderStat();
+    } catch(err){ alert('進度碼格式不正確，請確認完整複製'); }
+  };
+  $('#expWrong').onclick = e => {
+    const lines = [];
+    for (const sb of Object.keys(DECK)){
+      const d = DECK[sb];
+      d.qs.forEach((q, i) => {
+        const o = rec(id(sb, i));
+        if (o.w > 0) lines.push([sb, d.topics[q[0]], q[2], `對${o.r}錯${o.w}`, q[3].slice(0, 46)].join(' | '));
+      });
+    }
+    if (!lines.length) return alert('目前沒有錯題紀錄');
+    lines.sort();
+    copyOut(['科目 | 考點 | 來源 | 對錯 | 題幹'].concat(lines).join(String.fromCharCode(10)), e.target, `✅ 已複製 ${lines.length} 題`);
+  };
 }
 
 function renderEmpty(){
