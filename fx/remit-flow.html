@@ -278,7 +278,7 @@ code{font-family:'SF Mono',Consolas,monospace;font-weight:700;color:var(--vi);fo
 </div>
 <div class="cell odd" data-role="paying" data-phase="4">
   <div class="act opt"><b>洽收手續費</b><small>71A 註記 OUR 時</small><small class="swift">MT191</small></div>
-  <div class="detail">🔑 <b>71A 三碼</b>：<b>OUR</b>＝匯款人全付（解款行拍 <b>MT191</b> 向匯款行洽收）／<b>BEN</b>＝受款人全付／<b>SHA</b>＝匯出手續費匯款人付、匯入手續費受款人付。<br>記法：<b>MT103 付款、MT202 行間調撥、MT191 專門要手續費。</b></div>
+  <div class="detail">🔑 <b>71A 三碼</b>：<b>OUR</b>＝匯款人全付（解款行拍 <b>MT191</b> 向匯款行洽收）／<b>BEN</b>＝受款人全付／<b>SHA</b>＝匯出手續費匯款人付、匯入手續費受款人付。<br>記法：<b>MT103 付款、MT202 行間調撥、MT191 專門要手續費。</b><br>⚠️ <b>ISO 新制：洽收手續費已改用 <code>camt.106</code></b>——47 屆這題正解就是 camt.106，不是 MT191。舊制記 MT191、新制記 camt.106，兩個都要會。</div>
 </div>
 <div class="cell odd" data-role="paying" data-phase="5">
   <div class="act do"><b>通知受款人洽領</b><small>信匯：確認入帳後才通知</small></div>
@@ -387,7 +387,7 @@ code{font-family:'SF Mono',Consolas,monospace;font-weight:700;color:var(--vi);fo
     <tr><td class="c"><code>MT2XX</code></td><td><b>銀行間</b>之匯款</td><td>2 像兩間銀行</td></tr>
     <tr><td class="c"><code>MT103</code></td><td>客戶匯款付款</td><td>主力電文</td></tr>
     <tr><td class="c"><code>MT110</code></td><td>簽發匯票後<b>取代郵寄</b>通知付款行</td><td>票的分機</td></tr>
-    <tr><td class="c"><code>MT191</code></td><td>解款行<b>洽收手續費</b></td><td>「191」＝要錢專線</td></tr>
+    <tr><td class="c"><code>MT191</code><br><code style="color:var(--rd)">→camt.106</code></td><td>解款行<b>洽收手續費</b><br>⚠️ ISO 新制已改 <b>camt.106</b>（47 屆考此答案）</td><td>「191」＝要錢專線</td></tr>
     <tr><td class="c"><code>MT199</code></td><td>匯款被退回，<b>變更匯款內容</b></td><td>99＝改到最後</td></tr>
     <tr><td class="c"><code>MT202</code></td><td>銀行同業間<b>資金撥付</b></td><td>行間調撥</td></tr>
     <tr><td class="c"><code>MT202COV</code></td><td>配 MT103 做 COVER PAYMENT</td><td>COV＝cover</td></tr>
@@ -428,7 +428,7 @@ code{font-family:'SF Mono',Consolas,monospace;font-weight:700;color:var(--vi);fo
 
   <div class="fx-cross">
     <b>ISO 20022 遷移（47 屆已考 6 題＝12 分）</b><br>
-    <code>MT103 → pacs.008</code>（非銀行客戶電匯）／<code>MT202 → pacs.009</code>（銀行間：開狀行付押匯行、代收行付託收行）／<code>MT202COV → pacs.009(cov)</code>／MT910、MT950 → camt 系列<br>
+    <code>MT103 → pacs.008</code>（非銀行客戶電匯）／<code>MT202 → pacs.009</code>（銀行間：開狀行付押匯行、代收行付託收行）／<code>MT202COV → pacs.009(cov)</code>／<code>MT191 → camt.106</code>（洽收手續費）／MT910、MT950 → camt 系列<br>
     起息日欄位：<code>&lt;IntrBkSttlmDt&gt;</code> ＝ 原 32A 的 value date。<br>
     ⚠️ <b>信用狀類 MT700／707／740（Cat 7）未遷移，仍有效</b>——進出口科不受影響。<br>
     ⚠️ pacs.009(cov) 第二部分之「債權人 Creditor」<b>不是</b>匯款申請人之代理行 (Debtor Agent)。
@@ -441,6 +441,7 @@ code{font-family:'SF Mono',Consolas,monospace;font-weight:700;color:var(--vi);fo
     <tr><td>FEDWIRE（美國聯準）</td><td>ABA <b>9 碼</b></td><td>問「幾碼」就是 9</td></tr>
     <tr><td><b>英國</b>資金調撥（Sort Code）</td><td><code>//SC123456</code></td><td>SC＝Sort Code</td></tr>
     <tr><td><b>澳洲</b>資金調撥（BSB）</td><td><code>//AU123456</code></td><td>AU 後面接 BSB 6 碼</td></tr>
+    <tr><td><b>加拿大</b>清算系統（CC code）</td><td>銀行代號前後共 <b>9 碼</b></td><td>47 屆考「共幾碼」</td></tr>
     <tr><td>匯往<b>歐盟</b>境內</td><td>必須有 <b>IBAN</b></td><td>歐盟必要項目</td></tr>
     <tr><td>財金公司 RTGS 外幣平台</td><td>—</td><td>⚠️ <b>不含港幣</b></td></tr>
   </table></div>
@@ -687,6 +688,35 @@ code{font-family:'SF Mono',Consolas,monospace;font-weight:700;color:var(--vi);fo
     <div class="note"><b>外國人投資國內證券限額</b><br><small style="color:var(--mt)">外國<b>法人無限制</b>、外國<b>自然人 500 萬美元</b></small></div>
     <div class="note"><b>大陸銀行分行</b>收受自然人新臺幣存款<br><small style="color:var(--mt)">限每筆 <b>NT$100 萬以上之定期存款</b></small></div>
   </div>
+
+  <h3 class="sub">🚫 誰不能結售新臺幣</h3>
+  <div class="key"><b>受款人為「境外外國金融機構」的匯入匯款 → 不得辦理結售</b>（30／37／47 屆）。<br>
+  🔑 邏輯：境外金融機構不是我國居住民、也不受我國管轄，讓它把外幣換成新臺幣等於開了一個管不到的新臺幣水龍頭。<br>
+  對照：<b>非中華民國金融機構</b>辦新臺幣結匯申報 → 應授權<b>我國境內金融機構</b>為申報義務人。</div>
+
+  <h3 class="sub">📐 國外匯兌的「性質」題</h3>
+  <div class="key">「國外匯兌<b>不</b>涉及清算借貸之關係」＝<b>錯誤</b>敘述（47 屆）。<br>
+  🔑 國外匯兌<b>一定</b>涉及銀行間的清算與借貸——存匯行的 Nostro／Vostro 帳戶就是借貸關係的體現，
+  錢不是憑空出現在對方國家，是靠兩家銀行的帳戶互相沖抵。<br>
+  同族錯誤敘述：「可代理國外同業收付外匯<b>亦可直接轉送現金</b>」＝錯（匯兌是帳務移轉，不搬現金）。</div>
+
+  <h3 class="sub">💱 遠匯的方向：預購 vs 預售</h3>
+  <div class="tbl-scroll"><table>
+    <tr><th>誰</th><th>未來要做什麼</th><th>辦什麼</th></tr>
+    <tr><td><b>進口商</b></td><td>將來要<b>付</b>外幣 → 怕外幣漲</td><td><b>預購</b>遠期外匯</td></tr>
+    <tr><td><b>出口商</b></td><td>將來會<b>收</b>外幣 → 怕外幣跌</td><td><b>預售</b>遠期外匯（47 屆）</td></tr>
+  </table></div>
+  <div class="key">🔑 <b>看客戶未來是收外幣還是付外幣</b>：要付就先買（預購），會收就先賣（預售）。
+  報價時客戶預售＝銀行買入 → 用<b>遠匯買匯價</b>。</div>
+
+  <h3 class="sub">📄 申報「進口貨款」但沒附證明文件</h3>
+  <div class="key">張三以新臺幣結購外匯匯出、性質申報<b>進口貨款</b>、<b>未</b>檢附證明文件
+  → 正解：<b>金額必小於等值 50 萬美元</b>（47 屆）。<br>
+  🔑 因為個人單筆 <b>50 萬美元</b>以上就必須檢附文件——既然沒附文件銀行還受理了，反推金額一定在門檻以下。<br>
+  ⚠️ 對照 44 屆題：以新臺幣 <b>100 萬元</b>（約 3 萬美元）結購、申報進口貨款
+  → <b>可辦理且不必查詢結匯額度</b>（貨品進出口不計入年度額度）。<br>
+  ⚠️ 須經央行<b>核准</b>的例外：民營事業逕自向國外引進中長期資金，持央行核章之
+  「民營事業中長期外債申報表」者，其還本付息<b>免</b>再申請核准（47 屆此為錯誤選項）。</div>
 
   <h3 class="sub">🇨🇳 兩岸清算機制</h3>
   <div class="key">兩岸貨幣清算機制建立後，銀行業得辦理涉及人民幣之外匯業務範圍
