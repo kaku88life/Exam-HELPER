@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>初階外匯 跨國貿易流程圖</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a;
+--lane0:#f8faf8;--lane1:#f1f4ef;--hi:rgba(8,122,115,.12);--hi-border:var(--cy)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 12px 50px}
+
+nav{position:sticky;top:0;background:var(--bg);z-index:30;padding:10px 0 8px;border-bottom:1px solid var(--cd);margin-bottom:6px}
+nav .row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;align-items:center}
+nav .row::-webkit-scrollbar{display:none}
+nav a, nav .back{flex:0 0 auto;font-size:.76em;padding:5px 11px;border:1px solid var(--cd);border-radius:999px;background:var(--sf);text-decoration:none;color:var(--tx);white-space:nowrap;cursor:pointer}
+nav a:active, nav .back:active{background:var(--cy);color:#fff}
+nav a.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+
+h1{font-size:1.35em;margin:16px 0 4px}
+.lede{color:var(--mt);font-size:.82em;margin-bottom:14px}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:.74em;color:var(--mt);margin-bottom:16px;padding:10px 14px;background:var(--sf);border:1px solid var(--cd);border-radius:8px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.leg-do{width:18px;height:14px;border:2.5px solid var(--tx);border-radius:3px;display:inline-block}
+.leg-opt{width:18px;height:14px;border:1.5px dashed var(--mt);border-radius:3px;display:inline-block}
+.leg-no{width:18px;height:14px;border:1.5px solid var(--mt);border-radius:3px;display:inline-block;background:repeating-linear-gradient(45deg,transparent,transparent 2px,var(--cd) 2px,var(--cd) 4px)}
+
+.board{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.board::after{content:'← 可左右滑動 →'; display:block;text-align:center;font-size:.68em;color:var(--cd);margin-top:4px}
+@media(min-width:960px){.board::after{display:none}}
+
+.grid{display:grid;grid-template-columns:105px repeat(8,minmax(110px,1fr));min-width:1050px;gap:0}
+
+.phase-hdr{padding:8px 4px;text-align:center;font-size:.72em;font-weight:700;background:var(--sf);border:1px solid var(--cd);border-radius:6px 6px 0 0;cursor:pointer;user-select:none;transition:background .15s}
+.phase-hdr:hover{background:rgba(8,122,115,.08)}
+.phase-hdr.on{background:var(--cy);color:#fff}
+.phase-hdr .num{display:block;font-size:1.1em;margin-bottom:1px}
+.corner{background:var(--bg);border:none}
+
+.lane-label{padding:10px 6px;font-size:.78em;font-weight:700;display:flex;flex-direction:column;justify-content:center;cursor:pointer;user-select:none;border-right:2px solid var(--cd);transition:background .15s}
+.lane-label:hover{background:rgba(8,122,115,.06)}
+.lane-label.on{background:var(--hi);border-right-color:var(--cy)}
+.lane-label small{font-weight:400;font-size:.82em;color:var(--mt);margin-top:2px}
+.lane-label .star{color:var(--yw);font-size:.75em}
+
+.cell{padding:6px 5px;border-top:1px solid var(--cd);font-size:.73em;min-height:52px;transition:background .15s,opacity .25s}
+.cell.even{background:var(--lane0)}
+.cell.odd{background:var(--lane1)}
+.cell.hi{background:var(--hi) !important}
+.cell.dim{opacity:.25}
+
+.act{border-radius:5px;padding:5px 7px;margin-bottom:4px}
+.act.do{border:2px solid var(--tx);background:var(--sf)}
+.act.opt{border:1.5px dashed var(--mt);background:var(--sf)}
+.act.no{border:1.5px solid var(--mt);background:repeating-linear-gradient(45deg,var(--sf),var(--sf) 3px,var(--cd) 3px,var(--cd) 5px)}
+.act b{font-size:.95em;display:block;margin-bottom:1px}
+.act small{color:var(--mt);font-size:.92em;display:block;line-height:1.4}
+.act .swift{font-family:monospace;font-weight:700;color:var(--vi);font-size:.9em}
+.act .warn-text{font-weight:700}
+
+.detail{display:none;margin-top:6px;padding:7px 9px;background:var(--sf);border:1px solid var(--cd);border-radius:6px;font-size:.95em;line-height:1.5;color:var(--mt)}
+.cell.hi .detail{display:block}
+
+.foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--cd);font-size:.76em;color:var(--mt);text-align:center;line-height:1.9}
+a{color:var(--cy)}
+
+.summary{margin-top:20px;background:var(--sf);border:1px solid var(--cd);border-radius:9px;padding:15px 17px}
+.summary h2{font-size:1em;margin-bottom:10px;padding-left:10px;border-left:4px solid var(--cy)}
+.summary ul{margin:0 0 10px 20px;font-size:.84em}
+.summary li{margin-bottom:5px}
+
+.key{border-left:4px solid var(--cy);background:rgba(8,122,115,.06);padding:10px 14px;border-radius:0 7px 7px 0;margin:14px 0;font-size:.84em}
+.warn{border-left:4px solid var(--rd);background:rgba(179,69,58,.06);padding:10px 14px;border-radius:0 7px 7px 0;margin:14px 0;font-size:.84em}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav><div class="row">
+  <a class="back" href="notes.html">← 筆記</a>
+  <a class="back" href="drill.html">刷題器</a>
+  <a class="back" href="analysis.html">題庫分析</a>
+  <a class="back" href="../index.html">回總覽</a>
+</div></nav>
+
+<h1>跨國貿易完整流程圖</h1>
+<div class="lede">點擊<b>角色名稱</b>→ 高亮該角色在所有階段的動作。點擊<b>階段標題</b>→ 高亮該階段所有角色。再點一次取消。<br>色弱友善：粗實框＝該做、虛線框＝能做、斜線底＝不能做。</div>
+
+<div class="legend">
+  <span><i class="leg-do"></i> 該做（義務）</span>
+  <span><i class="leg-opt"></i> 能做（選擇性）</span>
+  <span><i class="leg-no"></i> 不能做 ❌</span>
+  <span><b style="font-family:monospace;color:var(--vi)">MT700</b> SWIFT電文</span>
+</div>
+
+<div class="board">
+<div class="grid" id="grid">
+<!-- Row 0: Phase headers -->
+<div class="corner"></div>
+<div class="phase-hdr" data-phase="0"><span class="num">①</span>簽約</div>
+<div class="phase-hdr" data-phase="1"><span class="num">②</span>開狀</div>
+<div class="phase-hdr" data-phase="2"><span class="num">③</span>裝運</div>
+<div class="phase-hdr" data-phase="3"><span class="num">④</span>交單</div>
+<div class="phase-hdr" data-phase="4"><span class="num">⑤</span>審單</div>
+<div class="phase-hdr" data-phase="5"><span class="num">⑥</span>付款</div>
+<div class="phase-hdr" data-phase="6"><span class="num">⑦</span>提貨</div>
+<div class="phase-hdr" data-phase="7"><span class="num">⑧</span>爭議</div>
+
+<!-- LANE: 買方 -->
+<div class="lane-label even" data-role="buyer">買方<small>Applicant</small></div>
+<div class="cell even" data-role="buyer" data-phase="0">
+  <div class="act do"><b>議定合約</b><small>品名、數量、金額<br>選 Incoterms＋付款方式</small></div>
+  <div class="detail">付款方式風險階梯：Prepayment → L/C → D/P → D/A → O/A。越右邊買方越有利但賣方風險越高。</div>
+</div>
+<div class="cell even" data-role="buyer" data-phase="1">
+  <div class="act do"><b>申請開狀</b><small>開狀申請書<br>保證金＋授信額度</small></div>
+  <div class="detail">開狀行依買方授信額度決定保證金比例。Transferable L/C 需特別申請標注。</div>
+</div>
+<div class="cell even" data-role="buyer" data-phase="2"></div>
+<div class="cell even" data-role="buyer" data-phase="3"></div>
+<div class="cell even" data-role="buyer" data-phase="4">
+  <div class="act opt"><b>Waive 接受不符點</b><small>開狀行通知後決定</small></div>
+  <div class="detail">買方可選擇接受不符點（waive），此時開狀行仍須付款。但買方不能指示銀行拒付。</div>
+</div>
+<div class="cell even" data-role="buyer" data-phase="5">
+  <div class="act do"><b>償還開狀行</b><small>即期→已先付<br>遠期→到期償還</small></div>
+  <div class="detail">Buyer's Usance：利息由買方負擔。Seller's Usance：利息由賣方貼息，買方享受延遲付款但不出利息。</div>
+</div>
+<div class="cell even" data-role="buyer" data-phase="6">
+  <div class="act do"><b>憑 B/L 提貨</b><small>正本B/L → 換D/O<br>AWB → 直接提貨</small></div>
+  <div class="detail">擔保提貨：單據未到時，副提單＋銀行背書→先提貨。T/R 信託收據：先提貨後付款的進口融資。</div>
+</div>
+<div class="cell even" data-role="buyer" data-phase="7">
+  <div class="act no"><b>❌ 指示銀行拒付</b><small class="warn-text">貨物問題≠單據問題</small></div>
+  <div class="detail">貨物不符→向賣方索賠（不是銀行）。止付令→須法院裁定。銀行獨立性：只管單據不管貨。</div>
+</div>
+
+<!-- LANE: 賣方 -->
+<div class="lane-label odd" data-role="seller">賣方<small>Beneficiary</small></div>
+<div class="cell odd" data-role="seller" data-phase="0">
+  <div class="act do"><b>報價確認</b><small>確認交期<br>確認能否符合L/C</small></div>
+</div>
+<div class="cell odd" data-role="seller" data-phase="1">
+  <div class="act do"><b>審查 L/C</b><small>不符→要求修改</small><small class="swift">MT707</small></div>
+  <div class="detail">收到 L/C 後逐條核對能否照做。無法配合的條款必須在裝運前要求修改，否則交單時會產生不符點。</div>
+</div>
+<div class="cell odd" data-role="seller" data-phase="2">
+  <div class="act do"><b>備貨＋裝運＋投保</b><small>CIF/CIP → 投保≥110%<br>保險日 ≤ 裝運日<br>同幣別</small></div>
+  <div class="detail">CIF→ICC(C) 海運、CIP→ICC(A) 任何運輸。CFR/CPT 不含保險義務，買方需自行投保。</div>
+</div>
+<div class="cell odd" data-role="seller" data-phase="3">
+  <div class="act do"><b>製單提示</b><small>裝運後 21 天內<br>不超過 L/C 有效期</small></div>
+  <div class="detail">📄 Invoice＋B/L＋Insurance＋Packing List＋C.O.＋匯票。"after" 不含當天（5/1裝船→5/2起算21天→5/22截止）。</div>
+</div>
+<div class="cell odd" data-role="seller" data-phase="4">
+  <div class="act opt"><b>讓渡 Assignment</b><small>任何L/C都可以<br>只轉收款權</small></div>
+  <div class="detail">Assignment ≠ Transfer。讓渡不需 L/C 標示 transferable，只移轉收款權，交單義務仍在原受益人。</div>
+</div>
+<div class="cell odd" data-role="seller" data-phase="5">
+  <div class="act do"><b>收款</b><small>押匯行先墊付→沖帳<br>或直接收開狀行付款</small></div>
+  <div class="detail">Seller's Usance：賣方貼息換取即期收款。押匯有追索權，若開狀行拒付，賣方須歸還墊款。</div>
+</div>
+<div class="cell odd" data-role="seller" data-phase="6"></div>
+<div class="cell odd" data-role="seller" data-phase="7">
+  <div class="act opt"><b>改走託收 D/P</b><small>被拒付時的備案</small></div>
+  <div class="detail">被拒付→改走託收。買方倒帳→申請中國輸出入銀行的輸出保險理賠。押匯被追索→歸還押匯款。</div>
+</div>
+
+<!-- LANE: 開狀行 -->
+<div class="lane-label even" data-role="issuing">開狀行<small>Issuing Bank</small><span class="star">★ 第一付款責任</span></div>
+<div class="cell even" data-role="issuing" data-phase="0"></div>
+<div class="cell even" data-role="issuing" data-phase="1">
+  <div class="act do"><b>開出 L/C</b><small>不可撤銷（UCP600）</small><small class="swift">MT700</small></div>
+  <div class="detail">UCP600 下所有 L/C 預設不可撤銷。開狀行承擔第一付款責任，不能把責任推給通知行或償付行。</div>
+</div>
+<div class="cell even" data-role="issuing" data-phase="2"></div>
+<div class="cell even" data-role="issuing" data-phase="3"></div>
+<div class="cell even" data-role="issuing" data-phase="4">
+  <div class="act do"><b>審單 ≤5 營業日</b><small>只看表面相符<br>不符→一次列完</small><small class="swift">拒付 MT750</small></div>
+  <div class="detail">逾 5 BD 未拒付＝喪失拒付權。拒付通知必須一次列明全部不符點，不能分批通知。不負責單據真偽。</div>
+</div>
+<div class="cell even" data-role="issuing" data-phase="5">
+  <div class="act do"><b>付款 / 承兌</b><small>即期→即付<br>遠期→先承兌到期付</small><small class="swift">MT756</small></div>
+  <div class="detail">償付行拒付時，開狀行必須自己付。開狀行是資金鏈的最終責任人。</div>
+</div>
+<div class="cell even" data-role="issuing" data-phase="6"></div>
+<div class="cell even" data-role="issuing" data-phase="7">
+  <div class="act no"><b>❌ 管貨物品質真偽</b><small class="warn-text">獨立性原則</small></div>
+  <div class="detail">銀行不負責：單據真偽、貨物品質、傳遞延誤/遺失、不可抗力、被指示方的行為。一句話：銀行只看紙，不管事。</div>
+</div>
+
+<!-- LANE: 通知行 -->
+<div class="lane-label odd" data-role="advising">通知行<small>Advising Bank</small></div>
+<div class="cell odd" data-role="advising" data-phase="0"></div>
+<div class="cell odd" data-role="advising" data-phase="1">
+  <div class="act do"><b>驗證＋通知</b><small>驗 L/C 真偽<br>無法驗→告知受益人</small></div>
+  <div class="detail">通知行只負責驗真偽並通知受益人。無法確認真偽時，須告知受益人「未能確認」，由受益人自行決定。</div>
+</div>
+<div class="cell odd" data-role="advising" data-phase="2">
+  <div class="act no"><b>❌ 付款責任</b><small class="warn-text">只驗不付</small></div>
+</div>
+<div class="cell odd" data-role="advising" data-phase="3"></div>
+<div class="cell odd" data-role="advising" data-phase="4"></div>
+<div class="cell odd" data-role="advising" data-phase="5">
+  <div class="act no"><b>❌ 修改 L/C 內容</b></div>
+</div>
+<div class="cell odd" data-role="advising" data-phase="6"></div>
+<div class="cell odd" data-role="advising" data-phase="7">
+  <div class="act opt"><b>可升級為保兌行</b><small>加做保兌＝承擔付款</small></div>
+</div>
+
+<!-- LANE: 保兌行 -->
+<div class="lane-label even" data-role="confirming">保兌行<small>Confirming Bank</small><span class="star">★ 最終付款責任</span></div>
+<div class="cell even" data-role="confirming" data-phase="0"></div>
+<div class="cell even" data-role="confirming" data-phase="1">
+  <div class="act do"><b>加列保兌</b><small>獨立不可撤銷承諾</small></div>
+  <div class="detail">保兌行一旦加列保兌，其付款責任獨立於開狀行，不可撤銷。即使開狀行拒絕或無力付款，保兌行仍須付。</div>
+</div>
+<div class="cell even" data-role="confirming" data-phase="2"></div>
+<div class="cell even" data-role="confirming" data-phase="3"></div>
+<div class="cell even" data-role="confirming" data-phase="4">
+  <div class="act do"><b>獨立審單</b><small>相符→必須付款</small></div>
+</div>
+<div class="cell even" data-role="confirming" data-phase="5">
+  <div class="act do"><b>獨立付款</b><small>即使開狀行倒閉</small></div>
+  <div class="detail">保兌行是受益人的最強保障。考試重點：保兌行不能因開狀行倒閉而拒付。</div>
+</div>
+<div class="cell even" data-role="confirming" data-phase="6"></div>
+<div class="cell even" data-role="confirming" data-phase="7">
+  <div class="act no"><b>❌ 因開狀行倒閉拒付</b><small class="warn-text">責任完全獨立</small></div>
+</div>
+
+<!-- LANE: 押匯行 -->
+<div class="lane-label odd" data-role="negotiating">押匯行<small>Negotiating Bank</small></div>
+<div class="cell odd" data-role="negotiating" data-phase="0"></div>
+<div class="cell odd" data-role="negotiating" data-phase="1"></div>
+<div class="cell odd" data-role="negotiating" data-phase="2"></div>
+<div class="cell odd" data-role="negotiating" data-phase="3">
+  <div class="act do"><b>收單＋墊款</b><small>有追索權<br>押匯 ≠ 買斷</small></div>
+  <div class="detail">💰 Factoring＝D/A、O/A 應收帳款（短期、通常有追索）<br>💰 Forfaiting＝遠期L/C 買斷（無追索、可轉讓二級市場）<br>押匯是融資不是買斷，開狀行拒付時可向賣方追索。</div>
+</div>
+<div class="cell odd" data-role="negotiating" data-phase="4"></div>
+<div class="cell odd" data-role="negotiating" data-phase="5">
+  <div class="act do"><b>向開狀行索款</b><small>或透過償付行</small></div>
+</div>
+<div class="cell odd" data-role="negotiating" data-phase="6"></div>
+<div class="cell odd" data-role="negotiating" data-phase="7">
+  <div class="act no"><b>❌ 免除開狀行責任</b></div>
+</div>
+
+<!-- LANE: 償付行 -->
+<div class="lane-label even" data-role="reimbursing">償付行<small>Reimbursing Bank</small></div>
+<div class="cell even" data-role="reimbursing" data-phase="0"></div>
+<div class="cell even" data-role="reimbursing" data-phase="1"></div>
+<div class="cell even" data-role="reimbursing" data-phase="2"></div>
+<div class="cell even" data-role="reimbursing" data-phase="3"></div>
+<div class="cell even" data-role="reimbursing" data-phase="4">
+  <div class="act no"><b>❌ 審查單據</b><small class="warn-text">只看償付授權書</small></div>
+  <div class="detail">償付行適用 URR725（不是 UCP600）。只依據開狀行的償付授權書付款，完全不看 L/C 條款或單據內容。</div>
+</div>
+<div class="cell even" data-role="reimbursing" data-phase="5">
+  <div class="act do"><b>依授權付款</b><small class="swift">MT740 授權<br>MT742 索款</small></div>
+  <div class="detail">償付行拒付→開狀行必須自己付（開狀行是最終責任人）。</div>
+</div>
+<div class="cell even" data-role="reimbursing" data-phase="6"></div>
+<div class="cell even" data-role="reimbursing" data-phase="7"></div>
+
+<!-- LANE: 運送人 -->
+<div class="lane-label odd" data-role="carrier">運送人<small>Carrier</small></div>
+<div class="cell odd" data-role="carrier" data-phase="0"></div>
+<div class="cell odd" data-role="carrier" data-phase="1"></div>
+<div class="cell odd" data-role="carrier" data-phase="2">
+  <div class="act do"><b>簽發運送單據</b><small>海運→B/L（物權 ✅）<br>空運→AWB（非物權 ❌）</small></div>
+  <div class="detail">⚠ 風險轉移點：<br>FOB/CFR/CIF → 裝船時<br>FCA/CPT/CIP → 交運送人時<br>F組＝COLLECT（買方付運費）<br>C組＝PREPAID（賣方付運費）</div>
+</div>
+<div class="cell odd" data-role="carrier" data-phase="3"></div>
+<div class="cell odd" data-role="carrier" data-phase="4"></div>
+<div class="cell odd" data-role="carrier" data-phase="5"></div>
+<div class="cell odd" data-role="carrier" data-phase="6">
+  <div class="act do"><b>憑 B/L 放貨</b><small>正本B/L → D/O</small></div>
+</div>
+<div class="cell odd" data-role="carrier" data-phase="7"></div>
+
+<!-- LANE: 保險公司 -->
+<div class="lane-label even" data-role="insurer">保險公司<small>Insurer</small></div>
+<div class="cell even" data-role="insurer" data-phase="0"></div>
+<div class="cell even" data-role="insurer" data-phase="1"></div>
+<div class="cell even" data-role="insurer" data-phase="2">
+  <div class="act do"><b>簽發保單</b><small>≥110% CIF/CIP<br>日期 ≤ 裝運日<br>同幣別</small></div>
+  <div class="detail">CIF→ICC(C) 海運｜CIP→ICC(A) 任何運輸。CFR/CPT 無保險義務，買方自行決定是否投保。保單可空白背書轉讓。</div>
+</div>
+<div class="cell even" data-role="insurer" data-phase="3"></div>
+<div class="cell even" data-role="insurer" data-phase="4"></div>
+<div class="cell even" data-role="insurer" data-phase="5"></div>
+<div class="cell even" data-role="insurer" data-phase="6"></div>
+<div class="cell even" data-role="insurer" data-phase="7"></div>
+
+<!-- LANE: 海關/央行 -->
+<div class="lane-label odd" data-role="gov">海關/央行<small>Customs / CBC</small></div>
+<div class="cell odd" data-role="gov" data-phase="0"></div>
+<div class="cell odd" data-role="gov" data-phase="1"></div>
+<div class="cell odd" data-role="gov" data-phase="2">
+  <div class="act do"><b>出口報關</b><small>出口許可證＋申報</small></div>
+  <div class="detail">外匯申報（匯兌科範圍）：超過一定金額須向央行申報核准。</div>
+</div>
+<div class="cell odd" data-role="gov" data-phase="3"></div>
+<div class="cell odd" data-role="gov" data-phase="4"></div>
+<div class="cell odd" data-role="gov" data-phase="5"></div>
+<div class="cell odd" data-role="gov" data-phase="6">
+  <div class="act do"><b>進口報關</b><small>完稅＋外匯申報<br>&gt;USD 50萬須申報</small></div>
+</div>
+<div class="cell odd" data-role="gov" data-phase="7"></div>
+
+<!-- LANE: 中國輸出入銀行 -->
+<div class="lane-label even" data-role="exim">中國輸出<br>入銀行<small>EXIM Bank</small></div>
+<div class="cell even" data-role="exim" data-phase="0"></div>
+<div class="cell even" data-role="exim" data-phase="1"></div>
+<div class="cell even" data-role="exim" data-phase="2"></div>
+<div class="cell even" data-role="exim" data-phase="3"></div>
+<div class="cell even" data-role="exim" data-phase="4"></div>
+<div class="cell even" data-role="exim" data-phase="5"></div>
+<div class="cell even" data-role="exim" data-phase="6"></div>
+<div class="cell even" data-role="exim" data-phase="7">
+  <div class="act opt"><b>輸出保險理賠</b><small>商業風險＝人的問題<br>政治風險＝國家的問題</small></div>
+  <div class="detail">承保買方信用風險（商業：破產、拒付、拒收）和買方國家風險（政治：外匯管制、戰爭、禁運）。中國輸出入銀行是政府機構，不是商業銀行。</div>
+</div>
+
+</div><!-- /grid -->
+</div><!-- /board -->
+
+<div class="summary">
+  <h2>🔑 考試必記「不能做」原則</h2>
+  <ul>
+    <li><b>銀行不管貨物</b>（獨立性原則）</li>
+    <li><b>買方不能因貨物問題指示銀行拒付</b></li>
+    <li><b>開狀行不能把責任推給通知行/償付行</b></li>
+    <li><b>保兌行的責任獨立於開狀行</b>（開狀行倒了也要付）</li>
+    <li><b>審單 5 營業日是上限不是建議</b>（逾期＝喪失拒付權）</li>
+    <li><b>拒付通知必須一次列完所有不符點</b></li>
+    <li><b>償付行只看償付授權書 URR725</b>，不看 L/C 條款</li>
+    <li><b>通知行只驗真偽</b>，驗不出來告知受益人「未能確認」</li>
+  </ul>
+</div>
+
+<div class="key">
+  <b>SWIFT 電文速查</b><br>
+  Cat 7（跟單信用狀）：MT700 開狀 ｜ MT707 修改 ｜ MT720 轉讓 ｜ MT740 償付授權 ｜ MT742 償付索款 ｜ MT750 不符點 ｜ MT756 付款 ｜ MT799 自由格式<br>
+  Cat 4（託收）：MT400 ｜ Cat 1（匯款）：MT103
+</div>
+
+<div class="warn">
+  <b>Incoterms 快記</b><br>
+  FOB/CFR/CIF＝海運專用、風險裝船時轉移 ｜ FCA/CPT/CIP＝任何運輸、風險交運送人時轉移<br>
+  <b>F 組＝COLLECT</b>（買方付運費）｜ <b>C 組＝PREPAID</b>（賣方付運費）｜ CIF→ICC(C) ｜ CIP→ICC(A)
+</div>
+
+<div class="foot">
+  <a href="notes.html">衝刺筆記</a> · <a href="drill.html">刷題器</a> · <a href="analysis.html">題庫分析</a> · <a href="../index.html">回總覽</a><br>
+  Built with Claude Code
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  const grid = document.getElementById('grid');
+  const cells = grid.querySelectorAll('.cell');
+  const labels = grid.querySelectorAll('.lane-label');
+  const phases = grid.querySelectorAll('.phase-hdr');
+  let activeRole = null;
+  let activePhase = null;
+
+  function clearAll(){
+    cells.forEach(c=>{c.classList.remove('hi','dim')});
+    labels.forEach(l=>l.classList.remove('on'));
+    phases.forEach(p=>p.classList.remove('on'));
+    activeRole = null;
+    activePhase = null;
+  }
+
+  function highlightRole(role){
+    if(activeRole === role){clearAll(); return;}
+    clearAll();
+    activeRole = role;
+    cells.forEach(c=>{
+      if(c.dataset.role === role) c.classList.add('hi');
+      else c.classList.add('dim');
+    });
+    labels.forEach(l=>{
+      if(l.dataset.role === role) l.classList.add('on');
+    });
+  }
+
+  function highlightPhase(phase){
+    if(activePhase === phase){clearAll(); return;}
+    clearAll();
+    activePhase = phase;
+    cells.forEach(c=>{
+      if(c.dataset.phase === phase) c.classList.add('hi');
+      else c.classList.add('dim');
+    });
+    phases.forEach(p=>{
+      if(p.dataset.phase === phase) p.classList.add('on');
+    });
+  }
+
+  labels.forEach(l=>{
+    l.addEventListener('click', ()=> highlightRole(l.dataset.role));
+  });
+
+  phases.forEach(p=>{
+    p.addEventListener('click', ()=> highlightPhase(p.dataset.phase));
+  });
+})();
+</script>
+</body>
+</html>
