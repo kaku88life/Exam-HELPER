@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>初階外匯 國外匯兌流程圖</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a;
+--lane0:#f8faf8;--lane1:#f1f4ef;--hi:rgba(8,122,115,.12);--hi-border:var(--cy)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 12px 50px}
+
+nav{position:sticky;top:0;background:var(--bg);z-index:30;padding:10px 0 8px;border-bottom:1px solid var(--cd);margin-bottom:6px}
+nav .row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;align-items:center}
+nav .row::-webkit-scrollbar{display:none}
+nav a, nav .back{flex:0 0 auto;font-size:.76em;padding:5px 11px;border:1px solid var(--cd);border-radius:999px;background:var(--sf);text-decoration:none;color:var(--tx);white-space:nowrap;cursor:pointer}
+nav a:active, nav .back:active{background:var(--cy);color:#fff}
+nav a.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+
+h1{font-size:1.35em;margin:16px 0 4px}
+h2.sec{font-size:1.05em;margin:34px 0 6px;padding-left:11px;border-left:5px solid var(--cy)}
+h3.sub{font-size:.92em;margin:18px 0 6px;color:var(--tx)}
+.lede{color:var(--mt);font-size:.82em;margin-bottom:14px}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:.74em;color:var(--mt);margin-bottom:16px;padding:10px 14px;background:var(--sf);border:1px solid var(--cd);border-radius:8px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.leg-do{width:18px;height:14px;border:2.5px solid var(--tx);border-radius:3px;display:inline-block}
+.leg-opt{width:18px;height:14px;border:1.5px dashed var(--mt);border-radius:3px;display:inline-block}
+.leg-no{width:18px;height:14px;border:1.5px solid var(--mt);border-radius:3px;display:inline-block;background:repeating-linear-gradient(45deg,transparent,transparent 2px,var(--cd) 2px,var(--cd) 4px)}
+
+.board{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.board::after{content:'← 可左右滑動 →'; display:block;text-align:center;font-size:.68em;color:var(--cd);margin-top:4px}
+@media(min-width:960px){.board::after{display:none}}
+
+.grid{display:grid;grid-template-columns:105px repeat(7,minmax(120px,1fr));min-width:1030px;gap:0}
+
+.phase-hdr{padding:8px 4px;text-align:center;font-size:.72em;font-weight:700;background:var(--sf);border:1px solid var(--cd);border-radius:6px 6px 0 0;cursor:pointer;user-select:none;transition:background .15s}
+.phase-hdr:hover{background:rgba(8,122,115,.08)}
+.phase-hdr.on{background:var(--cy);color:#fff}
+.phase-hdr .num{display:block;font-size:1.1em;margin-bottom:1px}
+.corner{background:var(--bg);border:none}
+
+.lane-label{padding:10px 6px;font-size:.78em;font-weight:700;display:flex;flex-direction:column;justify-content:center;cursor:pointer;user-select:none;border-right:2px solid var(--cd);transition:background .15s}
+.lane-label:hover{background:rgba(8,122,115,.06)}
+.lane-label.on{background:var(--hi);border-right-color:var(--cy)}
+.lane-label small{font-weight:400;font-size:.82em;color:var(--mt);margin-top:2px}
+.lane-label .star{color:var(--yw);font-size:.75em}
+
+.cell{padding:6px 5px;border-top:1px solid var(--cd);font-size:.73em;min-height:52px;transition:background .15s,opacity .25s}
+.cell.even{background:var(--lane0)}
+.cell.odd{background:var(--lane1)}
+.cell.hi{background:var(--hi) !important}
+.cell.dim{opacity:.25}
+
+.act{border-radius:5px;padding:5px 7px;margin-bottom:4px}
+.act.do{border:2px solid var(--tx);background:var(--sf)}
+.act.opt{border:1.5px dashed var(--mt);background:var(--sf)}
+.act.no{border:1.5px solid var(--mt);background:repeating-linear-gradient(45deg,var(--sf),var(--sf) 3px,var(--cd) 3px,var(--cd) 5px)}
+.act b{font-size:.95em;display:block;margin-bottom:1px}
+.act small{color:var(--mt);font-size:.92em;display:block;line-height:1.4}
+.act .swift{font-family:monospace;font-weight:700;color:var(--vi);font-size:.9em}
+.act .warn-text{font-weight:700}
+
+.detail{display:none;margin-top:6px;padding:7px 9px;background:var(--sf);border:1px solid var(--cd);border-radius:6px;font-size:.95em;line-height:1.5;color:var(--mt)}
+.flow-arrows{display:none}
+.cell.hi .detail,.cell.hi .flow-arrows{display:block}
+
+.hoshino{display:inline-block;font-size:.78em;color:var(--yw);font-weight:600;margin-top:2px}
+.fx-link{display:inline-block;font-size:.72em;padding:1px 5px;border-radius:3px;background:rgba(49,95,148,.12);color:var(--vi);font-weight:600;margin-top:3px;border:1px solid rgba(49,95,148,.25)}
+
+.flow-arrows{margin-top:8px;padding:6px 8px;background:rgba(8,122,115,.04);border:1px dashed var(--cd);border-radius:5px;font-size:.82em;line-height:1.7}
+.flow-arrows .arr-line{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:2px}
+.flow-arrows .from,.flow-arrows .to{font-weight:700;color:var(--tx)}
+.flow-arrows .ar{color:var(--cy);font-weight:700}
+.flow-arrows .ar-money{color:var(--gn);font-weight:700}
+.flow-arrows .label{font-size:.88em;color:var(--vi);font-weight:600}
+
+.foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--cd);font-size:.76em;color:var(--mt);text-align:center;line-height:1.9}
+a{color:var(--cy)}
+
+.key{border-left:4px solid var(--cy);background:rgba(8,122,115,.06);padding:10px 14px;border-radius:0 7px 7px 0;margin:14px 0;font-size:.84em}
+.warn{border-left:4px solid var(--rd);background:rgba(179,69,58,.06);padding:10px 14px;border-radius:0 7px 7px 0;margin:14px 0;font-size:.84em}
+.fx-cross{border-left:4px solid var(--vi);background:rgba(49,95,148,.06);padding:10px 14px;border-radius:0 7px 7px 0;margin:14px 0;font-size:.84em}
+
+/* ---- 記憶情境模組 ---- */
+.mod{background:var(--sf);border:1px solid var(--cd);border-radius:9px;padding:15px 17px;margin:14px 0}
+.mod .story{font-size:.84em;color:var(--mt);border-left:3px dashed var(--yw);padding-left:11px;margin-bottom:12px;line-height:1.7}
+.mod .story b{color:var(--yw)}
+
+table{width:100%;border-collapse:collapse;font-size:.8em;margin:8px 0}
+th,td{border:1px solid var(--cd);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--lane1);font-weight:700}
+td.c{text-align:center;white-space:nowrap}
+code{font-family:'SF Mono',Consolas,monospace;font-weight:700;color:var(--vi);font-size:.95em}
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* 便條牆 */
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:9px;margin:10px 0}
+.note{border:2px solid var(--tx);border-radius:6px;padding:9px 11px;background:var(--sf);font-size:.79em;line-height:1.5}
+.note b{display:block;font-size:1.06em;margin-bottom:3px}
+.note .num{font-family:'SF Mono',Consolas,monospace;color:var(--cy);font-weight:700}
+.note.trap{border-style:dashed;border-color:var(--rd)}
+.note.trap b{color:var(--rd)}
+
+/* 階梯 */
+.ladder{margin:12px 0}
+.rung{border:2px solid var(--tx);border-radius:6px;padding:9px 13px;margin-bottom:7px;background:var(--sf);font-size:.82em}
+.rung .lv{display:inline-block;font-size:.8em;font-weight:700;color:#fff;background:var(--cy);border-radius:999px;padding:1px 9px;margin-right:7px}
+.rung small{display:block;color:var(--mt);margin-top:3px;font-size:.92em}
+.rung.r1{margin-left:0}.rung.r2{margin-left:18px}.rung.r3{margin-left:36px}.rung.r4{margin-left:54px}
+
+/* 判斷器 */
+.tool{background:var(--sf);border:2px solid var(--cy);border-radius:9px;padding:15px 17px;margin:14px 0}
+.qrow{margin-bottom:11px}
+.qrow>span{display:block;font-size:.8em;font-weight:700;margin-bottom:5px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{font-size:.78em;padding:5px 12px;border:1.5px solid var(--cd);border-radius:999px;background:var(--sf);cursor:pointer;user-select:none;transition:.15s}
+.opt:hover{border-color:var(--cy)}
+.opt.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+.verdict{margin-top:12px;padding:12px 14px;border-radius:7px;background:var(--lane1);border:1px dashed var(--cd);font-size:.85em;min-height:52px}
+.verdict .big{font-size:1.25em;font-weight:700;color:var(--cy);display:block;margin-bottom:4px}
+.verdict .why{color:var(--mt);font-size:.92em;line-height:1.6}
+
+/* 自我測驗 */
+.quiz{margin:10px 0}
+.qa{border:1px solid var(--cd);border-radius:7px;background:var(--sf);margin-bottom:7px;overflow:hidden}
+.qa .q{padding:9px 13px;font-size:.83em;cursor:pointer;user-select:none;display:flex;gap:8px;align-items:flex-start}
+.qa .q:hover{background:rgba(8,122,115,.05)}
+.qa .q::before{content:'?';flex:0 0 auto;width:19px;height:19px;border-radius:50%;background:var(--cy);color:#fff;font-size:.75em;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.qa .a{display:none;padding:0 13px 11px 40px;font-size:.82em;color:var(--mt);line-height:1.6}
+.qa.open .a{display:block}
+.qa.open .q{background:rgba(8,122,115,.07);font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<nav><div class="row">
+  <a class="back" href="notes.html">← 筆記</a>
+  <a class="back" href="drill.html">刷題器</a>
+  <a class="back" href="analysis.html">題庫分析</a>
+  <a class="back" href="trade-flow.html">貿易流程圖</a>
+  <a class="back" href="../index.html">回總覽</a>
+</div></nav>
+
+<h1>國外匯兌 完整流程圖</h1>
+<div class="lede">
+點擊<b>角色名稱</b>→ 高亮該角色在所有階段的動作。點擊<b>階段標題</b>→ 高亮該階段所有角色。再點一次取消。<br>
+色弱友善：粗實框＝該做、虛線框＝能做、斜線底＝不能做。
+</div>
+
+<div class="warn">
+<b>⚠️ 為什麼這一科不能只靠流程圖</b><br>
+把 1245 題匯兌題去重成 894 組後分類：<b>數字門檻 25.8%＋SWIFT 電文代號 16.4%＋英文術語 7.8%＋匯款分類碼 4.0% ＝ 54.1% 是純死記</b>，
+只有 45.9% 能靠角色立場推出來。<br>
+→ 所以本頁 = <b>主線泳道圖（吃掉可推導的 46%）</b> ＋ 下方 <b>6 個死背區記憶情境</b>（吃掉剩下的 54%）。
+</div>
+
+<div class="legend">
+  <span><i class="leg-do"></i> 該做（義務）</span>
+  <span><i class="leg-opt"></i> 能做（選擇性）</span>
+  <span><i class="leg-no"></i> 不能做 ❌</span>
+  <span><span class="fx-link">跨科</span> 與進出口科重疊</span>
+  <span style="color:var(--yw)">🇹🇼 星野模型情境</span>
+</div>
+
+<!-- ===================== 主線泳道圖 ===================== -->
+<div class="board">
+<div class="grid" id="grid">
+
+<div class="corner"></div>
+<div class="phase-hdr" data-phase="0"><span class="num">①</span>申請</div>
+<div class="phase-hdr" data-phase="1"><span class="num">②</span>申報／額度</div>
+<div class="phase-hdr" data-phase="2"><span class="num">③</span>掣發單證</div>
+<div class="phase-hdr" data-phase="3"><span class="num">④</span>拍發電文</div>
+<div class="phase-hdr" data-phase="4"><span class="num">⑤</span>清算撥款</div>
+<div class="phase-hdr" data-phase="5"><span class="num">⑥</span>通知解付</div>
+<div class="phase-hdr" data-phase="6"><span class="num">⑦</span>異常處理</div>
+
+<!-- ===== 匯款人 ===== -->
+<div class="lane-label even" data-role="remitter">匯款人<small>Remitter</small><span class="hoshino">🇹🇼 星野模型</span></div>
+
+<div class="cell even" data-role="remitter" data-phase="0">
+  <div class="act do"><b>填匯款申請書</b><small>T/T 電匯／M/T 信匯<br>D/D 票匯 三選一</small></div>
+  <div class="detail">💡 三者差別只在「錢怎麼跑」：<b>T/T</b> 拍電文最快；<b>M/T</b> 郵寄書面付款委託書 (PAYMENT ORDER)；<b>D/D</b> 銀行開匯票交給<b>匯款人自己</b>寄給受款人。<br>🔑 <b>票匯的定義就是「匯款人自己拿票」</b>——銀行不寄，這是考點。</div>
+</div>
+<div class="cell even" data-role="remitter" data-phase="1">
+  <div class="act do"><b>填外匯收支申報書</b><small>等值 NT$50 萬以上才要填</small></div>
+  <div class="detail">未達 NT$50 萬 → <b>不需填申報書，也不需列計當年累積結匯金額</b>（47 屆）。<br>⚠️ 委託他人辦理 → <b>申報責任仍在委託人</b>，以委託人名義申報（考 7 次 ★★）。受託人只是跑腿。<br>⚠️ 未取得外僑居留證之外國人 → <b>應親自辦理</b>，不得委託。</div>
+</div>
+<div class="cell even" data-role="remitter" data-phase="2">
+  <div class="act opt"><b>拿新臺幣換美元</b><small>或動用既有外匯存款</small><span class="fx-link">水單</span></div>
+  <div class="detail">用新臺幣結購 → 銀行<b>賣</b>匯 → <b>賣匯水單</b>。<br>直接動用既有外匯存款匯出 → 沒有買賣 → <b>其他交易憑證</b>。<br>🔑 買賣方向永遠站<b>銀行</b>立場看。</div>
+</div>
+<div class="cell even" data-role="remitter" data-phase="3"></div>
+<div class="cell even" data-role="remitter" data-phase="4"></div>
+<div class="cell even" data-role="remitter" data-phase="5"></div>
+<div class="cell even" data-role="remitter" data-phase="6">
+  <div class="act no"><b>❌ 逕自要求扣回已解付款</b><small class="warn-text">錢進口袋要客戶點頭</small></div>
+  <div class="detail">已解付要退匯 → 須經<b>受款人同意並收到退回款</b>。<br>若受款人<b>拒絕退還</b> → 解款行通知匯款銀行，請<b>匯款人與受款人自行聯繫處理</b>（考 4 次 ★）。銀行不介入。</div>
+</div>
+
+<!-- ===== 匯款行 ===== -->
+<div class="lane-label odd" data-role="remitting">匯款行<small>Remitting Bank</small><span class="hoshino">🏦 玉山銀行</span></div>
+
+<div class="cell odd" data-role="remitting" data-phase="0">
+  <div class="act do"><b>受理＋核對</b><small>KYC、確認匯款性質</small></div>
+  <div class="detail">匯款性質 → 依<b>匯出資金之「用途」</b>申報，<b>不是</b>依資金來源（23／25／47 屆）。</div>
+</div>
+<div class="cell odd" data-role="remitting" data-phase="1">
+  <div class="act do"><b>查驗額度</b><small>公司 100 萬／個人 50 萬 USD<br>以上須檢附證明文件</small></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">玉山銀行</span><span class="ar">→</span><span class="to">中央銀行</span><span class="label">100 萬美元以上：訂約日之次營業日中午 12 時前傳送</span></div></div>
+  <div class="detail">年度累積：公司行號 <b>5,000 萬</b>／個人團體 <b>500 萬</b>美元，超過須<b>央行核准</b>。<br>⚠️ <b>大額結匯款資料表由「指定銀行」填</b>，不是客戶。<br>⚠️ 軍政機關 <b>100 萬美元以下</b>得逕憑申報書辦理；核准通知書效期<b>自發文日起 6 個月</b>。</div>
+</div>
+<div class="cell odd" data-role="remitting" data-phase="2">
+  <div class="act do"><b>掣發賣匯水單</b><small>有貨品報關 → 結匯證實書</small><span class="fx-link">跨科</span></div>
+  <div class="detail">🔑 三選一決策樹：<br>有貨品進出口（有報關）→ <b>結匯證實書</b>（且<b>免填申報書</b>）<br>無貨品但有實際結購結售 → <b>水單</b><br>無結匯（存入外匯存款、外幣互換）→ <b>其他交易憑證</b><br>⚠️ 結購外匯<b>存入外匯存款</b>備日後付進口貨款 → 受款地區國別填 <b>本國</b>（考 4 次 ★）——錢還躺在本國帳戶，還沒出國。</div>
+</div>
+<div class="cell odd" data-role="remitting" data-phase="3">
+  <div class="act do"><b>拍發 SWIFT 電文</b><small>SERIAL：只發 MT103</small><small class="swift">MT103 → pacs.008</small></div>
+  <div class="flow-arrows">
+    <div class="arr-line"><span class="from">玉山銀行</span><span class="ar">→</span><span class="to">紐約梅隆(存匯行)</span><span class="label">MT103　SERIAL＝STRAIGHT PAYMENT（1 通）</span></div>
+    <div class="arr-line"><span class="from">玉山銀行</span><span class="ar">→</span><span class="to">花旗紐約</span><span class="label">MT103 ＋ 另發 MT202COV 給存匯行＝COVER PAYMENT（2 通）</span></div>
+  </div>
+  <div class="detail">🔑 <b>SERIAL（＝STRAIGHT）＝1 通；COVER＝MT103＋MT202COV 共 2 通。</b><br>MT202COV 的 <b>58 欄</b> ＝ MT103 的<b>收電行 Receiver</b>（46 屆）。<br>💡 情境：匯日幣到香港、雙方有通匯關係、要避免轉匯行扣費 → 發 <b>MT202 給日幣存匯行＋MT103 給受款人設帳行</b>。<br>⚠️ ISO 20022：非銀行客戶電匯用 <b>pacs.008</b>；銀行間用 <b>pacs.009</b>。</div>
+</div>
+<div class="cell odd" data-role="remitting" data-phase="4">
+  <div class="act do"><b>電匯當日立即銷帳</b><small>信匯、票匯亦須銷帳</small></div>
+  <div class="detail">⚠️「信匯無須銷帳」是<b>錯誤</b>敘述。三種匯款方式都要銷帳，差別只在時點。</div>
+</div>
+<div class="cell odd" data-role="remitting" data-phase="5">
+  <div class="act opt"><b>票匯：簽發匯票</b><small>另拍 MT110 通知付款行</small><small class="swift">MT110</small></div>
+  <div class="detail">MT110 可<b>取代郵寄</b> DRAWING ADVICE 通知付款行。<br>受款人持匯票兌付時，解款行須<b>核對簽樣＋與 MT110／DRAWING ADVICE 一致</b>。<br>⚠️ <b>匯票不核對押碼</b>（押碼只用於電文）；<b>發票人是否背書不是查核項目</b>。</div>
+</div>
+<div class="cell odd" data-role="remitting" data-phase="6">
+  <div class="act opt"><b>資料不全遭退回</b><small>發 MT199 變更匯款內容</small><small class="swift">MT199</small></div>
+  <div class="detail">洽匯款人確認後，用 <b>MT199</b> 變更匯款內容重發（34／44 屆）。</div>
+</div>
+
+<!-- ===== 存匯行 ===== -->
+<div class="lane-label even" data-role="depositary">存匯行<small>Correspondent</small><span class="star">★ 美元清算</span><span class="hoshino">🏦 紐約梅隆</span></div>
+
+<div class="cell even" data-role="depositary" data-phase="0"></div>
+<div class="cell even" data-role="depositary" data-phase="1"></div>
+<div class="cell even" data-role="depositary" data-phase="2"></div>
+<div class="cell even" data-role="depositary" data-phase="3">
+  <div class="act do"><b>核驗密押</b><small>SWIFT 自動核押 PKI</small><small class="swift">PKI</small></div>
+  <div class="detail">受委託之國外通匯行<b>解款前必須核驗密押</b>（24／47 屆）。<br>MT103 係電腦<b>自動核押</b>，電文結尾出現 <b>PKI</b>；真偽以雙方交換之 <b>PKI</b> 確認。<br>⚠️ 電文結尾 <b>PDE／PDM</b> → 提醒收電行<b>查明是否重複付款</b>。</div>
+</div>
+<div class="cell even" data-role="depositary" data-phase="4">
+  <div class="act do"><b>Nostro 帳戶扣撥</b><small>透過 CHIPS／FEDWIRE 清算</small></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">紐約梅隆</span><span class="ar-money">⤳</span><span class="to">花旗紐約</span><span class="label">美元清算（CHIPS／FEDWIRE）</span></div></div>
+  <div class="detail">🔑 <b>Nostro</b>＝「我們放在你家的帳戶」；<b>Vostro</b>＝「你們放在我家的帳戶」。<br>清算系統代號：<b>CHIPS</b> UID 6 碼 → 寫 <code>//CH361568</code>；<b>FEDWIRE</b> ABA <b>9 碼</b>；澳洲 <code>//AU</code>；匯歐盟必須有 <b>IBAN</b>。<br>⚠️ 財金公司 RTGS 外幣結算平台<b>不含港幣</b>。</div>
+</div>
+<div class="cell even" data-role="depositary" data-phase="5"></div>
+<div class="cell even" data-role="depositary" data-phase="6">
+  <div class="act no"><b>❌ 經美系銀行匯往受制裁國</b><small class="warn-text">古巴、北韓、利比亞</small></div>
+  <div class="detail">須經由<b>非美系銀行</b>匯出，否則資金遭凍結。<br>⚠️ 注意選項語氣：正解是「<b>須經由非美系銀行匯出</b>」，不是「一律不得辦理」。<b>兩個極端選項通常是錯的。</b></div>
+</div>
+
+<!-- ===== 解款行 ===== -->
+<div class="lane-label odd" data-role="paying">解款行<small>Paying Bank</small><span class="hoshino">🏦 花旗紐約</span></div>
+
+<div class="cell odd" data-role="paying" data-phase="0"></div>
+<div class="cell odd" data-role="paying" data-phase="1">
+  <div class="act do"><b>結售達 NT$50 萬</b><small>申報義務人＝受款人</small></div>
+  <div class="detail">匯入匯款解付結售達新臺幣 50 萬元以上 → 「外匯收支或交易申報書」之申報義務人為<b>受款人</b>（32／47 屆）。</div>
+</div>
+<div class="cell odd" data-role="paying" data-phase="2">
+  <div class="act do"><b>掣發買匯水單</b><small>存入外匯存款 → 匯入匯款交易憑證</small><span class="fx-link">水單</span></div>
+  <div class="detail">匯入款<b>結售</b>為新臺幣 → 銀行<b>買</b>匯 → <b>買匯水單</b>。<br>⚠️ 47 屆考「匯入款結售為新臺幣<b>應掣發賣匯水單</b>」＝<b>錯</b>。<br>受款人將美元匯入款<b>存入外匯存款</b> → <b>匯入匯款交易憑證</b>。<br>⚠️ 寄給設帳銀行的文件<b>不含買匯水單、不含交易憑證</b>。</div>
+</div>
+<div class="cell odd" data-role="paying" data-phase="3">
+  <div class="act do"><b>收電、看 32A 起息日</b><small>value date 當天才能動用</small><small class="swift">32A / IntrBkSttlmDt</small></div>
+  <div class="detail">💡 經典題：1/27 收電、32A value date 1/31 → 收款人<b>最早 1/31</b> 可用資金。<br>ISO 20022 版本同題：<code>&lt;IntrBkSttlmDt&gt;2025-01-31&lt;/IntrBkSttlmDt&gt;</code> → 答案一樣是 <b>1/31</b>（47 屆）。</div>
+</div>
+<div class="cell odd" data-role="paying" data-phase="4">
+  <div class="act opt"><b>洽收手續費</b><small>71A 註記 OUR 時</small><small class="swift">MT191</small></div>
+  <div class="detail">🔑 <b>71A 三碼</b>：<b>OUR</b>＝匯款人全付（解款行拍 <b>MT191</b> 向匯款行洽收）／<b>BEN</b>＝受款人全付／<b>SHA</b>＝匯出手續費匯款人付、匯入手續費受款人付。<br>記法：<b>MT103 付款、MT202 行間調撥、MT191 專門要手續費。</b></div>
+</div>
+<div class="cell odd" data-role="paying" data-phase="5">
+  <div class="act do"><b>通知受款人洽領</b><small>信匯：確認入帳後才通知</small></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">花旗紐約</span><span class="ar">→</span><span class="to">Anime Depot</span><span class="label">匯入匯款通知書</span></div></div>
+  <div class="detail">⚠️ <b>信匯</b>為避免付款委託書簽章偽造 → 宜於<b>確認款項入帳後</b>才掣發匯入匯款通知書。<br>解付新臺幣 → 一律用<b>即期買入匯率</b>（考 3 次）。站銀行立場：客戶把外幣賣給銀行＝銀行買進。</div>
+</div>
+<div class="cell odd" data-role="paying" data-phase="6">
+  <div class="act do"><b>名稱與帳號不符</b><small>請受款人通知「匯款人」更正</small></div>
+  <div class="detail">🔑 <b>錯誤由「源頭」修</b>——指示是匯款人下的，銀行沒權限改別人的指示（考 4 次 ★）。<br>⚠️ 電文 <b>72 欄</b>若含「須徵提 INVOICE／B/L 影本」等條件 → <b>請匯款行修改刪除後才做匯款通知</b>（考 3 次 ★）。「電文應包含徵提 B/L 影本」＝錯誤敘述。</div>
+</div>
+
+<!-- ===== 受款人 ===== -->
+<div class="lane-label even" data-role="beneficiary">受款人<small>Beneficiary</small><span class="hoshino">🇺🇸 Anime Depot</span></div>
+
+<div class="cell even" data-role="beneficiary" data-phase="0"></div>
+<div class="cell even" data-role="beneficiary" data-phase="1"></div>
+<div class="cell even" data-role="beneficiary" data-phase="2"></div>
+<div class="cell even" data-role="beneficiary" data-phase="3"></div>
+<div class="cell even" data-role="beneficiary" data-phase="4"></div>
+<div class="cell even" data-role="beneficiary" data-phase="5">
+  <div class="act do"><b>洽領／存入帳戶</b><small>存新臺幣 → 即期買入匯率</small></div>
+  <div class="detail">跨行通匯時：申請書帳號、中文戶名之<b>核對責任在「設帳銀行」</b>（考 4 次 ★）——只有開戶那家銀行才有原始戶名帳號資料。<br>因申請書內容不清或錯誤導致誤匯 → 由受益人或<b>設帳銀行</b>負責。<br>匯入匯款通知書之<b>受益人簽章聯</b>須經<b>設帳銀行</b>背書。</div>
+</div>
+<div class="cell even" data-role="beneficiary" data-phase="6">
+  <div class="act opt"><b>被要求退匯</b><small>已解付 → 我同意才退</small></div>
+  <div class="detail">🔑 分界點只有一個：<b>解付了沒有？</b><br><b>未解付</b>：確定款項已入帳即可退匯（不需受款人同意）。<br><b>已解付</b>：須經受款人同意<b>並收到退回款</b>。<br><b>已解付但拒絕退還</b>：請匯款人與受款人自行聯繫。<br>⚠️ 錯誤選項固定是兩個極端：「必須退還不得拒絕」與「不予理會」。</div>
+</div>
+
+</div><!-- /grid -->
+</div><!-- /board -->
+
+<div class="key">
+🔑 <b>整條主線只有三個判斷軸，其餘都是這三軸的組合：</b><br>
+① <b>有沒有貨？</b> 有報關→結匯證實書、免申報書；沒有→水單或其他交易憑證。<br>
+② <b>錢動了沒？</b> 有實際結購結售→水單；只是幣別換位置（存外匯存款、外幣互換）→其他交易憑證。<br>
+③ <b>解付了沒？</b> 沒解付→銀行說了算；已解付→要受款人點頭；拒絕退還→當事人自己談。
+</div>
+
+<!-- ===================== 單證判斷器 ===================== -->
+<h2 class="sec">🧭 互動：單證判斷器</h2>
+<div class="lede">水單／結匯證實書／其他交易憑證是匯兌科的送分題族（考 5 次以上，答案穩定）。選三個條件，看它怎麼推。</div>
+
+<div class="tool">
+  <div class="qrow"><span>1. 有沒有貨品進出口（有沒有報關）？</span>
+    <div class="opts" data-g="goods">
+      <div class="opt" data-v="imp">有：進口貨品</div>
+      <div class="opt" data-v="exp">有：出口貨品</div>
+      <div class="opt" data-v="no">沒有貨，純匯款</div>
+    </div>
+  </div>
+  <div class="qrow"><span>2. 有沒有實際的新臺幣↔外幣結購／結售？</span>
+    <div class="opts" data-g="fx">
+      <div class="opt" data-v="buy">有：客戶拿新臺幣買外幣</div>
+      <div class="opt" data-v="sell">有：客戶把外幣換成新臺幣</div>
+      <div class="opt" data-v="none">沒有：只是外幣搬家／外幣互換</div>
+    </div>
+  </div>
+  <div class="verdict" id="verdict"><span class="big">↑ 請選擇條件</span><span class="why">選完會告訴你掣發哪一種單證，以及為什麼。</span></div>
+</div>
+
+<!-- ===================== 死背區記憶情境 ===================== -->
+<h2 class="sec">🧠 死背區：6 個記憶情境</h2>
+<div class="lede">以下 54% 的內容沒有流程可掛。每一塊我給一個<b>具體情境</b>當掛鉤，而不是要你背表格。</div>
+
+<!-- 模組 1 -->
+<h3 class="sub">情境一　星野的一天：七筆帳 → 匯款分類碼</h3>
+<div class="mod">
+  <div class="story">
+    <b>場景：</b>星野模型的會計小林，星期一早上要把上週七筆外匯往來分類填報。每一筆的「錢為什麼動」決定代碼——
+    <b>代碼不是記數字，是記「這筆錢的故事」</b>。
+  </div>
+  <div class="wall">
+    <div class="note"><b><span class="num">693</span></b>把美元從玉山轉到自己在台北富邦的外幣帳戶<br><small style="color:var(--mt)">→ 由本行轉往<b>國內他行</b>之外匯（不含 OBU）</small></div>
+    <div class="note"><b><span class="num">694</span></b>拿手上的美元換成日圓，沒碰到新臺幣<br><small style="color:var(--mt)">→ <b>外幣互換兌入</b>。⚠️ 這一項<b>未設細分類</b></small></div>
+    <div class="note"><b><span class="num">695</span></b>帳上調整，錢沒有真的跨出去<br><small style="color:var(--mt)">→ <b>未有資金流動交易</b></small></div>
+    <div class="note trap"><b>695 的陷阱</b>「同一銀行兌購外匯<b>存入外匯存款</b>」<br><small style="color:var(--mt)">→ 這<b>不是</b> 695（37／47 屆考「何者<b>不是</b>」）</small></div>
+    <div class="note"><b><span class="num">710</span></b>把料寄到越南加工，成品直接在當地賣掉，沒進過台灣海關<br><small style="color:var(--mt)">→ <b>委外加工貿易</b>收入／支出</small></div>
+    <div class="note"><b><span class="num">510</span></b>匯錢給定居大陸的老榮民父親當生活費<br><small style="color:var(--mt)">→ <b>贍家匯款支出</b>（就養給付同此）</small></div>
+    <div class="note"><b><span class="num">19D</span></b>付錢給美國公關公司做市場調查<br><small style="color:var(--mt)">→ <b>專業技術事務支出</b>（含廣告、民調）</small></div>
+    <div class="note trap"><b>197 的陷阱</b>三角貿易匯入款<br><small style="color:var(--mt)">→ 但<b>在我國境內通關出口</b>的貨款<b>不是</b> 197</small></div>
+  </div>
+  <div class="key">🔑 <b>三個通則比背代碼有用：</b><br>
+  ① 匯往<b>本國 OBU</b> → 依<b>原</b>匯款性質歸類。<br>
+  ② 匯往<b>國內同業 OBU</b> → 依客戶匯款性質作<b>適當</b>分類。<br>
+  ③ 本國人申報匯款性質 → 依資金之<b>用途</b>，<b>不是</b>資金來源。</div>
+  <div class="tbl-scroll"><table>
+    <tr><th>情境</th><th>分類</th></tr>
+    <tr><td>居民出國旅費支出</td><td><b>觀光支出</b></td></tr>
+    <tr><td>外國旅客來台以美元結售新臺幣</td><td><b>旅行收入</b></td></tr>
+    <tr><td>外國人以在臺剩餘新臺幣結購外幣現鈔回國</td><td><b>外人兌回外幣</b></td></tr>
+    <tr><td>非居住民繼承台灣遺產之匯出</td><td><b>其他移轉支出</b></td></tr>
+    <tr><td>⚠️ 旅行剩餘退匯</td><td><b>不屬於</b>移轉收入</td></tr>
+  </table></div>
+</div>
+
+<!-- 模組 2 -->
+<h3 class="sub">情境二　電文室的分機表 → SWIFT 家族</h3>
+<div class="mod">
+  <div class="story">
+    <b>場景：</b>把 SWIFT 想成一間公司的<b>分機表</b>——每支分機只做一件事。你打錯分機，事情就辦不成。
+    <b>1 字頭找客戶，2 字頭找銀行。</b>
+  </div>
+  <div class="tbl-scroll"><table>
+    <tr><th>電文</th><th>一句話用途</th><th>記憶鉤</th></tr>
+    <tr><td class="c"><code>MT1XX</code></td><td><b>客戶之間</b>匯款與支票</td><td>1 像一個人 → 客戶</td></tr>
+    <tr><td class="c"><code>MT2XX</code></td><td><b>銀行間</b>之匯款</td><td>2 像兩間銀行</td></tr>
+    <tr><td class="c"><code>MT103</code></td><td>客戶匯款付款</td><td>主力電文</td></tr>
+    <tr><td class="c"><code>MT110</code></td><td>簽發匯票後<b>取代郵寄</b>通知付款行</td><td>票的分機</td></tr>
+    <tr><td class="c"><code>MT191</code></td><td>解款行<b>洽收手續費</b></td><td>「191」＝要錢專線</td></tr>
+    <tr><td class="c"><code>MT199</code></td><td>匯款被退回，<b>變更匯款內容</b></td><td>99＝改到最後</td></tr>
+    <tr><td class="c"><code>MT202</code></td><td>銀行同業間<b>資金撥付</b></td><td>行間調撥</td></tr>
+    <tr><td class="c"><code>MT202COV</code></td><td>配 MT103 做 COVER PAYMENT</td><td>COV＝cover</td></tr>
+  </table></div>
+
+  <div class="key">🔑 <b>欄位差異（考 3 次，最會混）</b><br>
+  <b>MT202 有 58 欄（受款銀行）、沒有 59 欄</b>——銀行對銀行，收錢的是銀行。<br>
+  <b>MT103 有 59 欄（受益顧客）、沒有 58 欄</b>——客戶對客戶，收錢的是人。<br>
+  <b>52a 簽發行</b>是 MT110 的<b>選擇性</b>欄位。<br>
+  <b>MT202COV 的 58 欄 ＝ MT103 的收電行 (Receiver)。</b></div>
+
+  <div class="tbl-scroll"><table>
+    <tr><th>MT103 欄位</th><th>意義</th></tr>
+    <tr><td class="c"><code>50a</code></td><td>匯款<b>申請人</b></td></tr>
+    <tr><td class="c"><code>53a</code></td><td><b>發電</b>銀行之通匯行（sender's）</td></tr>
+    <tr><td class="c"><code>54a</code></td><td><b>收電</b>銀行之通匯行（receiver's）</td></tr>
+    <tr><td class="c"><code>57a</code></td><td>受益人之<b>設帳銀行</b></td></tr>
+    <tr><td class="c"><code>59a</code></td><td><b>受益顧客</b></td></tr>
+    <tr><td class="c"><code>32A</code></td><td>幣別、金額、<b>value date 起息日</b></td></tr>
+    <tr><td class="c"><code>71A</code></td><td>手續費負擔（OUR／BEN／SHA）</td></tr>
+    <tr><td class="c"><code>72</code></td><td>附註；含徵提 B/L 條件時<b>請匯款行刪除</b></td></tr>
+  </table></div>
+  <div class="key">🔑 <b>53 在前＝發電方的通匯行；54 在後＝收電方的通匯行。</b></div>
+
+  <div class="story" style="border-left-color:var(--vi)">
+    <b>手續費三碼的記法（考 4 次）：</b>想成三種付帳方式——
+    <b>OUR</b>＝「算我的」匯款人全付（解款行拍 MT191 來要）；
+    <b>BEN</b>＝「算他的」受款人全付；
+    <b>SHA</b>＝ share，各付各的（匯出端匯款人付、匯入端受款人付）。
+  </div>
+
+  <div class="tbl-scroll"><table>
+    <tr><th>結尾字樣</th><th>意義</th></tr>
+    <tr><td class="c"><code>PDE</code> / <code>PDM</code></td><td>可能重複發送 → <b>查明是否重複付款</b></td></tr>
+    <tr><td class="c"><code>PKI</code></td><td>MT103 <b>電腦自動核押</b>；真偽以雙方交換之 PKI 確認</td></tr>
+  </table></div>
+  <div class="warn">⚠️ <b>電文核押碼，匯票核簽樣。</b> 押碼只用於電文——「解款行核對匯票押碼」是固定錯誤選項（考 2 次）。</div>
+
+  <div class="fx-cross">
+    <b>ISO 20022 遷移（47 屆已考 6 題＝12 分）</b><br>
+    <code>MT103 → pacs.008</code>（非銀行客戶電匯）／<code>MT202 → pacs.009</code>（銀行間：開狀行付押匯行、代收行付託收行）／<code>MT202COV → pacs.009(cov)</code>／MT910、MT950 → camt 系列<br>
+    起息日欄位：<code>&lt;IntrBkSttlmDt&gt;</code> ＝ 原 32A 的 value date。<br>
+    ⚠️ <b>信用狀類 MT700／707／740（Cat 7）未遷移，仍有效</b>——進出口科不受影響。<br>
+    ⚠️ pacs.009(cov) 第二部分之「債權人 Creditor」<b>不是</b>匯款申請人之代理行 (Debtor Agent)。
+  </div>
+
+  <div class="tbl-scroll"><table>
+    <tr><th>清算系統</th><th>寫法／位數</th></tr>
+    <tr><td>CHIPS（紐約銀行公會）</td><td>UID 6 碼 → <code>//CH361568</code></td></tr>
+    <tr><td>FEDWIRE（美國聯準）</td><td>ABA <b>9 碼</b></td></tr>
+    <tr><td>澳洲資金調撥系統</td><td><code>//AU</code></td></tr>
+    <tr><td>匯往歐盟境內</td><td>必須有 <b>IBAN</b></td></tr>
+    <tr><td>財金公司 RTGS 外幣平台</td><td>⚠️ <b>不含港幣</b></td></tr>
+  </table></div>
+</div>
+
+<!-- 模組 3 -->
+<h3 class="sub">情境三　退回來的五張票 → 退票理由英文</h3>
+<div class="mod">
+  <div class="story">
+    <b>場景：</b>星野收了一疊美國客戶的支票拿去託收，兩週後代收行退回五張，每張夾一張理由書。
+    <b>把英文當成櫃員的抱怨句來記，不要當單字背。</b>
+  </div>
+  <div class="wall">
+    <div class="note"><b>Insufficient Funds</b>「他戶頭裡沒錢」<br><small style="color:var(--mt)">→ <b>存款不足</b>（考 2 次）</small></div>
+    <div class="note"><b>NOT DRAWN ON THIS BANK</b>「這張不是開我們家的」<br><small style="color:var(--mt)">→ <b>非我行付款之票據</b></small></div>
+    <div class="note"><b>PAYMENT COUNTERMANDED BY THE DRAWER</b>「開票的人自己喊停」<br><small style="color:var(--mt)">→ 此票<b>已停止支付</b></small></div>
+    <div class="note"><b>IRREGULARLY DRAWN</b>「這張票沒寫好」<br><small style="color:var(--mt)">→ 支票<b>填寫未完整</b></small></div>
+    <div class="note"><b>Non-convertible</b>（票面註記）<br><small style="color:var(--mt)">→ <b>不得轉換為其他外幣或匯出國外</b></small></div>
+    <div class="note trap"><b>ACCOUNT PAYEE ONLY</b><br><small style="color:var(--mt)">⚠️「限存入票據背面所載<b>被背書人</b>帳戶」＝<b>錯誤</b>敘述（35 屆）</small></div>
+  </div>
+</div>
+
+<!-- 模組 4 -->
+<h3 class="sub">情境四　櫃檯上的一疊紙 → 光票、旅支、現鈔</h3>
+<div class="mod">
+  <div class="story">
+    <b>場景：</b>星野老闆下午跑一趟玉山，把出差帶回來的東西全倒在櫃檯上：一張美國銀行支票、幾張沒用完的旅行支票、
+    一疊外幣現鈔。<b>每一種紙，銀行的處理邏輯完全不同。</b>
+  </div>
+
+  <h4 style="font-size:.85em;margin:12px 0 4px">📄 光票 Clean Bill</h4>
+  <ul style="font-size:.82em;margin-left:20px;line-height:1.85">
+    <li><b>光票買入＝銀行融資授信業務</b>，買入銀行<b>可先收取利息</b>（46 屆再考）</li>
+    <li>定義：以託收或買入方式辦理的<b>無跟單</b>票據。⚠️「光票是指美金的票據」＝<b>錯</b>（幣別不限）</li>
+    <li>⚠️「解款行<b>保證一定付款</b>」＝錯。⚠️「票匯是一種光票託收行為」＝<b>錯</b>（47 屆）</li>
+    <li><b>私人開發之支票「得」買入</b>（「不得買入」是錯誤敘述）；<b>日本當地支票</b>應予<b>拒絕</b>買入或託收</li>
+    <li>郵寄途中遺失 → 可憑<b>票據影本＋銀行擔保書</b>請求付款</li>
+    <li>美國統一商法：付款後發現背書偽造，追索權 <b>3 年</b>內有效</li>
+  </ul>
+
+  <div class="key">🔑 <b>幣別看「付款地」，不看開票地。</b><br>
+  美國銀行開、<b>溫哥華</b>付款、未註明幣別 → <b>加幣</b>（41／44 屆）<br>
+  倫敦銀行開、<b>新加坡</b>付款、未註明幣別 → <b>新加坡幣</b>（47 屆）</div>
+
+  <div class="tbl-scroll"><table>
+    <tr><th>提示期限</th><th>答案</th></tr>
+    <tr><td>美國國庫支票 Treasury Check</td><td><b>1 年</b></td></tr>
+    <tr><td>國外票據無特別記載</td><td>大部分 <b>6 個月</b></td></tr>
+    <tr><td>⚠️ 匯票 vs 旅行支票</td><td><b>匯票有</b>逾期提示問題、旅支沒有（「兩者相同」＝錯）</td></tr>
+  </table></div>
+
+  <div class="tbl-scroll"><table>
+    <tr><th>抬頭人 PAYEE 情況</th><th>處理</th></tr>
+    <tr><td>抬頭人<b>空白</b>（美元票據）</td><td><b>視為記載不完整，以不受理為原則</b>（46 屆）</td></tr>
+    <tr><td>香港地區、抬頭 <b>Cash 或 Order</b></td><td>須<b>發票人背書</b>才可受理</td></tr>
+    <tr><td>香港地區、抬頭欄記載 <b>"ORDER"</b></td><td><b>第一順位背書人須是發票人</b></td></tr>
+    <tr><td><b>Lily care of Mary</b></td><td>由 Mary 轉交 Lily，<b>只能存入 Lily 帳</b>（考 4 次 ★）</td></tr>
+    <tr><td>英國票據大小寫金額不符</td><td>以<b>小寫</b>金額為準</td></tr>
+  </table></div>
+
+  <div class="key">🔑 <b>CASH LETTER vs COLLECTION LETTER（47 屆重考）</b><br>
+  <b>CASH LETTER</b>：可<b>全額入帳</b>、速度<b>快</b>，但<b>非</b>最終付款、<b>有條件入帳</b>、對銀行／託收行<b>風險大</b>。<br>
+  <b>COLLECTION LETTER</b>：慢，但是 <b>FINAL PAYMENT</b>，風險小。<br>
+  記法：<b>「現金信」給你錢給得快，但可以反悔；「託收信」慢，但錢是你的。</b></div>
+
+  <h4 style="font-size:.85em;margin:16px 0 4px">✈️ 旅行支票</h4>
+  <ul style="font-size:.82em;margin-left:20px;line-height:1.85">
+    <li>買入時須在<b>櫃檯複簽</b>；⚠️ 購買時<b>不可</b>立即在 Countersign 處逐張簽名 → 應於<b>兌用時、兌付人面前</b>複簽</li>
+    <li>銀行代售旅支 <b>不負</b>兌回票款義務（「負兌回義務」＝錯誤敘述）</li>
+    <li>售出時除旅支、結匯水單，還要交付 <b>Purchase Agreement</b></li>
+    <li>營業終了結算填 <b>REMITTANCE SUMMARY／DAILY SETTLEMENT FORM</b> 送發行機構</li>
+    <li>遺失掛失退款 → 以<b>同一發行機構之旅行支票</b>支付（不是現金）</li>
+    <li>旅支<b>得</b>轉讓予他人（「不得轉讓」＝錯）</li>
+    <li>外國觀光客申請收兌 → 依一般程序，但<b>不超過銀行規定之金額上限</b></li>
+  </ul>
+
+  <h4 style="font-size:.85em;margin:16px 0 4px">💵 外幣現鈔與收兌處</h4>
+  <div class="tbl-scroll"><table>
+    <tr><th>項目</th><th>答案</th></tr>
+    <tr><td>收兌處執照由誰發</td><td><b>臺灣銀行</b>（非央行、非財政部）</td></tr>
+    <tr><td>誰可申請設置</td><td><b>寺廟、連鎖便利商店、特產業</b>等具收兌需要者，向<b>臺灣銀行</b>申請</td></tr>
+    <tr><td>每筆收兌上限</td><td>⚠️ <b>現行等值 3 千美元</b>（2022 修法。舊題「1 萬」作廢，「2 萬」永遠是誘餌）</td></tr>
+    <tr><td>憑證保存</td><td><b>5 年</b>（「十年」是錯誤敘述）</td></tr>
+    <tr><td>列報</td><td><b>每季</b>終了次月 <b>15 日</b>前向臺灣銀行列報<b>該季</b>金額</td></tr>
+    <tr><td>廢止許可</td><td>連續<b>四季</b>收兌總額未達等值美金<b>5 千元</b></td></tr>
+    <tr><td>旅客攜外幣現鈔須申報海關</td><td>逾等值 <b>1 萬美元</b></td></tr>
+    <tr><td>攜帶人民幣進出境</td><td><b>2 萬元</b>，⚠️ <b>不與其他外幣併計</b></td></tr>
+    <tr><td>現鈔賣價高於旅支的理由</td><td>⚠️「現鈔結匯手續較繁複」<b>不是</b>理由</td></tr>
+    <tr><td>發現偽鈔</td><td>兌付真鈔部分；⚠️「立即記明持兌人資料並報警偵辦」＝<b>錯誤</b>敘述</td></tr>
+    <tr><td>去希臘旅遊帶什麼現鈔</td><td><b>歐元</b>（避免兌換損失）</td></tr>
+  </table></div>
+</div>
+
+<!-- 模組 5 -->
+<h3 class="sub">情境五　怕日圓漲的四種做法 → 遠匯 / SWAP / NDF / 選擇權</h3>
+<div class="mod">
+  <div class="story">
+    <b>場景：</b>星野三個月後要付壽屋一筆日圓貨款，老闆怕日圓漲。財務長攤開四個選項給他挑——
+    <b>四種工具就是四種「怕」的解法</b>。
+  </div>
+  <div class="tbl-scroll"><table>
+    <tr><th>工具</th><th>做什麼</th><th>必考點</th></tr>
+    <tr><td><b>遠期外匯 DF</b></td><td>現在就把三個月後的匯率鎖死</td><td>⚠️ 期限＝<b>依實際外匯收支需要為限</b>。「6 個月為限」「最長 6 個月得展期 1 年」<b>都是錯的</b>（考 3 次）</td></tr>
+    <tr><td><b>換匯 SWAP</b></td><td>同時買進並賣出<b>同幣別、同金額、僅交割日不同</b></td><td>⚠️ <b>只規避匯率風險，不能規避利率風險</b></td></tr>
+    <tr><td><b>NDF</b></td><td>無本金交割，只結差額</td><td>⚠️ <b>國內銀行對其國內客戶不能承作</b>；到期<b>不採</b>實質交割</td></tr>
+    <tr><td><b>選擇權</b></td><td>買一個「可以不用」的權利</td><td>權利金由<b>買方</b>付；新臺幣匯率選擇權限<b>國內外法人</b></td></tr>
+  </table></div>
+  <ul style="font-size:.82em;margin-left:20px;line-height:1.85">
+    <li>遠匯<b>訂約與交割時「均需」</b>查核實際外匯收支需要之交易文件</li>
+    <li>遠匯保證金：<b>得由承作銀行與顧客議定</b>；繳納<b>得以授信額度或其他可靠擔保品</b>為之</li>
+    <li>⚠️ 但一般衍生性商品保證金<b>不包括「銀行授信額度」</b>（45 屆）——與上一條是不同題族</li>
+    <li>外幣與外幣間遠匯 → <b>外匯指定銀行或 OBU</b> 可辦</li>
+    <li><b>任選交割日</b>之遠期外匯<b>仍有到期日</b>（「並無到期日」＝錯，46 屆）</li>
+    <li>⚠️ 進口商預購遠匯：<b>國外出口商以「新臺幣」報價之 INVOICE 不符規定</b>（46 屆）</li>
+    <li>與人民幣清算行辦理<b>平倉</b>之交易種類<b>不含選擇權</b></li>
+    <li>外國專業投資機構匯入本金 → <b>換匯與遠期外匯均可辦理</b></li>
+    <li>指定銀行經央行許可辦理外匯衍生性商品後，<b>涉及新臺幣匯率</b>者仍須逐項申請（47 屆）</li>
+    <li>⚠️ NDF「每筆 100 萬美元以上應立即電話告知央行外匯局」＝<b>錯</b>（45 屆）</li>
+  </ul>
+  <div class="key">🔑 <b>傳送央行時點</b>：公司行號 100 萬美元以上之即期／遠期結購結售（不含跟單），
+  一律<b>訂約日之次營業日中午 12 時前</b>傳送（39／46／47 屆）。</div>
+</div>
+
+<!-- 模組 6 -->
+<h3 class="sub">情境六　央行盯不盯得住你 → 身分階梯與數字牆</h3>
+<div class="mod">
+  <div class="story">
+    <b>場景：</b>同一筆 60 萬美元匯款，換一個人來辦，規則就不一樣。
+    <b>階梯的本質是「央行盯不盯得住你」</b>——盯得住（有登記、有居留、跑不掉）就給你年度額度自己管；
+    盯不住（隨時可離境）就每一筆都看。
+  </div>
+  <div class="ladder">
+    <div class="rung r1"><span class="lv">階 1</span><b>本國公司行號</b>（含軍政機關比照）
+      <small>單筆 <b>100 萬美元</b>以上須檢附文件｜年度累積 <b>5,000 萬美元</b>｜軍政機關 100 萬美元以下得逕憑申報書</small></div>
+    <div class="rung r2"><span class="lv">階 2</span><b>居住民</b>個人／團體
+      <small>判準是<b>「一年以上有效期」的居留證明</b>，不是國籍。外僑居留證 1 年以上、永久居留證都算。<br>單筆 <b>50 萬美元</b>以上須檢附文件｜年度累積 <b>500 萬美元</b></small></div>
+    <div class="rung r3"><span class="lv">階 3</span><b>非居住民</b>（無 1 年以上居留證之外國人）
+      <small><b>無年度額度概念</b>，改採<b>逐筆</b>管制｜未取得外僑居留證者<b>應親自辦理</b></small></div>
+    <div class="rung r4"><span class="lv">階 4</span><b>大陸地區</b>人民／法人
+      <small>兩岸條例另立一套｜逐筆＋<b>專屬人民幣每日限額</b>｜憑入出境許可證每筆 <b>10 萬美元</b>以下得逕行辦理</small></div>
+  </div>
+  <div class="warn">⚠️ <b>最常錯的一題</b>：「年滿 20 歲持有外僑居留證、有效期一年以上」→ 正解是<b>結匯金額比照居住民</b>，
+  不是「每筆限 10 萬美元」。出題者就是要抓「看到外國人就套 10 萬」的人。</div>
+
+  <h4 style="font-size:.85em;margin:14px 0 4px">🇨🇳 大陸區：陷阱幾乎都做在「幣別」上</h4>
+  <div class="tbl-scroll"><table>
+    <tr><th>項目</th><th>數字</th><th>陷阱</th></tr>
+    <tr><td>自然人匯人民幣至大陸・每人每日</td><td class="c"><b>人民幣 8 萬</b></td><td>選項寫「<b>新臺幣</b>八萬」＝錯</td></tr>
+    <tr><td>跨境貿易透過帳戶買賣・每人每日</td><td class="c"><b>人民幣 2 萬</b></td><td>同上，幣別是陷阱</td></tr>
+    <tr><td>旅客攜帶人民幣進出境</td><td class="c"><b>2 萬元</b></td><td><b>不與其他外幣併計</b></td></tr>
+    <tr><td>大陸人民繼承台灣遺產結匯</td><td class="c"><b>新臺幣 200 萬</b></td><td>這裡幣別是<b>新臺幣</b>不是美元</td></tr>
+    <tr><td><b>子銀行</b>定義</td><td class="c">持股逾 <b>50%</b></td><td rowspan="2">⚠️ 這兩個最容易互換</td></tr>
+    <tr><td><b>陸資銀行</b>認定</td><td class="c">持股逾 <b>30%</b></td></tr>
+  </table></div>
+  <ul style="font-size:.82em;margin-left:20px;line-height:1.85">
+    <li>承作人民幣匯款對象限<b>領有中華民國國民身分證之個人</b>，須透過<b>清算行或代理行</b>、性質屬<b>經常項目</b></li>
+    <li>企業匯付大陸個人之人民幣跨境貿易三原則：<b>KYC／瞭解你的業務／盡職審查</b>（⚠️「購買保險」「匯率優於同業」都不是）</li>
+    <li>大陸受款行：<b>企業匯付個人</b>與<b>個人匯付企業</b>皆可</li>
+    <li>對大陸<b>證券投資</b>之匯款人<b>不包括自然人</b>；股本投資受款人<b>不含大陸營利事業在臺分公司</b></li>
+    <li>公司對大陸投資<b>減資匯回</b> → 檢附經濟部核准文件則<b>免計入</b>結匯額度</li>
+    <li>台灣母公司貸款投資直匯大陸子公司 → 應先取得<b>投審會（經濟部）許可</b>（不是「一律不可」）</li>
+    <li>定居／暫住大陸之存款戶憑授權書要求承作匯出匯款 → <b>不得受理</b></li>
+    <li>MT103 之 <b>72 欄</b>第一行應輸入 <code>/TRADE/</code>（<code>/TEADE/</code> 是錯字陷阱）</li>
+  </ul>
+
+  <h4 style="font-size:.85em;margin:14px 0 4px">🔢 其餘數字牆</h4>
+  <div class="wall">
+    <div class="note"><b>外幣提款機</b>每帳戶每日 <span class="num">1 萬美元</span><br><small style="color:var(--mt)">增設：設置後<b>一週內</b>函知央行（免事前核准）</small></div>
+    <div class="note"><b>覆核人員經歷</b>一般外匯 <span class="num">6 個月</span><br><small style="color:var(--mt)">僅辦現鈔旅支：<b>5 個營業日</b>（47 屆）</small></div>
+    <div class="note"><b>外匯業務裁撤</b>繳回指定證書 <span class="num">一週</span>內</div>
+    <div class="note"><b>網路銷戶</b>個人外幣活存餘額上限 <span class="num">NT$5 萬</span><br><small style="color:var(--mt)">46 屆</small></div>
+    <div class="note"><b>外幣 NCD</b>期限最長 <span class="num">1 年</span><br><small style="color:var(--mt)">不得中途提取、無實體發行、利率<b>不得</b>結合衍生性商品</small></div>
+    <div class="note trap"><b>NCD 面額</b>美元／歐元 10 萬、人民幣 50 萬的倍數<br><small style="color:var(--mt)">⚠️「日圓 100 萬」是錯的（36 屆）</small></div>
+    <div class="note trap"><b>國際機場分行</b>簡化結匯<br><small style="color:var(--mt)">⚠️「每筆限等值 1 萬美元」＝<b>錯</b></small></div>
+    <div class="note trap"><b>銀行出售外幣現鈔</b><br><small style="color:var(--mt)">⚠️「每次以 USD10,000 為限」＝<b>錯誤</b>敘述</small></div>
+  </div>
+
+  <h4 style="font-size:.85em;margin:14px 0 4px">🏛 誰能辦什麼</h4>
+  <div class="tbl-scroll"><table>
+    <tr><th>機構</th><th>可辦範圍</th></tr>
+    <tr><td>台灣外匯業務經營制度</td><td><b>許可制</b></td></tr>
+    <tr><td>信用合作社、農漁會信用部</td><td><b>僅</b>買賣外幣現鈔及旅行支票（未經許可者外匯<b>賣超部位為 0</b>）</td></tr>
+    <tr><td>中華郵政（郵局）</td><td><b>僅</b>國際匯兌＋買賣外幣現鈔及旅行支票</td></tr>
+    <tr><td>非指定銀行辦現鈔旅支</td><td>⚠️ <b>不得</b>與國外金融機構建立通匯往來</td></tr>
+  </table></div>
+
+  <h4 style="font-size:.85em;margin:14px 0 4px">🏦 外匯存款（⚠️ 含一個修法陷阱）</h4>
+  <div class="warn">
+  ⚠️ <b>修法警報：可轉讓定期存單「不得 → 得」</b><br>
+  23／24 屆舊題答「<b>不得</b>以 NCD 辦理」<b>已作廢</b>。35 屆起、46 屆最新正解 ＝
+  「<b>不得以支票存款，但得以可轉讓定期存單</b>之方式辦理」。<br>
+  🔑 記成：<b>支票存款 ❌／NCD ✅／綜合存款 ✅／定存 ✅</b>
+  </div>
+  <ul style="font-size:.82em;margin-left:20px;line-height:1.85">
+    <li>✅ <b>得</b>受理客戶持外匯存款定存單<b>質押／質借</b>（承作新臺幣或外幣授信）；⚠️ 質借對象<b>限定存單本人</b></li>
+    <li>未滿一個月期外匯定存：<b>幣別及每筆最低金額由銀行自行訂定</b></li>
+    <li>未公告存款天期之利率 → 得參酌相近天期公告利率<b>與客戶議定</b></li>
+    <li>代扣利息所得稅單證 → <b>買匯水單（以銀行名義）</b></li>
+    <li>存款準備金：<b>不予計息</b>、<b>不得</b>隨時存取；原幣提存幣別<b>不含澳幣</b></li>
+    <li><b>銀行法第 72 條</b>中期放款及定期存款<b>均不包括外幣</b>（考 4 次 ★）</li>
+    <li>營業場所應揭示之<b>五種貨幣</b>存款利率 → <b>不含韓元</b></li>
+    <li>得接受客戶以<b>外幣票據</b>存入外匯存款</li>
+  </ul>
+</div>
+
+<!-- ===================== 自我測驗 ===================== -->
+<h2 class="sec">✅ 蓋起來自問（點開看答案）</h2>
+<div class="lede">先自己講一次，再點開。講不出來的回上面對應情境重看。</div>
+
+<div class="quiz" id="quiz">
+  <div class="qa"><div class="q">匯入款結售為新臺幣，掣發什麼單證？</div>
+    <div class="a"><b>買匯水單。</b>客戶把外幣賣給銀行＝銀行「買」匯。47 屆考「應掣發賣匯水單」＝錯。</div></div>
+  <div class="qa"><div class="q">COVER PAYMENT 拍幾通電文？哪兩通？</div>
+    <div class="a"><b>2 通：MT103 ＋ MT202COV。</b>SERIAL（＝STRAIGHT）只發 1 通 MT103。</div></div>
+  <div class="qa"><div class="q">71A 寫 OUR，解款行要拿手續費該拍什麼電文？</div>
+    <div class="a"><b>MT191。</b>OUR＝匯款人全付，所以解款行要向匯款行洽收。</div></div>
+  <div class="qa"><div class="q">MT202 有哪個欄位是 MT103 沒有的？反過來呢？</div>
+    <div class="a">MT202 有 <b>58 欄（受款銀行）</b>、MT103 沒有；MT103 有 <b>59 欄（受益顧客）</b>、MT202 沒有。銀行對銀行 vs 客戶對客戶。</div></div>
+  <div class="qa"><div class="q">外匯存款可不可以用可轉讓定期存單辦理？</div>
+    <div class="a"><b>可以。</b>現行：不得以支票存款，但<b>得</b>以可轉讓定期存單辦理。23／24 屆的舊答案已作廢。</div></div>
+  <div class="qa"><div class="q">外幣收兌處每筆收兌上限？憑證保存幾年？</div>
+    <div class="a">現行<b>等值 3 千美元</b>（2022 修法）；憑證保存<b>5 年</b>；<b>每季</b>終了次月 15 日前向<b>臺灣銀行</b>列報。</div></div>
+  <div class="qa"><div class="q">遠期外匯的承作期限是多久？</div>
+    <div class="a"><b>依實際外匯收支需要為限。</b>「6 個月」「最長 6 個月可展期至 1 年」都是固定誘餌。</div></div>
+  <div class="qa"><div class="q">美國銀行開票、指定溫哥華付款、票面沒寫幣別，以什麼幣別入帳？</div>
+    <div class="a"><b>加幣。</b>看<b>付款地</b>，不看開票地。同理：倫敦開、新加坡付款 → 新加坡幣。</div></div>
+  <div class="qa"><div class="q">CASH LETTER 的四個特點？</div>
+    <div class="a"><b>可全額入帳、入帳快、非最終付款、對託收行／銀行風險大（有條件入帳）。</b>COLLECTION LETTER 才是 FINAL PAYMENT。</div></div>
+  <div class="qa"><div class="q">匯入匯款已解付，匯款行要求退匯但受款人拒絕，解款行怎麼辦？</div>
+    <div class="a"><b>通知匯款銀行，請匯款人與受款人自行聯繫處理。</b>銀行不介入。（未解付：確認入帳即可退；已解付：須受款人同意並收到退回款。）</div></div>
+  <div class="qa"><div class="q">受款人名稱與帳號不符，該請誰更正？</div>
+    <div class="a"><b>請受款人通知「匯款人」辦理更正。</b>錯誤由源頭修——指示是匯款人下的，銀行無權改。</div></div>
+  <div class="qa"><div class="q">申報書金額填錯怎麼處理？其他欄位填錯呢？</div>
+    <div class="a">金額／結匯性質錯 → <b>重新填寫</b>，不得塗改、不得由銀行更正。<br>其他欄位錯 → 可更改，但須<b>申報義務人於更改處簽章</b>。</div></div>
+  <div class="qa"><div class="q">委託他人辦理結匯申報，誰負申報責任？</div>
+    <div class="a"><b>委託人</b>（考 7 次 ★★）。受託人只是跑腿，法律上的申報義務人永遠是本人。</div></div>
+  <div class="qa"><div class="q">匯入匯款解付新臺幣，用什麼匯率？</div>
+    <div class="a"><b>即期買入匯率。</b>站銀行立場：客戶把外幣賣給銀行＝銀行買進。是「即期」不是現鈔——匯入款是帳面資金。</div></div>
+  <div class="qa"><div class="q">子銀行和陸資銀行的持股門檻各是多少？</div>
+    <div class="a"><b>子銀行＝逾 50%</b>（被他金融機構控制）；<b>陸資銀行＝直接或間接持股逾 30%</b>。這兩個最容易互換。</div></div>
+  <div class="qa"><div class="q">ISO 20022 之後，客戶電匯和銀行間匯款各用什麼電文？信用狀呢？</div>
+    <div class="a">客戶電匯 <code>pacs.008</code>（原 MT103）；銀行間 <code>pacs.009</code>（原 MT202）；COVER 用 <code>pacs.009(cov)</code>。<br><b>信用狀 MT700／707／740 未遷移，仍有效。</b></div></div>
+</div>
+
+<div class="fx-cross" style="margin-top:26px">
+<b>📊 這頁覆蓋到題庫多少？</b><br>
+匯出入匯款 32.7%＋申報辦法／額度 25.2%＋光票票據 22.4%＋外匯存款 9.7%＋遠期換匯 8.5%＋外幣現鈔收兌處 8.2%＋水單 6.8%＋人民幣 4.2%（各考點可重疊）。<br>
+主線泳道圖對應「可推導的 45.9%」；六個記憶情境對應「純死記的 54.1%」。
+</div>
+
+<div class="foot">
+  <a href="notes.html">衝刺筆記</a> · <a href="drill.html">刷題器</a> · <a href="analysis.html">題庫分析</a> · <a href="trade-flow.html">貿易流程圖</a> · <a href="../index.html">回總覽</a><br>
+  Built with Claude Code
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  /* ---- 泳道高亮 ---- */
+  const grid = document.getElementById('grid');
+  const cells = grid.querySelectorAll('.cell');
+  const labels = grid.querySelectorAll('.lane-label');
+  const phases = grid.querySelectorAll('.phase-hdr');
+  let activeRole = null, activePhase = null;
+
+  function clearAll(){
+    cells.forEach(c=>c.classList.remove('hi','dim'));
+    labels.forEach(l=>l.classList.remove('on'));
+    phases.forEach(p=>p.classList.remove('on'));
+    activeRole = null; activePhase = null;
+  }
+  function highlightRole(role){
+    if(activeRole === role){clearAll(); return;}
+    clearAll(); activeRole = role;
+    cells.forEach(c=>{ c.classList.add(c.dataset.role === role ? 'hi' : 'dim'); });
+    labels.forEach(l=>{ if(l.dataset.role === role) l.classList.add('on'); });
+  }
+  function highlightPhase(phase){
+    if(activePhase === phase){clearAll(); return;}
+    clearAll(); activePhase = phase;
+    cells.forEach(c=>{ c.classList.add(c.dataset.phase === phase ? 'hi' : 'dim'); });
+    phases.forEach(p=>{ if(p.dataset.phase === phase) p.classList.add('on'); });
+  }
+  labels.forEach(l=> l.addEventListener('click', ()=> highlightRole(l.dataset.role)));
+  phases.forEach(p=> p.addEventListener('click', ()=> highlightPhase(p.dataset.phase)));
+
+  /* ---- 單證判斷器 ---- */
+  const pick = {goods:null, fx:null};
+  const vd = document.getElementById('verdict');
+
+  function decide(){
+    if(!pick.goods || !pick.fx){
+      vd.innerHTML = '<span class="big">↑ 請選擇條件</span><span class="why">選完會告訴你掣發哪一種單證，以及為什麼。</span>';
+      return;
+    }
+    let big, why;
+    if(pick.goods !== 'no'){
+      const dir = pick.goods === 'imp' ? '進口' : '出口';
+      big = dir + '結匯證實書';
+      why = '有貨品進出口＝<b>有報關資料</b>，央行已從報關資料掌握這筆交易，所以<b>免填申報書</b>，掣發結匯證實書而非水單。'
+          + '<br>⚠️ 這一題常見錯誤選項就是「掣發水單」——有貨就不是水單。';
+      if(pick.fx === 'none'){
+        why += '<br><br>⚠️ 但你選了「沒有實際結購結售」：若貨款是<b>直接動用外匯存款</b>支付、未經新臺幣兌換，'
+             + '則不涉及結匯，應掣發<b>其他交易憑證</b>。（例：出口押匯後將原幣存入外匯存款 → 其他交易憑證）';
+      }
+    } else if(pick.fx === 'buy'){
+      big = '賣匯水單';
+      why = '客戶拿新臺幣<b>買</b>外匯 → 站<b>銀行</b>立場是<b>賣</b>匯 → 賣匯水單。'
+          + '<br>🔑 客戶「買」＝銀行「賣」，題目講的永遠是銀行的動作。'
+          + '<br><br>⚠️ 延伸考點（考 4 次）：若是結購外匯<b>存入外匯存款</b>以備日後付進口貨款，'
+          + '賣匯水單及申報書的<b>受款地區國別填「本國」</b>——錢還躺在本國帳戶，還沒出國。';
+    } else if(pick.fx === 'sell'){
+      big = '買匯水單';
+      why = '客戶把外幣<b>賣</b>給銀行換新臺幣 → 銀行<b>買</b>匯 → 買匯水單。'
+          + '<br>⚠️ 47 屆考「匯入款結售為新臺幣應掣發<b>賣</b>匯水單」＝<b>錯</b>。'
+          + '<br><br>💡 同族：外匯存款提出結售 → 匯款地國別填<b>本國</b>；'
+          + '自國內他行 OBU 匯入結售 → 填<b>本國國際金融業務分行</b>。填的是錢「實際的來處」。';
+    } else {
+      big = '其他交易憑證';
+      why = '沒有貨品、也沒有新臺幣與外幣之間的實際結購結售 → 錢只是換個位置，不涉及結匯。'
+          + '<br>典型情境：<b>外幣互換</b>（美元兌歐元，<b>無須</b>填申報書）、<b>動用既有外匯存款匯出</b>、'
+          + '<b>出口押匯後將原幣存入外匯存款</b>。'
+          + '<br><br>💡 若是受款人將美元<b>匯入款存入外匯存款</b>，掣發的是<b>匯入匯款交易憑證</b>。';
+    }
+    vd.innerHTML = '<span class="big">→ ' + big + '</span><span class="why">' + why + '</span>';
+  }
+
+  document.querySelectorAll('.opts').forEach(g=>{
+    g.querySelectorAll('.opt').forEach(o=>{
+      o.addEventListener('click', ()=>{
+        const grp = g.dataset.g;
+        if(pick[grp] === o.dataset.v){
+          pick[grp] = null; o.classList.remove('on');
+        } else {
+          g.querySelectorAll('.opt').forEach(x=>x.classList.remove('on'));
+          o.classList.add('on'); pick[grp] = o.dataset.v;
+        }
+        decide();
+      });
+    });
+  });
+
+  /* ---- 自我測驗展開 ---- */
+  document.querySelectorAll('#quiz .qa').forEach(qa=>{
+    qa.querySelector('.q').addEventListener('click', ()=> qa.classList.toggle('open'));
+  });
+})();
+</script>
+</body>
+</html>
