@@ -41,6 +41,7 @@ h1{font-size:1.15em;margin:14px 0 3px}
 .opt.ok .n{background:var(--cy);color:#fff;border-color:var(--cy)}
 .opt.no{border-color:var(--rd);background:rgba(179,69,58,.08);border-style:dashed}
 .opt.dim{opacity:.42}
+.opt:focus-visible{outline:3px solid var(--cy);outline-offset:2px}
 
 .full{margin-top:14px;padding:12px 14px;border-left:4px solid var(--cy);background:rgba(8,122,115,.07);border-radius:0 8px 8px 0;font-size:.9em;line-height:1.85;display:none}
 .full.show{display:block}
@@ -170,11 +171,14 @@ function render(){
      </div>
      <div class="stem" id="stem">${text.replace('（＿＿）','<span class="blank" id="bk">＿＿</span>')}</div>
      <div class="opts" id="opts">
-       ${opts.map((v,i)=>`<div class="opt" data-v="${esc(v)}"><span class="n">${i+1}</span><span>${v}</span></div>`).join('')}
+       ${opts.map((v,i)=>`<div class="opt" role="button" tabindex="0" aria-label="選項 ${i+1}：${esc(v)}" data-v="${esc(v)}"><span class="n">${i+1}</span><span>${v}</span></div>`).join('')}
      </div>
      <div class="full" id="full"></div>
    </div>`;
-  $('#opts').querySelectorAll('.opt').forEach(el=>el.onclick=()=>choose(el.dataset.v));
+  $('#opts').querySelectorAll('.opt').forEach(el=>{
+    el.onclick=()=>choose(el.dataset.v);
+    el.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); choose(el.dataset.v); } };
+  });
   drawActs();
 }
 function esc(s){ return s.replace(/"/g,'&quot;'); }
