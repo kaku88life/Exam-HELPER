@@ -131,14 +131,14 @@ a{color:var(--cy)}
 <div class="phase-hdr" data-phase="7"><span class="num">⑧</span>爭議</div>
 
 <!-- LANE: 買方 -->
-<div class="lane-label even" data-role="buyer">買方<small>Applicant</small><span class="hoshino">🇯🇵 Hoshino</span></div>
+<div class="lane-label even" data-role="buyer">買方<small>Applicant</small><span class="hoshino">🇹🇼 星野模型</span></div>
 <div class="cell even" data-role="buyer" data-phase="0">
   <div class="act do"><b>議定合約</b><small>品名、數量、金額<br>選 Incoterms＋付款方式</small></div>
   <div class="detail">付款方式風險階梯：Prepayment → L/C → D/P → D/A → O/A。越右邊買方越有利但賣方風險越高。</div>
 </div>
 <div class="cell even" data-role="buyer" data-phase="1">
   <div class="act do"><b>申請開狀</b><small>開狀申請書<br>保證金＋授信額度</small></div>
-  <div class="flow-arrows"><div class="arr-line"><span class="from">Hoshino</span><span class="ar">→</span><span class="to">三菱UFJ</span><span class="label">開狀申請書</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">兆豐</span><span class="label">MT700 開狀</span></div><div class="arr-line"><span class="from">兆豐</span><span class="ar">→</span><span class="to">星野</span><span class="label">通知L/C</span></div></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">星野模型</span><span class="ar">→</span><span class="to">玉山銀行</span><span class="label">開狀申請書</span></div><div class="arr-line"><span class="from">玉山銀行</span><span class="ar">→</span><span class="to">三菱UFJ</span><span class="label">MT700 開狀</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">壽屋</span><span class="label">通知L/C</span></div></div>
   <div class="detail">開狀行依買方授信額度決定保證金比例。Transferable L/C 需特別申請標注。</div>
 </div>
 <div class="cell even" data-role="buyer" data-phase="2"></div>
@@ -161,7 +161,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 賣方 -->
-<div class="lane-label odd" data-role="seller">賣方<small>Beneficiary</small><span class="hoshino">🇹🇼 星野公司</span></div>
+<div class="lane-label odd" data-role="seller">賣方<small>Beneficiary</small><span class="hoshino">🇯🇵 壽屋</span></div>
 <div class="cell odd" data-role="seller" data-phase="0">
   <div class="act do"><b>報價確認</b><small>確認交期<br>確認能否符合L/C</small></div>
 </div>
@@ -175,7 +175,7 @@ a{color:var(--cy)}
 </div>
 <div class="cell odd" data-role="seller" data-phase="3">
   <div class="act do"><b>製單提示</b><small>裝運後 21 天內<br>不超過 L/C 有效期</small></div>
-  <div class="flow-arrows"><div class="arr-line"><span class="from">星野</span><span class="ar">→</span><span class="to">兆豐(押匯)</span><span class="label">全套單據</span></div><div class="arr-line"><span class="from">兆豐</span><span class="ar-money">⤳</span><span class="to">星野</span><span class="label">墊付貨款（押匯）</span></div><div class="arr-line"><span class="from">兆豐</span><span class="ar">→</span><span class="to">三菱UFJ</span><span class="label">寄單</span></div></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">壽屋</span><span class="ar">→</span><span class="to">三菱UFJ(押匯)</span><span class="label">全套單據</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar-money">⤳</span><span class="to">壽屋</span><span class="label">墊付貨款（押匯）</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">玉山銀行</span><span class="label">寄單</span></div></div>
   <div class="detail">📄 Invoice＋B/L＋Insurance＋Packing List＋C.O.＋匯票。"after" 不含當天（5/1裝船→5/2起算21天→5/22截止）。</div>
 </div>
 <div class="cell odd" data-role="seller" data-phase="4">
@@ -193,7 +193,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 開狀行 -->
-<div class="lane-label even" data-role="issuing">開狀行<small>Issuing Bank</small><span class="star">★ 第一付款責任</span><span class="hoshino">🏦 三菱UFJ</span></div>
+<div class="lane-label even" data-role="issuing">開狀行<small>Issuing Bank</small><span class="star">★ 第一付款責任</span><span class="hoshino">🏦 玉山銀行</span></div>
 <div class="cell even" data-role="issuing" data-phase="0"></div>
 <div class="cell even" data-role="issuing" data-phase="1">
   <div class="act do"><b>開出 L/C</b><small>不可撤銷（UCP600）</small><small class="swift">MT700</small></div>
@@ -203,12 +203,12 @@ a{color:var(--cy)}
 <div class="cell even" data-role="issuing" data-phase="3"></div>
 <div class="cell even" data-role="issuing" data-phase="4">
   <div class="act do"><b>審單 ≤5 營業日</b><small>只看表面相符<br>不符→一次列完</small><small class="swift">拒付 MT750</small></div>
-  <div class="flow-arrows"><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">Hoshino</span><span class="label">通知不符點（問要不要waive）</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">兆豐</span><span class="label">MT750 拒付通知</span></div></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">玉山銀行</span><span class="ar">→</span><span class="to">星野模型</span><span class="label">通知不符點（問要不要waive）</span></div><div class="arr-line"><span class="from">玉山銀行</span><span class="ar">→</span><span class="to">三菱UFJ</span><span class="label">MT750 拒付通知</span></div></div>
   <div class="detail">逾 5 BD 未拒付＝喪失拒付權。拒付通知必須一次列明全部不符點，不能分批通知。不負責單據真偽。</div>
 </div>
 <div class="cell even" data-role="issuing" data-phase="5">
   <div class="act do"><b>付款 / 承兌</b><small>即期→即付<br>遠期→先承兌到期付</small><small class="swift">MT756</small></div>
-  <div class="flow-arrows"><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">花旗</span><span class="label">MT740 償付授權</span></div><div class="arr-line"><span class="from">兆豐</span><span class="ar">→</span><span class="to">花旗</span><span class="label">MT742 索款</span></div><div class="arr-line"><span class="from">花旗</span><span class="ar-money">⤳</span><span class="to">兆豐</span><span class="label">付款（$$$）</span></div><div class="arr-line"><span class="from">Hoshino</span><span class="ar-money">⤳</span><span class="to">三菱UFJ</span><span class="label">到期償還</span></div></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">玉山銀行</span><span class="ar">→</span><span class="to">紐約梅隆</span><span class="label">MT740 償付授權</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">紐約梅隆</span><span class="label">MT742 索款</span></div><div class="arr-line"><span class="from">紐約梅隆</span><span class="ar-money">⤳</span><span class="to">三菱UFJ</span><span class="label">付款（$$$）</span></div><div class="arr-line"><span class="from">星野模型</span><span class="ar-money">⤳</span><span class="to">玉山銀行</span><span class="label">到期償還</span></div></div>
   <div class="detail">償付行拒付時，開狀行必須自己付。開狀行是資金鏈的最終責任人。</div>
 </div>
 <div class="cell even" data-role="issuing" data-phase="6"></div>
@@ -218,7 +218,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 通知行 -->
-<div class="lane-label odd" data-role="advising">通知行<small>Advising Bank</small><span class="hoshino">🏦 兆豐銀行</span></div>
+<div class="lane-label odd" data-role="advising">通知行<small>Advising Bank</small><span class="hoshino">🏦 三菱UFJ</span></div>
 <div class="cell odd" data-role="advising" data-phase="0"></div>
 <div class="cell odd" data-role="advising" data-phase="1">
   <div class="act do"><b>驗證＋通知</b><small>驗 L/C 真偽<br>無法驗→告知受益人</small></div>
@@ -238,7 +238,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 保兌行 -->
-<div class="lane-label even" data-role="confirming">保兌行<small>Confirming Bank</small><span class="star">★ 最終付款責任</span><span class="hoshino">🏦 兆豐(加保兌)</span></div>
+<div class="lane-label even" data-role="confirming">保兌行<small>Confirming Bank</small><span class="star">★ 最終付款責任</span><span class="hoshino">🏦 三菱UFJ(加保兌)</span></div>
 <div class="cell even" data-role="confirming" data-phase="0"></div>
 <div class="cell even" data-role="confirming" data-phase="1">
   <div class="act do"><b>加列保兌</b><small>獨立不可撤銷承諾</small></div>
@@ -259,7 +259,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 押匯行 -->
-<div class="lane-label odd" data-role="negotiating">押匯行<small>Negotiating Bank</small><span class="hoshino">🏦 兆豐(押匯)</span></div>
+<div class="lane-label odd" data-role="negotiating">押匯行<small>Negotiating Bank</small><span class="hoshino">🏦 三菱UFJ(押匯)</span></div>
 <div class="cell odd" data-role="negotiating" data-phase="0"></div>
 <div class="cell odd" data-role="negotiating" data-phase="1"></div>
 <div class="cell odd" data-role="negotiating" data-phase="2"></div>
@@ -277,7 +277,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 償付行 -->
-<div class="lane-label even" data-role="reimbursing">償付行<small>Reimbursing Bank</small><span class="hoshino">🏦 花旗(第三方)</span></div>
+<div class="lane-label even" data-role="reimbursing">償付行<small>Reimbursing Bank</small><span class="hoshino">🏦 紐約梅隆</span></div>
 <div class="cell even" data-role="reimbursing" data-phase="0"></div>
 <div class="cell even" data-role="reimbursing" data-phase="1"></div>
 <div class="cell even" data-role="reimbursing" data-phase="2"></div>
@@ -386,17 +386,17 @@ a{color:var(--cy)}
 <div class="fx-cross">
   <b>💱 匯兌科交叉記憶區</b>（標有 <span class="fx-link">匯兌科</span> 的格子與匯兌科重疊）<br><br>
   <b>1. 水單立場（站銀行看）</b><br>
-  出口收匯＝星野賣外幣給兆豐＝兆豐「買匯」→ <b>買匯水單</b><br>
-  進口付匯＝Hoshino 透過三菱UFJ 買外幣付款＝三菱UFJ「賣匯」→ <b>賣匯水單</b><br><br>
+  出口收匯＝星野模型賣外幣給玉山銀行＝玉山「買匯」→ <b>買匯水單</b><br>
+  進口付匯＝星野模型透過玉山銀行買外幣付款＝玉山「賣匯」→ <b>賣匯水單</b><br><br>
   <b>2. 匯出入匯款（匯兌科最大區塊 32.7%）</b><br>
-  Hoshino 付款給星野＝三菱UFJ 發 <b>MT103</b>（T/T 電匯）→ 兆豐收款入帳<br>
+  星野模型付款給壽屋＝玉山銀行發 <b>MT103</b>（T/T 電匯）→ 三菱UFJ收款入帳<br>
   T/T＝電報匯款、M/T＝信匯、D/D＝票匯（光票）<br><br>
   <b>3. 結匯申報額度</b><br>
   個人每年 USD 500 萬（累積結匯）｜ 公司無上限但每筆 USD 50 萬以上須申報<br>
   超過額度→須向央行申報核准（匯兌科「申報辦法」25.2%）<br><br>
   <b>4. 遠期外匯</b><br>
-  Hoshino 怕日幣升值→向三菱UFJ 預購遠期外匯鎖定匯率<br>
-  星野怕台幣升值→向兆豐預售遠期外匯<br>
+  星野模型怕日幣升值→向玉山銀行預購遠期外匯鎖定匯率（進口避險）<br>
+  壽屋怕日幣貶值→向三菱UFJ預售遠期外匯（出口避險）<br>
   ＝匯兌科「遠期外匯/換匯」8.5%
 </div>
 
