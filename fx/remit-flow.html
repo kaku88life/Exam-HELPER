@@ -435,13 +435,17 @@ code{font-family:'SF Mono',Consolas,monospace;font-weight:700;color:var(--vi);fo
   </div>
 
   <div class="tbl-scroll"><table>
-    <tr><th>清算系統</th><th>寫法／位數</th></tr>
-    <tr><td>CHIPS（紐約銀行公會）</td><td>UID 6 碼 → <code>//CH361568</code></td></tr>
-    <tr><td>FEDWIRE（美國聯準）</td><td>ABA <b>9 碼</b></td></tr>
-    <tr><td>澳洲資金調撥系統</td><td><code>//AU</code></td></tr>
-    <tr><td>匯往歐盟境內</td><td>必須有 <b>IBAN</b></td></tr>
-    <tr><td>財金公司 RTGS 外幣平台</td><td>⚠️ <b>不含港幣</b></td></tr>
+    <tr><th>系統／地區</th><th>SWIFT 電文寫法</th><th>陷阱</th></tr>
+    <tr><td>CHIPS <b>UID</b>（6 碼）</td><td><code>//CH361568</code></td><td rowspan="2">⚠️ <b>CH 與 CP 是兩種不同號碼</b>，最愛互換考</td></tr>
+    <tr><td>CHIPS <b>ABA</b>（參加行代號）</td><td><code>//CP0002</code></td></tr>
+    <tr><td>FEDWIRE（美國聯準）</td><td>ABA <b>9 碼</b></td><td>問「幾碼」就是 9</td></tr>
+    <tr><td><b>英國</b>資金調撥（Sort Code）</td><td><code>//SC123456</code></td><td>SC＝Sort Code</td></tr>
+    <tr><td><b>澳洲</b>資金調撥（BSB）</td><td><code>//AU123456</code></td><td>AU 後面接 BSB 6 碼</td></tr>
+    <tr><td>匯往<b>歐盟</b>境內</td><td>必須有 <b>IBAN</b></td><td>歐盟必要項目</td></tr>
+    <tr><td>財金公司 RTGS 外幣平台</td><td>—</td><td>⚠️ <b>不含港幣</b></td></tr>
   </table></div>
+  <div class="warn">⚠️ <b>美元轉帳三大媒介＝ FEDWIRE、CHIPS、SWIFT。</b>
+  題目問「不包括下列何者」→ 答案是 <b>BSB</b>（那是澳洲的，不是美元媒介）。考 3 次。</div>
 </div>
 
 <!-- 模組 3 -->
@@ -641,6 +645,59 @@ code{font-family:'SF Mono',Consolas,monospace;font-weight:700;color:var(--vi);fo
     <li><b>銀行法第 72 條</b>中期放款及定期存款<b>均不包括外幣</b>（考 4 次 ★）</li>
     <li>營業場所應揭示之<b>五種貨幣</b>存款利率 → <b>不含韓元</b></li>
     <li>得接受客戶以<b>外幣票據</b>存入外匯存款</li>
+  </ul>
+</div>
+
+<h2 class="sec">🧩 長尾補遺</h2>
+<div class="lede">以下是逐題比對 894 組去重題後，<b>主線與六個情境都掛不上</b>的零星考點。題數少但每屆會抽 2–4 題，屬於「知道就拿分、不知道只能猜」的類型。</div>
+
+<div class="mod">
+  <h3 class="sub" style="margin-top:0">📮 匯款分類碼補充</h3>
+  <div class="wall">
+    <div class="note"><b><span class="num">692</span></b>提領外匯存款折成新臺幣存回自己帳戶<br><small style="color:var(--mt)">→ <b>外匯存款結售</b></small></div>
+    <div class="note"><b>僑外股本投資</b>台灣外商分公司收到<b>國外母公司</b>匯來的營運資金<br><small style="color:var(--mt)">→ 申報性質為<b>僑外股本投資</b>（考 3 次）</small></div>
+    <div class="note"><b>其他移轉支出</b>非居住民取得台灣人民之<b>訴訟和解金</b>匯出<br><small style="color:var(--mt)">→ 與「繼承遺產匯出」同一分類</small></div>
+  </div>
+
+  <h3 class="sub">📅 票據的日期與代收方式</h3>
+  <ul style="font-size:.82em;margin-left:20px;line-height:1.85">
+    <li><b>英國日期寫法＝日/月/年</b>：<code>04/10/2015</code> 是 <b>2015 年 10 月 4 日</b>（不是 4 月 10 日）</li>
+    <li><b>美加地區國庫支票</b>：政府為<b>保有追索權</b>，除破損與過期外，原則上以 <b>CASH LETTER</b> 取款指示書代收</li>
+    <li>買入光票 vs 光票託收最主要差別：<b>前者是銀行先墊付票款的融資授信行為</b>，後者不墊付</li>
+  </ul>
+
+  <h3 class="sub">🏛 法規程序與時限（散裝但每屆會抽）</h3>
+  <div class="tbl-scroll"><table>
+    <tr><th>情境</th><th>答案</th></tr>
+    <tr><td>指定銀行<b>外匯後勤作業委外</b>，檢附委外作業計畫書向央行申請</td><td>送達央行之次日起 <b>15 天</b>內未表示反對即可辦理</td></tr>
+    <tr><td>指定銀行經許可於<b>營業時間以外</b>辦理外匯業務</td><td><b>僅得</b>受理顧客<b>未達新臺幣 50 萬元</b>之外匯交易</td></tr>
+    <tr><td>擬透過<b>網際網路</b>辦理結匯，要怎麼申請</td><td>須<b>親赴銀行櫃檯</b>申請簽約</td></tr>
+    <tr><td>銀行向客戶提供<b>結構型商品</b>服務</td><td><b>不得</b>以「存款」名義為之</td></tr>
+    <tr><td>公司<b>籌備期間</b>結匯進口機器設備</td><td>憑主管機關核准籌備處進口文件，<b>經指定銀行向央行申請核准</b>後辦理</td></tr>
+    <tr><td>廠商結售<b>收回對外投資款</b>用自由結匯額度</td><td>免附撤資文件，但每筆達 <b>100 萬美元</b>以上須查驗文件</td></tr>
+    <tr><td><b>私立就業服務機構</b>代理外籍勞工結匯在臺薪資</td><td>⚠️ 應查核文件<b>不包括</b>「外籍勞工護照及工作證」</td></tr>
+  </table></div>
+
+  <h3 class="sub">🪪 身分別的兩個補充數字</h3>
+  <div class="wall">
+    <div class="note"><b>居留證不滿一年</b>之個人申請結售外匯<br><small style="color:var(--mt)">每筆 <b>10 萬美元</b>以下得逕行辦理（＝非居住民逐筆管制）</small></div>
+    <div class="note"><b>持護照外國人</b>結售匯入匯款<br><small style="color:var(--mt)">申報書填<b>護照號碼</b>；⚠️「應計入當年累積結匯金額」＝<b>錯</b>（非居住民無年度額度）</small></div>
+    <div class="note"><b>未滿 20 歲</b>之我國國民<br><small style="color:var(--mt)">未達 NT$50 萬得逕行辦理；<b>可</b>辦網銀外匯業務（不是不得辦理）</small></div>
+    <div class="note trap"><b>未達 NT$50 萬</b>之結匯案件<br><small style="color:var(--mt)">⚠️「銀行<b>免</b>查驗結匯人身分證明文件」＝<b>錯</b>。免申報書 ≠ 免驗身分</small></div>
+    <div class="note"><b>外國人投資國內證券限額</b><br><small style="color:var(--mt)">外國<b>法人無限制</b>、外國<b>自然人 500 萬美元</b></small></div>
+    <div class="note"><b>大陸銀行分行</b>收受自然人新臺幣存款<br><small style="color:var(--mt)">限每筆 <b>NT$100 萬以上之定期存款</b></small></div>
+  </div>
+
+  <h3 class="sub">🇨🇳 兩岸清算機制</h3>
+  <div class="key">兩岸貨幣清算機制建立後，銀行業得辦理涉及人民幣之外匯業務範圍
+  ＝ <b>出口外匯、進口外匯、人民幣存款、匯出入匯款全部都可以</b>（選 A.B.C.D 全選，考 3 次）。<br>
+  🔑 這題的出題邏輯：清算機制一旦建立，人民幣就<b>比照一般外幣</b>全面開放，不要挑其中幾項。</div>
+
+  <h3 class="sub">🧮 會出現的計算題型</h3>
+  <ul style="font-size:.82em;margin-left:20px;line-height:1.85">
+    <li><b>遠期外匯報價</b>：客戶<b>預售</b>美元 → 銀行<b>買</b>入 → 用<b>遠匯買匯價</b>（不是即期、不是賣匯價）。先認方向再看數字。</li>
+    <li><b>value date 推算</b>：收電日 &lt; value date → 以 <b>value date</b> 為可動用日；若 value date 已過或當日，則<b>次營業日</b>解付。</li>
+    <li><b>票據有效期</b>：無記載 → 發票日起 <b>6 個月</b>；美國國庫支票 → <b>1 年</b>。用發票日往後加。</li>
   </ul>
 </div>
 
