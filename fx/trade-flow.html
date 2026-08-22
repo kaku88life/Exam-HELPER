@@ -61,7 +61,26 @@ h1{font-size:1.35em;margin:16px 0 4px}
 .act .warn-text{font-weight:700}
 
 .detail{display:none;margin-top:6px;padding:7px 9px;background:var(--sf);border:1px solid var(--cd);border-radius:6px;font-size:.95em;line-height:1.5;color:var(--mt)}
-.cell.hi .detail{display:block}
+.flow-arrows{display:none}
+.cell.hi .detail,.cell.hi .flow-arrows{display:block}
+
+.hoshino{display:inline-block;font-size:.78em;color:var(--yw);font-weight:600;margin-top:2px}
+.fx-link{display:inline-block;font-size:.72em;padding:1px 5px;border-radius:3px;background:rgba(49,95,148,.12);color:var(--vi);font-weight:600;margin-top:3px;border:1px solid rgba(49,95,148,.25)}
+
+.arrow-overlay{position:absolute;pointer-events:none;z-index:10}
+.arrow-box{position:relative;margin:4px 0;padding:3px 7px;border-radius:4px;font-size:.7em;font-weight:600;border:1.5px solid var(--tx);background:var(--sf);display:inline-flex;align-items:center;gap:4px}
+.arrow-box .arr{font-size:1.2em}
+.arrow-box.doc{border-color:var(--vi);color:var(--vi)}
+.arrow-box.money{border-color:var(--gn);color:var(--gn);border-style:dashed}
+.arrow-box.swift-ar{border-color:var(--vi);color:var(--vi)}
+
+.flow-arrows{margin-top:8px;padding:6px 8px;background:rgba(8,122,115,.04);border:1px dashed var(--cd);border-radius:5px;font-size:.82em;line-height:1.7}
+.flow-arrows .arr-line{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:2px}
+.flow-arrows .from,.flow-arrows .to{font-weight:700;color:var(--tx)}
+.flow-arrows .via{color:var(--mt);font-size:.9em}
+.flow-arrows .ar{color:var(--cy);font-weight:700}
+.flow-arrows .ar-money{color:var(--gn);font-weight:700}
+.flow-arrows .label{font-size:.88em;color:var(--vi);font-weight:600}
 
 .foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--cd);font-size:.76em;color:var(--mt);text-align:center;line-height:1.9}
 a{color:var(--cy)}
@@ -73,6 +92,7 @@ a{color:var(--cy)}
 
 .key{border-left:4px solid var(--cy);background:rgba(8,122,115,.06);padding:10px 14px;border-radius:0 7px 7px 0;margin:14px 0;font-size:.84em}
 .warn{border-left:4px solid var(--rd);background:rgba(179,69,58,.06);padding:10px 14px;border-radius:0 7px 7px 0;margin:14px 0;font-size:.84em}
+.fx-cross{border-left:4px solid var(--vi);background:rgba(49,95,148,.06);padding:10px 14px;border-radius:0 7px 7px 0;margin:14px 0;font-size:.84em}
 </style>
 </head>
 <body>
@@ -93,6 +113,8 @@ a{color:var(--cy)}
   <span><i class="leg-opt"></i> 能做（選擇性）</span>
   <span><i class="leg-no"></i> 不能做 ❌</span>
   <span><b style="font-family:monospace;color:var(--vi)">MT700</b> SWIFT電文</span>
+  <span><span class="fx-link">匯兌科</span> 跨科重疊</span>
+  <span style="color:var(--yw);font-weight:600">🇯🇵🇹🇼🏦</span><span> 星野模型角色</span>
 </div>
 
 <div class="board">
@@ -109,13 +131,14 @@ a{color:var(--cy)}
 <div class="phase-hdr" data-phase="7"><span class="num">⑧</span>爭議</div>
 
 <!-- LANE: 買方 -->
-<div class="lane-label even" data-role="buyer">買方<small>Applicant</small></div>
+<div class="lane-label even" data-role="buyer">買方<small>Applicant</small><span class="hoshino">🇯🇵 Hoshino</span></div>
 <div class="cell even" data-role="buyer" data-phase="0">
   <div class="act do"><b>議定合約</b><small>品名、數量、金額<br>選 Incoterms＋付款方式</small></div>
   <div class="detail">付款方式風險階梯：Prepayment → L/C → D/P → D/A → O/A。越右邊買方越有利但賣方風險越高。</div>
 </div>
 <div class="cell even" data-role="buyer" data-phase="1">
   <div class="act do"><b>申請開狀</b><small>開狀申請書<br>保證金＋授信額度</small></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">Hoshino</span><span class="ar">→</span><span class="to">三菱UFJ</span><span class="label">開狀申請書</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">兆豐</span><span class="label">MT700 開狀</span></div><div class="arr-line"><span class="from">兆豐</span><span class="ar">→</span><span class="to">星野</span><span class="label">通知L/C</span></div></div>
   <div class="detail">開狀行依買方授信額度決定保證金比例。Transferable L/C 需特別申請標注。</div>
 </div>
 <div class="cell even" data-role="buyer" data-phase="2"></div>
@@ -125,8 +148,8 @@ a{color:var(--cy)}
   <div class="detail">買方可選擇接受不符點（waive），此時開狀行仍須付款。但買方不能指示銀行拒付。</div>
 </div>
 <div class="cell even" data-role="buyer" data-phase="5">
-  <div class="act do"><b>償還開狀行</b><small>即期→已先付<br>遠期→到期償還</small></div>
-  <div class="detail">Buyer's Usance：利息由買方負擔。Seller's Usance：利息由賣方貼息，買方享受延遲付款但不出利息。</div>
+  <div class="act do"><b>償還開狀行</b><small>即期→已先付<br>遠期→到期償還</small><span class="fx-link">匯兌科</span></div>
+  <div class="detail">Buyer's Usance：利息由買方負擔。Seller's Usance：利息由賣方貼息。<br>💱 匯兌科連結：付款走 T/T（MT103）→ 匯出匯款 → 填「買匯水單」→ 結匯申報。遠期外匯可預購避匯率風險。</div>
 </div>
 <div class="cell even" data-role="buyer" data-phase="6">
   <div class="act do"><b>憑 B/L 提貨</b><small>正本B/L → 換D/O<br>AWB → 直接提貨</small></div>
@@ -138,7 +161,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 賣方 -->
-<div class="lane-label odd" data-role="seller">賣方<small>Beneficiary</small></div>
+<div class="lane-label odd" data-role="seller">賣方<small>Beneficiary</small><span class="hoshino">🇹🇼 星野公司</span></div>
 <div class="cell odd" data-role="seller" data-phase="0">
   <div class="act do"><b>報價確認</b><small>確認交期<br>確認能否符合L/C</small></div>
 </div>
@@ -152,6 +175,7 @@ a{color:var(--cy)}
 </div>
 <div class="cell odd" data-role="seller" data-phase="3">
   <div class="act do"><b>製單提示</b><small>裝運後 21 天內<br>不超過 L/C 有效期</small></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">星野</span><span class="ar">→</span><span class="to">兆豐(押匯)</span><span class="label">全套單據</span></div><div class="arr-line"><span class="from">兆豐</span><span class="ar-money">⤳</span><span class="to">星野</span><span class="label">墊付貨款（押匯）</span></div><div class="arr-line"><span class="from">兆豐</span><span class="ar">→</span><span class="to">三菱UFJ</span><span class="label">寄單</span></div></div>
   <div class="detail">📄 Invoice＋B/L＋Insurance＋Packing List＋C.O.＋匯票。"after" 不含當天（5/1裝船→5/2起算21天→5/22截止）。</div>
 </div>
 <div class="cell odd" data-role="seller" data-phase="4">
@@ -169,7 +193,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 開狀行 -->
-<div class="lane-label even" data-role="issuing">開狀行<small>Issuing Bank</small><span class="star">★ 第一付款責任</span></div>
+<div class="lane-label even" data-role="issuing">開狀行<small>Issuing Bank</small><span class="star">★ 第一付款責任</span><span class="hoshino">🏦 三菱UFJ</span></div>
 <div class="cell even" data-role="issuing" data-phase="0"></div>
 <div class="cell even" data-role="issuing" data-phase="1">
   <div class="act do"><b>開出 L/C</b><small>不可撤銷（UCP600）</small><small class="swift">MT700</small></div>
@@ -179,10 +203,12 @@ a{color:var(--cy)}
 <div class="cell even" data-role="issuing" data-phase="3"></div>
 <div class="cell even" data-role="issuing" data-phase="4">
   <div class="act do"><b>審單 ≤5 營業日</b><small>只看表面相符<br>不符→一次列完</small><small class="swift">拒付 MT750</small></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">Hoshino</span><span class="label">通知不符點（問要不要waive）</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">兆豐</span><span class="label">MT750 拒付通知</span></div></div>
   <div class="detail">逾 5 BD 未拒付＝喪失拒付權。拒付通知必須一次列明全部不符點，不能分批通知。不負責單據真偽。</div>
 </div>
 <div class="cell even" data-role="issuing" data-phase="5">
   <div class="act do"><b>付款 / 承兌</b><small>即期→即付<br>遠期→先承兌到期付</small><small class="swift">MT756</small></div>
+  <div class="flow-arrows"><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">花旗</span><span class="label">MT740 償付授權</span></div><div class="arr-line"><span class="from">兆豐</span><span class="ar">→</span><span class="to">花旗</span><span class="label">MT742 索款</span></div><div class="arr-line"><span class="from">花旗</span><span class="ar-money">⤳</span><span class="to">兆豐</span><span class="label">付款（$$$）</span></div><div class="arr-line"><span class="from">Hoshino</span><span class="ar-money">⤳</span><span class="to">三菱UFJ</span><span class="label">到期償還</span></div></div>
   <div class="detail">償付行拒付時，開狀行必須自己付。開狀行是資金鏈的最終責任人。</div>
 </div>
 <div class="cell even" data-role="issuing" data-phase="6"></div>
@@ -192,7 +218,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 通知行 -->
-<div class="lane-label odd" data-role="advising">通知行<small>Advising Bank</small></div>
+<div class="lane-label odd" data-role="advising">通知行<small>Advising Bank</small><span class="hoshino">🏦 兆豐銀行</span></div>
 <div class="cell odd" data-role="advising" data-phase="0"></div>
 <div class="cell odd" data-role="advising" data-phase="1">
   <div class="act do"><b>驗證＋通知</b><small>驗 L/C 真偽<br>無法驗→告知受益人</small></div>
@@ -212,7 +238,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 保兌行 -->
-<div class="lane-label even" data-role="confirming">保兌行<small>Confirming Bank</small><span class="star">★ 最終付款責任</span></div>
+<div class="lane-label even" data-role="confirming">保兌行<small>Confirming Bank</small><span class="star">★ 最終付款責任</span><span class="hoshino">🏦 兆豐(加保兌)</span></div>
 <div class="cell even" data-role="confirming" data-phase="0"></div>
 <div class="cell even" data-role="confirming" data-phase="1">
   <div class="act do"><b>加列保兌</b><small>獨立不可撤銷承諾</small></div>
@@ -233,7 +259,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 押匯行 -->
-<div class="lane-label odd" data-role="negotiating">押匯行<small>Negotiating Bank</small></div>
+<div class="lane-label odd" data-role="negotiating">押匯行<small>Negotiating Bank</small><span class="hoshino">🏦 兆豐(押匯)</span></div>
 <div class="cell odd" data-role="negotiating" data-phase="0"></div>
 <div class="cell odd" data-role="negotiating" data-phase="1"></div>
 <div class="cell odd" data-role="negotiating" data-phase="2"></div>
@@ -251,7 +277,7 @@ a{color:var(--cy)}
 </div>
 
 <!-- LANE: 償付行 -->
-<div class="lane-label even" data-role="reimbursing">償付行<small>Reimbursing Bank</small></div>
+<div class="lane-label even" data-role="reimbursing">償付行<small>Reimbursing Bank</small><span class="hoshino">🏦 花旗(第三方)</span></div>
 <div class="cell even" data-role="reimbursing" data-phase="0"></div>
 <div class="cell even" data-role="reimbursing" data-phase="1"></div>
 <div class="cell even" data-role="reimbursing" data-phase="2"></div>
@@ -268,7 +294,7 @@ a{color:var(--cy)}
 <div class="cell even" data-role="reimbursing" data-phase="7"></div>
 
 <!-- LANE: 運送人 -->
-<div class="lane-label odd" data-role="carrier">運送人<small>Carrier</small></div>
+<div class="lane-label odd" data-role="carrier">運送人<small>Carrier</small><span class="hoshino">🚢 長榮海運</span></div>
 <div class="cell odd" data-role="carrier" data-phase="0"></div>
 <div class="cell odd" data-role="carrier" data-phase="1"></div>
 <div class="cell odd" data-role="carrier" data-phase="2">
@@ -284,7 +310,7 @@ a{color:var(--cy)}
 <div class="cell odd" data-role="carrier" data-phase="7"></div>
 
 <!-- LANE: 保險公司 -->
-<div class="lane-label even" data-role="insurer">保險公司<small>Insurer</small></div>
+<div class="lane-label even" data-role="insurer">保險公司<small>Insurer</small><span class="hoshino">🛡 富邦產險</span></div>
 <div class="cell even" data-role="insurer" data-phase="0"></div>
 <div class="cell even" data-role="insurer" data-phase="1"></div>
 <div class="cell even" data-role="insurer" data-phase="2">
@@ -302,14 +328,15 @@ a{color:var(--cy)}
 <div class="cell odd" data-role="gov" data-phase="0"></div>
 <div class="cell odd" data-role="gov" data-phase="1"></div>
 <div class="cell odd" data-role="gov" data-phase="2">
-  <div class="act do"><b>出口報關</b><small>出口許可證＋申報</small></div>
-  <div class="detail">外匯申報（匯兌科範圍）：超過一定金額須向央行申報核准。</div>
+  <div class="act do"><b>出口報關</b><small>出口許可證＋申報</small><span class="fx-link">匯兌科</span></div>
+  <div class="detail">外匯申報（匯兌科範圍）：出口結匯須填寫「賣匯水單」（銀行買匯＝客戶賣外幣給銀行）。超過一定金額須向央行申報核准。</div>
 </div>
 <div class="cell odd" data-role="gov" data-phase="3"></div>
 <div class="cell odd" data-role="gov" data-phase="4"></div>
 <div class="cell odd" data-role="gov" data-phase="5"></div>
 <div class="cell odd" data-role="gov" data-phase="6">
-  <div class="act do"><b>進口報關</b><small>完稅＋外匯申報<br>&gt;USD 50萬須申報</small></div>
+  <div class="act do"><b>進口報關</b><small>完稅＋外匯申報<br>&gt;USD 50萬須申報</small><span class="fx-link">匯兌科</span></div>
+  <div class="detail">進口結匯填寫「買匯水單」（銀行賣匯＝客戶買外幣付給國外）。匯兌科的 T/T 匯出匯款就是這個流程的付款方式之一。個人每年結匯上限 USD 500 萬，公司無上限但須申報。</div>
 </div>
 <div class="cell odd" data-role="gov" data-phase="7"></div>
 
@@ -354,6 +381,23 @@ a{color:var(--cy)}
   <b>Incoterms 快記</b><br>
   FOB/CFR/CIF＝海運專用、風險裝船時轉移 ｜ FCA/CPT/CIP＝任何運輸、風險交運送人時轉移<br>
   <b>F 組＝COLLECT</b>（買方付運費）｜ <b>C 組＝PREPAID</b>（賣方付運費）｜ CIF→ICC(C) ｜ CIP→ICC(A)
+</div>
+
+<div class="fx-cross">
+  <b>💱 匯兌科交叉記憶區</b>（標有 <span class="fx-link">匯兌科</span> 的格子與匯兌科重疊）<br><br>
+  <b>1. 水單立場（站銀行看）</b><br>
+  出口收匯＝星野賣外幣給兆豐＝兆豐「買匯」→ <b>買匯水單</b><br>
+  進口付匯＝Hoshino 透過三菱UFJ 買外幣付款＝三菱UFJ「賣匯」→ <b>賣匯水單</b><br><br>
+  <b>2. 匯出入匯款（匯兌科最大區塊 32.7%）</b><br>
+  Hoshino 付款給星野＝三菱UFJ 發 <b>MT103</b>（T/T 電匯）→ 兆豐收款入帳<br>
+  T/T＝電報匯款、M/T＝信匯、D/D＝票匯（光票）<br><br>
+  <b>3. 結匯申報額度</b><br>
+  個人每年 USD 500 萬（累積結匯）｜ 公司無上限但每筆 USD 50 萬以上須申報<br>
+  超過額度→須向央行申報核准（匯兌科「申報辦法」25.2%）<br><br>
+  <b>4. 遠期外匯</b><br>
+  Hoshino 怕日幣升值→向三菱UFJ 預購遠期外匯鎖定匯率<br>
+  星野怕台幣升值→向兆豐預售遠期外匯<br>
+  ＝匯兌科「遠期外匯/換匯」8.5%
 </div>
 
 <div class="foot">
