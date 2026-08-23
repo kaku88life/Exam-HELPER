@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>初階外匯 作戰指南</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;
+  padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 30px}
+
+header{padding:20px 0 4px}
+h1{font-size:1.38em;margin-bottom:2px}
+.lede{color:var(--mt);font-size:.82em;margin-bottom:10px}
+.count{display:inline-flex;align-items:center;gap:8px;background:var(--sf);border:1.5px solid var(--rd);border-radius:999px;
+  padding:6px 16px;font-size:.86em;font-weight:700;color:var(--rd);margin-bottom:8px}
+.count b{font-size:1.35em}
+
+h2{font-size:1.12em;margin:26px 0 12px;padding-left:10px;border-left:4px solid var(--cy)}
+h3{font-size:.97em;margin:20px 0 8px;color:var(--vi)}
+p{font-size:.88em;margin-bottom:11px}
+ul,ol{margin:0 0 12px 22px;font-size:.87em}
+li{margin-bottom:6px}
+small{color:var(--mt)}
+code{background:var(--sf);border:1px solid var(--cd);padding:1px 5px;border-radius:3px;font-size:.88em}
+a{color:var(--cy)}
+
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:15px 17px;margin-bottom:13px}
+.key{border-left:4px solid var(--cy);background:rgba(8,122,115,.06);padding:12px 15px;border-radius:0 8px 8px 0;margin-bottom:13px;font-size:.88em}
+.key b:first-child{color:var(--cy)}
+.warn{border-left:4px solid var(--rd);background:rgba(179,69,58,.06);padding:12px 15px;border-radius:0 8px 8px 0;margin-bottom:13px;font-size:.87em}
+.ok{border-left:4px solid var(--gn);background:rgba(96,114,67,.07);padding:12px 15px;border-radius:0 8px 8px 0;margin-bottom:13px;font-size:.87em}
+
+table{width:100%;border-collapse:collapse;font-size:.83em;margin:8px 0 6px}
+th,td{padding:8px 9px;border-bottom:1px solid var(--cd);text-align:left;vertical-align:top}
+th{color:var(--mt);font-weight:700;font-size:.92em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* 比重橫條 */
+.bars{margin:6px 0 4px}
+.bar{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--cd);font-size:.85em}
+.bar:last-child{border-bottom:none}
+.bar .lb{display:flex;flex-direction:column;gap:3px;min-width:0}
+.bar .lb em{font-style:normal;font-weight:700}
+.bar .lb i{font-style:normal;height:7px;border-radius:4px;background:rgba(8,122,115,.16);position:relative;overflow:hidden;display:block}
+.bar .lb i::after{content:'';position:absolute;inset:0;width:var(--w);background:var(--cy);border-radius:4px}
+.bar.hot .lb i::after{background:var(--rd)}
+.bar .pc{font-variant-numeric:tabular-nums;font-weight:700;font-size:.95em;color:var(--mt);white-space:nowrap}
+.bar.hot .pc{color:var(--rd)}
+.bar .pc small{display:block;text-align:right;font-weight:400;font-size:.78em}
+
+/* 大綱清單 */
+.syl{counter-reset:s;margin-bottom:4px}
+.syl div{display:flex;gap:10px;padding:8px 2px;border-bottom:1px dashed var(--cd);font-size:.87em;align-items:baseline}
+.syl div:last-child{border-bottom:none}
+.syl div::before{counter-increment:s;content:counter(s);flex:0 0 22px;height:22px;line-height:22px;text-align:center;
+  background:var(--sf);border:1px solid var(--cd);border-radius:6px;font-size:.78em;font-weight:700;color:var(--cy)}
+.chg{display:inline-block;font-size:.72em;font-weight:700;padding:1px 7px;border-radius:4px;margin-left:6px;vertical-align:middle;
+  background:rgba(182,101,22,.14);color:var(--yw)}
+.chg.del{background:rgba(179,69,58,.12);color:var(--rd)}
+
+/* 兩科對照大卡 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px}
+.duo .card{margin-bottom:0;padding:13px 14px}
+.duo h4{font-size:.86em;color:var(--cy);margin-bottom:6px}
+.duo .big{font-size:1.5em;font-weight:800;line-height:1.2}
+.duo small{font-size:.76em;line-height:1.5;display:block}
+@media(max-width:360px){.duo{grid-template-columns:1fr}}
+
+/* checklist */
+.ck{list-style:none;margin:4px 0 6px}
+.ck li{display:flex;align-items:flex-start;gap:11px;padding:10px 4px;border-bottom:1px dashed var(--cd);margin:0;font-size:.9em;cursor:pointer;user-select:none}
+.ck li:last-child{border-bottom:none}
+.ck li::before{content:'';flex:0 0 24px;height:24px;border:2px solid var(--cd);border-radius:7px;background:var(--sf);margin-top:1px;
+  transition:all .15s}
+.ck li.done{color:var(--mt)}
+.ck li.done::before{background:var(--gn);border-color:var(--gn);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5 8.5 15 16 6' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size:15px;background-position:center;background-repeat:no-repeat}
+.ck li.done em{text-decoration:line-through;font-style:normal}
+.ck li em{font-style:normal}
+
+/* 分頁 */
+main section{display:none}
+main section.on{display:block;animation:fi .18s ease}
+@keyframes fi{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;background:var(--sf);
+  border-top:1px solid var(--cd);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -4px 18px rgba(23,33,29,.06)}
+.tabbar button{flex:1;min-height:56px;border:none;background:none;font-family:inherit;font-size:.72em;color:var(--mt);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding:7px 2px}
+.tabbar button i{font-style:normal;font-size:1.35em;line-height:1}
+.tabbar button.on{color:var(--cy);font-weight:700}
+.tabbar button.on i{transform:translateY(-1px)}
+.tabbar button:active{background:rgba(8,122,115,.07)}
+
+.toollink{display:flex;align-items:center;gap:11px;background:var(--sf);border:1px solid var(--cd);border-radius:10px;
+  padding:12px 14px;margin-bottom:9px;text-decoration:none;color:var(--tx);min-height:52px}
+.toollink:active{border-color:var(--cy)}
+.toollink .ic{flex:0 0 auto;font-size:.66em;border:1px solid var(--cd);border-radius:999px;padding:3px 8px;color:var(--cy);font-weight:800}
+.toollink b{font-size:.9em}
+.toollink small{display:block;font-size:.76em;line-height:1.5}
+
+.src{font-size:.78em;color:var(--mt);line-height:1.7;margin-top:6px}
+.foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--cd);font-size:.75em;color:var(--mt);text-align:center;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+<h1>初階外匯 作戰指南</h1>
+<div class="lede">兩科在考什麼・最新出題來源・考前準備 <small>（2026-08-23 依官方最新簡章查證）</small></div>
+<div class="count" id="cd">8/27（四）電腦應試</div>
+</header>
+
+<main>
+
+<!-- ================= 總覽 ================= -->
+<section id="p-home" class="on">
+
+<h2>這一戰的數學</h2>
+<div class="warn">
+<b>⚠️ 成績不保留：</b>兩科要<b>同一場</b>各達 70 分才算通過。8/22 那場匯兌 60、進出口 42.5，全部歸零重來——8/27 是整場重打，不是補考一科。
+</div>
+
+<div class="scroll"><table>
+<tr><th>科目</th><th class="n">8/22 得分</th><th class="n">及格線</th><th class="n">還要多對</th></tr>
+<tr><td>國外匯兌業務</td><td class="n">60 分（對 30 題）</td><td class="n">70 分＝對 35 題</td><td class="n"><b style="color:var(--yw)">5 題</b></td></tr>
+<tr><td>進出口外匯業務</td><td class="n">42.5 分（對 34 題）</td><td class="n">70 分＝對 56 題</td><td class="n"><b style="color:var(--rd)">22 題</b></td></tr>
+</table></div>
+
+<div class="key">
+<b>配比結論：進出口 65%／匯兌 35%。</b>綁住及格的是進出口——要多對 22 題；匯兌只差 5 題。時間有限時，永遠先餵進出口。
+</div>
+
+<h2>考試規格</h2>
+<div class="duo">
+<div class="card">
+  <h4>國外匯兌業務</h4>
+  <div class="big">50 題<small>／60 分鐘</small></div>
+  <small>每題 2 分・平均 72 秒/題<br>70 分＝答對 35 題</small>
+</div>
+<div class="card">
+  <h4>進出口外匯業務</h4>
+  <div class="big">80 題<small>／90 分鐘</small></div>
+  <small>每題 1.25 分・平均 67 秒/題<br>70 分＝答對 56 題</small>
+</div>
+</div>
+
+<div class="card" style="font-size:.86em">
+<b>共同規則</b>
+<ul style="margin-bottom:0">
+<li>四選一單選，<b>答錯不倒扣</b>——空白是唯一的浪費，不會也要猜（配合<a href="notes.html#guess">猜題決策卡</a>）</li>
+<li>電腦應試：點選作答直接寫入系統，交卷即定案，<b>不得要求調閱題目</b></li>
+<li>可帶<b>簡易型電子計算器</b>（不得有財務函數／儲存／通訊功能，不得出聲）</li>
+<li>合格證明書為中英文對照電子簽章證書，成績公告後自行至官網下載</li>
+</ul>
+</div>
+
+<h2>考程時間表</h2>
+<p style="font-size:.82em;color:var(--mt)">場次以<b>入場通知書</b>為準（測驗前 2 日以 Email 寄送，也可到官網「入場通知」下載）。</p>
+<div class="scroll"><table>
+<tr><th></th><th>報到・預備</th><th>國外匯兌</th><th>進出口外匯</th></tr>
+<tr><td><b>上午</b></td><td class="n">08:40–09:10</td><td class="n">09:10–10:10</td><td class="n">10:20–11:50</td></tr>
+<tr><td><b>下午</b></td><td class="n">13:40–14:10</td><td class="n">14:10–15:10</td><td class="n">15:20–16:50</td></tr>
+<tr><td><b>夜間</b></td><td class="n">18:20–18:50</td><td class="n">18:50–19:50</td><td class="n">20:00–21:30</td></tr>
+</table></div>
+<p style="font-size:.8em;color:var(--mt)">兩科中間有 10 分鐘空檔——匯兌考完立刻放下，把腦袋切到進出口。</p>
+
+</section>
+
+<!-- ================= 匯兌 ================= -->
+<section id="p-fx">
+
+<h2>國外匯兌業務：這科在考什麼</h2>
+<div class="key">
+<b>一句話：</b>新台幣不是國際貨幣，台灣是「有限度外匯管制」國家，央行必須盯住每一筆「新台幣 ↔ 外幣」的轉換。<b>整科 50 題，八成都是這句話推導出來的</b>——這筆錢該掣發什麼單證、要不要申報、額度多少。
+</div>
+<ul>
+<li><b>法源性質：</b>國內法規（強制適用）。主角是管理外匯條例、外匯收支或交易申報辦法、銀行業辦理外匯業務管理辦法。</li>
+<li><b>拿分手感：</b>靠<b>記憶</b>。實測約 54% 是純死記（代號、數字、期限），流程推理吃不到。</li>
+<li><b>8/22 只差 5 題</b>——差的通常就是死背區細節：分類碼、SWIFT 欄位、退票理由、數字階梯。</li>
+</ul>
+
+<h3>官方命題大綱（114/11/1 起新版）</h3>
+<div class="card"><div class="syl">
+<div>國外匯兌業務的範圍</div>
+<div>匯出匯款作業</div>
+<div>匯入匯款處理程序</div>
+<div>買賣外幣現鈔<span class="chg del">刪「旅行支票」</span></div>
+<div>光票買入及託收</div>
+<div>外匯存款</div>
+<div>外匯衍生之商品業務<span class="chg">章名更新</span></div>
+<div>國外匯兌相關法規</div>
+</div></div>
+<div class="warn">
+<b>🔴 旅行支票已從命題大綱刪除</b>（舊版第 4 章原為「買賣外幣現鈔<b>與旅行支票</b>」，新版只剩現鈔）。舊題庫的旅支題投報率全科最低，<b>刷到直接跳過</b>，把時間還給高頻區。
+</div>
+
+<h3>題庫實測比重（去重 756 題族）</h3>
+<div class="card"><div class="bars">
+<div class="bar hot"><div class="lb"><em>匯入匯款解付</em><i style="--w:83%"></i></div><div class="pc">20.6%<small>156 題</small></div></div>
+<div class="bar hot"><div class="lb"><em>銀行業辦理外匯業務管理辦法</em><i style="--w:53%"></i></div><div class="pc">13.2%<small>100 題</small></div></div>
+<div class="bar hot"><div class="lb"><em>外匯申報辦法</em><i style="--w:40%"></i></div><div class="pc">9.9%<small>75 題</small></div></div>
+<div class="bar hot"><div class="lb"><em>SWIFT 電文與通匯</em><i style="--w:39%"></i></div><div class="pc">9.8%<small>74 題</small></div></div>
+<div class="bar hot"><div class="lb"><em>匯出匯款程序</em><i style="--w:38%"></i></div><div class="pc">9.5%<small>72 題</small></div></div>
+<div class="bar"><div class="lb"><em>外幣現鈔與收兌處</em><i style="--w:34%"></i></div><div class="pc">8.6%<small>65 題</small></div></div>
+<div class="bar"><div class="lb"><em>光票買入及託收</em><i style="--w:25%"></i></div><div class="pc">6.3%<small>48 題</small></div></div>
+<div class="bar"><div class="lb"><em>NDF 與衍生商品</em><i style="--w:17%"></i></div><div class="pc">4.2%<small>32 題</small></div></div>
+<div class="bar"><div class="lb"><em>外匯存款</em><i style="--w:13%"></i></div><div class="pc">3.3%<small>25 題</small></div></div>
+<div class="bar"><div class="lb"><em>大陸與人民幣業務</em><i style="--w:11%"></i></div><div class="pc">2.8%<small>21 題</small></div></div>
+<div class="bar"><div class="lb"><em>票匯與匯票</em><i style="--w:8%"></i></div><div class="pc">1.9%<small>14 題</small></div></div>
+</div></div>
+<div class="key"><b>前 5 大考點吃掉 63%</b>——匯入解付＋兩部法規＋SWIFT＋匯出程序。要多對的那 5 題，就藏在這裡。<small>（另有零星「洗錢防制」「退匯更正」等合計約 2%，與「其他」8.7% 未列入）</small></div>
+
+<h3>怎麼準備這科</h3>
+<ol>
+<li><b>先流程後死記：</b>用<a href="remit-flow.html">匯兌流程圖</a>把「匯款人→匯款行→存匯行→解款行→受款人」的主線走熟（吃 46%），再進 6 個死背記憶情境（吃 54%）。</li>
+<li><b>ISO 20022 對照表必讀：</b>約 12 分的新制題，<a href="notes.html#iso">衝刺筆記 §五</a>整表背下（pacs.008／camt.053／camt.106…）。</li>
+<li><b>法規題以現行為準：</b>舊題庫有已修法作廢的答案，先讀<a href="notes.html#law">法規時效警報</a>再刷題。</li>
+<li><b>數字階梯順一遍：</b>申報額度 50 萬台幣／100 萬美元／5000 萬美元、收兌處 3 千美元、人民幣 8 萬／2 萬。</li>
+</ol>
+
+</section>
+
+<!-- ================= 進出口 ================= -->
+<section id="p-trade">
+
+<h2>進出口外匯業務：這科在考什麼</h2>
+<div class="key">
+<b>一句話：</b>跨國買賣雙方互不信任——買方怕付了錢拿不到貨，賣方怕出了貨收不到錢。<b>信用狀把「信任商人」換成「信任銀行」</b>，整科就是在考這套機制怎麼分配風險與責任。
+</div>
+<ul>
+<li><b>法源性質：</b>國際慣例（UCP600、URC522、ISBP 等，<b>要當事人約定才適用</b>）。沒有主管機關，規則由 ICC 國際商會制定。</li>
+<li><b>拿分手感：</b>靠<b>推理</b>。核心原理只有兩條：①銀行只看單據不看貨物（單據交易原則）②誰承擔風險誰收費。多數題目可以從原理推出答案。</li>
+<li><b>8/27 的主戰場</b>——要多對 22 題。80 題 90 分鐘，量大，除了會答還要練速度。</li>
+</ul>
+
+<h3>官方命題大綱（114/11/1 起新版）</h3>
+<div class="card"><div class="syl">
+<div>外匯業務概述</div>
+<div>信用狀解析<span class="chg">章名更新</span></div>
+<div>進口信用狀作業</div>
+<div>出口託收與進口代收<span class="chg">章名更新</span></div>
+<div>外幣保證業務<span class="chg">獨立成章</span></div>
+<div>信用狀通知及相關業務</div>
+<div>出口押匯</div>
+<div>遠期信用狀賣斷</div>
+<div>出口應收帳款承購</div>
+<div>進出口外匯業務相關法規</div>
+</div></div>
+<div class="ok">
+<b>🟢 大綱調整＝出題訊號：</b>「外幣保證業務」獨立成章（題庫實測已有 62 題族），Standby L/C、URDG758 這塊別放掉；「出口託收<b>與進口代收</b>」點名 D/P、D/A 兩側都要熟。
+</div>
+
+<h3>題庫實測比重（去重 1115 題族）</h3>
+<div class="card"><div class="bars">
+<div class="bar hot"><div class="lb"><em>信用狀當事人與性質</em><i style="--w:98%"></i></div><div class="pc">24.4%<small>272 題</small></div></div>
+<div class="bar hot"><div class="lb"><em>UCP600 條文與審單</em><i style="--w:77%"></i></div><div class="pc">19.1%<small>213 題</small></div></div>
+<div class="bar hot"><div class="lb"><em>託收 URC522</em><i style="--w:59%"></i></div><div class="pc">14.7%<small>164 題</small></div></div>
+<div class="bar"><div class="lb"><em>運送單據（提單）</em><i style="--w:31%"></i></div><div class="pc">7.7%<small>86 題</small></div></div>
+<div class="bar"><div class="lb"><em>外幣保證與 Standby</em><i style="--w:22%"></i></div><div class="pc">5.6%<small>62 題</small></div></div>
+<div class="bar"><div class="lb"><em>進口業務</em><i style="--w:20%"></i></div><div class="pc">4.9%<small>55 題</small></div></div>
+<div class="bar"><div class="lb"><em>貿易條件 Incoterms</em><i style="--w:17%"></i></div><div class="pc">4.3%<small>48 題</small></div></div>
+<div class="bar"><div class="lb"><em>Factoring 與 Forfaiting</em><i style="--w:17%"></i></div><div class="pc">4.3%<small>48 題</small></div></div>
+<div class="bar"><div class="lb"><em>出口押匯</em><i style="--w:16%"></i></div><div class="pc">3.9%<small>44 題</small></div></div>
+<div class="bar"><div class="lb"><em>信用狀開發與修改</em><i style="--w:8%"></i></div><div class="pc">2.1%<small>23 題</small></div></div>
+<div class="bar"><div class="lb"><em>信用狀種類</em><i style="--w:6%"></i></div><div class="pc">1.5%<small>17 題</small></div></div>
+</div></div>
+<div class="key"><b>前 3 大考點吃掉 58%</b>——信用狀當事人責任、UCP600 審單、託收。而且 <b>UCP600 自 2007 年未改版，舊題答案全部可信</b>，是全題庫最保值的資產。<small>（另有保險單據、發票等零星考點合計約 2%，與「其他」5.1% 未列入）</small></div>
+
+<h3>怎麼準備這科</h3>
+<ol>
+<li><b>把 1410 題吃完是唯一解：</b>8/22 的診斷是覆蓋率不足、不是不夠聰明。這科題庫量是匯兌 1.58 倍，投入時間也要照這個倍數給。</li>
+<li><b>當事人責任表先架好：</b>開狀行／通知行／押匯行／保兌行／償付行——誰負「兌付義務」誰只負「通知真實性」，用<a href="trade-flow.html">星野模型流程圖</a>走一遍五幕。</li>
+<li><b>審單只有一條原則：</b>銀行審「單據表面」是否相符（5 個銀行營業日），貨物好壞與銀行無關。從這條推 8 成審單題。</li>
+<li><b>託收記兩個字母：</b>D/P 付款交單、D/A 承兌交單；風險排序 預付 &gt; L/C &gt; D/P &gt; D/A &gt; O/A（賣方視角）。</li>
+<li><b>練速度：</b>80 題 90 分鐘＝平均 67 秒一題。用 drill 模擬考模式練到 70 分鐘內寫完一輪，留 20 分鐘回頭處理標記題。</li>
+</ol>
+
+</section>
+
+<!-- ================= 出題來源 ================= -->
+<section id="p-src">
+
+<h2>最新出題來源（2026-08-23 查證）</h2>
+<p style="font-size:.84em">命題單位：<b>財團法人台灣金融研訓院</b>。以下為本次向官方網站、簡章原文、官方書店逐一查證的結果。</p>
+
+<h3>① 現行簡章：114 年 11 月 1 日起適用</h3>
+<div class="card" style="font-size:.86em">
+電腦應試說明（簡章）現行版本自 <b>114/11/1 起適用</b>，本頁的科目內容、考程時間、試場規則全部依這份簡章原文整理。命題大綱同步改版——<b>就是「匯兌」「進出口」兩個分頁裡列的新版章名</b>（旅支刪除、外幣保證獨立成章等）。
+</div>
+
+<h3>② 官方參考教材：2025 年全面改版</h3>
+<div class="scroll"><table>
+<tr><th>書名</th><th>版本</th><th class="n">出版</th></tr>
+<tr><td><b>國外匯兌及法規</b></td><td>2025 年版</td><td class="n">2025-10</td></tr>
+<tr><td><b>進出口外匯業務</b></td><td>2025 年版</td><td class="n">2025-09</td></tr>
+<tr><td>初階外匯人員歷屆試題詳解</td><td>2026 年版</td><td class="n">2026-08</td></tr>
+</table></div>
+<div class="key" style="margin-top:8px">
+<b>兩個訊號：</b>①前兩冊官方標注「<b>適用 2025 年 11 月 3 日起之測驗</b>」——出題內容以這套新教材為基準；②匯兌那本書名從《國外匯兌業務》改成《國外匯兌<b>及法規</b>》——法規比重上升的訊號，題庫實測「兩部辦法＋申報辦法」合計已達 33%。
+</div>
+
+<h3>③ ISO 20022 新制：已全面適用</h3>
+<div class="warn" style="font-size:.85em">
+官方公告：因應 SWIFT 電文由 MT 格式轉換為 ISO 20022（MX），MT 電文於 114 年 11 月起停用，<b>測驗內容自 114/11/3 起適用新規</b>。<br><br>
+<b>實戰意義：</b>刷舊題庫遇到 MT103／MT202 等題，要用<a href="notes.html#iso">衝刺筆記 §五的新舊對照表</a>翻譯成 pacs／camt 代號再記。47 屆已考出「洽收手續費＝<code>camt.106</code>（不是 MT191）」這種新制題。
+</div>
+
+<h3>④ 歷屆試題：官方原題入口</h3>
+<div class="card" style="font-size:.86em">
+筆試場次的試題與解答，官網「證照 → 歷屆試題」於<b>測驗後 2 日</b>公布（試題疑義申請期只有約 1 天，逾期不受理）。本站題庫即整理自官方公布之 23–47 屆共 3221 題。<br>
+<small>電腦應試不公布個人考題，考完不得調閱。</small>
+</div>
+
+<h3>⑤ 刷舊題的三條判讀紀律</h3>
+<ol>
+<li><b>法規題以現行為準：</b>收兌處 3 千美元、外匯存款「得」以 NCD 辦理——舊題答案已翻面的，見<a href="notes.html#law">法規時效警報</a>。</li>
+<li><b>SWIFT 題翻成 ISO 20022 再記</b>（見上方 ③）。</li>
+<li><b>旅行支票題直接跳過：</b>新版大綱已刪除（見「匯兌」分頁）。</li>
+</ol>
+
+<div class="src">
+查證來源：台灣金融研訓院官網測驗頁與 ISO 20022 適用公告、初階外匯電腦應試簡章原文（114/11/1 起適用版）、金融廣場網路書店教材頁、第 44 屆筆試簡章（新舊大綱對照用）。
+</div>
+
+</section>
+
+<!-- ================= 備戰 ================= -->
+<section id="p-prep">
+
+<h2>最後衝刺怎麼排</h2>
+<div class="warn">
+<b>🔴 最高紀律：</b>8/22 敗在題庫量沒吃完。<b>工具是加速器不是替代品</b>——這幾天的主餐是刷題，流程圖與筆記只當睡前甜點。
+</div>
+
+<div class="card" style="font-size:.87em">
+<b>每天的節奏（配比 進出口 65%／匯兌 35%）</b>
+<ul style="margin-bottom:0">
+<li><b>通勤・零碎 5 分鐘：</b>drill 背誦模式刷進出口，一輪 10 題就好，重點是輪數多</li>
+<li><b>晚上完整時段：</b>先進出口錯題本清零，再匯兌死背區一個記憶情境（remit-flow 六選一）</li>
+<li><b>兩科交錯、不要一科包一天</b>——交錯刷才記得牢，這是上一戰驗證過的</li>
+<li><b>8/26 有金融常識測驗</b>：當天外匯只排零碎輪，別硬撐完整時段</li>
+<li><b>考前一晚：</b>只讀<a href="notes.html#rank">必背排行榜</a>＋<a href="notes.html#guess">猜題決策卡</a>＋錯題本，不開新題</li>
+</ul>
+</div>
+
+<h2>考場規則要點</h2>
+<div class="card" style="font-size:.87em">
+<ul style="margin-bottom:0">
+<li><b>證件（正本、有效期內，擇一）：</b>國民身分證／護照／健保卡／居留證。<b>沒帶就進不了場。</b></li>
+<li><b>第一節（匯兌）開考後 10 分鐘內可登入</b>，之後不得應試；<b>第二節（進出口）必須準時</b>，逾時直接失格。</li>
+<li>各節開始 <b>40 分鐘後</b>才能離場；擅自離場該節 0 分。</li>
+<li><b>手機、手錶、手環全部關機收納</b>——被抓到扣該節 20 分，再犯整節不計分。</li>
+<li>計算器：限簡易型（無財務函數／儲存／通訊），出聲扣 10 分。</li>
+</ul>
+</div>
+
+<h2>考前清單<small style="font-weight:400;font-size:.7em">（點一下打勾，自動保存）</small></h2>
+
+<h3>考前一晚</h3>
+<ul class="ck" id="ck1">
+<li><em>下載入場通知書，確認考區地址與場次時間</em></li>
+<li><em>證件放包包（國民身分證最穩）</em></li>
+<li><em>簡易計算器放包包（檢查沒有聲音）</em></li>
+<li><em>查好交通路線與出門時間（提早 30 分鐘到）</em></li>
+<li><em>只讀必背排行榜＋錯題本，不開新題，早點睡</em></li>
+</ul>
+
+<h3>進試場前</h3>
+<ul class="ck" id="ck2">
+<li><em>手機關機收進包包（不是靜音，是關機）</em></li>
+<li><em>手錶鬧鈴、整點報時關閉</em></li>
+<li><em>證件放桌面左上角備查</em></li>
+<li><em>上廁所——開考 40 分鐘內不能離場</em></li>
+</ul>
+
+<h3>作答節奏</h3>
+<ul class="ck" id="ck3">
+<li><em>匯兌：40 分鐘寫完一輪，20 分鐘回頭處理跳過的題</em></li>
+<li><em>進出口：70 分鐘一輪，20 分鐘檢查——不會的先跳過做記號</em></li>
+<li><em>交卷前掃一遍：50／80 題全部有作答，不留空白</em></li>
+<li><em>兩科中間 10 分鐘：喝水、切換腦袋，不翻筆記</em></li>
+</ul>
+
+<h2>工具怎麼搭</h2>
+<a class="toollink" href="drill.html"><span class="ic">DRILL</span><span><b>刷題器（主餐）</b><small>1856 題五模式；錯題本連對 2 次才畢業</small></span></a>
+<a class="toollink" href="trade-flow.html"><span class="ic">FLOW</span><span><b>星野模型流程圖（進出口骨架）</b><small>五幕故事線把當事人責任架起來</small></span></a>
+<a class="toollink" href="remit-flow.html"><span class="ic">REMIT</span><span><b>匯兌流程圖（匯兌骨架＋死背區）</b><small>泳道圖＋6 個記憶情境＋16 題自測</small></span></a>
+<a class="toollink" href="notes.html"><span class="ic">NOTE</span><span><b>衝刺筆記（睡前掃描）</b><small>必背排行榜・ISO 20022 對照・法規警報・猜題卡</small></span></a>
+
+</section>
+
+</main>
+
+<div class="foot">
+資料依 2026-08-23 官方公開資訊查證整理，實際應試規定以台灣金融研訓院最新公告與入場通知書為準。<br>
+題庫統計基於官方公布之第 23–47 屆歷屆試題，著作權屬台灣金融研訓院，僅供個人備考。<br>
+<a href="../index.html">← 回 Exam HELPER</a>
+</div>
+
+</div>
+
+<nav class="tabbar" id="tabs">
+<button data-p="p-home" class="on"><i>⚔️</i>總覽</button>
+<button data-p="p-fx"><i>💱</i>匯兌</button>
+<button data-p="p-trade"><i>🚢</i>進出口</button>
+<button data-p="p-src"><i>📖</i>題源</button>
+<button data-p="p-prep"><i>✅</i>備戰</button>
+</nav>
+
+<script>
+// 倒數
+(function(){
+  var d = Math.ceil((new Date(2026,7,27) - new Date().setHours(0,0,0,0)) / 864e5);
+  var el = document.getElementById('cd');
+  if (d > 0) el.innerHTML = '距 8/27（四）電腦應試 <b>' + d + '</b> 天';
+  else if (d === 0) el.innerHTML = '🔥 就是今天——照節奏打';
+  else { el.innerHTML = '8/27 已考完'; el.style.borderColor = 'var(--gn)'; el.style.color = 'var(--gn)'; }
+})();
+
+// 分頁切換（hash 可直達）
+(function(){
+  var tabs = document.getElementById('tabs');
+  function show(id){
+    document.querySelectorAll('main section').forEach(function(s){ s.classList.toggle('on', s.id === id); });
+    tabs.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.p === id); });
+    window.scrollTo(0, 0);
+    if (history.replaceState) history.replaceState(null, '', '#' + id.slice(2));
+  }
+  tabs.addEventListener('click', function(e){
+    var b = e.target.closest('button');
+    if (b) show(b.dataset.p);
+  });
+  var h = 'p-' + location.hash.slice(1);
+  if (document.getElementById(h)) show(h);
+})();
+
+// checklist：localStorage 保存
+(function(){
+  var KEY = 'fx-guide-check';
+  var st = {};
+  try { st = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){}
+  document.querySelectorAll('.ck').forEach(function(ul){
+    Array.prototype.forEach.call(ul.children, function(li, i){
+      var k = ul.id + '-' + i;
+      if (st[k]) li.classList.add('done');
+      li.addEventListener('click', function(){
+        li.classList.toggle('done');
+        st[k] = li.classList.contains('done');
+        try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){}
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
