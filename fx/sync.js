@@ -40,9 +40,9 @@
     }).then(function(r){
       busy = false;
       if (!r.ok) throw 0;
-      status('☁️ 已同步 ' + hhmm());
+      status('已同步 ' + hhmm());
       if (dirty){ dirty = false; touch(); }
-    }).catch(function(){ busy = false; status('⚠️ 同步失敗，稍後自動重試'); setTimeout(touch, 30000); });
+    }).catch(function(){ busy = false; status('同步失敗，稍後自動重試'); setTimeout(touch, 30000); });
   }
 
   function touch(){
@@ -52,10 +52,10 @@
   }
 
   function full(){
-    status('☁️ 同步中…');
+    status('同步中…');
     return pull()
       .then(function(){ return push(); })
-      .catch(function(){ status('⚠️ 連不上雲端（本機紀錄不受影響）'); });
+      .catch(function(){ status('連不上雲端（本機紀錄不受影響）'); });
   }
 
   window.ExamSync = {

@@ -96,7 +96,7 @@ a{color:var(--cy)}
     <option value="master">已掌握（複習）</option>
     <option value="all">全部</option>
   </select>
-  <span class="chip set" id="btnSet">⚙︎ 設定</span>
+  <span class="chip set" id="btnSet"><i class="xi xset"></i> 設定</span>
 </div>
 
 <div class="panel" id="setPanel">
@@ -112,9 +112,9 @@ a{color:var(--cy)}
   </div>
   <div class="sy" id="syncStat"></div>
   <div class="r" style="margin-top:8px">
-    <button class="btn" id="expBtn">📤 複製進度碼</button>
-    <button class="btn" id="impBtn">📥 貼上合併</button>
-    <button class="btn" id="rstBtn">🗑 清除</button>
+    <button class="btn" id="expBtn"><i class="xi xup"></i> 複製進度碼</button>
+    <button class="btn" id="impBtn"><i class="xi xdn"></i> 貼上合併</button>
+    <button class="btn" id="rstBtn"><i class="xi xtr"></i> 清除</button>
   </div>
   <textarea id="io" placeholder="手動備援：在 A 機按「複製進度碼」，把碼貼到這裡，再按「貼上合併」" style="display:none"></textarea>
 </div>
@@ -186,11 +186,11 @@ function render(){
   $('#mRight').textContent = `已掌握 ${mas} / ${all}`;
 
   if (!n){
-    $('#view').innerHTML = `<div class="done"><b>這一組沒有題目 🎉</b>換個範圍或考點，或把「已掌握」放回來複習。</div>`;
+    $('#view').innerHTML = `<div class="done"><b>這一組沒有題目 </b>換個範圍或考點，或把「已掌握」放回來複習。</div>`;
     $('#acts').innerHTML = ''; return;
   }
   if (idx >= n){
-    $('#view').innerHTML = `<div class="done"><b>這一輪跑完了 🎉</b>共 ${n} 句。</div>`;
+    $('#view').innerHTML = `<div class="done"><b>這一輪跑完了 </b>共 ${n} 句。</div>`;
     $('#acts').innerHTML = `<button class="btn pri" id="again">再跑一輪</button>`;
     $('#again').onclick = build; return;
   }
@@ -206,7 +206,7 @@ function render(){
         <span class="tag src">${sess}</span>
         ${r.w > 0 ? `<span class="tag err">錯過 ${r.w} 次</span>` : ''}
       </div>
-      ${stale ? `<div class="warn">🟡 近年修法相關，答案存疑——記觀念別死背數字</div>` : ''}
+      ${stale ? `<div class="warn"><i class="xd y"></i> 近年修法相關，答案存疑——記觀念別死背數字</div>` : ''}
       <div class="stem" id="stem">${text.replace('（＿＿）','<span class="blank" id="bk">＿＿</span>')}</div>
       <div id="opts">${opts.map((v,i)=>`
         <div class="opt" role="button" tabindex="0" data-v="${esc(v)}"><b>(${i+1})</b><span>${v}</span></div>`).join('')}
@@ -233,7 +233,7 @@ function drawActs(){
     const r = rec(list[idx].k);
     a.innerHTML = `
       <button class="btn nav" id="prev" ${idx===0?'disabled':''}>←</button>
-      <button class="btn mas" id="mas">${r.m ? '✓ 已掌握' : '⭐ 標已掌握'}</button>
+      <button class="btn mas" id="mas">${r.m ? '<i class="xi xk"></i> 已掌握' : '<i class="xi xs y"></i> 標已掌握'}</button>
       <button class="btn pri" id="next">下一題 →</button>`;
     $('#prev').onclick = () => { if (idx > 0){ idx--; render(); } };
     $('#mas').onclick = () => {
@@ -270,7 +270,7 @@ function reveal(pickedV){
     // 答錯或跳過 → 強制重讀完整正確句
     const fullText = text.replace('（＿＿）', '<b>' + ans + '</b>');
     const f = $('#full');
-    f.innerHTML = '📖 ' + fullText + '<small>讀一次完整的正確敘述再走。</small>';
+    f.innerHTML = '<i class="xi xbook c"></i> ' + fullText + '<small>讀一次完整的正確敘述再走。</small>';
     f.classList.add('show');
     if (pickedV !== null) bk.textContent = ans;
   }
@@ -338,11 +338,11 @@ $('#syncGo').onclick = () => {
 /* ---------- 手動備援 ---------- */
 function copyOut(text, btn, okMsg){
   const ta = $('#io'); ta.style.display = 'block'; ta.value = text; ta.select();
-  const done = () => { const t = btn.textContent; btn.textContent = okMsg; setTimeout(() => btn.textContent = t, 1600); };
+  const done = () => { const t = btn.innerHTML; btn.innerHTML = okMsg; setTimeout(() => btn.innerHTML = t, 1600); };
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done);
   else { try{ document.execCommand('copy'); }catch(e){} done(); }
 }
-$('#expBtn').onclick = e => copyOut(JSON.stringify(S), e.target, '✅ 已複製');
+$('#expBtn').onclick = e => copyOut(JSON.stringify(S), e.target, '<i class="xi xk g"></i> 已複製');
 $('#impBtn').onclick = e => {
   const ta = $('#io');
   ta.style.display = 'block';

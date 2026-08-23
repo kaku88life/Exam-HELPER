@@ -40,7 +40,7 @@ h3.sub{font-size:.92em;margin:18px 0 8px;color:var(--cy)}
 .cast summary{cursor:pointer;padding:10px 14px;font-size:.84em;font-weight:700;user-select:none;list-style:none;display:flex;align-items:center;gap:6px}
 .cast summary::-webkit-details-marker{display:none}
 .cast summary::before{content:'▸';color:var(--cy);font-weight:700}
-.cast[open] summary::before{content:'▾'}
+.cast[open] summary::before{content:'<i class="xi xch"></i>'}
 .cast .body{padding:0 14px 14px;font-size:.8em}
 .cast table{width:100%;border-collapse:collapse}
 .cast td{padding:4px 6px;border-top:1px solid var(--cd);vertical-align:top}
@@ -183,7 +183,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
     <div class="tab" data-view="v3">幕三<span class="t-sub">賣到美國</span></div>
     <div class="tab" data-view="v4">幕四<span class="t-sub">沒有貨的世界</span></div>
     <div class="tab" data-view="v5">幕五<span class="t-sub">管制網</span></div>
-    <div class="tab" data-view="v6">幕外<span class="t-sub">補缺口 ⚠️</span></div>
+    <div class="tab" data-view="v6">幕外<span class="t-sub">補缺口 <i class="xi xa y"></i></span></div>
   </div>
 </nav>
 
@@ -196,28 +196,28 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <div class="legend">
   <span><i class="leg-do"></i> 該做（義務）</span>
   <span><i class="leg-opt"></i> 能做（選擇性）</span>
-  <span><i class="leg-no"></i> 不能做 ❌</span>
+  <span><i class="leg-no"></i> 不能做 <i class="xi xx r"></i></span>
   <span><b class="mono">MT700</b> SWIFT 電文</span>
   <span><span class="fx-link">匯兌科</span> 跨科重疊</span>
   <span><span class="seam">兩科接縫</span> 必停下來講</span>
 </div>
 
 <details class="cast" open>
-  <summary>🎬 劇本設定（角色與金額固定不改）</summary>
+  <summary>劇本設定（角色與金額固定不改）</summary>
   <div class="body">
     <div class="tbwrap"><table>
-      <tr><td>🇹🇼 星野模型</td><td>台北。<b>主角</b>，同時當買方與賣方。進口時是申請人／出口時是受益人</td></tr>
-      <tr><td>🏦 玉山銀行 敦南分行</td><td>星野的往來銀行。進口＝<b>開狀行</b>／出口＝<b>託收行・押匯行</b>／純匯款＝<b>匯款行</b></td></tr>
-      <tr><td>🇯🇵 壽屋 KOTOBUKIYA</td><td>日本供應商，賣模型給星野（第一次交易，不放心 → 要求 L/C）</td></tr>
-      <tr><td>🏦 三菱 UFJ 東京</td><td>壽屋的往來銀行。進口劇＝<b>通知行</b>（加保兌後＝保兌行）、壽屋端<b>押匯行</b></td></tr>
-      <tr><td>🇺🇸 Anime Depot</td><td>美國經銷商，跟星野買貨（三年老客戶 → 敢給 D/A 60 天）</td></tr>
-      <tr><td>🏦 花旗銀行 紐約</td><td>Anime Depot 的往來銀行。出口劇＝<b>代收行 Collecting＝提示行 Presenting</b></td></tr>
-      <tr><td>🏦 紐約梅隆銀行</td><td>玉山的<b>存匯行</b>（美元帳戶放這）。進口劇兼<b>償付行</b></td></tr>
-      <tr><td>🏭 東莞精工</td><td>大陸代工廠，涉及<b>人民幣匯款</b>（每日 8 萬）</td></tr>
-      <tr><td>🚢 長榮海運／🛡 富邦產險</td><td>運送人（簽 B/L）／保險公司（簽保單 ≥110%）</td></tr>
+      <tr><td><i class="xf">TW</i> 星野模型</td><td>台北。<b>主角</b>，同時當買方與賣方。進口時是申請人／出口時是受益人</td></tr>
+      <tr><td><i class="xi xbank"></i> 玉山銀行 敦南分行</td><td>星野的往來銀行。進口＝<b>開狀行</b>／出口＝<b>託收行・押匯行</b>／純匯款＝<b>匯款行</b></td></tr>
+      <tr><td><i class="xf">JP</i> 壽屋 KOTOBUKIYA</td><td>日本供應商，賣模型給星野（第一次交易，不放心 → 要求 L/C）</td></tr>
+      <tr><td><i class="xi xbank"></i> 三菱 UFJ 東京</td><td>壽屋的往來銀行。進口劇＝<b>通知行</b>（加保兌後＝保兌行）、壽屋端<b>押匯行</b></td></tr>
+      <tr><td><i class="xf">US</i> Anime Depot</td><td>美國經銷商，跟星野買貨（三年老客戶 → 敢給 D/A 60 天）</td></tr>
+      <tr><td><i class="xi xbank"></i> 花旗銀行 紐約</td><td>Anime Depot 的往來銀行。出口劇＝<b>代收行 Collecting＝提示行 Presenting</b></td></tr>
+      <tr><td><i class="xi xbank"></i> 紐約梅隆銀行</td><td>玉山的<b>存匯行</b>（美元帳戶放這）。進口劇兼<b>償付行</b></td></tr>
+      <tr><td>東莞精工</td><td>大陸代工廠，涉及<b>人民幣匯款</b>（每日 8 萬）</td></tr>
+      <tr><td>長榮海運／富邦產險</td><td>運送人（簽 B/L）／保險公司（簽保單 ≥110%）</td></tr>
     </table></div>
     <div class="amt">
-      💴 <b>進口</b>：向壽屋買 3,000 隻模型 <b>USD 200,000</b>（L/C）　｜　💵 <b>出口</b>：賣給 Anime Depot <b>USD 150,000</b>（D/A 60 天）<br>
+      <b>進口</b>：向壽屋買 3,000 隻模型 <b>USD 200,000</b>（L/C）　｜　<b>出口</b>：賣給 Anime Depot <b>USD 150,000</b>（D/A 60 天）<br>
       <span style="color:var(--mt)">→ 付出去 20 萬、收回來 15 萬還要等 60 天 ⇒ 這就是星野需要「押匯／Factoring／遠期外匯」的動機。</span>
     </div>
   </div>
@@ -230,7 +230,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 
 <div class="tbwrap"><table class="tb">
   <tr><th style="width:20%">面向</th><th>幕二・進口（星野＝<b>買方</b>）</th><th>幕三・出口（星野＝<b>賣方</b>）</th></tr>
-  <tr><td>貨的方向</td><td>壽屋 🇯🇵 → 星野 🇹🇼</td><td>星野 🇹🇼 → Anime Depot 🇺🇸</td></tr>
+  <tr><td>貨的方向</td><td>壽屋 <i class="xf">JP</i> → 星野 <i class="xf">TW</i></td><td>星野 <i class="xf">TW</i> → Anime Depot <i class="xf">US</i></td></tr>
   <tr><td>錢的方向</td><td>星野 <b>付出 USD 200,000</b></td><td>星野 <b>收進 USD 150,000</b></td></tr>
   <tr><td>付款工具</td><td><b>L/C 信用狀</b>（銀行拿自己信用擔保）</td><td><b>D/A 60 天託收</b>（銀行只傳單據，不擔保）</td></tr>
   <tr><td><b>信用狀</b>上叫他</td><td><b>申請人 Applicant</b></td><td><b>受益人 Beneficiary</b>（若改用 L/C 時）</td></tr>
@@ -250,21 +250,21 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <div class="cards">
   <div class="card"><div class="c-t">幕一　談生意</div><div class="c-b">為什麼壽屋要 L/C、星野卻敢對 Anime Depot 用 D/A？<b>光譜位置決定銀行負不負責。</b></div><span class="tag">付款方式比較</span><span class="tag">風險歸屬</span></div>
   <div class="card"><div class="c-t">幕二　從日本進貨</div><div class="c-b">星野＝申請人。開狀→通知→保兌→裝運→<b>貨先到</b>→交單→審單→贖單。</div><span class="tag">UCP600</span><span class="tag">擔保提貨</span><span class="tag">審單5BD</span></div>
-  <div class="card acc"><div class="c-t">幕三　賣到美國 ⭐</div><div class="c-b">星野翻面變<b>受益人／Drawer／Principal</b>。D/A 承兌交單、Factoring、Forfaiting、拒付追索。</div><span class="tag">URC522</span><span class="tag">融資家族</span></div>
+  <div class="card acc"><div class="c-t">幕三　賣到美國 <i class="xi xs y"></i></div><div class="c-b">星野翻面變<b>受益人／Drawer／Principal</b>。D/A 承兌交單、Factoring、Forfaiting、拒付追索。</div><span class="tag">URC522</span><span class="tag">融資家族</span></div>
   <div class="card"><div class="c-t">幕四　沒有貨的世界</div><div class="c-b">匯兌科主場：匯出入匯款、光票、現鈔、外匯存款、遠期／SWAP／NDF、人民幣。</div><span class="tag">MT103／pacs.008</span><span class="tag">覆蓋率最弱</span></div>
   <div class="card"><div class="c-t">幕五　台灣的管制網</div><div class="c-b">同一筆錢換個身分規則就不同。<b>身份 × 額度 × 憑證</b> 互動判斷器。</div><span class="tag">約 129 題交叉考</span></div>
-  <div class="card acc"><div class="c-t">幕外　補缺口 ⚠️</div><div class="c-b">星野劇本<b>演不到</b>、但題庫一定考的四塊：外幣保證與 Standby、信用狀種類、開發修改 SWIFT 欄位、管理外匯條例。</div><span class="tag">實測 109 題</span></div>
+  <div class="card acc"><div class="c-t">幕外　補缺口 <i class="xi xa y"></i></div><div class="c-b">星野劇本<b>演不到</b>、但題庫一定考的四塊：外幣保證與 Standby、信用狀種類、開發修改 SWIFT 欄位、管理外匯條例。</div><span class="tag">實測 109 題</span></div>
 </div>
 
 <div class="seambox">
-  <b>⭐ 兩科接縫在哪裡（教學務必停下來講）</b><br>
+  <b><i class="xi xs y"></i> 兩科接縫在哪裡（教學務必停下來講）</b><br>
   1. 幕二 ⑧ 贖單：星野拿新臺幣買美元付壽屋 → <b>進口結匯證實書</b>（不是水單！因為貨品進出口有報關資料）<br>
   2. 幕三 ⑦ 收款：美元結售新臺幣 → <b>出口結匯證實書</b>；若不結售、直接存入外匯存款 → <b>其他交易憑證</b><br>
   3. 幕四 全場：<b>沒有貨</b>才輪到「水單」登場（買匯／賣匯，一律站<b>銀行</b>立場看）
 </div>
 
 <div class="warn">
-  <b>⚠️ 最容易錯的三個方向</b><br>
+  <b><i class="xi xa y"></i> 最容易錯的三個方向</b><br>
   ① <b>水單站銀行立場</b>：客戶把美元賣給銀行＝銀行<b>買</b>匯＝<b>買匯水單</b>；客戶拿新臺幣買外幣＝銀行<b>賣</b>匯＝<b>賣匯水單</b>。<br>
   ② <b>有貨品進出口就不是水單</b>，是<b>結匯證實書</b>，而且<b>免填申報書</b>（因為已有報關資料）。<br>
   ③ <b>公司額度是個人的 10 倍</b>：公司年度 5,000 萬美元／個人 500 萬美元。單筆檢附文件門檻 公司 100 萬／個人 50 萬。
@@ -281,23 +281,23 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <div class="sp-axis"><span>◀ 出口商（賣方）最安全</span><span>進口商（買方）最安全 ▶</span></div>
 <div class="spectrum" id="spectrum">
   <div class="sp" data-p="pre"><span class="sp-t">預付款</span><span class="sp-en">Prepayment / T/T in advance</span><span class="sp-who exp">賣方最爽</span></div>
-  <div class="sp on" data-p="lc"><span class="sp-t">L/C 信用狀</span><span class="sp-en">Letter of Credit</span><span class="sp-who exp">🇯🇵 壽屋要這個</span></div>
+  <div class="sp on" data-p="lc"><span class="sp-t">L/C 信用狀</span><span class="sp-en">Letter of Credit</span><span class="sp-who exp"><i class="xf">JP</i> 壽屋要這個</span></div>
   <div class="sp" data-p="dp"><span class="sp-t">D/P 付款交單</span><span class="sp-en">Documents against Payment</span><span class="sp-who">折衷</span></div>
-  <div class="sp" data-p="da"><span class="sp-t">D/A 承兌交單</span><span class="sp-en">Documents against Acceptance</span><span class="sp-who imp">🇺🇸 星野給這個</span></div>
+  <div class="sp" data-p="da"><span class="sp-t">D/A 承兌交單</span><span class="sp-en">Documents against Acceptance</span><span class="sp-who imp"><i class="xf">US</i> 星野給這個</span></div>
   <div class="sp" data-p="oa"><span class="sp-t">O/A 記帳</span><span class="sp-en">Open Account</span><span class="sp-who imp">買方最爽</span></div>
 </div>
 <div id="spOut"></div>
 
 <div class="key">
-  🔑 <b>一句話心法：只有 L/C，銀行才用「自己的信用」擔保付款。</b><br>
+  <i class="xi xkey y"></i> <b>一句話心法：只有 L/C，銀行才用「自己的信用」擔保付款。</b><br>
   D/P、D/A 走託收（URC522），銀行<b>只傳遞單據、不負付款責任</b>；O/A 銀行根本沒參與，出口商<b>不能向任何銀行主張</b>。
 </div>
 
 <h3 class="sub">為什麼同一家公司會用兩種付款方式？</h3>
 <div class="tbwrap"><table class="tb">
   <tr><th>對象</th><th>關係</th><th>選擇</th><th>誰在承擔風險</th></tr>
-  <tr><td>🇯🇵 壽屋 → 星野</td><td><b>第一次交易</b>，不認識</td><td>壽屋堅持 <b>L/C</b>，甚至要求<b>保兌</b></td><td>玉山（開狀行）＋三菱UFJ（保兌行）扛</td></tr>
-  <tr><td>星野 → 🇺🇸 Anime Depot</td><td><b>三年老客戶</b>，信任</td><td>星野接受 <b>D/A 60 天</b></td><td><b>星野自己扛</b>（銀行不負責）</td></tr>
+  <tr><td><i class="xf">JP</i> 壽屋 → 星野</td><td><b>第一次交易</b>，不認識</td><td>壽屋堅持 <b>L/C</b>，甚至要求<b>保兌</b></td><td>玉山（開狀行）＋三菱UFJ（保兌行）扛</td></tr>
+  <tr><td>星野 → <i class="xf">US</i> Anime Depot</td><td><b>三年老客戶</b>，信任</td><td>星野接受 <b>D/A 60 天</b></td><td><b>星野自己扛</b>（銀行不負責）</td></tr>
 </table></div>
 
 <h3 class="sub">英文拆解（考點）</h3>
@@ -312,7 +312,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <b>託收角色英文（URC522）不要背反</b><br>
   委託人 <b>Principal</b>（出口商）｜託收行 <b>Remitting</b>（出口地）｜代收行 <b>Collecting</b>＝提示行 <b>Presenting</b>（進口地）<br>
   匯票上：發票人 <b>Drawer</b>（出口商）／付款人 <b>Drawee</b>（進口商）— <b>-ee 結尾＝被動方</b>。<br>
-  ⚠️ 叫 Beneficiary／Applicant 是<b>信用狀</b>的說法，託收與匯票不用這組字。
+  <i class="xi xa y"></i> 叫 Beneficiary／Applicant 是<b>信用狀</b>的說法，託收與匯票不用這組字。
 </div>
 
 <div class="summary">
@@ -348,7 +348,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="phase-hdr" data-phase="8"><span class="num">⑨</span>爭議</div>
 
   <!-- 星野（申請人） -->
-  <div class="lane-label even" data-role="buyer">星野模型<small>申請人 Applicant</small><span class="hoshino">🇹🇼 主角・買方</span></div>
+  <div class="lane-label even" data-role="buyer">星野模型<small>申請人 Applicant</small><span class="hoshino"><i class="xf">TW</i> 主角・買方</span></div>
   <div class="cell even" data-role="buyer" data-phase="0">
     <div class="act do"><b>議定合約</b><small>品名 3,000 隻<br>USD 200,000<br>選 Incoterms＋付款方式</small></div>
     <div class="detail">壽屋第一次交易不放心 → 談成 L/C。Incoterms 決定風險與費用分界，付款方式決定信用風險分配，兩者是<b>不同的兩件事</b>。</div>
@@ -360,13 +360,13 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   </div>
   <div class="cell even" data-role="buyer" data-phase="2">
     <div class="act opt"><b>申請修改 L/C</b><small>想改裝運期</small><small class="swift">MT707</small></div>
-    <div class="detail">⚠️ <b>修改書未經保兌行同意延伸保兌 → 保兌行對該修改不受拘束</b>（仍受原信用狀拘束）。受益人<b>部分接受修改＝視為全部拒絕</b>。</div>
+    <div class="detail"><i class="xi xa y"></i> <b>修改書未經保兌行同意延伸保兌 → 保兌行對該修改不受拘束</b>（仍受原信用狀拘束）。受益人<b>部分接受修改＝視為全部拒絕</b>。</div>
   </div>
   <div class="cell even" data-role="buyer" data-phase="3"></div>
   <div class="cell even" data-role="buyer" data-phase="4">
     <div class="act opt"><b>申請擔保提貨 L/G</b><small>貨到、單據未到<br>倉租每天在燒</small></div>
     <div class="flow-arrows"><div class="arr-line"><span class="from">星野</span><span class="ar">→</span><span class="to">玉山</span><span class="label">擔保提貨申請書</span></div><div class="arr-line"><span class="from">玉山</span><span class="ar">→</span><span class="to">長榮海運</span><span class="label">L/G 副提單背書</span></div></div>
-    <div class="detail">⚠️ <b>擔保提貨＝預先拋棄拒付權</b>（之後單據就算有瑕疵也不能拒付），<b>開狀行與申請人連帶保證</b>。<br>海運 B/L 走<b>擔保提貨 L/G</b>；空運 AWB 走<b>副提單背書</b>（AWB 不是物權證書）。</div>
+    <div class="detail"><i class="xi xa y"></i> <b>擔保提貨＝預先拋棄拒付權</b>（之後單據就算有瑕疵也不能拒付），<b>開狀行與申請人連帶保證</b>。<br>海運 B/L 走<b>擔保提貨 L/G</b>；空運 AWB 走<b>副提單背書</b>（AWB 不是物權證書）。</div>
   </div>
   <div class="cell even" data-role="buyer" data-phase="5"></div>
   <div class="cell even" data-role="buyer" data-phase="6">
@@ -376,15 +376,15 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell even" data-role="buyer" data-phase="7">
     <div class="act do"><b>贖單＋進口結匯</b><small>付款拿單據去提貨<br>拿新臺幣買美元</small><span class="seam">兩科接縫</span></div>
     <div class="flow-arrows"><div class="arr-line"><span class="from">星野</span><span class="ar-money">⤳</span><span class="to">玉山</span><span class="label">NTD 結購 USD 200,000</span></div><div class="arr-line"><span class="from">玉山</span><span class="ar">→</span><span class="to">星野</span><span class="label">全套單據＋進口結匯證實書</span></div></div>
-    <div class="detail">💱 <b>接縫重點</b>：這是<b>貨品進口</b>（有報關資料）→ 掣發<b>進口結匯證實書</b>、<b>免填申報書</b>。<br>⚠️ 不要答「賣匯水單」——水單是<b>沒有貨品</b>時才用。<br>💰 沒錢贖單？→ <b>T/R 信託收據</b>（先提貨後付款的進口融資）。<br>🛡 怕美元漲？→ 事先<b>預購遠期外匯</b>鎖匯率。</div>
+    <div class="detail"><b>接縫重點</b>：這是<b>貨品進口</b>（有報關資料）→ 掣發<b>進口結匯證實書</b>、<b>免填申報書</b>。<br><i class="xi xa y"></i> 不要答「賣匯水單」——水單是<b>沒有貨品</b>時才用。<br>沒錢贖單？→ <b>T/R 信託收據</b>（先提貨後付款的進口融資）。<br>怕美元漲？→ 事先<b>預購遠期外匯</b>鎖匯率。</div>
   </div>
   <div class="cell even" data-role="buyer" data-phase="8">
-    <div class="act no"><b>❌ 指示銀行拒付</b><small class="warn-text">貨物問題 ≠ 單據問題</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> 指示銀行拒付</b><small class="warn-text">貨物問題 ≠ 單據問題</small></div>
     <div class="detail">貨物不符 → 向<b>賣方</b>索賠（不是銀行）。要擋付款只能聲請<b>法院止付令</b>。發票金額打錯＝<b>單據瑕疵可拒付</b>；貨到發現是瑕疵品＝<b>貨物的事不可拒付</b>。</div>
   </div>
 
   <!-- 壽屋（受益人） -->
-  <div class="lane-label odd" data-role="seller">壽屋<small>受益人 Beneficiary</small><span class="hoshino">🇯🇵 日本供應商</span></div>
+  <div class="lane-label odd" data-role="seller">壽屋<small>受益人 Beneficiary</small><span class="hoshino"><i class="xf">JP</i> 日本供應商</span></div>
   <div class="cell odd" data-role="seller" data-phase="0">
     <div class="act do"><b>報價＋要求 L/C</b><small>第一次交易不放心</small></div>
     <div class="detail">賣方對陌生買方的標準動作：要求開立<b>不可撤銷 L/C</b>，必要時再要求<b>保兌</b>把風險轉到自己國家的銀行。</div>
@@ -396,13 +396,13 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   </div>
   <div class="cell odd" data-role="seller" data-phase="3">
     <div class="act do"><b>備貨＋投保＋裝船</b><small>橫濱裝船取得 B/L<br>CIF/CIP → 投保 ≥110%</small></div>
-    <div class="detail">保險三條件：<b>≥110% CIF/CIP 金額、同幣別、簽發日不得晚於裝運日</b>。<br>⚠️ <b>裝運期不順延</b>（船不看銀行行事曆）；有效期與提示期遇假日才順延。</div>
+    <div class="detail">保險三條件：<b>≥110% CIF/CIP 金額、同幣別、簽發日不得晚於裝運日</b>。<br><i class="xi xa y"></i> <b>裝運期不順延</b>（船不看銀行行事曆）；有效期與提示期遇假日才順延。</div>
   </div>
   <div class="cell odd" data-role="seller" data-phase="4"></div>
   <div class="cell odd" data-role="seller" data-phase="5">
     <div class="act do"><b>製單提示</b><small>裝運後 21 曆日內<br>且不超過 L/C 有效期</small></div>
     <div class="flow-arrows"><div class="arr-line"><span class="from">壽屋</span><span class="ar">→</span><span class="to">三菱UFJ（押匯）</span><span class="label">全套單據</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar-money">⤳</span><span class="to">壽屋</span><span class="label">墊付貨款（有追索權）</span></div><div class="arr-line"><span class="from">三菱UFJ</span><span class="ar">→</span><span class="to">玉山</span><span class="label">寄單求償</span></div></div>
-    <div class="detail">📄 Invoice＋B/L＋Insurance＋Packing List＋C.O.＋匯票。<br>⏱ <b>"after" 不含當天</b>：5/1 裝船 → 5/2 起算 21 天 → <b>5/22 截止</b>。<br>📊 寬容度：about ±10%｜散裝 ±5%｜<b>論件 PCS/CTN 0%</b>｜金額只能少不能多。</div>
+    <div class="detail">Invoice＋B/L＋Insurance＋Packing List＋C.O.＋匯票。<br> <b>"after" 不含當天</b>：5/1 裝船 → 5/2 起算 21 天 → <b>5/22 截止</b>。<br>寬容度：about ±10%｜散裝 ±5%｜<b>論件 PCS/CTN 0%</b>｜金額只能少不能多。</div>
   </div>
   <div class="cell odd" data-role="seller" data-phase="6">
     <div class="act opt"><b>讓渡 Assignment</b><small>任何 L/C 都可以<br>只轉「收款權」</small></div>
@@ -418,7 +418,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   </div>
 
   <!-- 玉山 開狀行 -->
-  <div class="lane-label even" data-role="issuing">玉山銀行<small>開狀行 Issuing</small><span class="star">★ 第一付款責任</span><span class="hoshino">🏦 星野的銀行</span></div>
+  <div class="lane-label even" data-role="issuing">玉山銀行<small>開狀行 Issuing</small><span class="star"><i class="xi xs y"></i> 第一付款責任</span><span class="hoshino"><i class="xi xbank"></i> 星野的銀行</span></div>
   <div class="cell even" data-role="issuing" data-phase="0"></div>
   <div class="cell even" data-role="issuing" data-phase="1">
     <div class="act do"><b>開出 L/C</b><small>UCP600 下一律不可撤銷</small><small class="swift">MT700</small></div>
@@ -437,7 +437,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell even" data-role="issuing" data-phase="6">
     <div class="act do"><b>審單 ≤ 5 銀行營業日</b><small>只看表面相符<br>不符→一次列完</small><small class="swift">拒付 MT750</small></div>
     <div class="flow-arrows"><div class="arr-line"><span class="from">玉山</span><span class="ar">→</span><span class="to">星野</span><span class="label">通知不符點（問要不要 waive）</span></div><div class="arr-line"><span class="from">玉山</span><span class="ar">→</span><span class="to">三菱UFJ</span><span class="label">MT750 不符點通知</span></div></div>
-    <div class="detail">⏱ <b>提示日翌日起算 5 個銀行營業日</b>，逾期未拒付＝<b>喪失主張瑕疵的權利</b>。<br>拒付通知須<b>一次列明全部不符點</b>，不能分批，否則同樣喪失權利。銀行<b>不負責單據真偽</b>。</div>
+    <div class="detail"> <b>提示日翌日起算 5 個銀行營業日</b>，逾期未拒付＝<b>喪失主張瑕疵的權利</b>。<br>拒付通知須<b>一次列明全部不符點</b>，不能分批，否則同樣喪失權利。銀行<b>不負責單據真偽</b>。</div>
   </div>
   <div class="cell even" data-role="issuing" data-phase="7">
     <div class="act do"><b>付款／承兌</b><small>即期→即付<br>遠期→先承兌到期付</small><small class="swift">MT756</small></div>
@@ -445,12 +445,12 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
     <div class="detail"><b>償付行拒付時，開狀行必須自己付</b>。開狀行是整條資金鏈的最終責任人。</div>
   </div>
   <div class="cell even" data-role="issuing" data-phase="8">
-    <div class="act no"><b>❌ 管貨物品質真偽</b><small class="warn-text">獨立抽象性原則</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> 管貨物品質真偽</b><small class="warn-text">獨立抽象性原則</small></div>
     <div class="detail">銀行不負責：單據真偽、貨物品質、傳遞延誤／遺失、不可抗力、被指示方的行為。<b>一句話：銀行只看紙，不管事。</b></div>
   </div>
 
   <!-- 三菱UFJ 通知行 -->
-  <div class="lane-label odd" data-role="advising">三菱UFJ<small>通知行 Advising</small><span class="hoshino">🏦 壽屋的銀行</span></div>
+  <div class="lane-label odd" data-role="advising">三菱UFJ<small>通知行 Advising</small><span class="hoshino"><i class="xi xbank"></i> 壽屋的銀行</span></div>
   <div class="cell odd" data-role="advising" data-phase="0"></div>
   <div class="cell odd" data-role="advising" data-phase="1"></div>
   <div class="cell odd" data-role="advising" data-phase="2">
@@ -458,25 +458,25 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
     <div class="detail">通知行<b>只負責驗外觀真偽並通知</b>。無法確認真偽時，必須告知受益人「未能確認」，由受益人自行決定要不要出貨。記憶：<b>通知行＝郵差</b>。</div>
   </div>
   <div class="cell odd" data-role="advising" data-phase="3">
-    <div class="act no"><b>❌ 付款責任</b><small class="warn-text">只驗不付</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> 付款責任</b><small class="warn-text">只驗不付</small></div>
   </div>
   <div class="cell odd" data-role="advising" data-phase="4"></div>
   <div class="cell odd" data-role="advising" data-phase="5"></div>
   <div class="cell odd" data-role="advising" data-phase="6"></div>
   <div class="cell odd" data-role="advising" data-phase="7">
-    <div class="act no"><b>❌ 修改 L/C 內容</b><small class="warn-text">只能轉達修改書</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> 修改 L/C 內容</b><small class="warn-text">只能轉達修改書</small></div>
   </div>
   <div class="cell odd" data-role="advising" data-phase="8">
     <div class="act opt"><b>可升級為保兌行</b><small>須經開狀行授權</small></div>
   </div>
 
   <!-- 保兌行 -->
-  <div class="lane-label even" data-role="confirming">三菱UFJ<small>保兌行 Confirming</small><span class="star">★ 最終付款責任</span><span class="hoshino">🏦 加做保兌</span></div>
+  <div class="lane-label even" data-role="confirming">三菱UFJ<small>保兌行 Confirming</small><span class="star"><i class="xi xs y"></i> 最終付款責任</span><span class="hoshino"><i class="xi xbank"></i> 加做保兌</span></div>
   <div class="cell even" data-role="confirming" data-phase="0"></div>
   <div class="cell even" data-role="confirming" data-phase="1"></div>
   <div class="cell even" data-role="confirming" data-phase="2">
     <div class="act do"><b>加列保兌</b><small>獨立、不可撤銷的承諾<br>須經開狀行授權</small></div>
-    <div class="detail">🥇 <b>全題庫第 1 名考點（58 次）</b>。保兌行一旦加列保兌，付款責任<b>獨立於開狀行</b>且不可撤銷。記憶：<b>保兌行＝保證人，跑不掉</b>。</div>
+    <div class="detail"><b>全題庫第 1 名考點（58 次）</b>。保兌行一旦加列保兌，付款責任<b>獨立於開狀行</b>且不可撤銷。記憶：<b>保兌行＝保證人，跑不掉</b>。</div>
   </div>
   <div class="cell even" data-role="confirming" data-phase="3"></div>
   <div class="cell even" data-role="confirming" data-phase="4"></div>
@@ -490,12 +490,12 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
     <div class="detail">保兌行是受益人的最強保障。考試重點：<b>不能因開狀行倒閉或拒絕而拒付</b>。</div>
   </div>
   <div class="cell even" data-role="confirming" data-phase="8">
-    <div class="act no"><b>❌ 因開狀行倒閉拒付</b><small class="warn-text">責任完全獨立</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> 因開狀行倒閉拒付</b><small class="warn-text">責任完全獨立</small></div>
     <div class="detail">另注意：<b>未經保兌行同意延伸保兌的修改書</b>，保兌行不受該修改拘束，但<b>仍受原信用狀拘束</b>。</div>
   </div>
 
   <!-- 押匯行 -->
-  <div class="lane-label odd" data-role="negotiating">三菱UFJ<small>押匯行 Negotiating</small><span class="hoshino">🏦 壽屋端押匯</span></div>
+  <div class="lane-label odd" data-role="negotiating">三菱UFJ<small>押匯行 Negotiating</small><span class="hoshino"><i class="xi xbank"></i> 壽屋端押匯</span></div>
   <div class="cell odd" data-role="negotiating" data-phase="0"></div>
   <div class="cell odd" data-role="negotiating" data-phase="1"></div>
   <div class="cell odd" data-role="negotiating" data-phase="2"></div>
@@ -510,11 +510,11 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
     <div class="act do"><b>向開狀行索款</b><small>或透過償付行</small><small class="swift">MT742</small></div>
   </div>
   <div class="cell odd" data-role="negotiating" data-phase="8">
-    <div class="act no"><b>❌ 免除開狀行責任</b><small class="warn-text">押匯不等於代替開狀行付款</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> 免除開狀行責任</b><small class="warn-text">押匯不等於代替開狀行付款</small></div>
   </div>
 
   <!-- 償付行 -->
-  <div class="lane-label even" data-role="reimbursing">紐約梅隆<small>償付行 Reimbursing</small><span class="hoshino">🏦 玉山的存匯行</span></div>
+  <div class="lane-label even" data-role="reimbursing">紐約梅隆<small>償付行 Reimbursing</small><span class="hoshino"><i class="xi xbank"></i> 玉山的存匯行</span></div>
   <div class="cell even" data-role="reimbursing" data-phase="0"></div>
   <div class="cell even" data-role="reimbursing" data-phase="1"></div>
   <div class="cell even" data-role="reimbursing" data-phase="2"></div>
@@ -522,7 +522,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell even" data-role="reimbursing" data-phase="4"></div>
   <div class="cell even" data-role="reimbursing" data-phase="5"></div>
   <div class="cell even" data-role="reimbursing" data-phase="6">
-    <div class="act no"><b>❌ 審查單據</b><small class="warn-text">只看償付授權書</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> 審查單據</b><small class="warn-text">只看償付授權書</small></div>
     <div class="detail">償付行適用 <b>URR725</b>（不是 UCP600）。只依開狀行的償付授權書付款，<b>完全不看 L/C 條款或單據內容</b>。</div>
   </div>
   <div class="cell even" data-role="reimbursing" data-phase="7">
@@ -532,13 +532,13 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell even" data-role="reimbursing" data-phase="8"></div>
 
   <!-- 運送人 -->
-  <div class="lane-label odd" data-role="carrier">長榮海運<small>運送人 Carrier</small><span class="hoshino">🚢 簽 B/L</span></div>
+  <div class="lane-label odd" data-role="carrier">長榮海運<small>運送人 Carrier</small><span class="hoshino">簽 B/L</span></div>
   <div class="cell odd" data-role="carrier" data-phase="0"></div>
   <div class="cell odd" data-role="carrier" data-phase="1"></div>
   <div class="cell odd" data-role="carrier" data-phase="2"></div>
   <div class="cell odd" data-role="carrier" data-phase="3">
-    <div class="act do"><b>簽發運送單據</b><small>海運→B/L（物權 ✅）<br>空運→AWB（非物權 ❌）</small></div>
-    <div class="detail">⚠️ <b>風險轉移點</b>：FOB／CFR／CIF → <b>裝載上船時（三者完全相同）</b>；FCA／CPT／CIP → 交付運送人時。<br><b>F 群＝FREIGHT COLLECT</b>（買方付運費）／<b>C·D 群＝PREPAID</b>（賣方付）。<br>可轉讓的運送單據<b>只有海運提單</b>（courier receipt、mate's receipt、AWB 都不是）。提單更正須<b>運送人／船長或其代理人</b>確認，代理人須表明代理何人。</div>
+    <div class="act do"><b>簽發運送單據</b><small>海運→B/L（物權 <i class="xi xk g"></i>）<br>空運→AWB（非物權 <i class="xi xx r"></i>）</small></div>
+    <div class="detail"><i class="xi xa y"></i> <b>風險轉移點</b>：FOB／CFR／CIF → <b>裝載上船時（三者完全相同）</b>；FCA／CPT／CIP → 交付運送人時。<br><b>F 群＝FREIGHT COLLECT</b>（買方付運費）／<b>C·D 群＝PREPAID</b>（賣方付）。<br>可轉讓的運送單據<b>只有海運提單</b>（courier receipt、mate's receipt、AWB 都不是）。提單更正須<b>運送人／船長或其代理人</b>確認，代理人須表明代理何人。</div>
   </div>
   <div class="cell odd" data-role="carrier" data-phase="4">
     <div class="act do"><b>憑 L/G 先放貨</b><small>正本 B/L 未到</small></div>
@@ -551,13 +551,13 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell odd" data-role="carrier" data-phase="8"></div>
 
   <!-- 保險公司 -->
-  <div class="lane-label even" data-role="insurer">富邦產險<small>保險公司 Insurer</small><span class="hoshino">🛡 簽保單</span></div>
+  <div class="lane-label even" data-role="insurer">富邦產險<small>保險公司 Insurer</small><span class="hoshino">簽保單</span></div>
   <div class="cell even" data-role="insurer" data-phase="0"></div>
   <div class="cell even" data-role="insurer" data-phase="1"></div>
   <div class="cell even" data-role="insurer" data-phase="2"></div>
   <div class="cell even" data-role="insurer" data-phase="3">
     <div class="act do"><b>簽發保單</b><small>≥110% CIF/CIP<br>簽發日 ≤ 裝運日<br>同幣別</small></div>
-    <div class="detail"><b>CIF → ICC(C)，限海運</b>｜<b>CIP → ICC(A)，任何運送</b>（2020 新制）。CFR／CPT 無保險義務。<br>✅ 得含<b>除外條款</b>、得含<b>免賠額</b>；❌ <b>Cover Note 投保通知書不被接受</b>。<br>開狀行徵提：<b>保單正本＋保費收據副本</b>。「治安不佳」→ 加保 <b>T.P.N.D.</b>。</div>
+    <div class="detail"><b>CIF → ICC(C)，限海運</b>｜<b>CIP → ICC(A)，任何運送</b>（2020 新制）。CFR／CPT 無保險義務。<br><i class="xi xk g"></i> 得含<b>除外條款</b>、得含<b>免賠額</b>；<i class="xi xx r"></i> <b>Cover Note 投保通知書不被接受</b>。<br>開狀行徵提：<b>保單正本＋保費收據副本</b>。「治安不佳」→ 加保 <b>T.P.N.D.</b>。</div>
   </div>
   <div class="cell even" data-role="insurer" data-phase="4"></div>
   <div class="cell even" data-role="insurer" data-phase="5"></div>
@@ -566,7 +566,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell even" data-role="insurer" data-phase="8"></div>
 
   <!-- 海關/央行 -->
-  <div class="lane-label odd" data-role="gov">海關／央行<small>Customs / CBC</small><span class="hoshino">🏛 管制</span></div>
+  <div class="lane-label odd" data-role="gov">海關／央行<small>Customs / CBC</small><span class="hoshino"><i class="xi xbank"></i> 管制</span></div>
   <div class="cell odd" data-role="gov" data-phase="0"></div>
   <div class="cell odd" data-role="gov" data-phase="1"></div>
   <div class="cell odd" data-role="gov" data-phase="2"></div>
@@ -576,19 +576,19 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell odd" data-role="gov" data-phase="6"></div>
   <div class="cell odd" data-role="gov" data-phase="7">
     <div class="act do"><b>進口報關＋結匯</b><small>完稅→有報關資料<br>掣發<b>進口結匯證實書</b></small><span class="fx-link">匯兌科</span></div>
-    <div class="detail">💱 <b>貨品進出口結匯免填申報書</b>（已有報關資料）→ 掣發<b>結匯證實書</b>。<br>公司行號單筆 <b>USD 100 萬</b>以上須檢附文件；年度累積額度 <b>USD 5,000 萬</b>，超過須<b>央行核准</b>。<br>大額結匯款資料表由<b>指定銀行</b>填報。</div>
+    <div class="detail"><b>貨品進出口結匯免填申報書</b>（已有報關資料）→ 掣發<b>結匯證實書</b>。<br>公司行號單筆 <b>USD 100 萬</b>以上須檢附文件；年度累積額度 <b>USD 5,000 萬</b>，超過須<b>央行核准</b>。<br>大額結匯款資料表由<b>指定銀行</b>填報。</div>
   </div>
   <div class="cell odd" data-role="gov" data-phase="8"></div>
 </div>
 </div>
 
 <div class="seambox">
-  ⭐ <b>兩科接縫（第 ⑧ 站）</b>：星野要拿新臺幣買美元付款 → <b>進口結匯證實書</b>，<b>不是水單</b>！<br>
+  <i class="xi xs y"></i> <b>兩科接縫（第 ⑧ 站）</b>：星野要拿新臺幣買美元付款 → <b>進口結匯證實書</b>，<b>不是水單</b>！<br>
   判準：<b>有貨品進出口（有報關）→ 結匯證實書</b>；沒有貨品才輪到水單。
 </div>
 
 <div class="summary">
-  <h2>🔑 本幕必記「不能做」</h2>
+  <h2><i class="xi xkey y"></i> 本幕必記「不能做」</h2>
   <ul>
     <li><b>銀行不管貨物</b>（獨立抽象性原則）— 發票打錯可拒付，貨爛掉不可拒付</li>
     <li><b>買方不能因貨物問題指示銀行拒付</b>（要擋只能聲請法院止付令）</li>
@@ -603,11 +603,11 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 </div>
 
 <div class="key">
-  <b>⏱ 日期與數字（高頻）</b><br>
+  <b> 日期與數字（高頻）</b><br>
   <b>不含當天 → 次日起算</b>（before／after 排除；from 算裝運期含、算到期日不含）；to／until／till／between <b>全部包括</b>當天。<br>
   提示期 <b>21 曆日</b>（裝運日後）｜審單 <b>5 個銀行營業日</b>（提示日翌日起）｜<b>ON OR ABOUT ＝ 前後各 5 曆日、共 11 天</b><br>
   half → 1-15／16-月末｜beginning・middle・end → 1-10／11-20／21-月末｜<b>分批判定：同船同航次＝一批</b>（不看日期、不看港口）<br>
-  <b>順延</b>：有效期、提示期 ✅｜<b>裝運期 ❌ 不順延</b>
+  <b>順延</b>：有效期、提示期 <i class="xi xk g"></i>｜<b>裝運期 <i class="xi xx r"></i> 不順延</b>
 </div>
 
 </section>
@@ -619,7 +619,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <div class="lede">情境：星野賣 <b>USD 150,000</b> 給 Anime Depot，用 <b>D/A 60 天</b>。同一個人、同一家銀行，<b>名詞全部換一套</b>。</div>
 
 <div class="warn">
-  <b>🔄 立場翻面對照（本幕最重要的事）</b><br>
+  <b>立場翻面對照（本幕最重要的事）</b><br>
   幕二他是<b>申請人 Applicant／Drawee</b>，玉山是<b>開狀行</b>；<br>
   幕三他是<b>受益人 Beneficiary／發票人 Drawer／委託人 Principal</b>，玉山變成<b>託收行 Remitting</b>（若走 L/C 則是<b>押匯行</b>）。
 </div>
@@ -637,28 +637,28 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="phase-hdr" data-phase="7"><span class="num">⑧</span>拒付追索</div>
 
   <!-- 星野（受益人/委託人/Drawer） -->
-  <div class="lane-label even" data-role="x-hoshino">星野模型<small>委託人 Principal<br>發票人 Drawer</small><span class="hoshino">🇹🇼 主角・賣方</span></div>
+  <div class="lane-label even" data-role="x-hoshino">星野模型<small>委託人 Principal<br>發票人 Drawer</small><span class="hoshino"><i class="xf">TW</i> 主角・賣方</span></div>
   <div class="cell even" data-role="x-hoshino" data-phase="0">
     <div class="act do"><b>同意 D/A 60 天</b><small>三年老客戶<br>用帳期換訂單</small></div>
-    <div class="detail">D/A ＝ <b>Documents against Acceptance</b>：買方在匯票上簽字承兌就給單據，錢 60 天後才收。<br>⚠️ <b>託收銀行完全不擔保付款</b>，這筆風險 100% 由星野自己扛 → 所以後面才需要 Factoring 與輸出保險。</div>
+    <div class="detail">D/A ＝ <b>Documents against Acceptance</b>：買方在匯票上簽字承兌就給單據，錢 60 天後才收。<br><i class="xi xa y"></i> <b>託收銀行完全不擔保付款</b>，這筆風險 100% 由星野自己扛 → 所以後面才需要 Factoring 與輸出保險。</div>
   </div>
   <div class="cell even" data-role="x-hoshino" data-phase="1">
     <div class="act do"><b>出貨＋製單＋開匯票</b><small>Invoice／B/L／Packing List<br>匯票：Drawer=星野</small></div>
-    <div class="detail">📄 <b>商業發票不須受益人簽署</b>；抬頭開給買方；貨物說明<b>須相符</b>（提單可用統稱，<b>發票不行</b>）；<b>PRO FORMA 形式發票不被接受</b>；金額只能少不能多。<br>匯票上：<b>Drawer ＝ 星野（出口商）、Drawee ＝ Anime Depot（進口商）</b>。</div>
+    <div class="detail"><b>商業發票不須受益人簽署</b>；抬頭開給買方；貨物說明<b>須相符</b>（提單可用統稱，<b>發票不行</b>）；<b>PRO FORMA 形式發票不被接受</b>；金額只能少不能多。<br>匯票上：<b>Drawer ＝ 星野（出口商）、Drawee ＝ Anime Depot（進口商）</b>。</div>
   </div>
   <div class="cell even" data-role="x-hoshino" data-phase="2">
     <div class="act do"><b>填託收指示書</b><small>寫清楚 D/A 條件<br>要不要做拒絕證書</small></div>
-    <div class="detail">⚠️ <b>拒絕證書 PROTEST：託收指示書有寫才做</b>，沒寫代收行無義務辦理。這格沒寫，第 ⑧ 站就沒有 PROTEST 可用。</div>
+    <div class="detail"><i class="xi xa y"></i> <b>拒絕證書 PROTEST：託收指示書有寫才做</b>，沒寫代收行無義務辦理。這格沒寫，第 ⑧ 站就沒有 PROTEST 可用。</div>
   </div>
   <div class="cell even" data-role="x-hoshino" data-phase="3"></div>
   <div class="cell even" data-role="x-hoshino" data-phase="4">
     <div class="act opt"><b>不想等 60 天</b><small>把應收帳款換成現金</small></div>
-    <div class="detail">三條路：<br>💰 現在是 <b>D/A</b> → 走 <b>Factoring</b>（帳款承購，短期 180 天內，多為無追索，含帳款管理）<br>💰 若改用 <b>Seller's Usance L/C</b> → 走 <b>Forfaiting</b>（票據<b>買斷、無追索</b>、中長期、費率高、可轉次級市場）<br>💰 若用<b>即期 L/C</b> → 走<b>出口押匯</b>（<b>有追索權</b>，瑕疵時出具保結書 L/I）</div>
+    <div class="detail">三條路：<br>現在是 <b>D/A</b> → 走 <b>Factoring</b>（帳款承購，短期 180 天內，多為無追索，含帳款管理）<br>若改用 <b>Seller's Usance L/C</b> → 走 <b>Forfaiting</b>（票據<b>買斷、無追索</b>、中長期、費率高、可轉次級市場）<br>若用<b>即期 L/C</b> → 走<b>出口押匯</b>（<b>有追索權</b>，瑕疵時出具保結書 L/I）</div>
   </div>
   <div class="cell even" data-role="x-hoshino" data-phase="5"></div>
   <div class="cell even" data-role="x-hoshino" data-phase="6">
     <div class="act do"><b>收美元 → 決定結不結售</b><small>結售新臺幣 or 存外匯存款</small><span class="seam">兩科接縫</span></div>
-    <div class="detail">💱 <b>結售新臺幣</b> → 銀行<b>買匯</b>；因為是<b>貨品出口（有報關）</b> → 掣發<b>出口結匯證實書</b>、<b>免填申報書</b>。<br>💱 <b>不結售、直接存入外匯存款</b> → 沒有結匯行為 → 掣發<b>其他交易憑證</b>。<br>🛡 怕美元貶值 → 事先<b>預售</b>遠期外匯。</div>
+    <div class="detail"><b>結售新臺幣</b> → 銀行<b>買匯</b>；因為是<b>貨品出口（有報關）</b> → 掣發<b>出口結匯證實書</b>、<b>免填申報書</b>。<br><b>不結售、直接存入外匯存款</b> → 沒有結匯行為 → 掣發<b>其他交易憑證</b>。<br>怕美元貶值 → 事先<b>預售</b>遠期外匯。</div>
   </div>
   <div class="cell even" data-role="x-hoshino" data-phase="7">
     <div class="act opt"><b>追索 Drawee</b><small>＋申請輸出保險理賠</small></div>
@@ -666,7 +666,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   </div>
 
   <!-- Anime Depot -->
-  <div class="lane-label odd" data-role="x-buyer">Anime Depot<small>付款人 Drawee</small><span class="hoshino">🇺🇸 美國經銷商</span></div>
+  <div class="lane-label odd" data-role="x-buyer">Anime Depot<small>付款人 Drawee</small><span class="hoshino"><i class="xf">US</i> 美國經銷商</span></div>
   <div class="cell odd" data-role="x-buyer" data-phase="0">
     <div class="act do"><b>爭取 D/A 帳期</b><small>三年老客戶的籌碼</small></div>
   </div>
@@ -675,7 +675,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell odd" data-role="x-buyer" data-phase="3">
     <div class="act do"><b>在匯票上承兌</b><small>簽名 → 立刻拿到單據</small></div>
     <div class="flow-arrows"><div class="arr-line"><span class="from">花旗</span><span class="ar">→</span><span class="to">Anime Depot</span><span class="label">提示匯票＋單據</span></div><div class="arr-line"><span class="from">Anime Depot</span><span class="ar">→</span><span class="to">花旗</span><span class="label">承兌簽字</span></div><div class="arr-line"><span class="from">花旗</span><span class="ar">→</span><span class="to">Anime Depot</span><span class="label">交付單據 → 可提貨</span></div></div>
-    <div class="detail">⚠️ <b>這一刻星野的風險最大化</b>：貨與單據都到買方手上了，錢卻要再等 60 天。<br>⏱ <b>after sight 的到期日在承兌時才確定</b>（鐘在進口商手上）。</div>
+    <div class="detail"><i class="xi xa y"></i> <b>這一刻星野的風險最大化</b>：貨與單據都到買方手上了，錢卻要再等 60 天。<br> <b>after sight 的到期日在承兌時才確定</b>（鐘在進口商手上）。</div>
   </div>
   <div class="cell odd" data-role="x-buyer" data-phase="4"></div>
   <div class="cell odd" data-role="x-buyer" data-phase="5">
@@ -683,12 +683,12 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   </div>
   <div class="cell odd" data-role="x-buyer" data-phase="6"></div>
   <div class="cell odd" data-role="x-buyer" data-phase="7">
-    <div class="act no"><b>❌ 承兌後主張貨物瑕疵免付</b><small class="warn-text">承兌是票據上的獨立義務</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> 承兌後主張貨物瑕疵免付</b><small class="warn-text">承兌是票據上的獨立義務</small></div>
     <div class="detail">承兌後即負票據責任；貨物爭議另循買賣契約解決，不能拿來對抗匯票。</div>
   </div>
 
   <!-- 玉山 託收行/押匯行 -->
-  <div class="lane-label even" data-role="x-remit">玉山銀行<small>託收行 Remitting<br>（L/C 時＝押匯行）</small><span class="hoshino">🏦 星野的銀行</span></div>
+  <div class="lane-label even" data-role="x-remit">玉山銀行<small>託收行 Remitting<br>（L/C 時＝押匯行）</small><span class="hoshino"><i class="xi xbank"></i> 星野的銀行</span></div>
   <div class="cell even" data-role="x-remit" data-phase="0">
     <div class="act opt"><b>建議改用 L/C</b><small>銀行角度風險提示</small></div>
   </div>
@@ -701,27 +701,27 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell even" data-role="x-remit" data-phase="3"></div>
   <div class="cell even" data-role="x-remit" data-phase="4">
     <div class="act opt"><b>承作出口押匯（限 L/C）</b><small><b>有追索權</b>、瑕疵→保結書 L/I</small></div>
-    <div class="detail">⚠️ <b>押匯只適用 L/C</b>。本幕走 D/A，玉山不能承作押匯，星野要提早拿錢只能走 <b>Factoring</b>。<br>押匯<b>不是銀行義務</b>，銀行可以拒絕。</div>
+    <div class="detail"><i class="xi xa y"></i> <b>押匯只適用 L/C</b>。本幕走 D/A，玉山不能承作押匯，星野要提早拿錢只能走 <b>Factoring</b>。<br>押匯<b>不是銀行義務</b>，銀行可以拒絕。</div>
   </div>
   <div class="cell even" data-role="x-remit" data-phase="5">
     <div class="act do"><b>收到款項入帳</b><small class="swift">MT400 付款通知</small></div>
   </div>
   <div class="cell even" data-role="x-remit" data-phase="6">
     <div class="act do"><b>掣發出口結匯證實書</b><small>結售→銀行買匯<br>有報關→免填申報書</small><span class="fx-link">匯兌科</span></div>
-    <div class="detail">⚠️ 若星野<b>不結售</b>而是存入<b>外匯存款</b> → 沒有結匯 → 掣發<b>其他交易憑證</b>。<br>⚠️ 若是<b>結購</b>外匯存入外匯存款備日後付進口貨款 → 申報書「受款地區國別」填 <b>本國</b>。</div>
+    <div class="detail"><i class="xi xa y"></i> 若星野<b>不結售</b>而是存入<b>外匯存款</b> → 沒有結匯 → 掣發<b>其他交易憑證</b>。<br><i class="xi xa y"></i> 若是<b>結購</b>外匯存入外匯存款備日後付進口貨款 → 申報書「受款地區國別」填 <b>本國</b>。</div>
   </div>
   <div class="cell even" data-role="x-remit" data-phase="7">
-    <div class="act no"><b>❌ 對買方信用負責</b><small class="warn-text">託收行只是傳遞者</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> 對買方信用負責</b><small class="warn-text">託收行只是傳遞者</small></div>
   </div>
 
   <!-- 花旗 代收行 -->
-  <div class="lane-label odd" data-role="x-collect">花旗紐約<small>代收行 Collecting<br>＝提示行 Presenting</small><span class="hoshino">🏦 Anime Depot 的銀行</span></div>
+  <div class="lane-label odd" data-role="x-collect">花旗紐約<small>代收行 Collecting<br>＝提示行 Presenting</small><span class="hoshino"><i class="xi xbank"></i> Anime Depot 的銀行</span></div>
   <div class="cell odd" data-role="x-collect" data-phase="0"></div>
   <div class="cell odd" data-role="x-collect" data-phase="1"></div>
   <div class="cell odd" data-role="x-collect" data-phase="2"></div>
   <div class="cell odd" data-role="x-collect" data-phase="3">
     <div class="act do"><b>提示匯票＋交單</b><small>D/A：承兌就交單<br>D/P：付款才交單</small></div>
-    <div class="detail">⚠️ <b>D/P 遠期</b>：買方先承兌，但代收行<b>仍須等付款後才交單</b>——<b>銀行不得擅自變更託收指示</b>。</div>
+    <div class="detail"><i class="xi xa y"></i> <b>D/P 遠期</b>：買方先承兌，但代收行<b>仍須等付款後才交單</b>——<b>銀行不得擅自變更託收指示</b>。</div>
   </div>
   <div class="cell odd" data-role="x-collect" data-phase="4"></div>
   <div class="cell odd" data-role="x-collect" data-phase="5">
@@ -729,12 +729,12 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   </div>
   <div class="cell odd" data-role="x-collect" data-phase="6"></div>
   <div class="cell odd" data-role="x-collect" data-phase="7">
-    <div class="act no"><b>❌ 未經指示做拒絕證書</b><small class="warn-text">指示書沒寫＝無義務</small></div>
-    <div class="detail">同樣 ❌：保證付款、擅自變更託收指示、對貨物負責。代收行只是提示與收款的執行者。</div>
+    <div class="act no"><b><i class="xi xx r"></i> 未經指示做拒絕證書</b><small class="warn-text">指示書沒寫＝無義務</small></div>
+    <div class="detail">同樣 <i class="xi xx r"></i>：保證付款、擅自變更託收指示、對貨物負責。代收行只是提示與收款的執行者。</div>
   </div>
 
   <!-- Factor / Forfaiter -->
-  <div class="lane-label even" data-role="x-factor">承購商<small>Factor / Forfaiter</small><span class="hoshino">💰 應收帳款融資</span></div>
+  <div class="lane-label even" data-role="x-factor">承購商<small>Factor / Forfaiter</small><span class="hoshino">應收帳款融資</span></div>
   <div class="cell even" data-role="x-factor" data-phase="0"></div>
   <div class="cell even" data-role="x-factor" data-phase="1"></div>
   <div class="cell even" data-role="x-factor" data-phase="2"></div>
@@ -746,12 +746,12 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell even" data-role="x-factor" data-phase="5"></div>
   <div class="cell even" data-role="x-factor" data-phase="6"></div>
   <div class="cell even" data-role="x-factor" data-phase="7">
-    <div class="act no"><b>❌ Forfaiting 買 Buyer's Usance</b><small class="warn-text">賣方已即期收款，無債權可賣</small></div>
+    <div class="act no"><b><i class="xi xx r"></i> Forfaiting 買 Buyer's Usance</b><small class="warn-text">賣方已即期收款，無債權可賣</small></div>
     <div class="detail">Forfaiting 最適合的標的：<b>高風險國家開出的遠期（Seller's Usance）L/C</b>——三條件疊滿。</div>
   </div>
 
   <!-- 海關/央行 -->
-  <div class="lane-label odd" data-role="x-gov">海關／央行<small>Customs / CBC</small><span class="hoshino">🏛 管制</span></div>
+  <div class="lane-label odd" data-role="x-gov">海關／央行<small>Customs / CBC</small><span class="hoshino"><i class="xi xbank"></i> 管制</span></div>
   <div class="cell odd" data-role="x-gov" data-phase="0"></div>
   <div class="cell odd" data-role="x-gov" data-phase="1">
     <div class="act do"><b>出口報關</b><small>出口許可證＋申報</small><span class="fx-link">匯兌科</span></div>
@@ -768,7 +768,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell odd" data-role="x-gov" data-phase="7"></div>
 
   <!-- 中國輸出入銀行 -->
-  <div class="lane-label even" data-role="x-exim">中國輸出入<br>銀行<small>EXIM Bank</small><span class="hoshino">🏛 政策性機構</span></div>
+  <div class="lane-label even" data-role="x-exim">中國輸出入<br>銀行<small>EXIM Bank</small><span class="hoshino"><i class="xi xbank"></i> 政策性機構</span></div>
   <div class="cell even" data-role="x-exim" data-phase="0">
     <div class="act opt"><b>投保輸出保險</b><small>D/A 風險大 → 事前投保</small></div>
   </div>
@@ -780,13 +780,13 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell even" data-role="x-exim" data-phase="6"></div>
   <div class="cell even" data-role="x-exim" data-phase="7">
     <div class="act opt"><b>輸出保險理賠</b><small><b>商業風險</b>＝人的問題<br><b>政治風險</b>＝國家的問題</small></div>
-    <div class="detail">商業風險：買方破產、拒付、拒收。政治風險：外匯管制、戰爭、禁運。<br>⚠️ <b>中國輸出入銀行是政府政策性機構，不是商業銀行</b>。</div>
+    <div class="detail">商業風險：買方破產、拒付、拒收。政治風險：外匯管制、戰爭、禁運。<br><i class="xi xa y"></i> <b>中國輸出入銀行是政府政策性機構，不是商業銀行</b>。</div>
   </div>
 </div>
 </div>
 
 <div class="seambox">
-  ⭐ <b>兩科接縫（第 ⑦ 站）</b><br>
+  <i class="xi xs y"></i> <b>兩科接縫（第 ⑦ 站）</b><br>
   收到的美元<b>結售新臺幣</b> → 有貨品出口（有報關）→ <b>出口結匯證實書</b>、免填申報書<br>
   收到的美元<b>不結售、存入外匯存款</b> → 沒有結匯行為 → <b>其他交易憑證</b>
 </div>
@@ -795,23 +795,23 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <div class="tbwrap"><table class="tb">
   <tr><th></th><th>出口押匯 Negotiation</th><th>Factoring</th><th>Forfaiting</th></tr>
   <tr><td><b>適用</b></td><td><b>L/C</b></td><td><b>D/A、O/A</b></td><td><b>Seller's Usance L/C</b></td></tr>
-  <tr><td><b>追索權</b></td><td>✅ <b>有</b></td><td>多為無</td><td>❌ <b>無</b></td></tr>
+  <tr><td><b>追索權</b></td><td><i class="xi xk g"></i> <b>有</b></td><td>多為無</td><td><i class="xi xx r"></i> <b>無</b></td></tr>
   <tr><td>本質</td><td>融資</td><td>帳款承購＋管理</td><td>票據<b>買斷</b></td></tr>
   <tr><td>期間</td><td>短</td><td>短（180 天內）</td><td><b>中長期</b></td></tr>
   <tr><td>費率</td><td>低</td><td>中</td><td><b>高</b></td></tr>
-  <tr><td>轉售</td><td>—</td><td>難</td><td>✅ <b>次級市場</b></td></tr>
-  <tr><td>星野本幕能用嗎</td><td>❌（本幕是 D/A 不是 L/C）</td><td>✅ <b>正解</b></td><td>❌（除非改用遠期 L/C）</td></tr>
+  <tr><td>轉售</td><td>—</td><td>難</td><td><i class="xi xk g"></i> <b>次級市場</b></td></tr>
+  <tr><td>星野本幕能用嗎</td><td><i class="xi xx r"></i>（本幕是 D/A 不是 L/C）</td><td><i class="xi xk g"></i> <b>正解</b></td><td><i class="xi xx r"></i>（除非改用遠期 L/C）</td></tr>
 </table></div>
 
 <div class="key">
-  <b>Seller's vs Buyer's Usance ⚠️</b>　口訣：<b>Usance 前面掛誰的名字，誰就是去借錢、付利息的人。</b><br>
+  <b>Seller's vs Buyer's Usance <i class="xi xa y"></i></b>　口訣：<b>Usance 前面掛誰的名字，誰就是去借錢、付利息的人。</b><br>
   <b>Seller's</b>：出口商 60 天後收錢、<b>賣方</b>付息 → <b>可 Forfaiting</b><br>
   <b>Buyer's</b>：出口商<b>立刻收即期</b>、<b>買方</b>付息 → <b>不能 Forfaiting</b>（無債權可賣）<br>
   一句話：<b>Buyer's Usance ＝ 對買方遠期、對賣方即期。</b>
 </div>
 
 <div class="summary">
-  <h2>🔑 本幕必記「不能做」</h2>
+  <h2><i class="xi xkey y"></i> 本幕必記「不能做」</h2>
   <ul>
     <li><b>託收行／代收行都不保證付款</b>（URC522，銀行只傳單據）</li>
     <li><b>代收行不得擅自變更託收指示</b>（D/P 遠期：承兌後仍須付款才交單）</li>
@@ -829,7 +829,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <section class="view" id="v4">
 
 <h2 class="sec">第四幕　純粹的錢：沒有貨的世界（匯兌科主場）</h2>
-<div class="lede">情境：星野日常還有一堆<b>跟貨無關</b>的外匯往來。這一幕沒有 B/L、沒有報關、沒有 UCP600——<b>只有錢在跑</b>，所以憑證改成「水單」。<b>⚠️ 這是覆蓋率最弱的一科，要花最多時間。</b></div>
+<div class="lede">情境：星野日常還有一堆<b>跟貨無關</b>的外匯往來。這一幕沒有 B/L、沒有報關、沒有 UCP600——<b>只有錢在跑</b>，所以憑證改成「水單」。<b><i class="xi xa y"></i> 這是覆蓋率最弱的一科，要花最多時間。</b></div>
 
 <h3 class="sub">錢怎麼跨海：匯出匯款路徑</h3>
 <div class="board">
@@ -841,28 +841,28 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="phase-hdr" data-phase="3"><span class="num">④</span>解付</div>
   <div class="phase-hdr" data-phase="4"><span class="num">⑤</span>憑證與申報</div>
 
-  <div class="lane-label even" data-role="r-payer">匯款人<small>Remitter / 50a</small><span class="hoshino">🇹🇼 星野模型</span></div>
+  <div class="lane-label even" data-role="r-payer">匯款人<small>Remitter / 50a</small><span class="hoshino"><i class="xf">TW</i> 星野模型</span></div>
   <div class="cell even" data-role="r-payer" data-phase="0">
     <div class="act do"><b>填匯款申請書</b><small>付壽屋樣品費 USD 5,000<br>選 T/T 電匯</small></div>
-    <div class="detail"><b>T/T 電匯</b>（最快，實務主流）｜<b>M/T 信匯</b>｜<b>D/D 票匯</b>（銀行開匯票給客戶自寄）。<br>⚠️ <b>電匯匯出當日立即銷帳；信匯、票匯「須」銷帳</b>——「信匯無須銷帳」是錯誤敘述。</div>
+    <div class="detail"><b>T/T 電匯</b>（最快，實務主流）｜<b>M/T 信匯</b>｜<b>D/D 票匯</b>（銀行開匯票給客戶自寄）。<br><i class="xi xa y"></i> <b>電匯匯出當日立即銷帳；信匯、票匯「須」銷帳</b>——「信匯無須銷帳」是錯誤敘述。</div>
   </div>
   <div class="cell even" data-role="r-payer" data-phase="1"></div>
   <div class="cell even" data-role="r-payer" data-phase="2"></div>
   <div class="cell even" data-role="r-payer" data-phase="3"></div>
   <div class="cell even" data-role="r-payer" data-phase="4">
     <div class="act do"><b>拿到賣匯水單</b><small>用新臺幣結購外匯<br>＝銀行<b>賣</b>匯</small><span class="seam">兩科接縫</span></div>
-    <div class="detail">💱 <b>沒有貨品、有實際結購</b> → <b>賣匯水單</b>（站銀行立場：銀行把外匯賣給你）。<br>若是拿既有外匯存款支付、沒有結匯 → <b>其他交易憑證</b>。<br>等值 <b>NTD 50 萬</b>以上須填<b>申報書</b>。</div>
+    <div class="detail"><b>沒有貨品、有實際結購</b> → <b>賣匯水單</b>（站銀行立場：銀行把外匯賣給你）。<br>若是拿既有外匯存款支付、沒有結匯 → <b>其他交易憑證</b>。<br>等值 <b>NTD 50 萬</b>以上須填<b>申報書</b>。</div>
   </div>
 
-  <div class="lane-label odd" data-role="r-bank">匯款行<small>Remitting Bank</small><span class="hoshino">🏦 玉山銀行</span></div>
+  <div class="lane-label odd" data-role="r-bank">匯款行<small>Remitting Bank</small><span class="hoshino"><i class="xi xbank"></i> 玉山銀行</span></div>
   <div class="cell odd" data-role="r-bank" data-phase="0">
     <div class="act do"><b>KYC＋受理</b><small>查申報書、額度</small></div>
-    <div class="detail">人民幣跨境貿易買賣須採行 <b>KYC／瞭解你的業務／盡職審查</b>。<br>❌「匯率或手續費優於同業」<b>不是</b>適格程序（那是招攬手段）。</div>
+    <div class="detail">人民幣跨境貿易買賣須採行 <b>KYC／瞭解你的業務／盡職審查</b>。<br><i class="xi xx r"></i>「匯率或手續費優於同業」<b>不是</b>適格程序（那是招攬手段）。</div>
   </div>
   <div class="cell odd" data-role="r-bank" data-phase="1">
     <div class="act do"><b>押碼＋發出電文</b><small class="swift">MT103 → pacs.008</small></div>
     <div class="flow-arrows"><div class="arr-line"><span class="from">玉山</span><span class="ar">→</span><span class="to">三菱UFJ</span><span class="label">MT103（pacs.008）付款指示</span></div><div class="arr-line"><span class="from">玉山</span><span class="ar">→</span><span class="to">紐約梅隆</span><span class="label">MT202 銀行間撥款</span></div></div>
-    <div class="detail">🔐 <b>押碼（Test Key）用於電文</b>，<b>不用於匯票</b>——匯票解付查核不含「核對押碼」。<br>⚠️ <b>匯往利比亞不得經美系銀行清算或轉匯</b>（資金遭凍結風險）。</div>
+    <div class="detail"><b>押碼（Test Key）用於電文</b>，<b>不用於匯票</b>——匯票解付查核不含「核對押碼」。<br><i class="xi xa y"></i> <b>匯往利比亞不得經美系銀行清算或轉匯</b>（資金遭凍結風險）。</div>
   </div>
   <div class="cell odd" data-role="r-bank" data-phase="2"></div>
   <div class="cell odd" data-role="r-bank" data-phase="3"></div>
@@ -870,7 +870,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
     <div class="act do"><b>掣發水單／申報</b><small>≥等值 NTD 50 萬 → 申報書</small></div>
   </div>
 
-  <div class="lane-label even" data-role="r-nostro">存匯行／通匯行<small>Nostro / Correspondent</small><span class="hoshino">🏦 紐約梅隆</span></div>
+  <div class="lane-label even" data-role="r-nostro">存匯行／通匯行<small>Nostro / Correspondent</small><span class="hoshino"><i class="xi xbank"></i> 紐約梅隆</span></div>
   <div class="cell even" data-role="r-nostro" data-phase="0"></div>
   <div class="cell even" data-role="r-nostro" data-phase="1"></div>
   <div class="cell even" data-role="r-nostro" data-phase="2">
@@ -880,23 +880,23 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <div class="cell even" data-role="r-nostro" data-phase="3"></div>
   <div class="cell even" data-role="r-nostro" data-phase="4"></div>
 
-  <div class="lane-label odd" data-role="r-paying">解款行<small>Paying Bank / 57a</small><span class="hoshino">🏦 三菱UFJ（受款人設帳行）</span></div>
+  <div class="lane-label odd" data-role="r-paying">解款行<small>Paying Bank / 57a</small><span class="hoshino"><i class="xi xbank"></i> 三菱UFJ（受款人設帳行）</span></div>
   <div class="cell odd" data-role="r-paying" data-phase="0"></div>
   <div class="cell odd" data-role="r-paying" data-phase="1"></div>
   <div class="cell odd" data-role="r-paying" data-phase="2"></div>
   <div class="cell odd" data-role="r-paying" data-phase="3">
     <div class="act do"><b>核對後解付</b><small>32A value date 起息日<br>受款人才可動用</small></div>
-    <div class="detail">⏱ 例：MT103 收電 1/27、32A value date 1/31 → 收款人<b>最早 1/31</b> 可動用資金。<br>⚠️ 受款人<b>名稱與帳號不符</b> → 請受款人<b>通知匯款人辦理更正</b>（不是自行更正、不是退匯）。<br>⚠️ 解付後匯款行要求<b>退匯 Refund</b> → <b>須經受款人同意且收到退回款</b>才退（不可逕自扣回）。<br>⚠️ 跨行通匯申請書 vs 匯入匯款通知書內容不一致 → 以<b>設帳銀行</b>為準。</div>
+    <div class="detail"> 例：MT103 收電 1/27、32A value date 1/31 → 收款人<b>最早 1/31</b> 可動用資金。<br><i class="xi xa y"></i> 受款人<b>名稱與帳號不符</b> → 請受款人<b>通知匯款人辦理更正</b>（不是自行更正、不是退匯）。<br><i class="xi xa y"></i> 解付後匯款行要求<b>退匯 Refund</b> → <b>須經受款人同意且收到退回款</b>才退（不可逕自扣回）。<br><i class="xi xa y"></i> 跨行通匯申請書 vs 匯入匯款通知書內容不一致 → 以<b>設帳銀行</b>為準。</div>
   </div>
   <div class="cell odd" data-role="r-paying" data-phase="4"></div>
 
-  <div class="lane-label even" data-role="r-payee">受款人<small>Beneficiary / 59a</small><span class="hoshino">🇯🇵 壽屋</span></div>
+  <div class="lane-label even" data-role="r-payee">受款人<small>Beneficiary / 59a</small><span class="hoshino"><i class="xf">JP</i> 壽屋</span></div>
   <div class="cell even" data-role="r-payee" data-phase="0"></div>
   <div class="cell even" data-role="r-payee" data-phase="1"></div>
   <div class="cell even" data-role="r-payee" data-phase="2"></div>
   <div class="cell even" data-role="r-payee" data-phase="3">
     <div class="act do"><b>入帳</b><small>反過來看＝匯入匯款</small></div>
-    <div class="detail">同一筆錢，站台灣這邊收＝<b>匯入匯款</b>：結售新臺幣 → <b>買匯水單</b>（銀行買匯）。<br>💡 <b>匯款行簽發匯票以「解款行」為受款人、解款行背書向付款行收妥後通知受款人 → 屬「匯入匯款」</b>。</div>
+    <div class="detail">同一筆錢，站台灣這邊收＝<b>匯入匯款</b>：結售新臺幣 → <b>買匯水單</b>（銀行買匯）。<br><i class="xi xz v"></i> <b>匯款行簽發匯票以「解款行」為受款人、解款行背書向付款行收妥後通知受款人 → 屬「匯入匯款」</b>。</div>
   </div>
   <div class="cell even" data-role="r-payee" data-phase="4"></div>
 </div>
@@ -904,7 +904,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 
 <h3 class="sub">星野的其他「沒有貨」情境（匯兌科考點卡）</h3>
 <div class="cards">
-  <div class="card"><div class="c-t">🏪 老闆去日本參展帶現鈔</div><div class="c-b">
+  <div class="card"><div class="c-t">老闆去日本參展帶現鈔</div><div class="c-b">
     <b>外幣收兌處</b>：執照由<b>臺灣銀行</b>發給（不是央行、不是財政部）。<b>寺廟、連鎖便利商店、特產業</b>得申請設置。<br>
     每筆收兌上限 <b>等值 3 千美元</b>（2022 修法；舊題「1 萬」已作廢、「2 萬」永遠是誘餌）。<br>
     列報：<b>每季</b>終了次月 <b>15 日</b>前向臺灣銀行列報<b>該季</b>金額（「每月十五日前列報上月」是錯的）。<br>
@@ -912,8 +912,8 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
     旅客<b>攜帶逾 1 萬美元須申報</b>。去希臘旅遊帶<b>歐元</b>現鈔（避免兌換損失）。
   </div><span class="tag">本科出現最多次</span></div>
 
-  <div class="card"><div class="c-t">🧾 收到一張美國銀行支票</div><div class="c-b">
-    <b>光票買入 ＝ 銀行融資授信業務</b>，買入銀行<b>可先收取利息</b> ✅<br>
+  <div class="card"><div class="c-t">收到一張美國銀行支票</div><div class="c-b">
+    <b>光票買入 ＝ 銀行融資授信業務</b>，買入銀行<b>可先收取利息</b> <i class="xi xk g"></i><br>
     <b>私人開發之支票「得」買入</b>（「不得買入」是錯誤敘述）。<br>
     旅行支票買入 → <b>須在櫃檯複簽</b>。<b>美國國庫支票提示期限 ＝ 一年</b>。<br>
     抬頭 <code>Lily care of Mary</code> → 由 Mary 轉交 Lily，<b>只能存入 Lily 帳</b>。<br>
@@ -921,58 +921,58 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
     英國票據大小寫金額不符（大寫只到個位、小寫有小數）→ 以<b>小寫</b>為準。
   </div><span class="tag">光票</span></div>
 
-  <div class="card"><div class="c-t">🏦 公司美元閒錢</div><div class="c-b">
-    <b>外匯存款</b>：✅ 得以<b>外匯綜合存款</b>辦理；✅ <b>得</b>以<b>可轉讓定期存單 NCD</b>辦理；❌ <b>不得</b>以<b>支票存款</b>辦理。<br>
-    <span style="color:var(--rd)">⚠️ 23／24 屆舊題答「不得以 NCD」<b>已作廢</b>，35 屆起與 46 屆最新均為此版本。</span><br>
-    ✅ <b>得</b>受理客戶持外匯存款<b>定存單質押／質借</b>（新臺幣或外幣授信皆可）。<br>
+  <div class="card"><div class="c-t"><i class="xi xbank"></i> 公司美元閒錢</div><div class="c-b">
+    <b>外匯存款</b>：<i class="xi xk g"></i> 得以<b>外匯綜合存款</b>辦理；<i class="xi xk g"></i> <b>得</b>以<b>可轉讓定期存單 NCD</b>辦理；<i class="xi xx r"></i> <b>不得</b>以<b>支票存款</b>辦理。<br>
+    <span style="color:var(--rd)"><i class="xi xa y"></i> 23／24 屆舊題答「不得以 NCD」<b>已作廢</b>，35 屆起與 46 屆最新均為此版本。</span><br>
+    <i class="xi xk g"></i> <b>得</b>受理客戶持外匯存款<b>定存單質押／質借</b>（新臺幣或外幣授信皆可）。<br>
     未滿一個月期外匯定存：<b>幣別及每筆最低金額由銀行自訂</b>。<br>
     代扣利息所得稅單證：<b>買匯水單（以銀行名義）</b>。
   </div><span class="tag">已修法</span><span class="tag n">舊題陷阱</span></div>
 
-  <div class="card"><div class="c-t">📉 怕日圓漲 / 美元跌</div><div class="c-b">
+  <div class="card"><div class="c-t">怕日圓漲 / 美元跌</div><div class="c-b">
     <b>遠期外匯</b>：進口<b>預購</b>（怕外幣漲）／出口<b>預售</b>（怕外幣跌）。<br>
-    <b>換匯 SWAP</b>：⚠️ <b>不能規避利率風險</b>（只規避匯率風險）——這是高頻陷阱。<br>
+    <b>換匯 SWAP</b>：<i class="xi xa y"></i> <b>不能規避利率風險</b>（只規避匯率風險）——這是高頻陷阱。<br>
     <b>NDF 無本金交割遠期</b>：不交割本金、只結清差價。<br>
     外國專業投資機構匯入本金 → <b>換匯與遠期外匯交易均可辦理</b>。
   </div><span class="tag n">SWAP 陷阱</span></div>
 
-  <div class="card"><div class="c-t">🏭 匯錢給東莞精工（人民幣）</div><div class="c-b">
+  <div class="card"><div class="c-t">匯錢給東莞精工（人民幣）</div><div class="c-b">
     <b>人民幣匯款：每日 8 萬</b>／<b>換匯：每日 2 萬</b>。<br>
     人民幣跨境貿易買賣須採行 <b>KYC／瞭解你的業務／盡職審查</b>；<br>
-    ❌「匯率或手續費優於同業」<b>不是</b>適格程序。
+    <i class="xi xx r"></i>「匯率或手續費優於同業」<b>不是</b>適格程序。
   </div><span class="tag">8 萬 / 2 萬</span></div>
 
-  <div class="card"><div class="c-t">📨 SWIFT MT103 欄位（死記就得分）</div><div class="c-b">
+  <div class="card"><div class="c-t">SWIFT MT103 欄位（死記就得分）</div><div class="c-b">
     <b>50a</b> 匯款申請人｜<b>53a 發電銀行</b>之通匯行｜<b>54a 收電銀行</b>之通匯行<br>
     <b>57a</b> 受益人之<b>設帳銀行</b>｜<b>59a 受益顧客</b>｜<b>32A</b> 幣別、金額、<b>value date 起息日</b><br>
     記憶鉤：<b>53 在前＝發電方；54 在後＝收電方</b>。
   </div><span class="tag">高頻</span></div>
 
-  <div class="card"><div class="c-t">🔁 ISO 20022 新制（題庫外新題）</div><div class="c-b">
+  <div class="card"><div class="c-t">ISO 20022 新制（題庫外新題）</div><div class="c-b">
     匯款類已遷移：<b>MT103 → pacs.008</b>、MT202 → pacs.009、MT910／950 → camt 系列。<br>
-    ⚠️ <b>信用狀類 MT700／707／740（Cat 7）未遷移，仍然有效</b>。<br>
+    <i class="xi xa y"></i> <b>信用狀類 MT700／707／740（Cat 7）未遷移，仍然有效</b>。<br>
     特徵：結構化資料、XML、欄位更長更完整。
   </div><span class="tag">匯兌科 12 分</span></div>
 
-  <div class="card"><div class="c-t">🧷 匯票 vs 電文的查核項目</div><div class="c-b">
-    票匯匯票提示查核：簽樣相符 ✅／與 Drawing Advice 一致 ✅／是否止付 ✅<br>
-    → ❌ <b>「發票人是否背書」不是查核項目</b>（發票人不背書）。<br>
-    解匯行辦理匯票解付查核：逾期提示 ✅／止付 ✅／受款人背書 ✅<br>
-    → ❌ <b>「核對押碼」不是</b>（押碼用於電文，不用於匯票）。
+  <div class="card"><div class="c-t">匯票 vs 電文的查核項目</div><div class="c-b">
+    票匯匯票提示查核：簽樣相符 <i class="xi xk g"></i>／與 Drawing Advice 一致 <i class="xi xk g"></i>／是否止付 <i class="xi xk g"></i><br>
+    → <i class="xi xx r"></i> <b>「發票人是否背書」不是查核項目</b>（發票人不背書）。<br>
+    解匯行辦理匯票解付查核：逾期提示 <i class="xi xk g"></i>／止付 <i class="xi xk g"></i>／受款人背書 <i class="xi xk g"></i><br>
+    → <i class="xi xx r"></i> <b>「核對押碼」不是</b>（押碼用於電文，不用於匯票）。
   </div><span class="tag n">易混</span></div>
 </div>
 
 <div class="fx-cross">
-  <b>💱 水單三分法（幕四的判斷主軸）</b><br>
+  <b>水單三分法（幕四的判斷主軸）</b><br>
   <code>有貨品進出口（有報關）</code> → <b>結匯證實書</b>（進口／出口），<b>免填申報書</b> ← 這是幕二・幕三<br>
   <code>沒有貨品，有實際結購結售</code> → <b>水單</b>（買匯／賣匯）← 這是幕四<br>
   <code>沒有結匯</code>（存入／提出外匯存款、外幣互換如美元兌歐元）→ <b>其他交易憑證</b><br><br>
-  ⚠️ <b>買賣方向一律站【銀行】立場看</b>：客戶把美元賣給銀行＝銀行<b>買</b>匯＝<b>買匯水單</b>。
+  <i class="xi xa y"></i> <b>買賣方向一律站【銀行】立場看</b>：客戶把美元賣給銀行＝銀行<b>買</b>匯＝<b>買匯水單</b>。
 </div>
 
 <div class="warn">
   <b>匯兌科考場策略</b><br>
-  ⚠️ <b>本科猜題無可用規律</b>（最長選項僅 26.9% ≒ 亂猜），<b>不要指望猜題救援</b>。<br>
+  <i class="xi xa y"></i> <b>本科猜題無可用規律</b>（最長選項僅 26.9% ≒ 亂猜），<b>不要指望猜題救援</b>。<br>
   改用<b>語意刪除法</b>：含<b>絕對詞</b>（一律、必須、絕對、任何、完全、不得有例外）多為錯。<br>
   <b>管制寬鬆度階梯</b>：金額越大管越嚴。不確定的額度題，選「較嚴格」那個通常對。<br>
   50 題／60 分鐘 → 約 <b>72 秒一題</b>，門檻 <b>35/50</b>。
@@ -984,9 +984,9 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <section class="view" id="v5">
 
 <h2 class="sec">第五幕　台灣的管制網：身份 × 額度 × 憑證</h2>
-<div class="lede">情境：同樣一筆匯款，換個身份，規則就不同。📌 題庫中「身份×額度」交叉題約 <b>129 題</b>，做一張表就能吃掉。</div>
+<div class="lede">情境：同樣一筆匯款，換個身份，規則就不同。題庫中「身份×額度」交叉題約 <b>129 題</b>，做一張表就能吃掉。</div>
 
-<h3 class="sub">🎛 互動判斷器：這筆錢要填什麼、掣發什麼</h3>
+<h3 class="sub">互動判斷器：這筆錢要填什麼、掣發什麼</h3>
 <div class="quiz">
   <div class="qrow">
     <div class="qlab">1. 這筆交易的性質？</div>
@@ -1021,15 +1021,15 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <h3 class="sub">身份 × 額度速查表</h3>
 <div class="tbwrap"><table class="tb">
   <tr><th>身份</th><th>單筆須檢附文件</th><th>年度累積結匯額度</th></tr>
-  <tr><td>🏢 <b>公司、行號</b>（星野模型）</td><td><b>USD 100 萬</b>以上</td><td><b>USD 5,000 萬</b></td></tr>
-  <tr><td>👤 <b>個人、團體</b>（老闆個人）</td><td><b>USD 50 萬</b>以上</td><td><b>USD 500 萬</b></td></tr>
+  <tr><td><b>公司、行號</b>（星野模型）</td><td><b>USD 100 萬</b>以上</td><td><b>USD 5,000 萬</b></td></tr>
+  <tr><td><b>個人、團體</b>（老闆個人）</td><td><b>USD 50 萬</b>以上</td><td><b>USD 500 萬</b></td></tr>
   <tr><td>超過年度額度</td><td>—</td><td>須<b>央行核准</b></td></tr>
 </table></div>
 
 <div class="key">
   <b>方向性一句話：金額越大管越嚴（報備 → 證明 → 核准）；公司額度是個人的 10 倍。</b><br>
   共通門檻：等值 <b>新臺幣 50 萬元</b>以上 → 要填<b>申報書</b>。<br>
-  ⚠️ <b>貨品進出口結匯免填申報書</b>（已有報關資料）→ 掣發<b>結匯證實書</b>。
+  <i class="xi xa y"></i> <b>貨品進出口結匯免填申報書</b>（已有報關資料）→ 掣發<b>結匯證實書</b>。
 </div>
 
 <h3 class="sub">憑證判斷樹（背這張就好）</h3>
@@ -1062,7 +1062,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 </table></div>
 
 <div class="warn">
-  <b>⚠️ 特別管制</b><br>
+  <b><i class="xi xa y"></i> 特別管制</b><br>
   <b>匯往利比亞不得經美系銀行清算或轉匯</b>（資金遭凍結風險）。<br>
   外國專業投資機構匯入本金 → <b>換匯與遠期外匯交易均可辦理</b>。
 </div>
@@ -1080,14 +1080,14 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 
 <div class="tbwrap"><table class="tb">
   <tr><th>缺口</th><th>去重題庫題數</th><th>約佔</th><th>CP 值</th></tr>
-  <tr><td><b>外幣保證與 Standby</b></td><td><b>62 題</b></td><td>5.6%</td><td>🔥 最高：範圍窄、考法固定、幾乎純死記</td></tr>
-  <tr><td>信用狀開發與修改（SWIFT 欄位）</td><td>23 題</td><td>2.1%</td><td>🔥 高：欄位號碼背了就送分</td></tr>
+  <tr><td><b>外幣保證與 Standby</b></td><td><b>62 題</b></td><td>5.6%</td><td>最高：範圍窄、考法固定、幾乎純死記</td></tr>
+  <tr><td>信用狀開發與修改（SWIFT 欄位）</td><td>23 題</td><td>2.1%</td><td>高：欄位號碼背了就送分</td></tr>
   <tr><td>信用狀種類</td><td>17 題</td><td>1.5%</td><td>中：多與 Forfaiting 重疊</td></tr>
   <tr><td>管理外匯條例等法規</td><td>7 題</td><td>0.6%</td><td>中：5 分鐘可讀完</td></tr>
 </table></div>
 
 <div class="key">
-  💡 <b>把上一頁的話說完整</b>：我先前用「法規 37.1%」估這塊，那是<b>交叉標記</b>的比重（同一題可命中多主題）。
+  <i class="xi xz v"></i> <b>把上一頁的話說完整</b>：我先前用「法規 37.1%」估這塊，那是<b>交叉標記</b>的比重（同一題可命中多主題）。
   用<b>去重題庫的單一主題歸類</b>看，純法規題只有 7 題——<b>貿易法、廠商登記、戰略性高科技貨品幾乎不考</b>，不要浪費時間。
   真正該補的是<b>外幣保證</b>。
 </div>
@@ -1098,14 +1098,14 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <h3 class="sub">A-1　四套規則：誰管誰（每屆必考）</h3>
 <div class="tbwrap"><table class="tb">
   <tr><th>規則</th><th>全名／性質</th><th>用在哪</th><th>考點</th></tr>
-  <tr><td><b>UCP600</b></td><td>信用狀統一慣例</td><td>商業信用狀<b>＋擔保信用狀也可適用</b></td><td>⚠️「Standby <b>僅</b>適用 URDG、<b>不</b>適用 UCP600」是<b>錯的</b></td></tr>
+  <tr><td><b>UCP600</b></td><td>信用狀統一慣例</td><td>商業信用狀<b>＋擔保信用狀也可適用</b></td><td><i class="xi xa y"></i>「Standby <b>僅</b>適用 URDG、<b>不</b>適用 UCP600」是<b>錯的</b></td></tr>
   <tr><td><b>ISP98</b></td><td>International <b>Standby</b> Practices 1998</td><td><b>專為擔保信用狀量身訂做</b></td><td>問「專為擔保信用狀訂定」→ 選 ISP98</td></tr>
   <tr><td><b>URDG758</b></td><td><b>即付保證函</b>統一規則</td><td>Demand Guarantee 保證函</td><td>審單 <b>5 個營業日</b>；未約定 → 適用<b>保證人簽發所在地</b>法律</td></tr>
-  <tr><td><b>URC522</b></td><td>託收統一規則</td><td>❌ <b>託收專用</b></td><td>🔑 問「何者<b>不</b>適用於擔保／商業信用狀」→ <b>選 URC522</b>（考過 2 次）</td></tr>
+  <tr><td><b>URC522</b></td><td>託收統一規則</td><td><i class="xi xx r"></i> <b>託收專用</b></td><td><i class="xi xkey y"></i> 問「何者<b>不</b>適用於擔保／商業信用狀」→ <b>選 URC522</b>（考過 2 次）</td></tr>
 </table></div>
 
 <div class="warn">
-  <b>⚠️ 三個高頻陷阱</b><br>
+  <b><i class="xi xa y"></i> 三個高頻陷阱</b><br>
   ① <b>未載明適用法律或國際規則</b> → 推定適用<b>簽發銀行所在國家</b>的法律（約旦開來的 Standby 沒寫 → 依<b>開狀銀行</b>國家法律）。<br>
   ② <b>不可抗力展延</b>：<b>ISP98 ＝ 恢復營業後自動展延 30 個曆日</b>。<span style="color:var(--rd)">「URDG758 與 ISP98 <b>皆</b>展延 30 曆日」是錯誤敘述</span>——這是拿共通性來騙你的題型。<br>
   ③ <b>擔保信用狀與銀行保證最大差異</b>＝<b>規定審查單據之合理時間</b>。
@@ -1113,17 +1113,17 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 
 <h3 class="sub">A-2　三角 vs 四角：Counter-Guarantee 是誰開給誰</h3>
 <div class="cards">
-  <div class="card"><div class="c-t">🔺 直接保證（<b>三角</b>關係）</div><div class="c-b">
+  <div class="card"><div class="c-t">直接保證（<b>三角</b>關係）</div><div class="c-b">
     當事人：<b>申請人</b>、<b>受益人</b>、<b>保證人</b>（＝簽發銀行）<br>
     <span style="color:var(--mt)">申請人 → 保證人（簽發銀行）→ 受益人</span><br>
-    ⚠️ 簽發銀行在此<b>亦稱「保證人 Guarantor」</b>。<br>
-    ❌ <b>相對保證人不屬於</b>直接保證的當事人。<br>
-    ❌「直接保證＝四角關係」是錯的。
+    <i class="xi xa y"></i> 簽發銀行在此<b>亦稱「保證人 Guarantor」</b>。<br>
+    <i class="xi xx r"></i> <b>相對保證人不屬於</b>直接保證的當事人。<br>
+    <i class="xi xx r"></i>「直接保證＝四角關係」是錯的。
   </div><span class="tag">3 個當事人</span></div>
-  <div class="card"><div class="c-t">🔷 間接保證（<b>四角</b>關係）</div><div class="c-b">
+  <div class="card"><div class="c-t">間接保證（<b>四角</b>關係）</div><div class="c-b">
     當事人：<b>申請人、受益人、相對保證人、保證人</b><br>
     <span style="color:var(--mt)">申請人 → <b>相對保證人</b>（申請人那邊的銀行）→ <b>保證人</b>（受益人當地銀行，<b>轉開</b>）→ 受益人</span><br>
-    🔑 <b>Counter-Guarantee 相對保證函 ＝ 由「相對保證人」向「保證人」簽發</b>。<br>
+    <i class="xi xkey y"></i> <b>Counter-Guarantee 相對保證函 ＝ 由「相對保證人」向「保證人」簽發</b>。<br>
     <b>為什麼要四角？</b> 受益人（如捷運局）<b>不收本地銀行以外</b>的保證函，只好請本地銀行轉開。
   </div><span class="tag">4 個當事人</span><span class="tag">Counter-guarantor</span></div>
 </div>
@@ -1131,7 +1131,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 <div class="key">
   <b>案例題怎麼判「誰是轉開銀行」</b><br>
   印尼 ABC 公司 → 印尼 CITIBANK（<b>相對保證人</b>，開 Counter-Guarantee）→ 台灣甲銀行（<b>保證人＝轉開銀行</b>）→ 受益人乙銀行<br>
-  ⚠️ 「此案例之<b>轉開銀行為 CITIBANK</b>」是<b>錯的</b>——轉開的是<b>甲銀行</b>。<br>
+  <i class="xi xa y"></i> 「此案例之<b>轉開銀行為 CITIBANK</b>」是<b>錯的</b>——轉開的是<b>甲銀行</b>。<br>
   記法：<b>Counter-guarantor 在前面撐腰、Guarantor 在前線面對受益人</b>。
 </div>
 
@@ -1149,39 +1149,39 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 
 <h3 class="sub">A-4　實務與會計（純死記，全部是送分題）</h3>
 <div class="cards">
-  <div class="card"><div class="c-t">📄 簽發形式與申請書</div><div class="c-b">
+  <div class="card"><div class="c-t">簽發形式與申請書</div><div class="c-b">
     外幣保證的簽發形式只有兩種：<b>保證函 L/G</b> ＋ <b>擔保信用狀 Standby L/C</b><br>
-    ❌ <b>跟單信用狀不是</b>（這題用「何者非」「何者錯誤」「僅A.B」三種問法考過 3 次）<br>
+    <i class="xi xx r"></i> <b>跟單信用狀不是</b>（這題用「何者非」「何者錯誤」「僅A.B」三種問法考過 3 次）<br>
     實務上<b>無專用申請格式</b> → 以 <b>「開發信用狀申請書」</b>代替（考過 3 次）
   </div><span class="tag">考 3 次</span></div>
 
-  <div class="card"><div class="c-t">💰 會計分錄</div><div class="c-b">
+  <div class="card"><div class="c-t">會計分錄</div><div class="c-b">
     <b>簽發</b>時：<b>借「應收保證款項」</b>／貸「保證款項」<br>
     <b>履行保證付款</b>時：<b>借「保證款項」</b>／貸「應收保證款項」<br>
     對銀行而言，保證本身是一種 <b>或有負債</b>
   </div><span class="tag">借：應收保證款項</span></div>
 
-  <div class="card"><div class="c-t">🏛 央行規定</div><div class="c-b">
-    ❌ 銀行<b>不得</b>接受<b>在國外註冊的公司行號</b>申請簽發外幣保證<br>
+  <div class="card"><div class="c-t"><i class="xi xbank"></i> 央行規定</div><div class="c-b">
+    <i class="xi xx r"></i> 銀行<b>不得</b>接受<b>在國外註冊的公司行號</b>申請簽發外幣保證<br>
     客戶未提供外幣保證<b>實際需求證明文件</b> → 違反<b>中央銀行「銀行業辦理外匯業務作業規範」</b><br>
     簽發銀行付款時<b>仍須</b>履行<b>外匯申報</b>義務（「無需申報」是錯的）
   </div><span class="tag n">易錯</span></div>
 
-  <div class="card"><div class="c-t">✍️ 開發技巧（何者錯誤題）</div><div class="c-b">
-    ✅ 宜規定<b>於開證銀行櫃台使用</b> available payment at our counter<br>
-    ❌ <b>不宜</b>規定為<b>自由讓購 Freely Negotiable</b><br>
-    ✅ <b>得</b>加註<b>逾期自動失效</b>之文字（「不得加註」是錯誤敘述）
+  <div class="card"><div class="c-t">開發技巧（何者錯誤題）</div><div class="c-b">
+    <i class="xi xk g"></i> 宜規定<b>於開證銀行櫃台使用</b> available payment at our counter<br>
+    <i class="xi xx r"></i> <b>不宜</b>規定為<b>自由讓購 Freely Negotiable</b><br>
+    <i class="xi xk g"></i> <b>得</b>加註<b>逾期自動失效</b>之文字（「不得加註」是錯誤敘述）
   </div><span class="tag n">反向題</span></div>
 
-  <div class="card"><div class="c-t">📘 ISP98 性質題（陷阱密集）</div><div class="c-b">
+  <div class="card"><div class="c-t"><i class="xi xbook v"></i> ISP98 性質題（陷阱密集）</div><div class="c-b">
     擔保函之性質<b>無須敘明</b>者：<b>不可撤銷</b>及<b>跟單</b><br>
     <code>PRIMARY</code> 僅表示<b>擔保函係簽發人之獨立義務</b><br>
     <code>evergreen</code>＝「永續的」，<b>除非本文賦予意義，否則應不予理會</b><br>
-    ❌「<b>不得</b>請求他行保兌」是錯的（<b>得</b>請求保兌）<br>
-    ❌「未收到費用則不具拘束力」是錯的（<b>仍具拘束力</b>）
+    <i class="xi xx r"></i>「<b>不得</b>請求他行保兌」是錯的（<b>得</b>請求保兌）<br>
+    <i class="xi xx r"></i>「未收到費用則不具拘束力」是錯的（<b>仍具拘束力</b>）
   </div><span class="tag n">何者錯誤</span></div>
 
-  <div class="card"><div class="c-t">🔢 提示次數與用途</div><div class="c-b">
+  <div class="card"><div class="c-t">提示次數與用途</div><div class="c-b">
     <code>multiple drawings prohibited</code> → <b>僅一次提示與兌付，但兌付金額得少於全部可用金額</b><br>
     <b>跟單信用狀</b>用途＝<b>貨款支付</b>｜<b>Standby L/C</b> 用途＝<b>保證</b>，原則上<b>備而不用</b><br>
     <code>to pay on demand or at sight against presentation of the documents as may be required</code> → 開狀行憑受益人<b>提示所要求之單據依規定付款</b>
@@ -1193,10 +1193,10 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 
 <h3 class="sub">B-1　可轉讓信用狀</h3>
 <div class="warn">
-  🔑 <b>最容易錯的一題</b>：信用狀轉讓給甲、乙兩個第二受益人，<b>甲拒絕修改書、乙接受</b>時——<br>
-  ✅ 正解：<b>對甲屬未修改、對乙屬已修改</b>（各自獨立生效）<br>
-  ❌ <span style="color:var(--rd)">「任何一個第二受益人拒絕 → 視同全體拒絕」是錯誤敘述</span><br>
-  ⚠️ 對比記憶：<b>同一個</b>受益人對<b>同一份</b>修改書「部分接受＝全部拒絕」（幕二考點），但<b>不同</b>受益人之間<b>各算各的</b>。
+  <i class="xi xkey y"></i> <b>最容易錯的一題</b>：信用狀轉讓給甲、乙兩個第二受益人，<b>甲拒絕修改書、乙接受</b>時——<br>
+  <i class="xi xk g"></i> 正解：<b>對甲屬未修改、對乙屬已修改</b>（各自獨立生效）<br>
+  <i class="xi xx r"></i> <span style="color:var(--rd)">「任何一個第二受益人拒絕 → 視同全體拒絕」是錯誤敘述</span><br>
+  <i class="xi xa y"></i> 對比記憶：<b>同一個</b>受益人對<b>同一份</b>修改書「部分接受＝全部拒絕」（幕二考點），但<b>不同</b>受益人之間<b>各算各的</b>。
 </div>
 <div class="tbwrap"><table class="tb">
   <tr><th>考點</th><th>答案</th></tr>
@@ -1220,7 +1220,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <tr><td>出口商應簽署什麼文件移轉債權</td><td><b>信用狀讓渡書</b></td></tr>
   <tr><td>仍<b>無法規避</b>什麼風險</td><td><b>進、出口商間之商業糾紛</b></td></tr>
   <tr><td>無追索權賣斷後，什麼情況<b>仍可能被追索</b></td><td>買方主張賣方<b>惡意交貨不實</b>，向當地法院<b>申請禁止支付命令</b></td></tr>
-  <tr><td>什麼<b>不是</b>對出口商的好處</td><td>❌「賺取買斷行回饋之利差」／❌「買斷行承擔<b>可歸咎於出口商</b>之商業糾紛」</td></tr>
+  <tr><td>什麼<b>不是</b>對出口商的好處</td><td><i class="xi xx r"></i>「賺取買斷行回饋之利差」／<i class="xi xx r"></i>「買斷行承擔<b>可歸咎於出口商</b>之商業糾紛」</td></tr>
   <tr><td>典型情境題</td><td>買方在孟加拉、全是 <b>120 天以上遠期 L/C</b>、少有銀行願押匯、押匯額度不足 → 選<b>遠期信用狀賣斷</b></td></tr>
   <tr><td>開發<b>賣方遠期</b> L/C 的額度限制</td><td>需<b>遠期開狀額度</b>，且期限須在開狀額度批覆之<b>短期放款期限</b>內</td></tr>
 </table></div>
@@ -1234,18 +1234,18 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <tr><td><b>MT707 / MT708</b></td><td><b>修改</b>用 MT707/708；<b>取消</b>用 <b>MT707</b></td></tr>
   <tr><td><b>23S</b></td><td>以 MT707 拍發<b>取消</b>時，取消之要求填在 <b>23S 欄位</b></td></tr>
   <tr><td><b>31C</b></td><td>開狀日期，<b>必要欄位不得留空</b></td></tr>
-  <tr><td><b>39A</b></td><td>寬容度。<code>10/00</code>＝金額<b>允許增加 10%、不得減少</b>；<code>05/05</code>＝<b>信用狀金額</b>±5%。<br>⚠️「允許減 5% 增 3% 表示為 05/03」是<b>錯的</b></td></tr>
+  <tr><td><b>39A</b></td><td>寬容度。<code>10/00</code>＝金額<b>允許增加 10%、不得減少</b>；<code>05/05</code>＝<b>信用狀金額</b>±5%。<br><i class="xi xa y"></i>「允許減 5% 增 3% 表示為 05/03」是<b>錯的</b></td></tr>
   <tr><td><b>47A</b></td><td>填電子位址時，<b>@ 應以 <code>AT</code> 取代</b></td></tr>
   <tr><td><b>71B</b></td><td>留空未填 → <b>除讓購及轉讓費用外，其他費用由申請人負擔</b></td></tr>
-  <tr><td>MT707 <b>沒有</b>特定欄位者</td><td><b>原信用狀條款之刪除</b>（⚠️ 金額之增減<b>有</b>特定欄位，說「沒有」是錯的）</td></tr>
+  <tr><td>MT707 <b>沒有</b>特定欄位者</td><td><b>原信用狀條款之刪除</b>（<i class="xi xa y"></i> 金額之增減<b>有</b>特定欄位，說「沒有」是錯的）</td></tr>
 </table></div>
 
 <div class="tbwrap"><table class="tb">
   <tr><th>開狀實務考點</th><th>答案</th></tr>
   <tr><td>買方向往來銀行申請開狀，該銀行稱為</td><td><b>ISSUING BANK</b>（考過 2 次，白送）</td></tr>
   <tr><td>開狀<b>保證金收取比率</b>由誰決定</td><td><b>指定銀行</b></td></tr>
-  <tr><td>下列何者<b>不是</b>開狀之通知方式</td><td>❌ <b>傳真 FAX</b></td></tr>
-  <tr><td>通知銀行是否只能由開狀銀行指定</td><td>❌ 錯——原則由<b>申請人</b>指定，未指定或非通匯行時才由開狀行選定</td></tr>
+  <tr><td>下列何者<b>不是</b>開狀之通知方式</td><td><i class="xi xx r"></i> <b>傳真 FAX</b></td></tr>
+  <tr><td>通知銀行是否只能由開狀銀行指定</td><td><i class="xi xx r"></i> 錯——原則由<b>申請人</b>指定，未指定或非通匯行時才由開狀行選定</td></tr>
   <tr><td>依 <b>ISBP745</b>，開狀／修改指示<b>曖昧不明</b>的風險誰承擔</td><td><b>applicant 申請人</b>（考過 2 次）</td></tr>
   <tr><td>出口地為<b>內陸</b>且未規定裝載港，應要求何種單據</td><td><b>複合運送單據</b></td></tr>
 </table></div>
@@ -1260,7 +1260,7 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <tr><td>NTD 50 萬以上等值外匯收支<b>申報辦法</b>由誰訂</td><td><b>中央銀行</b></td></tr>
   <tr><td>「<b>銀行業辦理外匯業務管理辦法</b>」由誰訂定</td><td><b>中央銀行</b></td></tr>
   <tr><td>廠商申辦<b>外幣貸款</b>是否須提供交易文件</td><td>須提供<b>與國外交易之文件</b>作為憑辦文件</td></tr>
-  <tr><td>外幣貸款何者<b>錯誤</b></td><td>❌「銀行辦理<b>出口前外幣貸款，得兌換為新臺幣</b>」— <b>不得</b>兌換為新臺幣</td></tr>
+  <tr><td>外幣貸款何者<b>錯誤</b></td><td><i class="xi xx r"></i>「銀行辦理<b>出口前外幣貸款，得兌換為新臺幣</b>」— <b>不得</b>兌換為新臺幣</td></tr>
 </table></div>
 
 <div class="key">
@@ -1268,14 +1268,14 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
 </div>
 
 <div class="summary">
-  <h2>🎯 幕外・考前 20 分鐘只看這 10 條</h2>
+  <h2>幕外・考前 20 分鐘只看這 10 條</h2>
   <ul>
     <li><b>URC522 不適用</b>於擔保信用狀與商業信用狀（問「何者不適用」必選它）</li>
     <li><b>ISP98 專為擔保信用狀</b>訂定；<b>Standby 也可適用 UCP600</b>（說「僅 URDG」是錯的）</li>
     <li>未載明準據法 → <b>簽發銀行所在國家</b>的法律；URDG758 審單 <b>5 個營業日</b></li>
     <li><b>ISP98 不可抗力 → 自動展延 30 個曆日</b>（別被「URDG 也一樣」騙）</li>
     <li>直接保證＝<b>三角</b>；間接保證＝<b>四角</b>；<b>Counter-Guarantee 由相對保證人開給保證人</b></li>
-    <li>外幣保證形式只有<b>保證函＋擔保信用狀</b>，❌ 跟單信用狀；申請書用<b>開發信用狀申請書</b></li>
+    <li>外幣保證形式只有<b>保證函＋擔保信用狀</b>，<i class="xi xx r"></i> 跟單信用狀；申請書用<b>開發信用狀申請書</b></li>
     <li>簽發時<b>借「應收保證款項」</b>；保證對銀行是<b>或有負債</b></li>
     <li>轉讓後<b>甲拒乙受 → 對甲未修改、對乙已修改</b></li>
     <li>MT700＋<b>最多 3 筆 MT701</b>；<b>39A 10/00 ＝ 只准增 10% 不准減</b>；<b>71B 留空 → 申請人負擔</b></li>
@@ -1290,14 +1290,14 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
   <b>SWIFT 電文速查（全劇通用）</b><br>
   <b>Cat 7 跟單信用狀</b>：MT700 開狀｜MT707 修改｜MT710 通知第三行｜MT720 轉讓｜MT740 償付授權｜MT742 償付索款｜MT750 不符點通知｜MT754 拒付／接受｜MT756 付款通知｜MT799 自由格式<br>
   <b>Cat 4 託收</b>：MT400 付款通知　｜　<b>Cat 1 客戶匯款</b>：MT103（→ pacs.008）　｜　<b>Cat 2 銀行間</b>：MT202（→ pacs.009）<br>
-  ⚠️ <b>Cat 7 未遷移 ISO 20022，仍然有效</b>；遷移的只有匯款類。
+  <i class="xi xa y"></i> <b>Cat 7 未遷移 ISO 20022，仍然有效</b>；遷移的只有匯款類。
 </div>
 
 <div class="warn">
   <b>Incoterms 2020 快記（全劇通用）</b><br>
   <code>EFCD ＝ 賣方責任由小到大</code><br>
   <b>F 群（EXW／FCA／FAS／FOB）＝ FREIGHT COLLECT</b>（買方付運費）｜<b>C·D 群＝ PREPAID</b>（賣方付）<br>
-  ⚠️ <b>FOB／CFR／CIF 風險移轉點完全相同＝裝載上船</b>（只差誰付運費）｜FCA／CPT／CIP ＝ 交付運送人時<br>
+  <i class="xi xa y"></i> <b>FOB／CFR／CIF 風險移轉點完全相同＝裝載上船</b>（只差誰付運費）｜FCA／CPT／CIP ＝ 交付運送人時<br>
   <b>限海運四條：FAS FOB CFR CIF</b>（定義裡有「船」）｜<b>CIF → ICC(C) 限海運</b>｜<b>CIP → ICC(A) 任何運送</b><br>
   <b>CFR 無保險</b>（貨沉了買方自吞）｜<b>DPU 的 U ＝ Unloaded</b>（唯一賣方卸貨）｜<b>DDP 第二個 D ＝ Duty</b>（賣方付關稅）
 </div>
@@ -1367,16 +1367,16 @@ code{font-family:'Consolas',monospace;font-size:.92em;background:rgba(49,95,148,
       li:['貨還沒出，錢先到出口商手上。','進口商承擔「付了錢拿不到貨」的全部風險。','銀行只是單純匯款，<b>不擔保交易</b>。','星野劇本：壽屋<b>想要</b>這個，但星野不肯 → 談成 L/C。']},
     lc:{t:'L/C 信用狀 Letter of Credit',
       who:'雙方都受保障（銀行介入）',
-      li:['<b>唯一由銀行拿自己的信用擔保付款</b>的付款方式。','適用 <b>UCP600</b>；開狀行負<b>第一付款責任</b>，保兌行負<b>最終付款責任</b>。','出口商拿到的是<b>銀行的承諾</b>，不是買方的承諾。','融資工具：<b>出口押匯</b>（有追索）／<b>Forfaiting</b>（限 Seller\'s Usance，無追索）。','⭐ 星野劇本：<b>壽屋第一次交易不放心 → 要求 L/C，甚至要求保兌</b>（幕二）。']},
+      li:['<b>唯一由銀行拿自己的信用擔保付款</b>的付款方式。','適用 <b>UCP600</b>；開狀行負<b>第一付款責任</b>，保兌行負<b>最終付款責任</b>。','出口商拿到的是<b>銀行的承諾</b>，不是買方的承諾。','融資工具：<b>出口押匯</b>（有追索）／<b>Forfaiting</b>（限 Seller\'s Usance，無追索）。','<i class="xi xs y"></i> 星野劇本：<b>壽屋第一次交易不放心 → 要求 L/C，甚至要求保兌</b>（幕二）。']},
     dp:{t:'D/P 付款交單 Documents against Payment',
       who:'折衷（出口商仍握有單據）',
       li:['走託收（<b>URC522</b>），<b>銀行只傳單據、不負付款責任</b>。','<b>付錢才交單</b>——買方不付款就拿不到 B/L，提不了貨。','<b>D/P 遠期</b>：先承兌，但<b>付款後才交單</b>；<b>銀行不得擅自變更託收指示</b>。','角色：委託人 Principal／託收行 Remitting／代收行 Collecting＝提示行 Presenting。']},
     da:{t:'D/A 承兌交單 Documents against Acceptance',
       who:'進口商有利／<b>出口商風險最大</b>',
-      li:['<b>簽字承兌就給單據</b>，錢 60 天後才付 → 貨與單據都在買方手上。','適用 URC522，<b>銀行完全不擔保</b>。','融資工具：<b>Factoring</b>（帳款承購，短期 180 天內，多為無追索）。','風險對策：投保<b>中國輸出入銀行輸出保險</b>（商業風險＋政治風險）。','⭐ 星野劇本：<b>Anime Depot 是三年老客戶 → 星野敢給 D/A 60 天</b>（幕三）。']},
+      li:['<b>簽字承兌就給單據</b>，錢 60 天後才付 → 貨與單據都在買方手上。','適用 URC522，<b>銀行完全不擔保</b>。','融資工具：<b>Factoring</b>（帳款承購，短期 180 天內，多為無追索）。','風險對策：投保<b>中國輸出入銀行輸出保險</b>（商業風險＋政治風險）。','<i class="xi xs y"></i> 星野劇本：<b>Anime Depot 是三年老客戶 → 星野敢給 D/A 60 天</b>（幕三）。']},
     oa:{t:'O/A 記帳 Open Account',
       who:'進口商最安全／出口商最不利',
-      li:['先出貨、之後定期結帳，<b>銀行根本沒有參與</b>。','⚠️ 考點：<b>出口商不能向任何銀行主張權利</b>。','融資工具：<b>Factoring</b>（與 D/A 同組）。','只有極度信任或關係企業之間才會用。']}
+      li:['先出貨、之後定期結帳，<b>銀行根本沒有參與</b>。','<i class="xi xa y"></i> 考點：<b>出口商不能向任何銀行主張權利</b>。','融資工具：<b>Factoring</b>（與 D/A 同組）。','只有極度信任或關係企業之間才會用。']}
   };
   var spEls = document.querySelectorAll('#spectrum .sp');
   var spOut = document.getElementById('spOut');

@@ -89,7 +89,7 @@ a{color:var(--cy)}
     <select id="topic"></select>
     <button class="btn" id="undone">只看未做</button>
     <button class="btn" id="toc">目錄</button>
-    <button class="btn on" id="shuf" title="題序與選項位置隨機">🔀 洗牌</button>
+    <button class="btn on" id="shuf" title="題序與選項位置隨機"><i class="xi xsh"></i> 洗牌</button>
     <button class="btn on" id="stale" title="排除答案已因修法作廢的題目">排除作廢</button>
     <span class="timer hidden" id="timer"></span>
     <button class="btn hidden" id="submit">交卷</button>
@@ -215,11 +215,11 @@ function render(){
         <span class="tag">${d.topics[t]}</span>
         ${cnt>1?`<span class="tag hot">回鍋 ${cnt} 次</span>`:''}
         ${(!inExam && r.w>0)?`<span class="tag err">錯過 ${r.w} 次</span>`:''}
-        ${src==='模擬新題'?`<span class="tag new">🆕 模擬新題</span>`:`<span class="tag src">${src}</span>`}
-        ${(stale===2)?`<span class="tag err">🔴 答案已作廢</span>`:(stale===1?`<span class="tag hot">🟡 存疑</span>`:'')}
+        ${src==='模擬新題'?`<span class="tag new">模擬新題</span>`:`<span class="tag src">${src}</span>`}
+        ${(stale===2)?`<span class="tag err"><i class="xd r"></i> 答案已作廢</span>`:(stale===1?`<span class="tag hot"><i class="xd y"></i> 存疑</span>`:'')}
       </div>
-      ${(!inExam && warns.length)?warns.map(w=>`<div class="warn">⚠️ ${w}</div>`).join(''):''}
-      ${(!inExam && why)?`<div class="why">💡 ${md(why)}</div>`:''}
+      ${(!inExam && warns.length)?warns.map(w=>`<div class="warn"><i class="xi xa y"></i> ${w}</div>`).join(''):''}
+      ${(!inExam && why)?`<div class="why"><i class="xi xz v"></i> ${md(why)}</div>`:''}
       <div class="stem">${stem}</div>
       <div id="opts">${opts.map((v,i)=>`<div class="opt" data-i="${i+1}"><b>(${i+1})</b><span>${v}</span></div>`).join('')}</div>
       <div id="verdict"></div>
@@ -281,8 +281,8 @@ function showAnswer(judged, n, correct){
   });
   if (judged){
     $('#verdict').innerHTML = correct
-      ? `<div class="verdict ok">✅ 正確！${rec(list[idx].k).s >= GRAD ? '（已從錯題本畢業）' : ''}</div>`
-      : `<div class="verdict no">❌ 答錯了，正解是 (${ans})　→ 已加入錯題本，答對 ${GRAD} 次才畢業</div>`;
+      ? `<div class="verdict ok"><i class="xi xk g"></i> 正確！${rec(list[idx].k).s >= GRAD ? '（已從錯題本畢業）' : ''}</div>`
+      : `<div class="verdict no"><i class="xi xx r"></i> 答錯了，正解是 (${ans})　→ 已加入錯題本，答對 ${GRAD} 次才畢業</div>`;
   }
 }
 
@@ -357,7 +357,7 @@ function renderResult(){
     <div class="card" style="text-align:center">
       <div style="font-size:2.4em;font-weight:800;color:${pass?'var(--gn)':'var(--rd)'};font-variant-numeric:tabular-nums">${score}</div>
       <div style="font-size:.9em;color:var(--mt)">答對 ${right}／${list.length}　門檻 70 分</div>
-      <div class="verdict ${pass?'ok':'no'}" style="margin-top:10px">${pass?'✅ 及格':`❌ 未達門檻，差 ${(70-score).toFixed(2)} 分`}</div>
+      <div class="verdict ${pass?'ok':'no'}" style="margin-top:10px">${pass?'<i class="xi xk g"></i> 及格':`<i class="xi xx r"></i> 未達門檻，差 ${(70-score).toFixed(2)} 分`}</div>
     </div>
     <div class="panel">
       <h3>錯題考點分布（${wrongs.length} 題）</h3>
@@ -455,7 +455,7 @@ function renderStat(){
 /* ---------- 跨裝置同步 ---------- */
 function copyOut(text, btn, okMsg){
   const ta = $('#io'); ta.style.display = 'block'; ta.value = text; ta.select();
-  const done = () => { const t = btn.textContent; btn.textContent = okMsg; setTimeout(() => btn.textContent = t, 1600); };
+  const done = () => { const t = btn.innerHTML; btn.innerHTML = okMsg; setTimeout(() => btn.innerHTML = t, 1600); };
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done);
   else { try { document.execCommand('copy'); } catch(e){} done(); }
 }
@@ -487,7 +487,7 @@ function bindSync(){
       ExamSync.setKey(p); renderStat();
     };
   }
-  $('#expCode').onclick = e => copyOut(JSON.stringify(S), e.target, '✅ 已複製');
+  $('#expCode').onclick = e => copyOut(JSON.stringify(S), e.target, '<i class="xi xk g"></i> 已複製');
   $('#impCode').onclick = e => {
     ta.style.display = 'block';
     if (!ta.value.trim()){ ta.placeholder = '把另一台裝置複製的進度碼貼在這裡，再按一次「貼上合併」'; ta.focus(); return; }
@@ -510,13 +510,13 @@ function bindSync(){
     }
     if (!lines.length) return alert('目前沒有錯題紀錄');
     lines.sort();
-    copyOut(['科目 | 考點 | 來源 | 對錯 | 題幹'].concat(lines).join(String.fromCharCode(10)), e.target, `✅ 已複製 ${lines.length} 題`);
+    copyOut(['科目 | 考點 | 來源 | 對錯 | 題幹'].concat(lines).join(String.fromCharCode(10)), e.target, `<i class="xi xk g"></i> 已複製 ${lines.length} 題`);
   };
 }
 
 function renderEmpty(){
   const msg = mode === 'wrong'
-    ? '目前沒有錯題 🎉<br><br>用「測驗」模式作答，答錯的題會自動收集到這裡。<br>錯題要連續答對 ' + GRAD + ' 次才會畢業。'
+    ? '目前沒有錯題 <br><br>用「測驗」模式作答，答錯的題會自動收集到這裡。<br>錯題要連續答對 ' + GRAD + ' 次才會畢業。'
     : '這個範圍沒有題目，試著取消篩選。';
   $('#view').innerHTML = `<div class="empty">${msg}</div>`;
   $('#pbar').style.width = '0'; $('#pos').textContent = '—';
