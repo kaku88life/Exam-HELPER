@@ -936,6 +936,7 @@ D/A 之下，進口商簽個名就把貨提走了，出口商手上只有一張�
     const t = a.getAttribute('href').slice(1);
     show(t, t);
   });
+  window.addEventListener('hashchange', () => show(location.hash.slice(1) || secs[0].dataset.ch));
   show(location.hash.slice(1) || secs[0].dataset.ch);
 })();
 </script>
