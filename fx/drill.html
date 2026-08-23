@@ -136,7 +136,11 @@ function orderOf(o){
   if (!shuffleOpt) return { opts: raw, ans: ansRaw, map: [1,2,3,4] };
   let h = hash(o.k + ':' + seed);
   const idxs = [0,1,2,3];
-  for (let i = 3; i > 0; i--){ h = (h * 1103515245 + 12345) >>> 0; const j = h % (i+1); [idxs[i], idxs[j]] = [idxs[j], idxs[i]]; }
+  // xorshift32：不能用一般乘法 LCG（h*常數超過 double 精度會退化成固定排列）
+  for (let i = 3; i > 0; i--){
+    h ^= h << 13; h >>>= 0; h ^= h >> 17; h ^= h << 5; h >>>= 0;
+    const j = h % (i+1); [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+  }
   return { opts: idxs.map(i => raw[i]), ans: idxs.indexOf(ansRaw - 1) + 1, map: idxs };
 }
 const id = (sb, i) => sb[0] + i;
