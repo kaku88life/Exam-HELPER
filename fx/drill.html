@@ -102,7 +102,7 @@ a{color:var(--cy)}
 
 <div class="foot">
   1856 題（去重自第 23–47 屆共 3221 題）依考點分組排序<br>
-  作答紀錄存在本機瀏覽器・<a href="#" id="reset">清除全部紀錄</a><br><br>
+  作答紀錄存在本機瀏覽器（可在「統計」開啟雲端同步）・<a href="#" id="reset">清除全部紀錄</a><br><br>
   題目為台灣金融研訓院公告之歷屆試題（第 23–47 屆），著作權屬該院，僅供個人備考練習<br>
   <a href="https://www.tabf.org.tw/LicenseHistoryExam.aspx" target="_blank" rel="noopener">官方歷屆試題</a>　·
   <a href="notes.html">衝刺筆記</a>　·
@@ -111,6 +111,8 @@ a{color:var(--cy)}
 </div>
 </div>
 
+<script src="nav.js" defer></script>
+<script src="sync.js"></script>
 <script>
 const KEY = 'fx-drill-v2';
 const GRAD = 2;                       // 錯題連續答對幾次才「畢業」
@@ -142,13 +144,17 @@ const rec = k => S.q[k] || {r:0,w:0,s:0,seen:0};
 const isWrong = k => { const o = rec(k); return o.w > 0 && o.s < GRAD; };
 
 function load(){ try{ const raw = JSON.parse(localStorage.getItem(KEY)); if(raw && raw.q) S = raw; }catch(e){} }
-function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); if (window.ExamSync) ExamSync.touch(); }
 
 /* ---------- 題目集合 ---------- */
 function pool(){
   const d = DECK[subj];
   let a = d.qs.map((q,i)=>({q,i,k:id(subj,i)}));
-  if (mode === 'wrong') return a.filter(o => isWrong(o.k));
+  if (mode === 'wrong'){
+    let w = a.filter(o => isWrong(o.k));
+    if (topicSel !== 'ALL') w = w.filter(o => d.topics[o.q[0]] === topicSel);
+    return w;
+  }
   if (topicSel !== 'ALL') a = a.filter(o => d.topics[o.q[0]] === topicSel);
   if (onlyUndone && mode !== 'exam') a = a.filter(o => rec(o.k).seen === 0);
   if (hideStale) a = a.filter(o => o.q[7] !== 2);          // 排除答案已作廢的題
@@ -185,7 +191,7 @@ function render(){
   $('#toc').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
   $('#shuf').classList.toggle('hidden', mode === 'stat');
   $('#stale').classList.toggle('hidden', mode === 'stat');
-  $('#topic').classList.toggle('hidden', mode === 'wrong' || mode === 'exam' || mode === 'stat');
+  $('#topic').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
 
   if (mode === 'stat') return renderStat();
   if (mode === 'exam' && exam && exam.submitted) return renderResult();
@@ -235,8 +241,9 @@ function drawActs(){
   } else {
     a.innerHTML = revealed
       ? `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題 →</button>`
-      : `<button class="btn full" id="skip">看答案（不計分）</button>`;
-    if (revealed){ $('#prev').onclick = () => go(-1); $('#next').onclick = () => go(1); }
+      : `<button class="btn" id="prev">← 上一題</button><button class="btn" id="skip">看答案（不計分）</button>`;
+    $('#prev').onclick = () => go(-1);
+    if (revealed) $('#next').onclick = () => go(1);
     else $('#skip').onclick = () => { showAnswer(false); revealed = true; drawActs(); };
   }
 }
@@ -373,11 +380,11 @@ function renderStat(){
     const tp = {};
     d.qs.forEach((q,i) => {
       const o = rec(id(sb,i)), t = d.topics[q[0]];
-      tp[t] = tp[t] || {r:0,w:0,seen:0,total:0};
+      tp[t] = tp[t] || {r:0,w:0,seen:0,total:0,pool:0};
       tp[t].total++;
       if (o.seen){ seen++; tp[t].seen++; }
       r += o.r; w += o.w; tp[t].r += o.r; tp[t].w += o.w;
-      if (isWrong(id(sb,i))) pool++;
+      if (isWrong(id(sb,i))){ pool++; tp[t].pool++; }
     });
     const acc = (r+w) ? r/(r+w)*100 : 0;
     html += `<h3>${sb}</h3>
@@ -386,6 +393,13 @@ function renderStat(){
         <div><b>${acc.toFixed(0)}%</b><span>正確率</span></div>
         <div><b>${pool}</b><span>待複習錯題</span></div>
       </div>`;
+    const wrows = Object.entries(tp).filter(([,v]) => v.pool > 0).sort((a,b) => b[1].pool - a[1].pool);
+    if (wrows.length){
+      html += `<div style="font-size:.72em;color:var(--mt);margin:6px 0 2px">待複習錯題分布（點考點直接刷該區錯題）</div>`;
+      html += wrows.map(([t,v]) =>
+        `<div class="row" data-wrong="1" data-sb="${sb}" data-t="${t}"><span>${t}</span>
+         <span class="rate r-bad">${v.pool} 題</span></div>`).join('');
+    }
     const rows = Object.entries(tp).filter(([,v]) => v.r+v.w > 0)
       .map(([t,v]) => [t, v.r/(v.r+v.w)*100, v.r+v.w, v.seen, v.total])
       .sort((a,b) => a[1]-b[1]);
@@ -398,12 +412,19 @@ function renderStat(){
       }).join('');
     } else html += `<div class="empty">還沒有作答紀錄</div>`;
   }
+  const syncOn = window.ExamSync && ExamSync.enabled();
   html += `
   <h3>跨裝置同步</h3>
   <div style="font-size:.76em;color:var(--mt);line-height:1.75;margin-bottom:8px">
-    作答紀錄存在<b>這台裝置的瀏覽器</b>，手機與桌機各自獨立。<br>
-    要合併：在來源裝置按「複製進度碼」，到另一台按「貼上合併」。
+    <b>自動同步：</b>在每台裝置輸入<b>同一組通關密語</b>（自己取，8 字以上、別人猜不到），
+    作答後幾秒自動上傳雲端，開頁自動合併。<span id="syncStat" style="color:var(--gn);font-weight:700"></span>
   </div>
+  <div class="acts" style="grid-template-columns:1fr auto">
+    <input id="syncPass" type="text" placeholder="通關密語（兩台裝置要一樣）" value="${syncOn ? ExamSync.getKey() : ''}"
+      style="border:1px solid var(--cd);border-radius:6px;padding:10px 12px;font-size:.85em;font-family:inherit">
+    <button class="btn ${syncOn?'':'big'}" id="syncGo">${syncOn ? '停用' : '啟用同步'}</button>
+  </div>
+  <div style="font-size:.72em;color:var(--mt);margin:10px 0 4px">手動備援（沒網路時用）：</div>
   <div class="acts" style="grid-template-columns:1fr 1fr">
     <button class="btn" id="expCode">複製進度碼</button>
     <button class="btn" id="impCode">貼上合併</button>
@@ -419,7 +440,7 @@ function renderStat(){
   $('#view').innerHTML = `<div class="panel">${html}</div>`;
   $('#view').querySelectorAll('.row[data-t]').forEach(el => el.onclick = () => {
     subj = el.dataset.sb; topicSel = el.dataset.t;
-    fillSelects(); setMode('quiz');
+    fillSelects(); setMode(el.dataset.wrong ? 'wrong' : 'quiz');
   });
   $('#pbar').style.width = '0';
   $('#pos').textContent = '統計';
@@ -440,8 +461,8 @@ function mergeState(inc){
   for (const k in inc.q){
     const a = S.q[k], b = inc.q[k];
     if (!a){ S.q[k] = b; added++; }
-    else {                                   // 兩邊都有 → 累加次數，連續對取較差者（保守）
-      S.q[k] = { r: a.r + b.r, w: a.w + b.w, seen: a.seen + b.seen, s: Math.min(a.s, b.s) };
+    else {                                   // max-merge：同一份紀錄重複合併不會膨脹
+      S.q[k] = { r: Math.max(a.r, b.r), w: Math.max(a.w, b.w), seen: Math.max(a.seen, b.seen), s: Math.max(a.s, b.s) };
       added++;
     }
   }
@@ -453,6 +474,15 @@ function mergeState(inc){
 
 function bindSync(){
   const ta = $('#io');
+  if (window.ExamSync){
+    if (window._syncStat) $('#syncStat').textContent = '　' + window._syncStat;
+    $('#syncGo').onclick = () => {
+      if (ExamSync.enabled()){ ExamSync.setKey(''); renderStat(); return; }
+      const p = $('#syncPass').value.trim();
+      if (p.length < 6) return alert('通關密語至少 6 個字，建議 8 字以上');
+      ExamSync.setKey(p); renderStat();
+    };
+  }
   $('#expCode').onclick = e => copyOut(JSON.stringify(S), e.target, '✅ 已複製');
   $('#impCode').onclick = e => {
     ta.style.display = 'block';
@@ -544,6 +574,17 @@ document.addEventListener('keydown', e => {
 load();
 fetch('deck.json').then(r => r.json()).then(d => {
   DECK = d; fillSelects(); refreshWrongCount(); build();
+  if (window.ExamSync) ExamSync.init({
+    app: 'drill',
+    getState: () => S,
+    mergeInbound: inc => {
+      if (!inc || !inc.q) return;
+      mergeState(inc);
+      if (mode === 'stat') renderStat();
+      else if (mode !== 'exam'){ updateBars(); refreshWrongCount(); }
+    },
+    onStatus: t => { window._syncStat = t; const el = $('#syncStat'); if (el) el.textContent = t ? '　' + t : ''; }
+  });
 }).catch(e => { $('#view').innerHTML = `<div class="empty">deck.json 載入失敗：${e}</div>`; });
 </script>
 </body>

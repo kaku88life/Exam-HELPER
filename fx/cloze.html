@@ -3,313 +3,378 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>初階外匯 正確敘述挖空器</title>
+<title>初階外匯 事實挖空器</title>
 <style>
-:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;padding-bottom:calc(78px + env(safe-area-inset-bottom))}
-.wrap{max-width:640px;margin:0 auto;padding:0 12px}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;
+  padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+.wrap{max-width:640px;margin:0 auto;padding:10px 14px}
 
-nav{position:sticky;top:0;background:var(--bg);z-index:30;padding:10px 0 8px;border-bottom:1px solid var(--cd)}
-nav .row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;align-items:center}
-nav .row::-webkit-scrollbar{display:none}
-nav a,nav .chip{flex:0 0 auto;font-size:.74em;padding:5px 11px;border:1px solid var(--cd);border-radius:999px;background:var(--sf);text-decoration:none;color:var(--tx);white-space:nowrap;cursor:pointer;user-select:none}
-nav .chip.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+h1{font-size:1.28em;margin:8px 0 3px}
+.lede{color:var(--mt);font-size:.8em;margin-bottom:12px;line-height:1.7}
 
-h1{font-size:1.15em;margin:14px 0 3px}
-.lede{color:var(--mt);font-size:.79em;margin-bottom:12px}
+.bar2{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+select,.chip{border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:7px;padding:7px 11px;font-size:.79em;font-family:inherit;cursor:pointer}
+.chip.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+.chip.set{margin-left:auto}
 
-.bar{height:6px;background:var(--cd);border-radius:99px;overflow:hidden;margin:10px 0 4px}
-.bar i{display:block;height:100%;background:var(--cy);width:0;transition:width .3s}
-.meta{display:flex;justify-content:space-between;font-size:.72em;color:var(--mt);margin-bottom:12px}
+.prog{height:5px;background:var(--cd);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--cy);width:0;transition:width .25s}
+.meta{display:flex;justify-content:space-between;font-size:.71em;color:var(--mt);margin:4px 0 8px;gap:8px}
 
-.card{background:var(--sf);border:1px solid var(--cd);border-radius:11px;padding:16px 16px 14px;margin-bottom:12px}
-.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
-.tag{font-size:.68em;padding:2px 8px;border-radius:4px;background:rgba(8,122,115,.1);color:var(--cy);font-weight:600}
-.tag.k{background:rgba(49,95,148,.12);color:var(--vi)}
-.tag.hot{background:rgba(182,101,22,.14);color:var(--yw)}
-.stem{font-size:1.02em;line-height:1.95;letter-spacing:.2px}
-.blank{display:inline-block;min-width:74px;text-align:center;border-bottom:2.5px solid var(--cy);color:var(--cy);font-weight:700;padding:0 6px}
-.blank.filled{border-bottom-style:solid}
-.blank.bad{border-bottom-color:var(--rd);color:var(--rd);text-decoration:line-through}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:11px;padding:16px;margin-top:4px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;font-size:.66em}
+.tag{padding:2px 8px;border-radius:4px;background:rgba(8,122,115,.12);color:var(--cy);font-weight:700}
+.tag.hot{background:rgba(182,101,22,.15);color:var(--yw)}
+.tag.err{background:rgba(179,69,58,.13);color:var(--rd)}
+.tag.src{background:var(--bg);color:var(--mt);font-weight:400}
+.warn{border-left:3px solid var(--yw);background:rgba(182,101,22,.07);padding:7px 10px;border-radius:0 6px 6px 0;font-size:.76em;color:var(--yw);margin-bottom:9px}
+.stem{font-size:1.02em;font-weight:600;margin-bottom:14px;line-height:1.8}
+.blank{display:inline-block;min-width:66px;text-align:center;border-bottom:2.5px solid var(--cy);color:var(--cy);font-weight:800;padding:0 4px}
+.blank.good{border-color:var(--gn);color:var(--gn)}
+.blank.bad{border-color:var(--rd);color:var(--rd);text-decoration:line-through}
 
-.opts{display:grid;gap:8px;margin-top:15px}
-.opt{border:2px solid var(--cd);border-radius:9px;padding:12px 14px;font-size:.94em;background:var(--sf);cursor:pointer;user-select:none;transition:.12s;display:flex;align-items:center;gap:10px}
-.opt:active{transform:scale(.99)}
-.opt .n{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--cd);font-size:.72em;display:flex;align-items:center;justify-content:center;color:var(--mt)}
-.opt.ok{border-color:var(--cy);background:rgba(8,122,115,.09)}
-.opt.ok .n{background:var(--cy);color:#fff;border-color:var(--cy)}
-.opt.no{border-color:var(--rd);background:rgba(179,69,58,.08);border-style:dashed}
-.opt.dim{opacity:.42}
-.opt:focus-visible{outline:3px solid var(--cy);outline-offset:2px}
+.opt{border:1.5px solid var(--cd);border-radius:10px;padding:13px 14px;margin-bottom:8px;font-size:.93em;display:flex;gap:10px;cursor:pointer;background:var(--sf);min-height:50px;align-items:center}
+.opt:active{background:var(--bg)}
+.opt b{color:var(--mt);flex-shrink:0}
+.opt.ans{border-color:var(--gn);background:rgba(78,122,61,.11)}
+.opt.ans b{color:var(--gn)}
+.opt.bad{border-color:var(--rd);background:rgba(179,69,58,.09)}
+.opt.bad b{color:var(--rd)}
+.opt.dim{opacity:.5}
 
-.full{margin-top:14px;padding:12px 14px;border-left:4px solid var(--cy);background:rgba(8,122,115,.07);border-radius:0 8px 8px 0;font-size:.9em;line-height:1.85;display:none}
+.full{margin-top:12px;border-left:3px solid var(--gn);background:rgba(78,122,61,.07);padding:11px 13px;border-radius:0 8px 8px 0;font-size:.9em;line-height:1.8;display:none}
 .full.show{display:block}
-.full b{color:var(--cy)}
-.full .lab{display:block;font-size:.78em;color:var(--mt);margin-bottom:4px;font-weight:600}
-.full.wrong{border-left-color:var(--rd);background:rgba(179,69,58,.06)}
-.full.wrong .lab{color:var(--rd)}
+.full b{color:var(--gn)}
+.full small{display:block;color:var(--mt);font-size:.76em;margin-top:5px}
 
-.acts{position:fixed;left:0;right:0;bottom:0;background:var(--sf);border-top:1px solid var(--cd);padding:9px 12px calc(9px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:40}
-.acts .in{max-width:640px;margin:0 auto;display:flex;gap:8px;width:100%}
-.btn{flex:1;padding:12px 8px;border:1.5px solid var(--cd);border-radius:9px;background:var(--sf);font-size:.86em;font-weight:600;color:var(--tx);cursor:pointer;font-family:inherit}
+.acts{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--sf);border-top:1px solid var(--cd);
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+.acts .in{max-width:640px;margin:0 auto;display:flex;gap:8px}
+.btn{flex:1;padding:13px 8px;border:1.5px solid var(--cd);border-radius:10px;background:var(--sf);font-size:.87em;font-weight:700;color:var(--tx);cursor:pointer;font-family:inherit;min-height:50px}
 .btn:active{background:var(--bg)}
-.btn.pri{background:var(--cy);color:#fff;border-color:var(--cy);flex:2}
-.btn.mas{background:rgba(96,114,67,.12);border-color:var(--gn);color:var(--gn)}
-.btn.nav{flex:0 0 56px}
+.btn.pri{background:var(--cy);color:#fff;border-color:var(--cy);flex:1.6}
+.btn.mas{background:rgba(78,122,61,.12);border-color:var(--gn);color:var(--gn)}
+.btn.nav{flex:0 0 58px}
 .btn:disabled{opacity:.35}
 
-.panel{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:14px 16px;margin-bottom:12px;display:none}
+.panel{background:var(--sf);border:1px solid var(--cd);border-radius:11px;padding:15px 16px;margin-bottom:12px;display:none}
 .panel.show{display:block}
-.panel h3{font-size:.9em;margin-bottom:9px}
+.panel h3{font-size:.9em;margin-bottom:9px;color:var(--vi)}
 .panel .r{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px;align-items:center}
-.panel label{font-size:.76em;color:var(--mt);width:100%;margin-bottom:2px}
-textarea{width:100%;min-height:76px;font-family:'SF Mono',Consolas,monospace;font-size:.74em;padding:9px;border:1px solid var(--cd);border-radius:7px;background:var(--bg);resize:vertical}
+.panel label{font-size:.75em;color:var(--mt);width:100%;margin-bottom:2px}
+.panel input[type=text]{flex:1;border:1px solid var(--cd);border-radius:7px;padding:10px 12px;font-size:.84em;font-family:inherit}
+textarea{width:100%;min-height:76px;font-family:ui-monospace,Consolas,monospace;font-size:.72em;padding:9px;border:1px solid var(--cd);border-radius:7px;background:var(--bg);resize:vertical}
 .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;margin:10px 0}
 .stat div{background:var(--bg);border:1px solid var(--cd);border-radius:8px;padding:9px;text-align:center}
 .stat b{display:block;font-size:1.4em;color:var(--cy)}
 .stat small{font-size:.68em;color:var(--mt)}
-.done{text-align:center;padding:40px 16px;color:var(--mt);font-size:.9em}
-.done b{display:block;font-size:1.3em;color:var(--cy);margin-bottom:8px}
-.foot{margin:26px 0 10px;font-size:.72em;color:var(--mt);text-align:center;line-height:1.9}
+.sy{font-size:.74em;color:var(--gn);font-weight:700;margin-top:4px;min-height:1.2em}
+.done{text-align:center;padding:44px 16px;color:var(--mt);font-size:.9em}
+.done b{display:block;font-size:1.25em;color:var(--cy);margin-bottom:8px}
+.foot{margin:24px 0 10px;font-size:.71em;color:var(--mt);text-align:center;line-height:1.9}
 a{color:var(--cy)}
 </style>
 </head>
 <body>
 
 <div class="wrap">
-<nav><div class="row">
-  <a href="drill.html">刷題器</a>
-  <a href="remit-flow.html">匯兌流程</a>
-  <a href="trade-flow.html">貿易流程</a>
-  <a href="../index.html">總覽</a>
-  <span class="chip" id="btnSet">⚙︎ 設定</span>
-</div></nav>
 
-<h1>正確敘述挖空器</h1>
+<h1>單一事實挖空器 <span style="font-size:.55em;color:var(--mt);font-weight:400">v2</span></h1>
 <div class="lede">
-本題庫<b>只收正確敘述</b>——每一句都直接取自官方考題中「正確」的那個選項，你不會讀到任何錯誤句子。
-共 <span id="tot">—</span> 句，依考古題出現次數排序。
+750 題<b>單一事實型</b>考古題轉挖空——干擾項就是<b>官方原題的另外三個選項</b>（考場校準過，不再有單位不匹配的爛題）。
+填入正解後的句子都是<b>正確敘述</b>，答錯會強制重讀完整正確句。依考古題出現次數排序。
+</div>
+
+<div class="bar2">
+  <select id="subj"></select>
+  <select id="topic"></select>
+  <select id="scope">
+    <option value="todo">還沒掌握的</option>
+    <option value="wrong">錯過的</option>
+    <option value="master">已掌握（複習）</option>
+    <option value="all">全部</option>
+  </select>
+  <span class="chip set" id="btnSet">⚙︎ 設定</span>
 </div>
 
 <div class="panel" id="setPanel">
-  <h3>範圍</h3>
-  <div class="r" id="fSubj"><label>科目</label></div>
-  <div class="r" id="fKind"><label>挖空類型（可複選）</label></div>
-  <div class="r" id="fScope"><label>練哪些</label></div>
-  <h3 style="margin-top:14px">進度</h3>
+  <h3>挖空類型（可複選）</h3>
+  <div class="r" id="fKind"></div>
+  <h3>進度</h3>
   <div class="stat" id="statBox"></div>
-  <div class="r">
+  <h3>跨裝置同步</h3>
+  <label style="font-size:.75em;color:var(--mt)">兩台裝置輸入同一組通關密語（與刷題器共用），進度自動雲端合併。</label>
+  <div class="r" style="margin-top:6px">
+    <input type="text" id="syncPass" placeholder="通關密語（8 字以上）">
+    <button class="btn" style="flex:0 0 auto" id="syncGo">啟用</button>
+  </div>
+  <div class="sy" id="syncStat"></div>
+  <div class="r" style="margin-top:8px">
     <button class="btn" id="expBtn">📤 複製進度碼</button>
     <button class="btn" id="impBtn">📥 貼上合併</button>
     <button class="btn" id="rstBtn">🗑 清除</button>
   </div>
-  <textarea id="io" placeholder="換裝置時：在 A 機按「複製進度碼」，把碼貼到這裡，再按「貼上合併」" style="display:none"></textarea>
+  <textarea id="io" placeholder="手動備援：在 A 機按「複製進度碼」，把碼貼到這裡，再按「貼上合併」" style="display:none"></textarea>
 </div>
 
-<div class="bar"><i id="barI"></i></div>
+<div class="prog"><i id="barI"></i></div>
 <div class="meta"><span id="mLeft">—</span><span id="mRight">—</span></div>
 
 <div id="view"></div>
 
 <div class="foot">
-  <a href="drill.html">刷題器</a> · <a href="remit-flow.html">匯兌流程圖</a> · <a href="../index.html">回總覽</a><br>
-  Built with Claude Code
+  資料源：deck.json 去重題庫中可乾淨轉換的單一事實型題（寧缺勿爛，無可信干擾項的不收）<br>
+  題目為台灣金融研訓院公告之歷屆試題，著作權屬該院，僅供個人備考練習<br>
+  <a href="drill.html">刷題器</a> · <a href="guide.html">作戰指南</a> · <a href="../index.html">回總覽</a>
 </div>
 </div>
 
 <div class="acts"><div class="in" id="acts"></div></div>
 
+<script src="nav.js" defer></script>
+<script src="sync.js"></script>
 <script>
 (function(){
-const KEY='fx-cloze-v1';
-const $=s=>document.querySelector(s);
-const KINDS={modal:'語氣（得／不得）',num:'數字',code:'代號',entity:'角色機構'};
+const KEY = 'fx-cloze-v2';
+const $ = s => document.querySelector(s);
+const KINDS = { modal:'語氣（得/不得）', num:'數字期限', code:'電文代號', entity:'角色機構' };
 
-let DATA=null, S={c:{}}, list=[], idx=0, picked=null, revealed=false;
-let subj='國外匯兌', kinds=new Set(['modal','num','code','entity']), scope='todo';
+let DATA = null, S = { c:{} }, list = [], idx = 0, revealed = false;
+let subj = '國外匯兌', topicSel = 'ALL', scope = 'todo', kinds = new Set(Object.keys(KINDS));
 
-/* ---------- 進度 ---------- */
-function load(){ try{const r=JSON.parse(localStorage.getItem(KEY)); if(r&&r.c) S=r;}catch(e){} }
-function save(){ localStorage.setItem(KEY,JSON.stringify(S)); }
-const id=(sj,i)=>(sj==='國外匯兌'?'A':'B')+i;
-function rec(k){ return S.c[k] || (S.c[k]={r:0,w:0,m:0}); }
+function load(){ try{ const r = JSON.parse(localStorage.getItem(KEY)); if (r && r.c) S = r; }catch(e){} }
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); if (window.ExamSync) ExamSync.touch(); }
+const id = (sj,i) => (sj === '國外匯兌' ? 'A' : 'B') + i;
+const rec = k => S.c[k] || { r:0, w:0, m:0 };
 
-/* ---------- 題目池 ---------- */
+/* q = [挖空句, 答案, 干擾項[3], kind, 出現次數, 屆, 考點, 存疑] */
 function pool(){
-  const arr=DATA[subj].map((q,i)=>({q,i,k:id(subj,i)})).filter(o=>kinds.has(o.q[3]));
-  if(scope==='todo')   return arr.filter(o=>{const r=S.c[o.k]; return !r || (!r.m && r.r===0);});
-  if(scope==='wrong')  return arr.filter(o=>{const r=S.c[o.k]; return r && r.w>0 && !r.m;});
-  if(scope==='master') return arr.filter(o=>{const r=S.c[o.k]; return r && r.m;});
-  return arr.filter(o=>{const r=S.c[o.k]; return !r || !r.m;});   // all = 未掌握全部
+  let arr = DATA[subj].map((q,i)=>({q,i,k:id(subj,i)})).filter(o => kinds.has(o.q[3]));
+  if (topicSel !== 'ALL') arr = arr.filter(o => o.q[6] === topicSel);
+  if (scope === 'todo')   return arr.filter(o => { const r = S.c[o.k]; return !r || (!r.m && r.r === 0); });
+  if (scope === 'wrong')  return arr.filter(o => { const r = S.c[o.k]; return r && r.w > 0 && !r.m; });
+  if (scope === 'master') return arr.filter(o => { const r = S.c[o.k]; return r && r.m; });
+  return arr;
 }
-function build(){ list=pool(); idx=0; render(); }
+function build(){ list = pool(); idx = 0; render(); }
 
-/* ---------- 畫面 ---------- */
+/* 確定性洗選項：同一題本輪位置固定 */
+function shuffle(items, key){
+  let h = 2166136261;
+  for (let i = 0; i < key.length; i++){ h ^= key.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const a = items.slice();
+  for (let i = a.length-1; i > 0; i--){ h = (h * 1103515245 + 12345) >>> 0; const j = h % (i+1); [a[i],a[j]] = [a[j],a[i]]; }
+  return a;
+}
+const esc = s => s.replace(/"/g,'&quot;').replace(/</g,'&lt;');
+
 function render(){
-  picked=null; revealed=false;
-  const n=list.length;
-  $('#barI').style.width = n? ((idx)/n*100)+'%' : '0%';
-  $('#mLeft').textContent = n? `第 ${idx+1} / ${n} 句` : '';
-  const all=DATA[subj].length, mas=Object.keys(S.c).filter(k=>k[0]===(subj==='國外匯兌'?'A':'B')&&S.c[k].m).length;
+  revealed = false;
+  const n = list.length;
+  $('#barI').style.width = n ? (idx/n*100) + '%' : '0%';
+  $('#mLeft').textContent = n ? `第 ${idx+1} / ${n} 句` : '';
+  const all = DATA[subj].length;
+  const mas = Object.keys(S.c).filter(k => k[0] === (subj==='國外匯兌'?'A':'B') && S.c[k].m).length;
   $('#mRight').textContent = `已掌握 ${mas} / ${all}`;
 
-  if(!n){ $('#view').innerHTML=`<div class="done"><b>這一組沒有題目了 🎉</b>換個範圍，或到設定把「已掌握」放回來複習。</div>`; $('#acts').innerHTML=''; return; }
-  if(idx>=n){ $('#view').innerHTML=`<div class="done"><b>這一輪跑完了 🎉</b>共 ${n} 句。<br>按下方「再跑一輪」會重新抓還沒掌握的。</div>`;
-    $('#acts').innerHTML=`<button class="btn pri" id="again">再跑一輪</button>`; $('#again').onclick=build; return; }
+  if (!n){
+    $('#view').innerHTML = `<div class="done"><b>這一組沒有題目 🎉</b>換個範圍或考點，或把「已掌握」放回來複習。</div>`;
+    $('#acts').innerHTML = ''; return;
+  }
+  if (idx >= n){
+    $('#view').innerHTML = `<div class="done"><b>這一輪跑完了 🎉</b>共 ${n} 句。</div>`;
+    $('#acts').innerHTML = `<button class="btn pri" id="again">再跑一輪</button>`;
+    $('#again').onclick = build; return;
+  }
 
-  const o=list[idx], [text,ans,ds,kind,cnt,sess]=o.q;
-  const opts=shuffle([ans,...ds], o.k);
-  const hot = cnt>=3;
-  $('#view').innerHTML=`
-   <div class="card">
-     <div class="tags">
-       <span class="tag k">${KINDS[kind]}</span>
-       <span class="tag ${hot?'hot':''}">考古題出現 ${cnt} 次</span>
-       <span class="tag">${sess}</span>
-       ${rec(o.k).w>0?'<span class="tag hot">錯過 '+rec(o.k).w+' 次</span>':''}
-     </div>
-     <div class="stem" id="stem">${text.replace('（＿＿）','<span class="blank" id="bk">＿＿</span>')}</div>
-     <div class="opts" id="opts">
-       ${opts.map((v,i)=>`<div class="opt" role="button" tabindex="0" aria-label="選項 ${i+1}：${esc(v)}" data-v="${esc(v)}"><span class="n">${i+1}</span><span>${v}</span></div>`).join('')}
-     </div>
-     <div class="full" id="full"></div>
-   </div>`;
-  $('#opts').querySelectorAll('.opt').forEach(el=>{
-    el.onclick=()=>choose(el.dataset.v);
-    el.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); choose(el.dataset.v); } };
+  const o = list[idx], [text, ans, ds, kind, cnt, sess, topic, stale] = o.q;
+  const opts = shuffle([ans, ...ds], o.k);
+  const r = rec(o.k);
+  $('#view').innerHTML = `
+    <div class="card">
+      <div class="tags">
+        <span class="tag">${topic}</span>
+        <span class="tag ${cnt>=3?'hot':''}">考 ${cnt} 次</span>
+        <span class="tag src">${sess}</span>
+        ${r.w > 0 ? `<span class="tag err">錯過 ${r.w} 次</span>` : ''}
+      </div>
+      ${stale ? `<div class="warn">🟡 近年修法相關，答案存疑——記觀念別死背數字</div>` : ''}
+      <div class="stem" id="stem">${text.replace('（＿＿）','<span class="blank" id="bk">＿＿</span>')}</div>
+      <div id="opts">${opts.map((v,i)=>`
+        <div class="opt" role="button" tabindex="0" data-v="${esc(v)}"><b>(${i+1})</b><span>${v}</span></div>`).join('')}
+      </div>
+      <div class="full" id="full"></div>
+    </div>`;
+  $('#opts').querySelectorAll('.opt').forEach(el => {
+    el.onclick = () => choose(el.dataset.v);
+    el.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); choose(el.dataset.v); } };
   });
   drawActs();
-}
-function esc(s){ return s.replace(/"/g,'&quot;'); }
-function shuffle(a,seedStr){
-  let h=0; for(const ch of seedStr) h=(h*31+ch.charCodeAt(0))|0;
-  const b=a.slice();
-  for(let i=b.length-1;i>0;i--){ h=(h*1103515245+12345)&0x7fffffff; const j=h%(i+1); [b[i],b[j]]=[b[j],b[i]]; }
-  return b;
-}
-
-function choose(v){
-  if(revealed) return;
-  revealed=true; picked=v;
-  const o=list[idx], [text,ans]=o.q, r=rec(o.k), ok=(v===ans);
-  const skipped=(v===null);
-  ok? r.r++ : r.w++;
-  save();
-  const bk=$('#bk'); bk.textContent=skipped?ans:v; bk.classList.add('filled'); if(!ok&&!skipped) bk.classList.add('bad');
-  $('#opts').querySelectorAll('.opt').forEach(el=>{
-    if(el.dataset.v===ans) el.classList.add('ok');
-    else if(!skipped && el.dataset.v===v) el.classList.add('no');
-    else el.classList.add('dim');
-  });
-  const f=$('#full');
-  f.className='full show'+(ok?'':' wrong');
-  f.innerHTML = (ok? '<span class="lab">✅ 正確——完整句子再讀一次</span>'
-                   : skipped? `<span class="lab">👀 正解是「${ans}」——把完整句子唸一次</span>`
-                   : `<span class="lab">❌ 你選了「${v}」，正解是「${ans}」——把完整句子唸一次</span>`)
-              + text.replace('（＿＿）',`<b>${ans}</b>`);
-  drawActs();
+  window.scrollTo({top:0});
 }
 
 function drawActs(){
-  const r = list[idx]? rec(list[idx].k) : null;
-  $('#acts').innerHTML=`
-    <button class="btn nav" id="prev" ${idx===0?'disabled':''}>←</button>
-    <button class="btn mas" id="mas">${r&&r.m?'↩︎ 取消掌握':'✓ 已掌握'}</button>
-    <button class="btn pri" id="next">${revealed?'下一句 →':'不會，看答案'}</button>`;
-  $('#prev').onclick=()=>{ if(idx>0){idx--;render();} };
-  $('#mas').onclick=()=>{ const rr=rec(list[idx].k); rr.m=rr.m?0:1; save(); next(); };
-  $('#next').onclick=()=>{ if(!revealed){ choose(' '); } else next(); };
+  const a = $('#acts');
+  if (!revealed){
+    a.innerHTML = `
+      <button class="btn nav" id="prev" ${idx===0?'disabled':''}>←</button>
+      <button class="btn" id="skip">跳過看答案</button>`;
+    $('#prev').onclick = () => { if (idx > 0){ idx--; render(); } };
+    $('#skip').onclick = () => reveal(null);
+  } else {
+    const r = rec(list[idx].k);
+    a.innerHTML = `
+      <button class="btn nav" id="prev" ${idx===0?'disabled':''}>←</button>
+      <button class="btn mas" id="mas">${r.m ? '✓ 已掌握' : '⭐ 標已掌握'}</button>
+      <button class="btn pri" id="next">下一題 →</button>`;
+    $('#prev').onclick = () => { if (idx > 0){ idx--; render(); } };
+    $('#mas').onclick = () => {
+      const k = list[idx].k, rr = {...rec(k)}; rr.m = rr.m ? 0 : 1; S.c[k] = rr; save(); drawActs();
+    };
+    $('#next').onclick = () => { idx++; render(); };
+  }
 }
-function next(){ idx++; render(); }
 
-/* ---------- 篩選列 ---------- */
-function chips(sel,items,get,set){
-  const box=$(sel), lab=box.querySelector('label');
-  box.innerHTML=''; box.appendChild(lab);
-  items.forEach(([v,t])=>{
-    const c=document.createElement('span');
-    c.className='chip'+(get(v)?' on':''); c.textContent=t;
-    c.onclick=()=>{ set(v); drawFilters(); build(); renderStat(); };
-    box.appendChild(c);
+function choose(v){
+  if (revealed) return;
+  const o = list[idx], ans = o.q[1];
+  const ok = (v === ans);
+  const r = {...rec(o.k)};
+  if (ok) r.r++; else { r.w++; }
+  S.c[o.k] = r; save();
+  reveal(v);
+}
+
+function reveal(pickedV){
+  revealed = true;
+  const o = list[idx], [text, ans] = o.q;
+  const ok = pickedV === ans;
+  $('#opts').querySelectorAll('.opt').forEach(el => {
+    const v = el.dataset.v.replace(/&quot;/g,'"').replace(/&lt;/g,'<');
+    if (v === ans) el.classList.add('ans');
+    else if (pickedV !== null && v === pickedV) el.classList.add('bad');
+    else el.classList.add('dim');
+  });
+  const bk = $('#bk');
+  bk.textContent = ans;
+  bk.classList.add(pickedV === null ? 'good' : (ok ? 'good' : 'bad'));
+  if (!ok){
+    // 答錯或跳過 → 強制重讀完整正確句
+    const fullText = text.replace('（＿＿）', '<b>' + ans + '</b>');
+    const f = $('#full');
+    f.innerHTML = '📖 ' + fullText + '<small>讀一次完整的正確敘述再走。</small>';
+    f.classList.add('show');
+    if (pickedV !== null) bk.textContent = ans;
+  }
+  drawActs();
+}
+
+/* ---------- 控制列 ---------- */
+function fillSelects(){
+  $('#subj').innerHTML = Object.keys(DATA).map(s => `<option${s===subj?' selected':''}>${s}</option>`).join('');
+  const topics = [...new Set(DATA[subj].map(q => q[6]))];
+  $('#topic').innerHTML = '<option value="ALL">全部考點</option>' +
+    topics.map(t => `<option${t===topicSel?' selected':''}>${t}</option>`).join('');
+}
+function fillKinds(){
+  $('#fKind').innerHTML = Object.entries(KINDS).map(([k,v]) =>
+    `<span class="chip ${kinds.has(k)?'on':''}" data-k="${k}">${v}</span>`).join('');
+  $('#fKind').querySelectorAll('.chip').forEach(el => el.onclick = () => {
+    const k = el.dataset.k;
+    if (kinds.has(k) && kinds.size === 1) return;
+    kinds.has(k) ? kinds.delete(k) : kinds.add(k);
+    fillKinds(); fillStats(); build();
   });
 }
-function drawFilters(){
-  chips('#fSubj',[['國外匯兌','國外匯兌'],['進出口外匯','進出口外匯']],v=>subj===v,v=>{subj=v;});
-  chips('#fKind',Object.entries(KINDS),v=>kinds.has(v),v=>{ kinds.has(v)?kinds.delete(v):kinds.add(v); if(!kinds.size) kinds.add(v); });
-  chips('#fScope',[['todo','還沒做過'],['wrong','錯過的'],['all','全部未掌握'],['master','已掌握（複習）']],v=>scope===v,v=>{scope=v;});
-}
-function renderStat(){
-  const p=subj==='國外匯兌'?'A':'B', all=DATA[subj].length;
-  let m=0,w=0,r=0;
-  for(const k in S.c){ if(k[0]!==p) continue; const x=S.c[k]; if(x.m)m++; if(x.w)w++; if(x.r||x.w)r++; }
-  $('#statBox').innerHTML=`
-    <div><b>${all}</b><small>總句數</small></div>
-    <div><b>${r}</b><small>做過</small></div>
-    <div><b>${m}</b><small>已掌握</small></div>
-    <div><b>${w}</b><small>錯過</small></div>`;
-}
-
-/* ---------- 跨裝置：緊湊進度碼 ---------- */
-function encode(){
-  let out='';
-  for(const sj of ['國外匯兌','進出口外匯']){
-    const p=sj==='國外匯兌'?'A':'B';
-    let s='';
-    for(let i=0;i<DATA[sj].length;i++){
-      const x=S.c[p+i];
-      s += !x ? '0' : (x.m? '3' : (x.w? '2' : (x.r? '1':'0')));
-    }
-    out += p + s.replace(/(.)\1{2,}/g, m=>m[0]+'*'+m.length) + '|';
+function fillStats(){
+  let tot = 0, mas = 0, wr = 0, done = 0;
+  for (const sj of Object.keys(DATA)){
+    DATA[sj].forEach((q,i) => {
+      tot++;
+      const r = S.c[id(sj,i)];
+      if (r){ if (r.m) mas++; if (r.w > 0 && !r.m) wr++; if (r.r > 0 || r.m) done++; }
+    });
   }
-  return 'CLZ1:'+out;
+  $('#statBox').innerHTML = `
+    <div><b>${tot}</b><small>總句數</small></div>
+    <div><b>${done}</b><small>已答對過</small></div>
+    <div><b>${wr}</b><small>待複習錯題</small></div>
+    <div><b>${mas}</b><small>已掌握</small></div>`;
 }
-function decode(code){
-  if(!code.startsWith('CLZ1:')) throw 0;
-  const parts=code.slice(5).split('|').filter(Boolean); let n=0;
-  for(const part of parts){
-    const p=part[0], sj = p==='A'?'國外匯兌':'進出口外匯';
-    let s=part.slice(1).replace(/(.)\*(\d+)/g,(m,c,k)=>c.repeat(+k));
-    for(let i=0;i<s.length;i++){
-      const v=s[i]; if(v==='0') continue;
-      const k=p+i, x=rec(k);
-      if(v==='3') x.m=1;
-      else if(v==='2'){ x.w=Math.max(x.w,1); }
-      else if(v==='1'){ x.r=Math.max(x.r,1); }
-      n++;
-    }
+
+/* ---------- 同步（與 drill 共用密語） ---------- */
+function mergeInbound(inc){
+  if (!inc || !inc.c) return;
+  for (const k in inc.c){
+    const a = S.c[k], b = inc.c[k];
+    S.c[k] = a
+      ? { r: Math.max(a.r,b.r), w: Math.max(a.w,b.w), m: Math.max(a.m,b.m) }   // max-merge
+      : b;
   }
-  save(); return n;
+  localStorage.setItem(KEY, JSON.stringify(S));
+  fillStats(); build();
 }
-
-/* ---------- 啟動 ---------- */
-$('#btnSet').onclick=()=>{ $('#setPanel').classList.toggle('show'); $('#btnSet').classList.toggle('on'); renderStat(); };
-$('#expBtn').onclick=e=>{
-  const ta=$('#io'); ta.style.display='block'; ta.value=encode(); ta.select();
-  if(navigator.clipboard) navigator.clipboard.writeText(ta.value).catch(()=>{});
-  const t=e.target.textContent; e.target.textContent='✅ 已複製'; setTimeout(()=>e.target.textContent=t,1500);
+function refreshSyncUI(){
+  const on = window.ExamSync && ExamSync.enabled();
+  $('#syncPass').value = on ? ExamSync.getKey() : $('#syncPass').value;
+  $('#syncGo').textContent = on ? '停用' : '啟用';
+}
+$('#syncGo').onclick = () => {
+  if (!window.ExamSync) return;
+  if (ExamSync.enabled()){ ExamSync.setKey(''); refreshSyncUI(); return; }
+  const p = $('#syncPass').value.trim();
+  if (p.length < 6) return alert('通關密語至少 6 個字，建議 8 字以上');
+  ExamSync.setKey(p); refreshSyncUI();
 };
-$('#impBtn').onclick=e=>{
-  const ta=$('#io'); ta.style.display='block';
-  if(!ta.value.trim()){ ta.focus(); return; }
-  try{ const n=decode(ta.value.trim()); ta.value=''; e.target.textContent=`✅ 合併 ${n} 筆`; setTimeout(()=>e.target.textContent='📥 貼上合併',1800); build(); renderStat(); }
-  catch(err){ e.target.textContent='❌ 格式不對'; setTimeout(()=>e.target.textContent='📥 貼上合併',1800); }
-};
-$('#rstBtn').onclick=()=>{ if(confirm('清除本機所有挖空進度？')){ S={c:{}}; save(); build(); renderStat(); } };
 
-document.addEventListener('keydown',e=>{
-  if(/^[1-4]$/.test(e.key)){ const el=$('#opts')?.querySelectorAll('.opt')[+e.key-1]; el&&el.click(); }
-  if(e.key==='ArrowRight'||e.code==='Space'){ e.preventDefault(); $('#next')?.click(); }
-  if(e.key==='ArrowLeft') $('#prev')?.click();
-  if(e.key==='m'||e.key==='M') $('#mas')?.click();
+/* ---------- 手動備援 ---------- */
+function copyOut(text, btn, okMsg){
+  const ta = $('#io'); ta.style.display = 'block'; ta.value = text; ta.select();
+  const done = () => { const t = btn.textContent; btn.textContent = okMsg; setTimeout(() => btn.textContent = t, 1600); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done);
+  else { try{ document.execCommand('copy'); }catch(e){} done(); }
+}
+$('#expBtn').onclick = e => copyOut(JSON.stringify(S), e.target, '✅ 已複製');
+$('#impBtn').onclick = e => {
+  const ta = $('#io');
+  ta.style.display = 'block';
+  if (!ta.value.trim()){ ta.focus(); return; }
+  try{
+    const inc = JSON.parse(ta.value.trim());
+    if (!inc || !inc.c) throw 0;
+    mergeInbound(inc); save();
+    ta.value = ''; alert('已合併');
+  }catch(err){ alert('進度碼格式不正確'); }
+};
+$('#rstBtn').onclick = () => { if (confirm('清除本機的挖空器紀錄？（雲端同步的紀錄不會刪）')){ S = {c:{}}; save(); fillStats(); build(); } };
+
+/* ---------- 事件 ---------- */
+$('#btnSet').onclick = () => { $('#setPanel').classList.toggle('show'); fillStats(); refreshSyncUI(); };
+$('#subj').onchange = e => { subj = e.target.value; topicSel = 'ALL'; fillSelects(); build(); };
+$('#topic').onchange = e => { topicSel = e.target.value; build(); };
+$('#scope').onchange = e => { scope = e.target.value; build(); };
+document.addEventListener('keydown', e => {
+  if (e.key >= '1' && e.key <= '4'){
+    const els = document.querySelectorAll('#opts .opt');
+    if (els[+e.key-1] && !revealed){ e.preventDefault(); choose(els[+e.key-1].dataset.v); }
+  }
+  if (e.code === 'Space' && revealed){ e.preventDefault(); idx++; render(); }
 });
 
+/* ---------- 啟動 ---------- */
 load();
-fetch('cloze.json').then(r=>r.json()).then(d=>{
-  DATA=d;
-  $('#tot').textContent=(d['國外匯兌'].length+d['進出口外匯'].length);
-  drawFilters(); renderStat(); build();
-}).catch(()=>{ $('#view').innerHTML='<div class="done">載入 cloze.json 失敗</div>'; });
+fetch('cloze.json').then(r => r.json()).then(d => {
+  DATA = d;
+  fillSelects(); fillKinds(); build();
+  if (window.ExamSync) ExamSync.init({
+    app: 'cloze',
+    getState: () => S,
+    mergeInbound: mergeInbound,
+    onStatus: t => { const el = $('#syncStat'); if (el) el.textContent = t; }
+  });
+}).catch(e => { $('#view').innerHTML = `<div class="done">cloze.json 載入失敗：${e}</div>`; });
 })();
 </script>
 </body>
