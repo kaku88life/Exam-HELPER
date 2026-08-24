@@ -8,6 +8,7 @@
 # 例外：網頁執行時需載入的資料
 !fx/deck.json
 !fx/cloze.json
+!comm/deck.json
 
 # Old/intermediate HTML with Chinese filenames
 證券高業_*.html

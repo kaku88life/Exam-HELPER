@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>金融常識與職業道德 題庫分析</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+.wrap{max-width:680px;margin:0 auto;padding:14px 14px}
+h1{font-size:1.3em;margin:6px 0 2px}
+.sub{color:var(--mt);font-size:.82em;margin-bottom:16px}
+section{background:var(--sf);border:1px solid var(--cd);border-radius:11px;padding:15px 16px;margin-bottom:13px}
+h2{font-size:1.02em;color:var(--cy);margin-bottom:10px;border-bottom:2px solid var(--cd);padding-bottom:7px}
+h3{font-size:.9em;margin:12px 0 6px;color:var(--vi)}
+p{font-size:.85em;margin-bottom:7px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;margin:10px 0}
+.kpis div{background:var(--bg);border:1px solid var(--cd);border-radius:9px;padding:9px 8px;text-align:center}
+.kpis b{display:block;font-size:1.3em;color:var(--cy);font-variant-numeric:tabular-nums}
+.kpis span{font-size:.65em;color:var(--mt)}
+/* 長條 */
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.8em}
+.bar .lbl{min-width:74px;flex-shrink:0}
+.bar .track{flex:1;background:var(--bg);border-radius:6px;height:18px;overflow:hidden;border:1px solid var(--cd)}
+.bar .fill{height:100%;background:var(--cy);border-radius:6px 0 0 6px}
+.bar .fill.d{background:var(--yw)}
+.bar .val{min-width:56px;text-align:right;font-variant-numeric:tabular-nums;color:var(--mt);flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:.79em;margin:8px 0}
+th,td{border:1px solid var(--cd);padding:6px 8px;text-align:left}
+th{background:var(--bg);font-weight:700}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.hit-good{color:var(--gn);font-weight:800}.hit-bad{color:var(--rd);font-weight:800}.hit-mid{color:var(--yw);font-weight:800}
+.note{font-size:.76em;color:var(--mt);margin-top:6px}
+.foot{text-align:center;font-size:.72em;color:var(--mt);margin:22px 0;line-height:2}
+a{color:var(--cy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>題庫分析 · 金融常識與職業道德</h1>
+<div class="sub">官方公告題庫 1120 題全量統計（金融常識 504 ＋ 職業道德 616）</div>
+
+<section>
+<h2>題庫總覽</h2>
+<div class="kpis">
+  <div><b>1120</b><span>題庫總題數</span></div>
+  <div><b>504</b><span>金融常識</span></div>
+  <div><b>616</b><span>職業道德</span></div>
+  <div><b>100</b><span>正式抽題</span></div>
+  <div><b>70</b><span>及格門檻</span></div>
+</div>
+<p><b>公告題庫制</b>：正式測驗 100 題全部從此 1120 題抽出，覆蓋題庫＝拿到分數。刷題順序依下方出題比重，重的先刷。</p>
+</section>
+
+<section>
+<h2>答案分布（A/B/C/D）</h2>
+<h3>職業道德 616 題</h3>
+<div class="bars" id="ba-ethics"></div>
+<p class="note">⚠️ <b>D 佔 42%</b> 明顯偏高——因「以上皆是」多半排在最後且多為正解。正式測驗若洗牌則位置失效，請以「以上皆是」的<b>內容</b>判斷，不靠位置。</p>
+<h3>金融市場常識 504 題</h3>
+<div class="bars" id="ba-fin"></div>
+<p class="note">金常四選項分布平均（21–27%），無位置規律可用。</p>
+</section>
+
+<section>
+<h2>特殊選項命中率（猜題規則來源）</h2>
+<p>統計每種選項出現時「該選項為正解」的比率：</p>
+<table>
+<tr><th>選項特徵</th><th class="num">職業道德</th><th class="num">金融常識</th><th>用法</th></tr>
+<tr><td>「以上皆是」</td><td class="num hit-good">88%</td><td class="num hit-good">78%</td><td>看到就選（除非問何者錯誤）</td></tr>
+<tr><td>「以上皆非」</td><td class="num hit-bad">33%</td><td class="num hit-bad">9%</td><td>避開</td></tr>
+<tr><td>含絕對詞<br>(一律/全部/僅/必須)</td><td class="num hit-bad">18%</td><td class="num hit-mid">26%</td><td>避開，多為陷阱</td></tr>
+</table>
+<p class="note">職業道德「以上皆是」樣本 189 題中 166 題為正解——是本科最強的單一規則。</p>
+</section>
+
+<section>
+<h2>出題比重（讀書順序）</h2>
+<p>正式 100 題大致依題庫比重 ≈ 職道 55 ／ 金常 45 分配。</p>
+<h3>職業道德</h3>
+<table>
+<tr><th>子領域</th><th class="num">佔比</th></tr>
+<tr><td>誠實信用原則</td><td class="num">25%</td></tr>
+<tr><td>業務推廣與招攬</td><td class="num">20%</td></tr>
+<tr><td>保密原則</td><td class="num">13%</td></tr>
+<tr><td>受託執行業務</td><td class="num">13%</td></tr>
+<tr><td>利益衝突</td><td class="num">12%</td></tr>
+<tr><td>告知通知／遵法自律</td><td class="num">17%</td></tr>
+</table>
+<h3>金融市場常識</h3>
+<table>
+<tr><th>子領域</th><th class="num">佔比</th></tr>
+<tr><td>保險實務</td><td class="num">27%</td></tr>
+<tr><td>銀行實務</td><td class="num">20%</td></tr>
+<tr><td>證券期貨市場</td><td class="num">19%</td></tr>
+<tr><td>金融體系</td><td class="num">17%</td></tr>
+<tr><td>貨幣市場／信託等</td><td class="num">17%</td></tr>
+</table>
+<p class="note">來源：官方公告題庫組成比例（113/9/1 版）。</p>
+</section>
+
+<section>
+<h2>本工具刷題分組題數</h2>
+<p class="note">下表為刷題器用關鍵字自動分組的題數，供「分區練習」用；與官方子領域界定可能略有出入，正式讀書順序以上方官方佔比為準。</p>
+<div id="tool-groups"></div>
+</section>
+
+<div class="foot">
+  <a href="drill.html">→ 刷題器</a>　·　<a href="notes.html">衝刺筆記</a>　·　<a href="../index.html">回總覽</a><br><br>
+  Built with Claude Code
+</div>
+</div>
+
+<script>
+const ANS = {
+  ethics: { A:[125,20.3], B:[120,19.5], C:[111,18.0], D:[260,42.2] },
+  fin:    { A:[133,26.4], B:[109,21.6], C:[126,25.0], D:[136,27.0] },
+};
+function drawBars(el, data){
+  const max = Math.max(...Object.values(data).map(v=>v[1]));
+  el.innerHTML = Object.entries(data).map(([k,[n,p]])=>`
+    <div class="bar"><span class="lbl">(${k})</span>
+      <span class="track"><span class="fill${k==='D'?' d':''}" style="width:${p/max*100}%"></span></span>
+      <span class="val">${n}　${p}%</span></div>`).join('');
+}
+drawBars(document.getElementById('ba-ethics'), ANS.ethics);
+drawBars(document.getElementById('ba-fin'), ANS.fin);
+
+fetch('deck.json').then(r=>r.json()).then(deck=>{
+  let html = '';
+  for (const subj of Object.keys(deck)){
+    const d = deck[subj], counts = {};
+    d.qs.forEach(q=>{ const t=d.topics[q[0]]; counts[t]=(counts[t]||0)+1; });
+    html += `<h3>${subj}（${d.qs.length} 題）</h3><table><tr><th>分組</th><th class="num">題數</th></tr>`;
+    html += d.topics.map(t=>`<tr><td>${t}</td><td class="num">${counts[t]||0}</td></tr>`).join('');
+    html += `</table>`;
+  }
+  document.getElementById('tool-groups').innerHTML = html;
+}).catch(e=>{ document.getElementById('tool-groups').innerHTML = '<p class="note">deck.json 載入失敗</p>'; });
+</script>
+<script src="nav.js?v=1" defer></script>
+</body>
+</html>
