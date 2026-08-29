@@ -113,8 +113,8 @@ a{color:var(--cy)}
 </div>
 </div>
 
-<script src="nav.js?v=5" defer></script>
-<script src="sync.js?v=5"></script>
+<script src="nav.js?v=6" defer></script>
+<script src="sync.js?v=6"></script>
 <script>
 const KEY = 'fx-drill-v3';
 const OLDKEY = 'fx-drill-v2';
@@ -583,16 +583,19 @@ function renderStat(){
     } else html += `<div class="empty">還沒有作答紀錄</div>`;
   }
   const syncOn = window.ExamSync && ExamSync.enabled();
+  const weak = syncOn && ExamSync.isWeak();
   html += `
   <h3>跨裝置同步</h3>
   <div style="font-size:.76em;color:var(--mt);line-height:1.75;margin-bottom:8px">
-    <b>自動同步：</b>在每台裝置輸入<b>同一組通關密語</b>（自己取，8 字以上、別人猜不到），
-    作答後幾秒自動上傳雲端，開頁自動合併。<span id="syncStat" style="color:var(--gn);font-weight:700"></span>
+    在每台裝置填<b>同一組同步碼</b>，作答後幾秒自動上傳、開頁自動合併。
+    同步碼只存在你的裝置，雲端只看得到它的雜湊值。<span id="syncStat" style="color:var(--gn);font-weight:700"></span>
   </div>
+  ${weak?`<div class="warn" style="font-size:.76em">目前的同步碼太短或是純數字，別人可能猜得到。建議按「產生新同步碼」換一組，再把新碼填到另一台裝置。</div>`:''}
   <div class="acts" style="grid-template-columns:1fr auto">
-    <input id="syncPass" type="text" placeholder="通關密語（兩台裝置要一樣）" value="${syncOn ? ExamSync.getKey() : ''}"
-      style="border:1px solid var(--cd);border-radius:6px;padding:10px 12px;font-size:.85em;font-family:inherit">
+    <input id="syncPass" type="text" placeholder="同步碼（兩台裝置要一樣）" value="${syncOn ? ExamSync.getKey() : ''}"
+      style="border:1px solid var(--cd);border-radius:6px;padding:10px 12px;font-size:.85em;font-family:ui-monospace,monospace">
     <button class="btn ${syncOn?'':'big'}" id="syncGo">${syncOn ? '停用' : '啟用同步'}</button>
+    <button class="btn full" id="syncNew">產生新同步碼（推薦）</button>
   </div>
   <div style="font-size:.72em;color:var(--mt);margin:10px 0 4px">手動備援（沒網路時用）：</div>
   <div class="acts" style="grid-template-columns:1fr 1fr">
@@ -658,8 +661,15 @@ function bindSync(){
     $('#syncGo').onclick = () => {
       if (ExamSync.enabled()){ ExamSync.setKey(''); renderStat(); return; }
       const p = $('#syncPass').value.trim();
-      if (p.length < 6) return alert('通關密語至少 6 個字，建議 8 字以上');
+      if (p.length < 6) return alert('同步碼太短，請改用「產生新同步碼」');
       ExamSync.setKey(p); renderStat();
+    };
+    $('#syncNew').onclick = () => {
+      if (ExamSync.enabled() && !confirm('產生新同步碼後，這台裝置會改用新碼同步；舊碼的雲端資料仍在，本機紀錄不受影響。記得把新碼也填到另一台裝置。')) return;
+      const c = ExamSync.newCode();
+      renderStat();
+      setTimeout(() => { const el = $('#syncPass'); if (el){ el.value = c; el.select(); } }, 50);
+      alert('新同步碼： ' + c + '　　請複製到另一台裝置的同步欄位。');
     };
   }
   $('#expCode').onclick = e => copyOut(JSON.stringify(S), e.target, '<i class="xi xk g"></i> 已複製');
