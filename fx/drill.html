@@ -113,8 +113,8 @@ a{color:var(--cy)}
 </div>
 </div>
 
-<script src="nav.js?v=3" defer></script>
-<script src="sync.js?v=3"></script>
+<script src="nav.js?v=4" defer></script>
+<script src="sync.js?v=4"></script>
 <script>
 const KEY = 'fx-drill-v3';
 const OLDKEY = 'fx-drill-v2';
@@ -160,13 +160,17 @@ function logAnswer(k, ok){
 }
 /* 全期（跨重置）統計 */
 function lifetime(k){
-  const h = (rec(k).h || '').replace(/\|/g,'');
-  return { n: h.length, r: (h.match(/O/g)||[]).length };
+  const rc = rec(k);
+  const h = (rc.h || '').replace(/\|/g,'');
+  const h0 = rc.h0 || { n:0, rr:0 };
+  return { n: h.length + h0.n, r: (h.match(/O/g)||[]).length + h0.rr,
+           seq: h.length, legacy: h0.n };
 }
 /* 掌握度：把「只答對一次（可能是猜的）」跟「真的練會」分開 */
 function mastery(k){
   const r = rec(k), h = r.h || '', all = h.replace(/\|/g,'');
-  if (!all) return r.seen ? 'old' : 'new';
+  const lg = (r.h0 && r.h0.n) || 0;
+  if (!all) return (r.seen || lg) ? 'old' : 'new';
   const cur = h.split('|').pop();
   if (all === 'O') return 'doubt';                 // 總共只答過一次且對
   if (cur.slice(-1) === 'X') return 'weak';        // 最近一次錯
@@ -183,7 +187,11 @@ function load(){
     try{
       const old = JSON.parse(localStorage.getItem(OLDKEY));
       if (old && old.q){ S = { q: old.q, exams: old.exams || [], rounds: [] };
-        for (const k in S.q) if (!S.q[k].h) S.q[k].h = '';   // 舊紀錄無歷程，從今天起記
+        for (const k in S.q){                                  // 舊紀錄沒有順序，但累計數字要留住
+          const r = S.q[k];
+          if (!r.h) r.h = '';
+          if (!r.h0) r.h0 = { n: r.seen||0, rr: r.r||0 };       // n=作答次數 rr=答對次數（順序未留存）
+        }
       }
     }catch(e){}
   }
@@ -265,11 +273,13 @@ function startExam(){
 /* 歷程小標籤：OXXO|OO → 上色的圓點序列 + 掌握度 */
 function hTag(k){
   const h = rec(k).h || '';
+  const h0 = rec(k).h0 || {n:0,rr:0};
+  const pre = h0.n ? `<span style="color:var(--mt)">舊${h0.rr}/${h0.n}</span>　` : '';
   const dots = h.split('').map(c =>
     c === '|' ? '<span style="opacity:.45">｜</span>'
     : `<b style="color:${c==='O'?'var(--gn)':'var(--rd)'};font-weight:800">${c}</b>`).join('');
   const m = mastery(k);
-  return `${dots}　<span style="color:${MAS[m][1]};font-weight:700">${MAS[m][0]}</span>`;
+  return `${pre}${dots}　<span style="color:${MAS[m][1]};font-weight:700">${MAS[m][0]}</span>`;
 }
 
 /* ---------- 渲染 ---------- */
@@ -490,7 +500,7 @@ function renderResult(){
 function renderStat(){
   let html = '';
   /* 全期累計（跨重置，來自作答歷程） */
-  let lifeN = 0, lifeR = 0, touched = 0, bankTotal = 0;
+  let lifeN = 0, lifeR = 0, seqN = 0, touched = 0, bankTotal = 0;
   const mcount = { new:0, old:0, doubt:0, weak:0, shaky:0, solid:0 };
   const byType = {};
   for (const sb of Object.keys(DECK)){
@@ -498,7 +508,7 @@ function renderStat(){
     d.qs.forEach((q,i) => {
       bankTotal++;
       const k = id(sb,i), lt = lifetime(k);
-      lifeN += lt.n; lifeR += lt.r; if (lt.n) touched++;
+      lifeN += lt.n; lifeR += lt.r; seqN += lt.seq; if (lt.n) touched++;
       mcount[mastery(k)]++;
       const ty = qtype(q); byType[ty] = byType[ty] || {r:0,w:0,n:0};
       byType[ty].n++;
@@ -509,9 +519,12 @@ function renderStat(){
     <div class="kpi">
       <div><b>${touched}</b><span>碰過的題／${bankTotal}</span></div>
       <div><b>${lifeN}</b><span>累計作答次數</span></div>
+      <div><b>${seqN}</b><span>其中有歷程紀錄</span></div>
       <div><b>${lifeN?(lifeR/lifeN*100).toFixed(0):0}%</b><span>全期正確率</span></div>
       <div><b>${bankTotal-touched}</b><span>還沒碰過</span></div>
     </div>
+    <div style="font-size:.72em;color:var(--mt);margin:-4px 0 10px">
+      「有歷程紀錄」＝知道每次對錯順序的作答；其餘是 2026-08-29 之前的舊紀錄，當時只存累計數字、順序無法還原。</div>
     <h3>掌握度分布</h3>
     <div style="font-size:.72em;color:var(--mt);margin-bottom:4px">「存疑」＝總共只答對過一次，可能是猜的，值得再驗一次</div>` +
     ['solid','shaky','doubt','weak','old','new'].filter(m=>mcount[m]).map(m =>
@@ -619,7 +632,12 @@ function mergeState(inc){
     const a = S.q[k], b = inc.q[k];
     if (!a){ S.q[k] = b; added++; }
     else {                                   // max-merge：同一份紀錄重複合併不會膨脹
-      S.q[k] = { r: Math.max(a.r, b.r), w: Math.max(a.w, b.w), seen: Math.max(a.seen, b.seen), s: Math.max(a.s, b.s) };
+      const ha = a.h || '', hb = b.h || '';
+      const A0 = a.h0 || {n:0,rr:0}, B0 = b.h0 || {n:0,rr:0};
+      S.q[k] = { r: Math.max(a.r, b.r), w: Math.max(a.w, b.w),
+                 seen: Math.max(a.seen, b.seen), s: Math.max(a.s, b.s),
+                 h: hb.length > ha.length ? hb : ha,        // 歷程只會變長，取長的那份
+                 h0: { n: Math.max(A0.n, B0.n), rr: Math.max(A0.rr, B0.rr) } };
       added++;
     }
   }
