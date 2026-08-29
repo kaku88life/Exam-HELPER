@@ -31,6 +31,21 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
 .t3{background:rgba(182,101,22,.15);color:var(--yw)}
 
 .note{background:var(--sf);border:1px dashed var(--cd);border-radius:8px;padding:13px 15px;font-size:.76em;color:var(--mt);line-height:1.6}
+
+/* 折疊 */
+.exam>.hd{display:flex;align-items:flex-start;gap:10px;width:100%;background:none;border:none;padding:9px 4px;
+  font-family:inherit;text-align:left;cursor:pointer;color:var(--tx);border-radius:8px;min-height:48px}
+.exam>.hd:active{background:rgba(8,122,115,.06)}
+.exam>.hd .tt{flex:1;min-width:0}
+.exam>.hd h2{margin-bottom:2px}
+.exam>.hd .when{margin:0}
+.exam>.hd .car{flex:0 0 auto;width:20px;height:20px;margin-top:3px;background:var(--mt);
+  -webkit-mask:var(--carm) center/contain no-repeat;mask:var(--carm) center/contain no-repeat;transition:transform .2s}
+.exam.open>.hd .car{transform:rotate(180deg)}
+.exam>.bd{display:none;padding-top:4px}
+.exam.open>.bd{display:block}
+.cnt{font-size:.68em;color:var(--mt);font-weight:400;margin-left:6px;white-space:nowrap}
+:root{--carm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")}
 .foot{text-align:center;margin-top:24px;font-size:.7em;color:var(--mt)}
 </style>
 </head>
@@ -39,10 +54,12 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
 <h1>Exam HELPER</h1>
 <div class="sub">證照考前衝刺包 · 題庫分析與刷題工具</div>
 
-<div class="exam">
-  <h2>金融市場常識與職業道德 <span class="pill p-now">8/26 應試</span></h2>
-  <div class="when">台灣金融研訓院／證基會 · 公告題庫制 · 100 題 70 分及格 · 成績保留 5 年</div>
-
+<div class="exam" data-k="金融市場常識與職業道德 ">
+  <button class="hd" aria-expanded="false">
+    <span class="tt"><h2>金融市場常識與職業道德 <span class="pill p-now">8/26 應試</span><span class="cnt">3 項</span></h2><div class="when">台灣金融研訓院／證基會 · 公告題庫制 · 100 題 70 分及格 · 成績保留 5 年</div></span>
+    <i class="car"></i>
+  </button>
+  <div class="bd">
   <a class="card" href="comm/notes.html">
     <span class="icon">NOTE</span>
     <h3>衝刺筆記 <span class="tag t2">先讀這份</span></h3>
@@ -63,13 +80,15 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
 
   <div class="note">
     <b>公告題庫制</b>：正式 100 題全部從此 1120 題抽出——刷完題庫＝拿到分數。抽出題數與官方逐一吻合（504／616），即現行 113/9/1 版。
-  </div>
+  </div>  </div>
 </div>
 
-<div class="exam">
-  <h2>初階外匯人員 <span class="pill p-now">備考中</span></h2>
-  <div class="when">台灣金融研訓院 · 電腦應試 · 8/27 重考主戰場</div>
-
+<div class="exam" data-k="初階外匯人員 備考中">
+  <button class="hd" aria-expanded="false">
+    <span class="tt"><h2>初階外匯人員 <span class="pill p-now">備考中</span><span class="cnt">7 項</span></h2><div class="when">台灣金融研訓院 · 電腦應試 · 8/27 重考主戰場</div></span>
+    <i class="car"></i>
+  </button>
+  <div class="bd">
   <a class="card" href="fx/guide.html">
     <span class="icon">GUIDE</span>
     <h3>作戰指南 <span class="tag t2">先讀這份</span></h3>
@@ -115,13 +134,15 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
   <div class="note">
     <b>兩科各需 70 分，成績不保留。</b>進出口外匯覆蓋 81% 優先做完，國外匯兌覆蓋 60%，缺口靠 ISO 20022 新制 6 題補。<br>
     題目為台灣金融研訓院公告之歷屆試題，著作權屬該院，僅供個人備考練習。
-  </div>
+  </div>  </div>
 </div>
 
-<div class="exam">
-  <h2>證券商高級業務員 <span class="pill p-done">2026/04 已考</span></h2>
-  <div class="when">證基會 · 三科 966 題題庫分析</div>
-
+<div class="exam" data-k="證券商高級業務員 202">
+  <button class="hd" aria-expanded="false">
+    <span class="tt"><h2>證券商高級業務員 <span class="pill p-done">2026/04 已考</span><span class="cnt">4 項</span></h2><div class="when">證基會 · 三科 966 題題庫分析</div></span>
+    <i class="car"></i>
+  </button>
+  <div class="bd">
   <a class="card" href="cram-map.html">
     <span class="icon">MAP</span>
     <h3>kaku Holdings 衝刺圖 <span class="tag t1">關聯圖</span></h3>
@@ -144,18 +165,41 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
     <span class="icon">KEY</span>
     <h3>高頻關鍵字 <span class="tag t3">視覺化</span></h3>
     <p>各科文字雲、出題頻率排行</p>
-  </a>
+  </a>  </div>
 </div>
 
-<div class="exam">
-  <h2>規劃中 <span class="pill p-soon">待整合</span></h2>
-  <div class="when">既有備考資料在 Obsidian，尚未搬上來</div>
+<div class="exam" data-k="規劃中 待整合">
+  <button class="hd" aria-expanded="false">
+    <span class="tt"><h2>規劃中 <span class="pill p-soon">待整合</span></h2><div class="when">既有備考資料在 Obsidian，尚未搬上來</div></span>
+    <i class="car"></i>
+  </button>
+  <div class="bd">
   <div class="note">
     財產保險業務員（2026/07 已通過 154 分）· 人身保險業務員（重考中）· iPAS AI 應用規劃師（放榜中）· 不動產經紀人（2027/11，題庫 2240 題已備齊）
-  </div>
+  </div>  </div>
 </div>
 
 <div class="foot">Built with Claude Code</div>
 </div>
+
+<script>
+(function(){
+  var KEY='exam-open';
+  var st={}; try{ st=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){}
+  document.querySelectorAll('.exam').forEach(function(ex){
+    var k=ex.dataset.k, hd=ex.querySelector('.hd');
+    var def = !!ex.querySelector('.p-now');           // 預設展開「備考中／應試中」
+    var open = (k in st) ? st[k] : def;
+    ex.classList.toggle('open', open);
+    hd.setAttribute('aria-expanded', open);
+    hd.addEventListener('click', function(){
+      var now = !ex.classList.contains('open');
+      ex.classList.toggle('open', now);
+      hd.setAttribute('aria-expanded', now);
+      st[k]=now; try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){}
+    });
+  });
+})();
+</script>
 </body>
 </html>
