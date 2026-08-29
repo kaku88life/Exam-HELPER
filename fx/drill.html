@@ -113,8 +113,8 @@ a{color:var(--cy)}
 </div>
 </div>
 
-<script src="nav.js?v=4" defer></script>
-<script src="sync.js?v=4"></script>
+<script src="nav.js?v=5" defer></script>
+<script src="sync.js?v=5"></script>
 <script>
 const KEY = 'fx-drill-v3';
 const OLDKEY = 'fx-drill-v2';
@@ -643,6 +643,10 @@ function mergeState(inc){
   }
   const seen = new Set(S.exams.map(e => e.d + e.subj + e.score));
   (inc.exams || []).forEach(e => { if (!seen.has(e.d + e.subj + e.score)) S.exams.push(e); });
+  S.rounds = S.rounds || [];                                  // 各輪快照也要合併（以時間戳去重）
+  const rs = new Set(S.rounds.map(x => x.at));
+  (inc.rounds || []).forEach(x => { if (!rs.has(x.at)) S.rounds.push(x); });
+  S.rounds.sort((a,b) => a.at < b.at ? -1 : 1);
   save(); refreshWrongCount();
   return added;
 }
