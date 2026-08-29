@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
 <title>初階外匯 作戰指南</title>
 <style>
 :root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
@@ -15,7 +16,7 @@ body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(-
 header{padding:20px 0 4px}
 h1{font-size:1.38em;margin-bottom:2px}
 .lede{color:var(--mt);font-size:.82em;margin-bottom:10px}
-.count{display:inline-flex;align-items:center;gap:8px;background:var(--sf);border:1.5px solid var(--rd);border-radius:999px;
+.count{display:inline-flex;font-family:inherit;cursor:pointer;align-items:center;gap:8px;background:var(--sf);border:1.5px solid var(--rd);border-radius:999px;
   padding:6px 16px;font-size:.86em;font-weight:700;color:var(--rd);margin-bottom:8px}
 .count b{font-size:1.35em}
 
@@ -115,7 +116,7 @@ main section.on{display:block;animation:fi .18s ease}
 <header>
 <h1>初階外匯 作戰指南</h1>
 <div class="lede">兩科在考什麼・最新出題來源・考前準備 <small>（2026-08-23 依官方最新簡章查證）</small></div>
-<div class="count" id="cd">8/27（四）電腦應試</div>
+<button class="count" id="cd" title="點一下設定你的考試日期">設定你的考試日期</button>
 </header>
 
 <main>
@@ -123,19 +124,20 @@ main section.on{display:block;animation:fi .18s ease}
 <!-- ================= 總覽 ================= -->
 <section id="p-home" class="on">
 
-<h2>這一戰的數學</h2>
+<h2>及格數學</h2>
 <div class="warn">
-<b><i class="xi xa y"></i> 成績不保留：</b>兩科要<b>同一場</b>各達 70 分才算通過。8/22 那場匯兌 60、進出口 42.5，全部歸零重來——8/27 是整場重打，不是補考一科。
+<b><i class="xi xa y"></i> 成績不保留：</b>兩科必須<b>在同一場</b>各達 70 分才算通過。只過一科不會留到下一場，等於整場重打——這點決定了所有的時間配置。
 </div>
 
 <div class="scroll"><table>
-<tr><th>科目</th><th class="n">8/22 得分</th><th class="n">及格線</th><th class="n">還要多對</th></tr>
-<tr><td>國外匯兌業務</td><td class="n">60 分（對 30 題）</td><td class="n">70 分＝對 35 題</td><td class="n"><b style="color:var(--yw)">5 題</b></td></tr>
-<tr><td>進出口外匯業務</td><td class="n">42.5 分（對 34 題）</td><td class="n">70 分＝對 56 題</td><td class="n"><b style="color:var(--rd)">22 題</b></td></tr>
+<tr><th>科目</th><th class="n">題數</th><th class="n">每題配分</th><th class="n">70 分＝答對</th></tr>
+<tr><td>國外匯兌業務</td><td class="n">50</td><td class="n">2 分</td><td class="n"><b>35 題</b></td></tr>
+<tr><td>進出口外匯業務</td><td class="n">80</td><td class="n">1.25 分</td><td class="n"><b>56 題</b></td></tr>
 </table></div>
 
 <div class="key">
-<b>配比結論：進出口 65%／匯兌 35%。</b>綁住及格的是進出口——要多對 22 題；匯兌只差 5 題。時間有限時，永遠先餵進出口。
+<b>時間怎麼配：</b>先算<b>各科還差幾題</b>，把時間投在缺口大的那科——不是投在你比較喜歡的那科。
+進出口題數多（80 題）、題庫量也大（約匯兌的 1.6 倍），多數人的缺口在這裡，時間分配通常要往進出口傾斜。
 </div>
 
 <h2>考試規格</h2>
@@ -184,7 +186,7 @@ main section.on{display:block;animation:fi .18s ease}
 <ul>
 <li><b>法源性質：</b>國內法規（強制適用）。主角是管理外匯條例、外匯收支或交易申報辦法、銀行業辦理外匯業務管理辦法。</li>
 <li><b>拿分手感：</b>靠<b>記憶</b>。實測約 54% 是純死記（代號、數字、期限），流程推理吃不到。</li>
-<li><b>8/22 只差 5 題</b>——差的通常就是死背區細節：分類碼、SWIFT 欄位、退票理由、數字階梯。</li>
+<li><b>最常見的失分點</b>是死背區細節：匯款分類碼、SWIFT 欄位、退票理由、各種數字階梯。</li>
 </ul>
 
 <h3>官方命題大綱（114/11/1 起新版）</h3>
@@ -238,7 +240,7 @@ main section.on{display:block;animation:fi .18s ease}
 <ul>
 <li><b>法源性質：</b>國際慣例（UCP600、URC522、ISBP 等，<b>要當事人約定才適用</b>）。沒有主管機關，規則由 ICC 國際商會制定。</li>
 <li><b>拿分手感：</b>靠<b>推理</b>。核心原理只有兩條：①銀行只看單據不看貨物（單據交易原則）②誰承擔風險誰收費。多數題目可以從原理推出答案。</li>
-<li><b>8/27 的主戰場</b>——要多對 22 題。80 題 90 分鐘，量大，除了會答還要練速度。</li>
+<li><b>多數人的主戰場</b>——80 題 90 分鐘，量大，除了會答還要練速度。</li>
 </ul>
 
 <h3>官方命題大綱（114/11/1 起新版）</h3>
@@ -276,7 +278,7 @@ main section.on{display:block;animation:fi .18s ease}
 
 <h3>怎麼準備這科</h3>
 <ol>
-<li><b>把 1410 題吃完是唯一解：</b>8/22 的診斷是覆蓋率不足、不是不夠聰明。這科題庫量是匯兌 1.58 倍，投入時間也要照這個倍數給。</li>
+<li><b>把題庫吃完是唯一解：</b>這科最常見的失敗原因是覆蓋率不足，不是理解力不夠。題庫量是匯兌的 1.58 倍，投入時間也要照這個倍數給。</li>
 <li><b>當事人責任表先架好：</b>開狀行／通知行／押匯行／保兌行／償付行——誰負「兌付義務」誰只負「通知真實性」，用<a href="trade-flow.html">星野模型流程圖</a>走一遍五幕。</li>
 <li><b>審單只有一條原則：</b>銀行審「單據表面」是否相符（5 個銀行營業日），貨物好壞與銀行無關。從這條推 8 成審單題。</li>
 <li><b>託收記兩個字母：</b>D/P 付款交單、D/A 承兌交單；風險排序 預付 &gt; L/C &gt; D/P &gt; D/A &gt; O/A（賣方視角）。</li>
@@ -337,16 +339,16 @@ main section.on{display:block;animation:fi .18s ease}
 
 <h2>最後衝刺怎麼排</h2>
 <div class="warn">
-<b><i class="xd r"></i> 最高紀律：</b>8/22 敗在題庫量沒吃完。<b>工具是加速器不是替代品</b>——這幾天的主餐是刷題，流程圖與筆記只當睡前甜點。
+<b><i class="xd r"></i> 最高紀律：</b>沒過的最常見原因是題庫量沒吃完。<b>工具是加速器不是替代品</b>——主餐是刷題，流程圖與筆記只當睡前甜點。
 </div>
 
 <div class="card" style="font-size:.87em">
-<b>每天的節奏（配比 進出口 65%／匯兌 35%）</b>
+<b>每天的節奏（建議配比 進出口 65%／匯兌 35%，依你的缺口調整）</b>
 <ul style="margin-bottom:0">
 <li><b>通勤・零碎 5 分鐘：</b>drill 背誦模式刷進出口，一輪 10 題就好，重點是輪數多</li>
 <li><b>晚上完整時段：</b>先進出口錯題本清零，再匯兌死背區一個記憶情境（remit-flow 六選一）</li>
 <li><b>兩科交錯、不要一科包一天</b>——交錯刷才記得牢，這是上一戰驗證過的</li>
-<li><b>8/26 有金融常識測驗</b>：當天外匯只排零碎輪，別硬撐完整時段</li>
+<li><b>同期有別的考試</b>：那幾天外匯只排零碎輪，別硬撐完整時段</li>
 <li><b>考前一晚：</b>只讀<a href="notes.html#rank">必背排行榜</a>＋<a href="notes.html#guess">猜題決策卡</a>＋錯題本，不開新題</li>
 </ul>
 </div>
