@@ -420,11 +420,26 @@ main section.on{display:block;animation:fi .18s ease}
 <script>
 // 倒數
 (function(){
-  var d = Math.ceil((new Date(2026,7,27) - new Date().setHours(0,0,0,0)) / 864e5);
-  var el = document.getElementById('cd');
-  if (d > 0) el.innerHTML = '距 8/27（四）電腦應試 <b>' + d + '</b> 天';
-  else if (d === 0) el.innerHTML = '就是今天——照節奏打';
-  else { el.innerHTML = '8/27 已考完'; el.style.borderColor = 'var(--gn)'; el.style.color = 'var(--gn)'; }
+  var KEY = 'fx-exam-date', el = document.getElementById('cd');
+  function show(){
+    var v = localStorage.getItem(KEY);
+    if (!v){ el.textContent = '設定你的考試日期'; el.style.borderColor=''; el.style.color=''; return; }
+    var p = v.split('-');
+    var d = Math.ceil((new Date(+p[0], +p[1]-1, +p[2]) - new Date().setHours(0,0,0,0)) / 864e5);
+    if (d > 0) el.innerHTML = '距 ' + (+p[1]) + '/' + (+p[2]) + ' 應試 <b>' + d + '</b> 天';
+    else if (d === 0) el.innerHTML = '就是今天——照節奏打';
+    else { el.textContent = '已考完'; el.style.borderColor = 'var(--gn)'; el.style.color = 'var(--gn)'; }
+  }
+  el.onclick = function(){
+    var v = prompt('輸入考試日期（YYYY-MM-DD），留空可清除：', localStorage.getItem(KEY) || '');
+    if (v === null) return;
+    v = v.trim();
+    if (!v) localStorage.removeItem(KEY);
+    else if (/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/.test(v)) localStorage.setItem(KEY, v);
+    else return alert('格式請用 YYYY-MM-DD，例如 2026-11-15');
+    show();
+  };
+  show();
 })();
 
 // 分頁切換（hash 可直達）
