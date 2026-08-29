@@ -87,6 +87,7 @@ a{color:var(--cy)}
   <div class="bar2" id="bar2">
     <select id="subj"></select>
     <select id="topic"></select>
+    <select id="qtype"><option value="ALL">全部題型</option></select>
     <button class="btn" id="undone">只看未做</button>
     <button class="btn" id="toc">目錄</button>
     <button class="btn on" id="shuf" title="題序與選項位置隨機"><i class="xi xsh"></i> 洗牌</button>
@@ -112,14 +113,17 @@ a{color:var(--cy)}
 </div>
 </div>
 
-<script src="nav.js?v=2" defer></script>
-<script src="sync.js?v=2"></script>
+<script src="nav.js?v=3" defer></script>
+<script src="sync.js?v=3"></script>
 <script>
-const KEY = 'fx-drill-v2';
+const KEY = 'fx-drill-v3';
+const OLDKEY = 'fx-drill-v2';
 const GRAD = 2;                       // 錯題連續答對幾次才「畢業」
 let DECK = null;
-let S = { q:{}, exams:[] };           // q[id] = {r:對次數, w:錯次數, s:連續對, seen:出現次數}
-let mode = 'learn', subj = '進出口外匯', topicSel = 'ALL', onlyUndone = false;
+let S = { q:{}, exams:[], rounds:[] };
+/* q[id] = {r,w,s,seen, h:"OXX|OO"}
+   h = 作答歷程（O對/X錯，| = 重置分界），永不刪除；r/w/s/seen 只算「本輪」 */
+let mode = 'learn', subj = '進出口外匯', topicSel = 'ALL', typeSel = 'ALL', onlyUndone = false;
 let list = [], idx = 0, revealed = false, picked = null;
 let exam = null, tick = null;
 
@@ -145,11 +149,77 @@ function orderOf(o){
   return { opts: idxs.map(i => raw[i]), ans: idxs.indexOf(ansRaw - 1) + 1, map: idxs };
 }
 const id = (sb, i) => sb[0] + i;
-const rec = k => S.q[k] || {r:0,w:0,s:0,seen:0};
+const rec = k => S.q[k] || {r:0,w:0,s:0,seen:0,h:''};
+
+/* 記錄一次作答：本輪計數 + 追加歷程字元 */
+function logAnswer(k, ok){
+  const r = {...rec(k)};
+  r.h = (r.h || '') + (ok ? 'O' : 'X');
+  r.seen++; if (ok){ r.r++; r.s++; } else { r.w++; r.s = 0; }
+  S.q[k] = r;
+}
+/* 全期（跨重置）統計 */
+function lifetime(k){
+  const h = (rec(k).h || '').replace(/\|/g,'');
+  return { n: h.length, r: (h.match(/O/g)||[]).length };
+}
+/* 掌握度：把「只答對一次（可能是猜的）」跟「真的練會」分開 */
+function mastery(k){
+  const r = rec(k), h = r.h || '', all = h.replace(/\|/g,'');
+  if (!all) return r.seen ? 'old' : 'new';
+  const cur = h.split('|').pop();
+  if (all === 'O') return 'doubt';                 // 總共只答過一次且對
+  if (cur.slice(-1) === 'X') return 'weak';        // 最近一次錯
+  if (all.length >= 2 && cur.slice(-2) === 'OO') return 'solid';
+  return 'shaky';
+}
+const MAS = { new:['未作答','var(--mt)'], old:['舊紀錄','var(--mt)'], doubt:['存疑·可能猜對','var(--yw)'],
+              weak:['未掌握','var(--rd)'], shaky:['不穩','var(--yw)'], solid:['穩固','var(--gn)'] };
 const isWrong = k => { const o = rec(k); return o.w > 0 && o.s < GRAD; };
 
-function load(){ try{ const raw = JSON.parse(localStorage.getItem(KEY)); if(raw && raw.q) S = raw; }catch(e){} }
+function load(){
+  try{ const raw = JSON.parse(localStorage.getItem(KEY)); if (raw && raw.q) S = raw; }catch(e){}
+  if (!S.q || !Object.keys(S.q).length){                    // 首次啟動 → 從 v2 搬過來
+    try{
+      const old = JSON.parse(localStorage.getItem(OLDKEY));
+      if (old && old.q){ S = { q: old.q, exams: old.exams || [], rounds: [] };
+        for (const k in S.q) if (!S.q[k].h) S.q[k].h = '';   // 舊紀錄無歷程，從今天起記
+      }
+    }catch(e){}
+  }
+  S.rounds = S.rounds || []; S.exams = S.exams || [];
+}
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); if (window.ExamSync) ExamSync.touch(); }
+
+/* ---------- 題型分類（依選項長度與型態，對應五類）---------- */
+const RE_NUM = /[0-9０-９]|[一二三四五六七八九十百千萬]+\s*(日|天|月|年|%|％|成|碼|美元|萬|元|營業日|曆日|個月)/;
+const RE_CODE= /MT\s?\d{3}|pacs|camt|pain|\/\/C[HP]|SWIFT/;
+const RE_TERM= /稱為|係指|謂之|指的是|屬下列何種|為下列何者|下列何者為|之意義/;
+const RE_TF  = /何者錯誤|何者正確|何者有誤|何者為非|下列敘述|敘述.{0,4}何者|何者為是|不正確|何者屬|非屬|何者不/;
+const QTYPES = ['①名詞對應','②抓對錯','③長敘述','④數值抽換','④代號抽換'];
+function qtype(q){
+  const opts = q[4], stem = q[3];
+  const L = opts.reduce((a,o)=>a+o.length,0)/4;
+  const nnum  = opts.filter(o=>RE_NUM.test(o)).length;
+  const ncode = opts.filter(o=>RE_CODE.test(o)).length;
+  if (ncode >= 3) return '④代號抽換';
+  if (nnum >= 3 && L <= 16) return '④數值抽換';
+  if (L >= 26) return '③長敘述';
+  if (RE_TF.test(stem) && L >= 13) return '②抓對錯';
+  if (L <= 12 && (RE_TERM.test(stem) || !RE_TF.test(stem))) return '①名詞對應';
+  return '②抓對錯';
+}
+
+/* ---------- 機械化解析（零編造：只重組題目本身的內容）---------- */
+function autoWhy(q, ans){
+  const stem = q[3], opts = q[4];
+  const others = opts.filter((v,i)=>i !== ans-1);
+  if (/何者錯誤|何者有誤|何者為非|何者不正確|下列何者不|非屬/.test(stem))
+    return `正解 (${ans}) 是<b>錯誤</b>敘述。其餘三項<b>都是正確敘述</b>，可以直接當正確知識背：<br>· ` + others.join('<br>· ');
+  if (/何者正確|何者為是|正確的是/.test(stem))
+    return `正解 (${ans}) <b>${opts[ans-1]}</b> 是正確敘述。<br>其餘三項是被改動過的錯誤敘述——對照著看被動手腳的地方（數字／角色／得與不得）：<br>· ` + others.join('<br>· ');
+  return `合成正確敘述：<b>${stem.replace(/[？?]\s*$/,'')} → ${opts[ans-1]}</b>`;
+}
 
 /* ---------- 題目集合 ---------- */
 function pool(){
@@ -159,12 +229,14 @@ function pool(){
     let w = a.filter(o => isWrong(o.k));
     if (topicSel !== 'ALL') w = w.filter(o => d.topics[o.q[0]] === topicSel);
     if (hotOnly) w = w.filter(o => o.q[1] >= 3);
+    if (typeSel !== 'ALL') w = w.filter(o => qtype(o.q) === typeSel);
     return w;
   }
   if (topicSel !== 'ALL') a = a.filter(o => d.topics[o.q[0]] === topicSel);
   if (onlyUndone && mode !== 'exam') a = a.filter(o => rec(o.k).seen === 0);
   if (hideStale) a = a.filter(o => o.q[7] !== 2);          // 排除答案已作廢的題
   if (hotOnly) a = a.filter(o => o.q[1] >= 3);             // 只留回鍋 3 次以上
+  if (typeSel !== 'ALL') a = a.filter(o => qtype(o.q) === typeSel);
   if (shuffleQ && mode !== 'learn') shuffle(a);            // 題序隨機
   return a;
 }
@@ -190,6 +262,16 @@ function startExam(){
   }, 500);
 }
 
+/* 歷程小標籤：OXXO|OO → 上色的圓點序列 + 掌握度 */
+function hTag(k){
+  const h = rec(k).h || '';
+  const dots = h.split('').map(c =>
+    c === '|' ? '<span style="opacity:.45">｜</span>'
+    : `<b style="color:${c==='O'?'var(--gn)':'var(--rd)'};font-weight:800">${c}</b>`).join('');
+  const m = mastery(k);
+  return `${dots}　<span style="color:${MAS[m][1]};font-weight:700">${MAS[m][0]}</span>`;
+}
+
 /* ---------- 渲染 ---------- */
 function render(){
   $('#timer').classList.toggle('hidden', mode !== 'exam' || !exam || exam.submitted);
@@ -200,9 +282,10 @@ function render(){
   $('#stale').classList.toggle('hidden', mode === 'stat');
   $('#hot').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
   $('#topic').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
+  $('#qtype').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
 
   if (mode === 'stat') return renderStat();
-  if (mode === 'exam' && exam && exam.submitted) return renderResult();
+  if (mode === 'exam' && exam && exam.submitted && !exam.reviewing) return renderResult();
   if (!list.length) return renderEmpty();
 
   const d = DECK[subj], o = list[idx];
@@ -212,13 +295,16 @@ function render(){
   revealed = (mode === 'learn');
   picked = (mode === 'exam') ? (exam.answers[o.k] ?? null) : null;
 
-  const inExam = mode === 'exam';
+  const inExam = mode === 'exam' && !(exam && exam.reviewing);
+  const inReview = mode === 'exam' && exam && exam.reviewing;
   $('#view').innerHTML = `
     <div class="card">
       <div class="tags">
         <span class="tag">${d.topics[t]}</span>
         ${cnt>1?`<span class="tag hot">回鍋 ${cnt} 次</span>`:''}
-        ${(!inExam && r.w>0)?`<span class="tag err">錯過 ${r.w} 次</span>`:''}
+        ${(!inExam && r.w>0)?`<span class="tag err">本輪錯 ${r.w} 次</span>`:''}
+        ${!inExam?`<span class="tag" style="background:rgba(49,95,148,.12);color:var(--vi)">${qtype(o.q)}</span>`:''}
+        ${(!inExam && rec(o.k).h)?`<span class="tag src" title="作答歷程：O=對 X=錯 |=重置">${hTag(o.k)}</span>`:''}
         ${src==='模擬新題'?`<span class="tag new">模擬新題</span>`:`<span class="tag src">${src}</span>`}
         ${(stale===2)?`<span class="tag err"><i class="xd r"></i> 答案已作廢</span>`:(stale===1?`<span class="tag hot"><i class="xd y"></i> 存疑</span>`:'')}
       </div>
@@ -231,7 +317,13 @@ function render(){
     <div class="acts" id="acts"></div>`;
 
   $('#opts').querySelectorAll('.opt').forEach(el => el.onclick = () => pick(+el.dataset.i));
-  if (mode === 'learn') showAnswer(false);
+  if (inReview){                                   // 交卷後逐題回顧：標出你選的與正解
+    const myAns = exam.answers[o.k], correctAns = orderOf(o).ans;
+    showAnswer(true, myAns ?? -1, myAns === correctAns);
+    if (!myAns) $('#verdict').insertAdjacentHTML('afterbegin',
+      '<div class="verdict no"><i class="xi xx r"></i> 這題你沒有作答</div>');
+  }
+  else if (mode === 'learn') showAnswer(false);
   if (inExam && picked) markPick(picked);
   drawActs();
   updateBars();
@@ -240,6 +332,14 @@ function render(){
 
 function drawActs(){
   const a = $('#acts');
+  if (mode === 'exam' && exam && exam.reviewing){
+    a.innerHTML = `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題 →</button>
+                   <button class="btn full" id="backRes">回成績單</button>`;
+    $('#prev').onclick = () => { if (idx>0){ idx--; render(); } };
+    $('#next').onclick = () => { if (idx < list.length-1){ idx++; render(); } else { exam.reviewing=false; render(); } };
+    $('#backRes').onclick = () => { exam.reviewing = false; render(); };
+    return;
+  }
   if (mode === 'exam'){
     a.innerHTML = `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題 →</button>`;
     $('#prev').onclick = () => go(-1); $('#next').onclick = () => go(1);
@@ -261,9 +361,7 @@ function pick(n){
   if (mode === 'exam'){ exam.answers[o.k] = n; markPick(n); updateBars(); return; }
   if (mode === 'learn' || revealed) return;
   const correct = (n === orderOf(o).ans);
-  const r = {...rec(o.k)};
-  r.seen++; if (correct){ r.r++; r.s++; } else { r.w++; r.s = 0; }
-  S.q[o.k] = r; save();
+  logAnswer(o.k, correct); save();
   revealed = true;
   showAnswer(true, n, correct);
   drawActs(); updateBars(); refreshWrongCount();
@@ -283,11 +381,14 @@ function showAnswer(judged, n, correct){
     else if (judged && i === n) el.classList.add('bad');
     else el.classList.add('dim');
   });
+  const oNow = list[idx];
+  let html = '';
   if (judged){
-    $('#verdict').innerHTML = correct
+    html = correct
       ? `<div class="verdict ok"><i class="xi xk g"></i> 正確！${rec(list[idx].k).s >= GRAD ? '（已從錯題本畢業）' : ''}</div>`
       : `<div class="verdict no"><i class="xi xx r"></i> 答錯了，正解是 (${ans})　→ 已加入錯題本，答對 ${GRAD} 次才畢業</div>`;
   }
+  $('#verdict').innerHTML = html + `<div class="why" style="margin-top:10px">${autoWhy(oNow.q, ans)}</div>`;
 }
 
 function go(step){
@@ -337,9 +438,7 @@ function submitExam(){
   list.forEach(o => {
     const pickd = exam.answers[o.k];
     const ok = pickd === orderOf(o).ans;
-    const r = {...rec(o.k)};
-    r.seen++; if (ok){ r.r++; r.s++; } else { r.w++; r.s = 0; }
-    S.q[o.k] = r;
+    logAnswer(o.k, ok);
     if (ok) right++;
   });
   const per = subj === '國外匯兌' ? 2 : 1.25;
@@ -369,9 +468,17 @@ function renderResult(){
         `<div class="row"><span>${t}</span><small>錯 ${n} 題</small></div>`).join('') || '<div class="empty">全對！</div>'}
     </div>
     <div class="acts">
-      <button class="btn full big" id="reviewWrong">複習這次的錯題 →</button>
+      <button class="btn full big" id="reviewAll">逐題回顧這份考卷 →</button>
+      <button class="btn" id="reviewWrongOnly">只看答錯的</button>
+      <button class="btn" id="reviewWrong">進錯題本</button>
       <button class="btn full" id="again">再考一次</button>
     </div>`;
+  $('#reviewAll').onclick = () => { exam.reviewing = true; idx = 0; render(); };
+  $('#reviewWrongOnly').onclick = () => {
+    const bad = list.filter(o => exam.answers[o.k] !== orderOf(o).ans);
+    if (!bad.length) return alert('這份考卷全對！');
+    list = bad; exam.reviewing = true; idx = 0; render();
+  };
   $('#reviewWrong').onclick = () => setMode('wrong');
   $('#again').onclick = () => { startExam(); render(); };
   $('#pbar').style.width = '100%';
@@ -382,6 +489,48 @@ function renderResult(){
 /* ---------- 統計 ---------- */
 function renderStat(){
   let html = '';
+  /* 全期累計（跨重置，來自作答歷程） */
+  let lifeN = 0, lifeR = 0, touched = 0, bankTotal = 0;
+  const mcount = { new:0, old:0, doubt:0, weak:0, shaky:0, solid:0 };
+  const byType = {};
+  for (const sb of Object.keys(DECK)){
+    const d = DECK[sb];
+    d.qs.forEach((q,i) => {
+      bankTotal++;
+      const k = id(sb,i), lt = lifetime(k);
+      lifeN += lt.n; lifeR += lt.r; if (lt.n) touched++;
+      mcount[mastery(k)]++;
+      const ty = qtype(q); byType[ty] = byType[ty] || {r:0,w:0,n:0};
+      byType[ty].n++;
+      const rr = rec(k); byType[ty].r += rr.r||0; byType[ty].w += rr.w||0;
+    });
+  }
+  html += `<h3>全期累計（不受「新一輪」影響）</h3>
+    <div class="kpi">
+      <div><b>${touched}</b><span>碰過的題／${bankTotal}</span></div>
+      <div><b>${lifeN}</b><span>累計作答次數</span></div>
+      <div><b>${lifeN?(lifeR/lifeN*100).toFixed(0):0}%</b><span>全期正確率</span></div>
+      <div><b>${bankTotal-touched}</b><span>還沒碰過</span></div>
+    </div>
+    <h3>掌握度分布</h3>
+    <div style="font-size:.72em;color:var(--mt);margin-bottom:4px">「存疑」＝總共只答對過一次，可能是猜的，值得再驗一次</div>` +
+    ['solid','shaky','doubt','weak','old','new'].filter(m=>mcount[m]).map(m =>
+      `<div class="row"><span style="color:${MAS[m][1]};font-weight:700">${MAS[m][0]}</span><small>${mcount[m]} 題</small></div>`).join('');
+  html += `<h3>各題型表現（本輪）</h3>
+    <div style="font-size:.72em;color:var(--mt);margin-bottom:4px">正確率最低的題型＝最該換方法練的地方</div>` +
+    Object.entries(byType).map(([ty,v]) => [ty, v.r+v.w ? v.r/(v.r+v.w)*100 : -1, v.n, v.r+v.w])
+      .sort((a,b)=>a[1]-b[1]).map(([ty,acc,n,att]) => {
+        const cls = acc<0 ? '' : acc<60?'r-bad':acc<75?'r-mid':'r-good';
+        return `<div class="row"><span>${ty}<br><small>題庫 ${n} 題</small></span>
+          <span><span class="rate ${cls}">${acc<0?'—':acc.toFixed(0)+'%'}</span> <small>(${att} 次)</small></span></div>`;
+      }).join('');
+  if (S.rounds && S.rounds.length){
+    html += `<h3>各輪對比</h3>` + S.rounds.map((x,i) =>
+      `<div class="row"><span>第 ${i+1} 輪　<small>${x.at}</small></span>
+       <span><span class="rate ${x.r+x.w && x.r/(x.r+x.w)>=0.7?'r-good':'r-mid'}">${x.r+x.w?(x.r/(x.r+x.w)*100).toFixed(0):0}%</span>
+       <small>作答 ${x.seen}</small></span></div>`).join('') +
+      `<div class="row"><span><b>本輪（進行中）</b></span><small>見下方各科</small></div>`;
+  }
   for (const sb of Object.keys(DECK)){
     const d = DECK[sb], total = d.qs.length;
     let seen = 0, r = 0, w = 0, pool = 0;
@@ -538,6 +687,8 @@ function setMode(m){
 }
 
 function fillSelects(){
+  $('#qtype').innerHTML = '<option value="ALL">全部題型</option>' +
+    QTYPES.map(x => `<option${x===typeSel?' selected':''}>${x}</option>`).join('');
   $('#subj').innerHTML = Object.keys(DECK).map(s => `<option${s===subj?' selected':''}>${s}</option>`).join('');
   $('#topic').innerHTML = '<option value="ALL">全部考點</option>' +
     DECK[subj].topics.map(t => `<option${t===topicSel?' selected':''}>${t}</option>`).join('');
@@ -546,6 +697,7 @@ function fillSelects(){
 document.querySelectorAll('.modes button').forEach(b => b.onclick = () => setMode(b.dataset.m));
 $('#subj').onchange = e => { subj = e.target.value; topicSel = 'ALL'; fillSelects(); mode==='exam'?setMode('exam'):build(); };
 $('#topic').onchange = e => { topicSel = e.target.value; build(); };
+$('#qtype').onchange = e => { typeSel = e.target.value; build(); };
 $('#undone').onclick = e => { onlyUndone = !onlyUndone; e.target.classList.toggle('on', onlyUndone); build(); };
 $('#shuf').onclick = e => { shuffleOpt = shuffleQ = !shuffleOpt; e.target.classList.toggle('on', shuffleOpt);
   seed = Date.now() % 100000; build(); };
@@ -554,7 +706,20 @@ $('#stale').onclick = e => { hideStale = !hideStale; e.target.classList.toggle('
 $('#hot').onclick = e => { hotOnly = !hotOnly; e.target.classList.toggle('on', hotOnly);
   e.target.textContent = hotOnly ? '高頻 3+' : '高頻'; build(); };
 $('#submit').onclick = () => { if (confirm('確定交卷批改？')) submitExam(); };
-$('#reset').onclick = e => { e.preventDefault(); if (confirm('清除所有作答紀錄與模擬考成績？')){ S = {q:{},exams:[]}; save(); refreshWrongCount(); build(); } };
+$('#reset').onclick = e => {
+  e.preventDefault();
+  if (!confirm('開始新一輪？本輪的對錯計數與錯題本會歸零，但「作答歷程」會完整保留（可在統計頁看各輪對比）。')) return;
+  const snap = { at: new Date().toISOString().slice(0,16).replace('T',' '), seen:0, r:0, w:0 };
+  for (const k in S.q){
+    const r = S.q[k];
+    snap.seen += r.seen||0; snap.r += r.r||0; snap.w += r.w||0;
+    r.h = (r.h || '') + '|';
+    r.r = 0; r.w = 0; r.s = 0; r.seen = 0;
+  }
+  if (snap.seen) S.rounds.push(snap);
+  save(); refreshWrongCount(); build();
+  alert('已開始新一輪。上一輪成績已存入統計頁的「各輪對比」。');
+};
 
 $('#toc').onclick = () => {
   const d = DECK[subj];
