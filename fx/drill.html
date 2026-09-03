@@ -220,14 +220,15 @@ function qtype(q){
 }
 
 /* ---------- 機械化解析（零編造：只重組題目本身的內容）---------- */
-function autoWhy(q, ans){
-  const stem = q[3], opts = q[4];
-  const others = opts.filter((v,i)=>i !== ans-1);
+function autoWhy(q, ansRaw, ansShown){   // ansRaw=題庫原始正解編號（取內容用）；ansShown=洗牌後畫面上的編號（顯示用）
+  const stem = q[3], opts = q[4], ans = ansShown || ansRaw;
+  const pick = opts[ansRaw-1];
+  const others = opts.filter((v,i)=>i !== ansRaw-1);
   if (/何者錯誤|何者有誤|何者為非|何者不正確|下列何者不|非屬/.test(stem))
     return `正解 (${ans}) 是<b>錯誤</b>敘述。其餘三項<b>都是正確敘述</b>，可以直接當正確知識背：<br>· ` + others.join('<br>· ');
   if (/何者正確|何者為是|正確的是/.test(stem))
-    return `正解 (${ans}) <b>${opts[ans-1]}</b> 是正確敘述。<br>其餘三項是被改動過的錯誤敘述——對照著看被動手腳的地方（數字／角色／得與不得）：<br>· ` + others.join('<br>· ');
-  return `合成正確敘述：<b>${stem.replace(/[？?]\s*$/,'')} → ${opts[ans-1]}</b>`;
+    return `正解 (${ans}) <b>${pick}</b> 是正確敘述。<br>其餘三項是被改動過的錯誤敘述——對照著看被動手腳的地方（數字／角色／得與不得）：<br>· ` + others.join('<br>· ');
+  return `合成正確敘述：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
 }
 
 /* ---------- 題目集合 ---------- */
@@ -399,7 +400,7 @@ function showAnswer(judged, n, correct){
       ? `<div class="verdict ok"><i class="xi xk g"></i> 正確！${rec(list[idx].k).s >= GRAD ? '（已從錯題本畢業）' : ''}</div>`
       : `<div class="verdict no"><i class="xi xx r"></i> 答錯了，正解是 (${ans})　→ 已加入錯題本，答對 ${GRAD} 次才畢業</div>`;
   }
-  $('#verdict').innerHTML = html + `<div class="why" style="margin-top:10px">${autoWhy(oNow.q, ans)}</div>`;
+  $('#verdict').innerHTML = html + `<div class="why" style="margin-top:10px">${autoWhy(oNow.q, oNow.q[5], ans)}</div>`;
 }
 
 function go(step){
