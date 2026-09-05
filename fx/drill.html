@@ -58,6 +58,14 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
 /* 篩選列摺疊：手機預設收起，計時器與交卷鈕（.always）不受影響 */
 .bar2.collapsed > :not(.always){display:none}
 #fold{color:var(--mt)}
+/* 密度自適應：長題縮小字級與內距，維持版面一致 */
+.card.dense1 .stem{font-size:.93em;line-height:1.55}
+.card.dense1 .opt{font-size:.85em;padding:8px 10px;margin-bottom:6px;line-height:1.5}
+.card.dense2{padding:12px}
+.card.dense2 .stem{font-size:.87em;line-height:1.5;margin-bottom:10px}
+.card.dense2 .opt{font-size:.8em;padding:7px 9px;margin-bottom:5px;line-height:1.45}
+.card.dense2 .tags{margin-bottom:7px}
+.card.dense2 .why,.card.dense2 .warn{font-size:.74em}
 .big{background:var(--cy);color:#fff;border-color:var(--cy)}
 .full{grid-column:1/-1}
 
@@ -316,8 +324,11 @@ function render(){
 
   const inExam = mode === 'exam' && !(exam && exam.reviewing);
   const inReview = mode === 'exam' && exam && exam.reviewing;
+  // 密度自適應：長題自動縮小字級與內距，讓版面構圖盡量一致
+  const textLen = stem.length + opts.reduce((s,v)=>s+v.length,0);
+  const dense = textLen > 320 ? ' dense2' : (textLen > 160 ? ' dense1' : '');
   $('#view').innerHTML = `
-    <div class="card">
+    <div class="card${dense}">
       <div class="tags">
         <span class="tag">${d.topics[t]}</span>
         ${cnt>1?`<span class="tag hot">回鍋 ${cnt} 次</span>`:''}
