@@ -749,12 +749,12 @@ $('#hot').onclick = e => { hotOnly = !hotOnly; e.target.classList.toggle('on', h
 $('#submit').onclick = () => { if (confirm('確定交卷批改？')) submitExam(); };
 /* 篩選列摺疊（手機預設收起；狀態記在本機） */
 const FOLDKEY = 'fx-drill-fold';
-function setFold(f){
+function setFold(f, persist){
   $('#bar2').classList.toggle('collapsed', f);
   $('#fold').textContent = f ? '篩選 ▸' : '篩選 ▾';
-  try{ localStorage.setItem(FOLDKEY, f ? '1' : '0'); }catch(e){}
+  if (persist) try{ localStorage.setItem(FOLDKEY, f ? '1' : '0'); }catch(e){}
 }
-$('#fold').onclick = () => setFold(!$('#bar2').classList.contains('collapsed'));
+$('#fold').onclick = () => setFold(!$('#bar2').classList.contains('collapsed'), true);
 { let f0 = null;
   try{ f0 = localStorage.getItem(FOLDKEY); }catch(e){}
   setFold(f0 === null ? matchMedia('(max-width:700px)').matches : f0 === '1'); }
