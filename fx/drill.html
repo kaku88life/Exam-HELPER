@@ -50,8 +50,14 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
 .verdict.no{background:rgba(179,69,58,.11);color:var(--rd)}
 .hidden{display:none}
 
-.acts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px;
+  position:sticky;bottom:0;z-index:15;background:var(--bg);
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  box-shadow:0 -6px 12px -8px rgba(0,0,0,.18)}
 .acts .btn{padding:12px;font-size:.9em;font-weight:700;text-align:center}
+/* 篩選列摺疊：手機預設收起，計時器與交卷鈕（.always）不受影響 */
+.bar2.collapsed > :not(.always){display:none}
+#fold{color:var(--mt)}
 .big{background:var(--cy);color:#fff;border-color:var(--cy)}
 .full{grid-column:1/-1}
 
@@ -86,6 +92,7 @@ a{color:var(--cy)}
 
 <header>
   <div class="bar2" id="bar2">
+    <button class="btn always" id="fold" title="展開／收合篩選列">篩選 ▾</button>
     <select id="subj"></select>
     <select id="topic"></select>
     <select id="qtype"><option value="ALL">全部題型</option></select>
@@ -94,8 +101,8 @@ a{color:var(--cy)}
     <button class="btn on" id="shuf" title="題序與選項位置隨機"><i class="xi xsh"></i> 洗牌</button>
     <button class="btn" id="hot" title="只練回鍋 3 次以上的高頻題">高頻</button>
     <button class="btn on" id="stale" title="排除答案已因修法作廢的題目">排除作廢</button>
-    <span class="timer hidden" id="timer"></span>
-    <button class="btn hidden" id="submit">交卷</button>
+    <span class="timer hidden always" id="timer"></span>
+    <button class="btn hidden always" id="submit">交卷</button>
   </div>
   <div class="prog"><i id="pbar"></i></div>
   <div class="meta"><span id="pos"></span><span id="stat"></span></div>
@@ -740,6 +747,17 @@ $('#stale').onclick = e => { hideStale = !hideStale; e.target.classList.toggle('
 $('#hot').onclick = e => { hotOnly = !hotOnly; e.target.classList.toggle('on', hotOnly);
   e.target.textContent = hotOnly ? '高頻 3+' : '高頻'; build(); };
 $('#submit').onclick = () => { if (confirm('確定交卷批改？')) submitExam(); };
+/* 篩選列摺疊（手機預設收起；狀態記在本機） */
+const FOLDKEY = 'fx-drill-fold';
+function setFold(f){
+  $('#bar2').classList.toggle('collapsed', f);
+  $('#fold').textContent = f ? '篩選 ▸' : '篩選 ▾';
+  try{ localStorage.setItem(FOLDKEY, f ? '1' : '0'); }catch(e){}
+}
+$('#fold').onclick = () => setFold(!$('#bar2').classList.contains('collapsed'));
+{ let f0 = null;
+  try{ f0 = localStorage.getItem(FOLDKEY); }catch(e){}
+  setFold(f0 === null ? matchMedia('(max-width:700px)').matches : f0 === '1'); }
 $('#reset').onclick = e => {
   e.preventDefault();
   if (!confirm('開始新一輪？本輪的對錯計數與錯題本會歸零，但「作答歷程」會完整保留（可在統計頁看各輪對比）。')) return;
