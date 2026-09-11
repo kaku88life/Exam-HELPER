@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>內控內稽 題庫分析 · Exam HELPER</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;-webkit-overflow-scrolling:touch}
+.wrap{max-width:620px;margin:0 auto;padding:14px 14px 60px}
+.nav{position:sticky;top:0;z-index:20;background:var(--bg);padding:8px 2px 10px;border-bottom:1px solid var(--cd);margin-bottom:14px}
+.nav a{color:var(--cy);text-decoration:none;font-size:.82em;font-weight:700}
+.nav .t{font-size:.95em;font-weight:800;margin-top:2px}
+h2{font-size:1em;margin:22px 0 4px;display:flex;align-items:center;gap:8px}
+h2 .n{font-size:.7em;color:var(--mt);font-weight:400}
+.lead{font-size:.78em;color:var(--mt);line-height:1.6;margin-bottom:10px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:14px 15px;margin-bottom:12px}
+.kpi{display:flex;gap:10px;flex-wrap:wrap}
+.kpi .b{flex:1;min-width:120px;background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:12px 13px}
+.kpi .big{font-size:1.5em;font-weight:800;line-height:1.1}
+.kpi .lab{font-size:.68em;color:var(--mt);margin-top:3px;line-height:1.4}
+.bars{margin-top:6px}
+.brow{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:.76em}
+.brow .lb{flex:0 0 96px;text-align:right;color:var(--mt)}
+.brow .tr{flex:1;background:#eef1ec;border-radius:5px;height:16px;overflow:hidden;border:1px solid var(--cd)}
+.brow .fl{height:100%;border-radius:5px}
+.brow .vv{flex:0 0 78px;font-variant-numeric:tabular-nums}
+.f-cy{background:var(--cy)}.f-gn{background:var(--gn)}.f-vi{background:var(--vi)}.f-yw{background:var(--yw)}.f-rd{background:var(--rd)}
+table{width:100%;border-collapse:collapse;font-size:.76em}
+th,td{text-align:left;padding:6px 6px;border-bottom:1px solid var(--cd)}
+th{color:var(--mt);font-weight:700}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+.hl{background:rgba(179,69,58,.06);border-left:3px solid var(--rd);border-radius:0 8px 8px 0;padding:10px 12px;font-size:.8em;line-height:1.6;margin:8px 0}
+.hl b{color:var(--rd)}
+.ok{background:rgba(96,114,67,.08);border-left:3px solid var(--gn);border-radius:0 8px 8px 0;padding:10px 12px;font-size:.8em;line-height:1.6;margin:8px 0}
+.ok b{color:var(--gn)}
+.foot{text-align:center;margin-top:26px;font-size:.68em;color:var(--mt)}
+.foot a{color:var(--cy)}
+svg{display:block;width:100%;height:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a href="../index.html">← 回總覽</a> &nbsp; <a href="drill.html">→ 去刷題</a>
+    <div class="t">內控內稽 題庫分析</div>
+  </div>
+
+  <p class="lead">題庫涵蓋第 29–49 期（21 屆），去重後：法規 743 題／一般金融實務 968 題／消金實務 925 題。以下數據皆由題庫實算，非官方大綱推估。</p>
+
+  <h2>① 及格數學 <span class="n">兩科各需 70，不看平均</span></h2>
+  <div class="kpi">
+    <div class="b"><div class="big" style="color:var(--vi)">35<span style="font-size:.5em">/50</span></div><div class="lab">法規要對幾題<br>(每題2分 → 70)</div></div>
+    <div class="b"><div class="big" style="color:var(--gn)">56<span style="font-size:.5em">/80</span></div><div class="lab">實務要對幾題<br>(每題1.25分 → 70)</div></div>
+    <div class="b"><div class="big" style="color:var(--rd)">雙門檻</div><div class="lab">法規、實務任一科<br>不到 70 就不合格</div></div>
+  </div>
+
+  <h2>② 考古題命中率 <span class="n">某屆的題有多少在更早屆出現過（模糊比對 ≥0.85）</span></h2>
+  <div class="card">
+    <div class="bars">
+      <div class="brow"><span class="lb">法規</span><span class="tr"><span class="fl f-vi" style="width:45%"></span></span><span class="vv">≈45%</span></div>
+      <div class="brow"><span class="lb">一般實務</span><span class="tr"><span class="fl f-gn" style="width:72%"></span></span><span class="vv">≈72%</span></div>
+      <div class="brow"><span class="lb">消金實務</span><span class="tr"><span class="fl f-gn" style="width:69%"></span></span><span class="vv">≈69%</span></div>
+    </div>
+    <table style="margin-top:12px">
+      <tr><th>期別</th><th class="r">法規</th><th class="r">一般實務</th><th class="r">消金實務</th></tr>
+      <tr><td>45期</td><td class="r">54%</td><td class="r">76%</td><td class="r">65%</td></tr>
+      <tr><td>46期</td><td class="r">42%</td><td class="r">74%</td><td class="r">68%</td></tr>
+      <tr><td>47期</td><td class="r">40%</td><td class="r">75%</td><td class="r">80%</td></tr>
+      <tr><td>48期</td><td class="r">52%</td><td class="r">71%</td><td class="r">70%</td></tr>
+      <tr><td>49期</td><td class="r">48%</td><td class="r">71%</td><td class="r">68%</td></tr>
+    </table>
+    <div class="ok"><b>實務 ~72%</b>：刷完題庫基本就過 70（穩拿約 57/80）。</div>
+    <div class="hl"><b>法規 ~45%</b>：刷古題穩拿約 22-23/50，離門檻 35 還差約 12 題 → 必須補法規觀念（見 ⑤）。此為下限，實際更高。</div>
+  </div>
+
+  <h2>③ 法規深度曲線 <span class="n">往回念 K 屆，能命中最新第49期的比例</span></h2>
+  <div class="card">
+    <svg viewBox="0 0 320 170" role="img" aria-label="法規深度曲線">
+      <!-- axes -->
+      <line x1="34" y1="6" x2="34" y2="140" stroke="#d7ded8"/>
+      <line x1="34" y1="140" x2="312" y2="140" stroke="#d7ded8"/>
+      <!-- y ticks 0,25,50 -->
+      <text x="30" y="143" font-size="8" fill="#66736d" text-anchor="end">0</text>
+      <text x="30" y="97" font-size="8" fill="#66736d" text-anchor="end">25%</text>
+      <text x="30" y="52" font-size="8" fill="#66736d" text-anchor="end">50%</text>
+      <line x1="34" y1="94" x2="312" y2="94" stroke="#eef1ec"/>
+      <line x1="34" y1="48" x2="312" y2="48" stroke="#eef1ec"/>
+      <!-- polyline: K=3(2%),5(14%),8(22%),10(26%),15(40%),20(48%). x maps 3..20 -> 40..305; y: 140 - pct*1.84 -->
+      <polyline fill="none" stroke="#315f94" stroke-width="2.4"
+        points="43,136 71,114 113,100 141,92 224,66 305,52"/>
+      <g fill="#315f94">
+        <circle cx="43" cy="136" r="3"/><circle cx="71" cy="114" r="3"/><circle cx="113" cy="100" r="3"/>
+        <circle cx="141" cy="92" r="3"/><circle cx="224" cy="66" r="3"/><circle cx="305" cy="52" r="3"/>
+      </g>
+      <g font-size="8" fill="#17211d" text-anchor="middle">
+        <text x="43" y="130">2%</text><text x="71" y="108">14%</text><text x="113" y="94">22%</text>
+        <text x="141" y="86">26%</text><text x="224" y="60">40%</text><text x="299" y="46">48%</text>
+      </g>
+      <g font-size="8" fill="#66736d" text-anchor="middle">
+        <text x="43" y="152">3屆</text><text x="71" y="152">5屆</text><text x="113" y="152">8屆</text>
+        <text x="141" y="152">10屆</text><text x="224" y="152">15屆</text><text x="305" y="152">全21屆</text>
+      </g>
+    </svg>
+    <div class="hl"><b>只刷最近 3 屆 → 只命中 2%。</b>法規回鍋題散在整整 20 屆，必須全刷，且即使全刷也僅 ~48%。「刷近幾屆就好」對法規是致命陷阱。</div>
+  </div>
+
+  <h2>④ 實務業務別比重 <span class="n">一般金融實務 968 題去重</span></h2>
+  <div class="card">
+    <div class="bars" id="topicBars"></div>
+    <div class="ok"><b>授信暨逾放 17% 最大宗＝你的本業</b>，加存匯 15%、內控制度 9% → 三者近 42%，刷題從這裡打頭陣。消金類則消費金融題翻倍（~14%）。</div>
+  </div>
+
+  <h2>⑤ 法規「法源熱度」 <span class="n">法規題最常引用的法規（去重法規題出現數）</span></h2>
+  <div class="card">
+    <div class="lead" style="margin-bottom:8px">法規命中率低、要補觀念——補哪些？資料說話：把心力壓在下面前幾大法源，就吃掉法規題的大半。</div>
+    <div class="bars" id="lawBars"></div>
+    <div class="hl">最該精讀：<b>《公開發行公司及銀行業內部控制及稽核制度實施辦法》</b>（96 題、遙遙領先）＋《信用卡業務機構管理辦法》＋《銀行法》＋兩份作業要點（安全維護／詐騙通報）＋《徵信準則》。這幾部涵蓋法規題的大宗。</div>
+  </div>
+
+  <div class="foot">
+    數據由題庫實算（腳本 fuzzy_in / analyze_stats）· 題目為台灣金融研訓院公告歷屆試題，著作權屬該院<br>
+    <a href="drill.html">→ 開始刷題</a> · Built with Claude Code
+  </div>
+</div>
+
+<script>
+// 實務業務別（一般金融 in2）
+var TOPICS=[["授信暨逾放",17.1,"rd"],["存匯",15.4,"cy"],["內控/內稽制度",9.3,"vi"],["票券證券",8.0,"gn"],["消費金融",6.9,"yw"],["資訊/資安",6.2,"cy"],["信託",6.2,"gn"],["外匯",5.6,"vi"],["財富管理",4.8,"gn"],["衍生性商品",3.6,"cy"],["出納",3.1,"gn"],["投資",1.9,"vi"],["其他/通則",11.1,"gn"]];
+// 法源熱度（法規題出現題數；已合併同法碎片）
+var LAWS=[["內部控制及稽核制度實施辦法",96,"rd"],["信用卡業務機構管理辦法",34,"cy"],["銀行法",46,"vi"],["安全維護注意要點",16,"gn"],["同業詐騙案件通報要點",15,"yw"],["銀行公會徵信準則",17,"cy"],["金融控股公司法",14,"vi"],["逾放催收呆帳處理辦法",7,"gn"],["作業委外辦法",6,"cy"],["出售不良債權注意事項",6,"gn"],["票券金融管理法",4,"vi"],["銀行公會授信準則",4,"yw"],["ATM安全防護準則",4,"cy"],["外匯申報辦法",4,"gn"]];
+function drawBars(el,rows,max){
+  var mx=max||Math.max.apply(null,rows.map(function(r){return r[1];}));
+  el.innerHTML=rows.map(function(r){
+    var w=Math.round(r[1]/mx*100);
+    return '<div class="brow"><span class="lb">'+r[0]+'</span><span class="tr"><span class="fl f-'+r[2]+'" style="width:'+w+'%"></span></span><span class="vv">'+r[1]+(el.id==="topicBars"?'%':' 題')+'</span></div>';
+  }).join('');
+}
+drawBars(document.getElementById('topicBars'),TOPICS,18);
+drawBars(document.getElementById('lawBars'),LAWS,100);
+</script>
+</body>
+</html>

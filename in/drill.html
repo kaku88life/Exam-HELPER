@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>內控內稽 刷題器 · Exam HELPER</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#607243;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;-webkit-overflow-scrolling:touch}
+.wrap{max-width:620px;margin:0 auto;padding:14px 14px 60px}
+.nav{position:sticky;top:0;z-index:20;background:var(--bg);padding:8px 2px 10px;border-bottom:1px solid var(--cd);margin-bottom:12px}
+.nav a{color:var(--cy);text-decoration:none;font-size:.82em;font-weight:700}
+.nav .t{font-size:.95em;font-weight:800;margin-top:2px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--cd);border-radius:999px;overflow:hidden;background:var(--sf)}
+.seg button{border:none;background:none;font-family:inherit;font-size:.76em;padding:6px 12px;cursor:pointer;color:var(--mt);min-height:34px}
+.seg button.on{background:var(--cy);color:#fff;font-weight:700}
+select{font-family:inherit;font-size:.76em;padding:6px 8px;border:1px solid var(--cd);border-radius:8px;background:var(--sf);color:var(--tx);min-height:34px}
+.modes{margin:10px 0 6px}
+.modes button{border:1px solid var(--cd);background:var(--sf);border-radius:999px;font-family:inherit;font-size:.78em;padding:7px 14px;cursor:pointer;color:var(--tx);min-height:38px}
+.modes button.on{background:var(--tx);color:#fff;border-color:var(--tx);font-weight:700}
+.bar{font-size:.72em;color:var(--mt);margin:6px 0 12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:16px 15px;margin-bottom:12px}
+.meta{font-size:.66em;color:var(--mt);margin-bottom:9px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{border:1px solid var(--cd);border-radius:4px;padding:1px 7px}
+.chip.law{color:var(--vi)}.chip.prac{color:var(--gn)}.chip.freq{color:var(--yw)}
+.stem{font-size:1.02em;line-height:1.62;margin-bottom:14px}
+.opt{display:block;width:100%;text-align:left;font-family:inherit;font-size:.92em;line-height:1.5;background:var(--sf);border:1.5px solid var(--cd);border-radius:8px;padding:11px 13px;margin-bottom:8px;cursor:pointer;color:var(--tx);transition:border-color .12s}
+.opt:hover{border-color:var(--cy)}
+.opt .k{font-weight:800;color:var(--mt);margin-right:8px}
+.opt.correct{border:2.5px solid var(--gn);background:rgba(96,114,67,.09)}
+.opt.correct .k{color:var(--gn)}
+.opt.wrong{border:2.5px dashed var(--rd);background:rgba(179,69,58,.07)}
+.opt.wrong .k{color:var(--rd)}
+.opt .mark{float:right;font-weight:800}
+.opt.correct .mark{color:var(--gn)}.opt.wrong .mark{color:var(--rd)}
+.exp{font-size:.8em;line-height:1.6;background:rgba(8,122,115,.06);border-left:3px solid var(--cy);border-radius:0 8px 8px 0;padding:10px 12px;margin-top:4px;color:var(--tx)}
+.exp b{color:var(--cy)}
+.acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.acts button{flex:1;min-width:110px;border:1px solid var(--cd);background:var(--sf);border-radius:8px;font-family:inherit;font-size:.82em;padding:11px;cursor:pointer;color:var(--tx);min-height:44px}
+.acts button.primary{background:var(--cy);color:#fff;border-color:var(--cy);font-weight:700}
+.acts button.mastered{background:rgba(96,114,67,.15);border-color:var(--gn);color:var(--gn);font-weight:700}
+.empty{text-align:center;color:var(--mt);font-size:.85em;padding:40px 10px;line-height:1.7}
+.stat{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:14px;margin-bottom:10px}
+.stat h3{font-size:.9em;margin-bottom:10px}
+.trow{display:flex;justify-content:space-between;font-size:.78em;padding:6px 0;border-bottom:1px solid var(--cd)}
+.trow:last-child{border:none}
+.trow .n{color:var(--mt)}
+.mockhd{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:14px;margin-bottom:12px;font-size:.82em;line-height:1.7}
+.big{font-size:1.4em;font-weight:800}
+.pass{color:var(--gn)}.fail{color:var(--rd)}
+.legend{font-size:.66em;color:var(--mt);background:var(--sf);border:1px dashed var(--cd);border-radius:8px;padding:9px 11px;margin-bottom:12px;line-height:1.7}
+.foot{text-align:center;margin-top:26px;font-size:.68em;color:var(--mt)}
+.foot a{color:var(--cy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a href="../index.html">← 回總覽</a>
+    <div class="t">內控內稽 刷題器</div>
+    <div class="row" style="margin-top:8px">
+      <span style="font-size:.72em;color:var(--mt)">類別</span>
+      <div class="seg" id="catSeg">
+        <button data-cat="gen" class="on">一般金融</button>
+        <button data-cat="csm">消費金融</button>
+      </div>
+      <div class="seg" id="secSeg">
+        <button data-sec="all" class="on">全部</button>
+        <button data-sec="law">法規</button>
+        <button data-sec="prac">實務</button>
+      </div>
+      <select id="topicSel"><option value="">業務別（全部）</option></select>
+    </div>
+    <div class="modes row" id="modes">
+      <button data-m="learn" class="on">背誦</button>
+      <button data-m="quiz">測驗</button>
+      <button data-m="wrong">錯題本</button>
+      <button data-m="mock">模擬考</button>
+      <button data-m="stat">統計</button>
+    </div>
+    <div class="bar" id="bar"></div>
+  </div>
+  <div id="view"></div>
+  <div class="foot">
+    法規每題2分(需對35/50過70) · 實務每題1.25分(需對56/80過70) · 兩科各需70<br>
+    題目為台灣金融研訓院公告歷屆試題，著作權屬該院，僅供個人備考練習 · Built with Claude Code
+  </div>
+</div>
+
+<script src="bank.js"></script>
+<script>
+(function(){
+"use strict";
+var BANK = window.IN_BANK || [];
+var KEY = 'in-drill-v1';
+var S = load();
+function load(){ try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}} }
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){} }
+S.cat = S.cat || 'gen';
+S.sec = S.sec || 'all';
+S.mode = S.mode || 'learn';
+S.topic = S.topic || '';
+S.prog = S.prog || {};              // qid -> {seen,correct,streak,wrong,mastered}
+function P(id){ return S.prog[id] || (S.prog[id]={seen:0,correct:0,streak:0,wrong:false,mastered:false}); }
+
+var view = document.getElementById('view');
+var bar = document.getElementById('bar');
+var topicSel = document.getElementById('topicSel');
+
+// ---- pools ----
+function activePool(){ return BANK.filter(function(q){ return q.sec==='law' || q.sec===S.cat; }); }
+function isPrac(q){ return q.sec!=='law'; }
+function filtered(){
+  return activePool().filter(function(q){
+    if(S.sec==='law' && q.sec!=='law') return false;
+    if(S.sec==='prac' && q.sec==='law') return false;
+    if(S.topic && (q.topic||'')!==S.topic) return false;
+    return true;
+  });
+}
+function practicePool(){ // 排除已掌握
+  return filtered().filter(function(q){ return !P(q.id).mastered; });
+}
+
+// ---- 機械化自動解析 ----
+function explain(q){
+  var s=q.stem, neg=/錯誤|不正確|不當|何者非|下列何者不|不得|不包括|不屬於/.test(s);
+  var pos=/正確|何者為是|下列何者是|何者可|何者應/.test(s);
+  var ansTxt = q.opts[q.ans];
+  var others = ['A','B','C','D'].filter(function(k){return k!==q.ans;}).map(function(k){return '('+k+') '+q.opts[k];});
+  if(neg){
+    return '<b>「何者錯誤」型</b>：正解 <b>('+q.ans+')</b> 是<b>錯誤</b>敘述。其餘三項<b>都是正確敘述</b>，可直接當真知識記：<br>'+others.join('<br>');
+  }
+  if(pos){
+    return '<b>「何者正確」型</b>：正解 <b>('+q.ans+') '+esc(ansTxt)+'</b> 為正確敘述；其餘三項為錯誤敘述。';
+  }
+  return '<b>正解 ('+q.ans+')</b>：'+esc(ansTxt);
+}
+function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ---- render helpers ----
+var cur=null, answered=false, seq=[], idx=0;
+function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+
+function buildSeq(){
+  if(S.mode==='wrong'){ seq = filtered().filter(function(q){return P(q.id).wrong;}); }
+  else { seq = shuffle(practicePool()); }
+  idx=0;
+}
+
+function updBar(){
+  var pool=practicePool(), tot=filtered().length, mas=filtered().filter(function(q){return P(q.id).mastered;}).length;
+  var wr=filtered().filter(function(q){return P(q.id).wrong;}).length;
+  bar.innerHTML='<span>可練 '+pool.length+' / '+tot+' 題（已掌握 '+mas+'）</span><span>錯題本 '+wr+' 題</span>';
+}
+
+function card(q){
+  var pr=P(q.id);
+  var freqTxt = q.freq>1 ? '出現 '+q.freq+' 屆' : '單屆';
+  var secChip = q.sec==='law' ? '<span class="chip law">法規</span>' : '<span class="chip prac">實務'+(q.topic?'·'+q.topic:'')+'</span>';
+  var h='<div class="card"><div class="meta">'+secChip+'<span class="chip freq">'+freqTxt+'</span>'+(pr.mastered?'<span class="chip" style="color:var(--gn)">已掌握</span>':'')+'</div>';
+  h+='<div class="stem">'+esc(q.stem)+'</div>';
+  ['A','B','C','D'].forEach(function(k){
+    h+='<button class="opt" data-k="'+k+'"><span class="k">'+k+'</span>'+esc(q.opts[k])+'</button>';
+  });
+  h+='<div id="exp"></div>';
+  h+='<div class="acts">';
+  if(S.mode==='learn'){ h+='<button class="reveal primary">看答案</button>'; }
+  h+='<button class="master '+(pr.mastered?'mastered':'')+'">'+(pr.mastered?'✓ 已掌握（點取消）':'標記已掌握')+'</button>';
+  h+='<button class="next primary">下一題 →</button>';
+  h+='</div></div>';
+  return h;
+}
+
+function showCurrent(){
+  if(!seq.length){
+    view.innerHTML='<div class="empty">'+(S.mode==='wrong'?'錯題本是空的 🎉<br>去「測驗」模式作答，答錯的會自動進來。':'這個範圍沒有可練的題（可能都標成已掌握了）。<br>換類別／科目／業務別，或到統計把已掌握放回。')+'</div>';
+    return;
+  }
+  if(idx>=seq.length){ idx=0; seq=S.mode==='wrong'?seq:shuffle(seq); }
+  cur=seq[idx]; answered=false;
+  view.innerHTML=card(cur);
+  var opts=view.querySelectorAll('.opt');
+  var expBox=view.querySelector('#exp');
+  var revealed=false;
+  function reveal(pick){
+    if(revealed) return; revealed=true;
+    opts.forEach(function(o){
+      var k=o.dataset.k;
+      if(k===cur.ans){ o.classList.add('correct'); o.querySelector('.k').insertAdjacentHTML('afterend','<span class="mark">✓</span>'); }
+      else if(pick===k){ o.classList.add('wrong'); o.querySelector('.k').insertAdjacentHTML('afterend','<span class="mark">✗</span>'); }
+    });
+    expBox.innerHTML='<div class="exp">'+explain(cur)+'</div>';
+  }
+  opts.forEach(function(o){
+    o.addEventListener('click',function(){
+      if(revealed) return;
+      var pick=o.dataset.k, ok=pick===cur.ans;
+      var pr=P(cur.id); pr.seen++;
+      if(S.mode==='quiz'||S.mode==='wrong'){
+        if(ok){ pr.correct++; pr.streak++; if(pr.wrong && pr.streak>=2) pr.wrong=false; }
+        else { pr.streak=0; pr.wrong=true; }
+        save(); updBar();
+      }
+      reveal(pick);
+    });
+  });
+  var rv=view.querySelector('.reveal'); if(rv) rv.addEventListener('click',function(){ P(cur.id).seen++; save(); reveal(null); });
+  view.querySelector('.next').addEventListener('click',function(){ idx++; showCurrent(); });
+  var mb=view.querySelector('.master');
+  mb.addEventListener('click',function(){
+    var pr=P(cur.id); pr.mastered=!pr.mastered; save(); updBar();
+    mb.classList.toggle('mastered',pr.mastered);
+    mb.textContent=pr.mastered?'✓ 已掌握（點取消）':'標記已掌握';
+  });
+}
+
+// ---- 模擬考 ----
+function renderMock(){
+  var law=shuffle(activePool().filter(function(q){return q.sec==='law';})).slice(0,50);
+  var prac=shuffle(activePool().filter(function(q){return q.sec===S.cat;})).slice(0,80);
+  if(law.length<50||prac.length<80){ view.innerHTML='<div class="empty">題庫不足以組卷。</div>'; return; }
+  var qs=law.concat(prac), picks={}, t0=Date.now();
+  var h='<div class="mockhd"><b>模擬考 · '+(S.cat==='gen'?'一般金融類':'消費金融類')+'</b><br>法規 50 題（每題2分）＋實務 80 題（每題1.25分），各需 70 分。<br><span id="timer" class="n"></span></div><div id="mockq"></div><div class="acts"><button class="submit primary">交卷批改</button></div>';
+  view.innerHTML=h;
+  var box=view.querySelector('#mockq');
+  qs.forEach(function(q,i){
+    var d=document.createElement('div'); d.className='card';
+    var sec=q.sec==='law'?'法規':'實務';
+    d.innerHTML='<div class="meta"><span class="chip '+(q.sec==='law'?'law':'prac')+'">'+ (i+1) +'. '+sec+'</span></div><div class="stem">'+esc(q.stem)+'</div>'+
+      ['A','B','C','D'].map(function(k){return '<button class="opt" data-i="'+i+'" data-k="'+k+'"><span class="k">'+k+'</span>'+esc(q.opts[k])+'</button>';}).join('');
+    box.appendChild(d);
+  });
+  box.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var i=b.dataset.i;
+    box.querySelectorAll('.opt[data-i="'+i+'"]').forEach(function(o){o.style.borderColor='var(--cd)';o.style.background='var(--sf)';});
+    b.style.borderColor='var(--cy)'; b.style.background='rgba(8,122,115,.09)';
+    picks[i]=b.dataset.k;
+  });
+  var tm=view.querySelector('#timer');
+  var iv=setInterval(function(){ var s=Math.floor((Date.now()-t0)/1000); tm.textContent='用時 '+Math.floor(s/60)+' 分 '+(s%60)+' 秒'; },1000);
+  view.querySelector('.submit').addEventListener('click',function(){
+    clearInterval(iv);
+    var lc=0,pc=0;
+    qs.forEach(function(q,i){ if(picks[i]===q.ans){ if(q.sec==='law')lc++; else pc++; } });
+    var ls=lc*2, ps=pc*1.25, lp=ls>=70, pp=ps>=70;
+    var verdict=(lp&&pp)?'<span class="pass">✓ 合格</span>':'<span class="fail">✗ 未達雙門檻</span>';
+    var res='<div class="mockhd"><div class="big">'+verdict+'</div>'+
+      '法規：'+lc+'/50 對 → <b class="'+(lp?'pass':'fail')+'">'+ls+' 分</b>（需70）<br>'+
+      '實務：'+pc+'/80 對 → <b class="'+(pp?'pass':'fail')+'">'+ps.toFixed(1)+' 分</b>（需70）<br>'+
+      '<span class="n">兩科各滿 70 才合格；不看平均。</span></div>';
+    view.insertAdjacentHTML('afterbegin',res);
+    window.scrollTo(0,0);
+    // 錯題入本
+    qs.forEach(function(q,i){ var pr=P(q.id); pr.seen++; if(picks[i]===q.ans){pr.correct++;pr.streak++;if(pr.wrong&&pr.streak>=2)pr.wrong=false;} else {pr.streak=0;pr.wrong=true;} });
+    save(); updBar();
+  });
+}
+
+// ---- 統計 ----
+function renderStat(){
+  var pool=activePool(), byTopic={}, wrong=[], mastered=0, seen=0, corr=0, att=0;
+  pool.forEach(function(q){
+    var pr=P(q.id);
+    if(pr.mastered) mastered++;
+    if(pr.seen) seen++;
+    corr+=pr.correct; att+=Math.max(pr.seen - (pr.mastered&&!pr.seen?0:0),0);
+    if(pr.wrong) wrong.push(q);
+    if(isPrac(q)){ var t=q.topic||'其他'; byTopic[t]=byTopic[t]||{n:0,c:0,a:0}; byTopic[t].n++; }
+  });
+  // per-topic 正確率
+  pool.forEach(function(q){ if(isPrac(q)){ var pr=P(q.id),t=q.topic||'其他'; byTopic[t].a+=pr.seen; byTopic[t].c+=pr.correct; } });
+  var lawN=pool.filter(function(q){return q.sec==='law';}).length;
+  var pracN=pool.length-lawN;
+  var h='<div class="stat"><h3>進度總覽（'+(S.cat==='gen'?'一般金融':'消費金融')+'）</h3>'+
+    '<div class="trow"><span class="n">法規題數</span><span>'+lawN+'</span></div>'+
+    '<div class="trow"><span class="n">實務題數</span><span>'+pracN+'</span></div>'+
+    '<div class="trow"><span class="n">已練過</span><span>'+seen+' 題</span></div>'+
+    '<div class="trow"><span class="n">已掌握(archive)</span><span>'+mastered+' 題</span></div>'+
+    '<div class="trow"><span class="n">錯題本</span><span>'+wrong.length+' 題</span></div></div>';
+  h+='<div class="stat"><h3>實務業務別題數（高頻在前）</h3>';
+  Object.keys(byTopic).sort(function(a,b){return byTopic[b].n-byTopic[a].n;}).forEach(function(t){
+    var o=byTopic[t], rate=o.a?Math.round(o.c/o.a*100):null;
+    h+='<div class="trow"><span class="n">'+t+'</span><span>'+o.n+' 題'+(rate!=null?' · 正確率 '+rate+'%':'')+'</span></div>';
+  });
+  h+='</div>';
+  if(mastered){ h+='<div class="acts"><button class="unmaster">把「已掌握」全部放回練習池</button></div>'; }
+  view.innerHTML=h;
+  var um=view.querySelector('.unmaster');
+  if(um) um.addEventListener('click',function(){ activePool().forEach(function(q){P(q.id).mastered=false;}); save(); updBar(); renderStat(); });
+}
+
+// ---- topic dropdown ----
+function fillTopics(){
+  var topics={};
+  activePool().forEach(function(q){ if(isPrac(q)&&q.topic) topics[q.topic]=(topics[q.topic]||0)+1; });
+  var arr=Object.keys(topics).sort(function(a,b){return topics[b]-topics[a];});
+  topicSel.innerHTML='<option value="">業務別（全部）</option>'+arr.map(function(t){return '<option value="'+t+'"'+(t===S.topic?' selected':'')+'>'+t+' ('+topics[t]+')</option>';}).join('');
+  topicSel.disabled = (S.sec==='law');
+}
+
+// ---- main render ----
+function render(){
+  updBar(); fillTopics();
+  if(S.mode==='mock'){ renderMock(); return; }
+  if(S.mode==='stat'){ renderStat(); return; }
+  buildSeq(); showCurrent();
+}
+
+// ---- wire controls ----
+document.getElementById('catSeg').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b)return; S.cat=b.dataset.cat; setOn('#catSeg',b); save(); render(); });
+document.getElementById('secSeg').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b)return; S.sec=b.dataset.sec; if(S.sec==='law'){S.topic='';} setOn('#secSeg',b); save(); render(); });
+document.getElementById('modes').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b)return; S.mode=b.dataset.m; setOn('#modes',b); save(); render(); });
+topicSel.addEventListener('change',function(){ S.topic=topicSel.value; save(); render(); });
+function setOn(sel,btn){ document.querySelectorAll(sel+' button').forEach(function(x){x.classList.remove('on');}); btn.classList.add('on'); }
+// restore UI state
+setOnData('#catSeg','cat',S.cat); setOnData('#secSeg','sec',S.sec); setOnData('#modes','m',S.mode);
+function setOnData(sel,attr,val){ document.querySelectorAll(sel+' button').forEach(function(x){x.classList.toggle('on', x.dataset[attr]===val);}); }
+
+render();
+})();
+</script>
+</body>
+</html>
