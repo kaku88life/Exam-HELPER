@@ -55,9 +55,9 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
 <h1>Exam HELPER</h1>
 <div class="sub">證照考前衝刺包 · 題庫分析與刷題工具</div>
 
-<div class="exam" data-k="內控內稽備考中">
+<div class="exam" data-k="內控內稽">
   <button class="hd" aria-expanded="false">
-    <span class="tt"><h2>銀行內部控制與內部稽核 <span class="pill p-now">備考中</span><span class="cnt">2 項</span></h2><span class="when">台灣金融研訓院 · 電腦應試 · 一般金融類 · 法規+實務兩科各需 70 分</span></span>
+    <span class="tt"><h2>銀行內部控制與內部稽核<span class="cnt">2 項</span></h2><span class="when">台灣金融研訓院 · 電腦應試 · 一般金融類 · 法規+實務兩科各需 70 分</span></span>
     <i class="car"></i>
   </button>
   <div class="bd">
@@ -80,7 +80,7 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
 
 <div class="exam" data-k="金融市場常識與職業道">
   <button class="hd" aria-expanded="false">
-    <span class="tt"><h2>金融市場常識與職業道德 <span class="pill p-now">備考中</span><span class="cnt">3 項</span></h2><span class="when">台灣金融研訓院／證基會 · 公告題庫制 · 100 題 70 分及格 · 成績保留 5 年</span></span>
+    <span class="tt"><h2>金融市場常識與職業道德<span class="cnt">3 項</span></h2><span class="when">台灣金融研訓院／證基會 · 公告題庫制 · 100 題 70 分及格 · 成績保留 5 年</span></span>
     <i class="car"></i>
   </button>
   <div class="bd">
@@ -107,9 +107,9 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
   </div>  </div>
 </div>
 
-<div class="exam" data-k="初階外匯人員備考中">
+<div class="exam" data-k="初階外匯人員">
   <button class="hd" aria-expanded="false">
-    <span class="tt"><h2>初階外匯人員 <span class="pill p-now">備考中</span><span class="cnt">7 項</span></h2><span class="when">台灣金融研訓院 · 電腦應試 · 兩科各需 70 分且成績不保留</span></span>
+    <span class="tt"><h2>初階外匯人員<span class="cnt">7 項</span></h2><span class="when">台灣金融研訓院 · 電腦應試 · 兩科各需 70 分且成績不保留</span></span>
     <i class="car"></i>
   </button>
   <div class="bd">
@@ -161,48 +161,6 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
   </div>  </div>
 </div>
 
-<div class="exam" data-k="證券商高級業務員20">
-  <button class="hd" aria-expanded="false">
-    <span class="tt"><h2>證券商高級業務員 <span class="pill p-done">2026/04 已考</span><span class="cnt">4 項</span></h2><span class="when">證基會 · 三科 966 題題庫分析</span></span>
-    <i class="car"></i>
-  </button>
-  <div class="bd">
-  <a class="card" href="cram-map.html">
-    <span class="icon">MAP</span>
-    <h3>kaku Holdings 衝刺圖 <span class="tag t1">關聯圖</span></h3>
-    <p>以自家公司、jikka.app、不動產案例練會計三表、公式與法規陷阱</p>
-  </a>
-
-  <a class="card" href="dashboard.html">
-    <span class="icon">DATA</span>
-    <h3>題庫分析儀表板 <span class="tag t1">966 題</span></h3>
-    <p>各科主題分布、章節熱點、高頻考點、必背公式一站式總覽</p>
-  </a>
-
-  <a class="card" href="mock-exam.html">
-    <span class="icon">TEST</span>
-    <h3>模擬考 <span class="tag t2">645 題</span></h3>
-    <p>三科隨機 50 題、倒數計時、即時批改、錯題回顧</p>
-  </a>
-
-  <a class="card" href="keywords.html">
-    <span class="icon">KEY</span>
-    <h3>高頻關鍵字 <span class="tag t3">視覺化</span></h3>
-    <p>各科文字雲、出題頻率排行</p>
-  </a>  </div>
-</div>
-
-<div class="exam" data-k="規劃中待整合">
-  <button class="hd" aria-expanded="false">
-    <span class="tt"><h2>規劃中 <span class="pill p-soon">待整合</span></h2><span class="when">既有備考資料在 Obsidian，尚未搬上來</span></span>
-    <i class="car"></i>
-  </button>
-  <div class="bd">
-  <div class="note">
-    財產保險業務員（2026/07 已通過 154 分）· 人身保險業務員（重考中）· iPAS AI 應用規劃師（放榜中）· 不動產經紀人（2027/11，題庫 2240 題已備齊）
-  </div>  </div>
-</div>
-
 <div class="foot">Built with Claude Code</div>
 </div>
 
@@ -212,7 +170,7 @@ h1{font-size:1.55em;text-align:center;margin-bottom:6px}
   var st={}; try{ st=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){}
   document.querySelectorAll('.exam').forEach(function(ex){
     var k=ex.dataset.k, hd=ex.querySelector('.hd');
-    var def = !!ex.querySelector('.p-now');           // 預設展開「備考中／應試中」
+    var def = true;                                   // 預設全部展開
     var open = (k in st) ? st[k] : def;
     ex.classList.toggle('open', open);
     hd.setAttribute('aria-expanded', open);
