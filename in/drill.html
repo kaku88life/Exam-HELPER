@@ -128,7 +128,7 @@ a{color:var(--cy)}
 
 <div class="foot">
   法規 743＋實務（一般 968／消金 925）題，去重自第 29–49 屆<br>
-  作答紀錄存在本機瀏覽器（可在「統計」開啟雲端同步）・<a href="#" id="reset">清除全部紀錄</a><br><br>
+  作答紀錄存在本機瀏覽器（可在「統計」開啟雲端同步）。<b>iPhone Safari 七天沒開會被系統清掉</b>，只用本機的人請在「統計」定期「複製進度碼」備份・<a href="#" id="reset">清除全部紀錄</a><br><br>
   題目為台灣金融研訓院公告之歷屆試題，著作權屬該院，僅供個人備考練習<br>
   <a href="https://www.tabf.org.tw/LicenseHistoryExam.aspx" target="_blank" rel="noopener">官方歷屆試題</a>　·
   <a href="analysis.html">題庫分析</a>　·
@@ -138,6 +138,7 @@ a{color:var(--cy)}
 
 <script src="nav.js?v=6" defer></script>
 <script src="sync.js?v=6"></script>
+<script src="lawref.js?v=1"></script>
 <script>
 const KEY = 'in-drill-v1';
 const OLDKEY = 'in-drill-v0';
@@ -252,6 +253,12 @@ function autoWhy(q, ansRaw, ansShown){   // ansRaw=題庫原始正解編號（�
   if (/何者正確|何者為是|正確的是/.test(stem))
     return `正解 (${ans}) <b>${pick}</b> 是正確敘述。<br>其餘三項是被改動過的錯誤敘述——對照著看被動手腳的地方（數字／角色／得與不得）：<br>· ` + others.join('<br>· ');
   return `合成正確敘述：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
+}
+/* 現行條文原文（in/lawref.js，由 build_lawref_in.py 對句；只引原文、不解釋，對不上的題沒有） */
+function lawRef(q){
+  const r = (window.LAWREF || {})[q[3]];
+  if (!r) return '';
+  return `<div class="why" style="border-left-color:var(--gn);background:rgba(96,114,67,.07);margin-top:6px"><i class="xi xz g"></i> <b>現行條文 第 ${r.art} 條</b>（2026-05-06 修正版）：${r.text}<br><span style="opacity:.7;font-size:.9em">自動對句取最相近的一段，不是逐字對應；答案若與條文不符，多半是法規改過了。</span></div>`;
 }
 
 /* ---------- 題目集合 ---------- */
@@ -447,7 +454,7 @@ function showAnswer(judged, n, correct){
       ? `<div class="verdict ok"><i class="xi xk g"></i> 正確！${rec(list[idx].k).s >= GRAD ? '（已從錯題本畢業）' : ''}</div>`
       : `<div class="verdict no"><i class="xi xx r"></i> 答錯了，正解是 (${ans})　→ 已加入錯題本，答對 ${GRAD} 次才畢業</div>`;
   }
-  $('#verdict').innerHTML = html + `<div class="why" style="margin-top:10px">${autoWhy(oNow.q, oNow.q[5], ans)}</div>`;
+  $('#verdict').innerHTML = html + `<div class="why" style="margin-top:10px">${autoWhy(oNow.q, oNow.q[5], ans)}</div>` + lawRef(oNow.q);
 }
 
 function go(step){
@@ -651,7 +658,7 @@ function renderStat(){
   <h3>跨裝置同步</h3>
   <div style="font-size:.76em;color:var(--mt);line-height:1.75;margin-bottom:8px">
     在每台裝置填<b>同一組同步碼</b>，作答後幾秒自動上傳、開頁自動合併。
-    同步碼只存在你的裝置，雲端只看得到它的雜湊值。<span id="syncStat" style="color:var(--gn);font-weight:700"></span>
+    同步碼只存在你的裝置，雲端只看得到它的雜湊值。<br><span style="color:var(--mt)">上傳的內容只有作答紀錄（題號、對錯、次數），不含姓名或任何個資；存放在站長的資料庫，站長看得到但認不出是誰。不想上傳就別開同步，紀錄一樣存在本機。</span><span id="syncStat" style="color:var(--gn);font-weight:700"></span>
   </div>
   ${weak?`<div class="warn" style="font-size:.76em">目前的同步碼太短或是純數字，別人可能猜得到。建議按「產生新同步碼」換一組，再把新碼填到另一台裝置。</div>`:''}
   <div class="acts" style="grid-template-columns:1fr auto">
