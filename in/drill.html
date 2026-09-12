@@ -60,6 +60,8 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
   padding:8px 0 calc(8px + env(safe-area-inset-bottom));
   box-shadow:0 -6px 12px -8px rgba(0,0,0,.18)}
 .acts .btn{padding:12px;font-size:.9em;font-weight:700;text-align:center}
+.tag.flagtag{cursor:pointer;border:1px dashed var(--mt);color:var(--mt);background:transparent;user-select:none}
+.tag.flagtag.on{border:2px solid var(--yw);color:var(--yw);background:rgba(182,101,22,.10);font-weight:700}
 /* 篩選列摺疊：手機預設收起，計時器與交卷鈕（.always）不受影響 */
 .bar2.collapsed > :not(.always){display:none}
 #fold{color:var(--mt)}
@@ -114,6 +116,7 @@ a{color:var(--cy)}
     <button class="btn on" id="shuf" title="題序與選項位置隨機"><i class="xi xsh"></i> 洗牌</button>
     <button class="btn" id="hot" title="只練回鍋 3 次以上的高頻題">高頻</button>
     <button class="btn on" id="stale" title="排除答案已因修法作廢的題目">排除作廢</button>
+    <button class="btn" id="myflag" title="只看自己標記存疑的題">我的存疑 <span id="fcount">0</span></button>
     <span class="timer hidden always" id="timer"></span>
     <button class="btn hidden always" id="submit">交卷</button>
   </div>
@@ -141,7 +144,7 @@ const OLDKEY = 'in-drill-v0';
 const LAW_TOPIC = '內控內稽法規';     // 法規科的 topic 名；用來拆法規／實務
 const GRAD = 2;                       // 錯題連續答對幾次才「畢業」
 let DECK = null;
-let S = { q:{}, exams:[], rounds:[] };
+let S = { q:{}, exams:[], rounds:[], flags:{} };   // flags[id]=1 → 自己標記存疑（答案可疑／法規可能改過）
 /* q[id] = {r,w,s,seen, h:"OXX|OO"}
    h = 作答歷程（O對/X錯，| = 重置分界），永不刪除；r/w/s/seen 只算「本輪」 */
 let mode = 'learn', subj = '一般金融類', topicSel = 'ALL', typeSel = 'ALL', onlyUndone = false;
@@ -154,7 +157,7 @@ const md = t => t.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 /* ---------- 洗牌：選項位置隨機化 ----------
    以「題目 key + 本輪 seed」產生確定性排列：同一題在本輪內位置固定
    （回上一題不會變），換一輪才重排。關掉時維持原順序。 */
-let shuffleOpt = true, shuffleQ = true, hideStale = true, hotOnly = false, seed = Date.now() % 100000;
+let shuffleOpt = true, shuffleQ = true, hideStale = true, hotOnly = false, flagOnly = false, seed = Date.now() % 100000;
 function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } }
 function hash(str){ let h = 2166136261; for (let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 function orderOf(o){
@@ -216,7 +219,7 @@ function load(){
       }
     }catch(e){}
   }
-  S.rounds = S.rounds || []; S.exams = S.exams || [];
+  S.rounds = S.rounds || []; S.exams = S.exams || []; S.flags = S.flags || {};
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); if (window.ExamSync) ExamSync.touch(); }
 
@@ -260,6 +263,7 @@ function pool(){
     if (topicSel !== 'ALL') w = w.filter(o => d.topics[o.q[0]] === topicSel);
     if (hotOnly) w = w.filter(o => o.q[1] >= 3);
     if (typeSel !== 'ALL') w = w.filter(o => qtype(o.q) === typeSel);
+    if (flagOnly) w = w.filter(o => S.flags[o.k]);
     return w;
   }
   if (topicSel !== 'ALL') a = a.filter(o => d.topics[o.q[0]] === topicSel);
@@ -267,6 +271,7 @@ function pool(){
   if (hideStale) a = a.filter(o => o.q[7] !== 2);          // 排除答案已作廢的題
   if (hotOnly) a = a.filter(o => o.q[1] >= 3);             // 只留回鍋 3 次以上
   if (typeSel !== 'ALL') a = a.filter(o => qtype(o.q) === typeSel);
+  if (flagOnly) a = a.filter(o => S.flags[o.k]);           // 只看自己標記存疑的題
   if (shuffleQ && mode !== 'learn') shuffle(a);            // 題序隨機
   return a;
 }
@@ -342,6 +347,7 @@ function render(){
         ${(!inExam && rec(o.k).h)?`<span class="tag src" title="作答歷程：O=對 X=錯 |=重置">${hTag(o.k)}</span>`:''}
         ${src==='模擬新題'?`<span class="tag new">模擬新題</span>`:(src?`<span class="tag src">${src}</span>`:'')}
         ${(stale===2)?`<span class="tag err"><i class="xd r"></i> 答案已作廢</span>`:(stale===1?`<span class="tag hot"><i class="xd y"></i> 存疑</span>`:'')}
+        ${!inExam?`<span class="tag flagtag${S.flags[o.k]?' on':''}" id="flagTag" title="覺得這題答案可疑／法規可能改過就標起來，之後可用「我的存疑」篩選複查">${S.flags[o.k]?'✔ 已標存疑':'⚑ 標記存疑'}</span>`:''}
       </div>
       ${(!inExam && warns.length)?warns.map(w=>`<div class="warn"><i class="xi xa y"></i> ${w}</div>`).join(''):''}
       ${(!inExam && why)?`<div class="why"><i class="xi xz v"></i> ${md(why)}</div>`:''}
@@ -362,7 +368,25 @@ function render(){
   if (inExam && picked) markPick(picked);
   drawActs();
   updateBars();
+  bindFlag();
   window.scrollTo({top:0});
+}
+
+/* ---------- 自標存疑：刷到覺得答案可疑／法規可能改過的題，當場標起來 ----------
+   跟 deck 內建的 stale（資料層預先標的）分開：這個是使用者自己的判斷，
+   可用篩選列「我的存疑」集中複查。 */
+function bindFlag(){
+  const t = $('#flagTag');
+  if (!t) return;
+  t.onclick = () => {
+    const k = list[idx].k;
+    if (S.flags[k]) delete S.flags[k]; else S.flags[k] = 1;
+    save(); render();
+  };
+}
+function flagCount(){ return Object.keys(S.flags || {}).length; }
+function updateFlagCount(){
+  const e = $('#fcount'); if (e) e.textContent = flagCount();
 }
 
 function drawActs(){
@@ -438,6 +462,7 @@ function go(step){
 }
 
 function updateBars(){
+  updateFlagCount();
   const total = DECK[subj].qs.length;
   let seen = 0, right = 0, wrongPool = 0;
   for (let i = 0; i < total; i++){
@@ -778,6 +803,12 @@ $('#stale').onclick = e => { hideStale = !hideStale; e.target.classList.toggle('
   e.target.textContent = hideStale ? '排除作廢' : '含作廢題'; build(); };
 $('#hot').onclick = e => { hotOnly = !hotOnly; e.target.classList.toggle('on', hotOnly);
   e.target.textContent = hotOnly ? '高頻 3+' : '高頻'; build(); };
+$('#myflag').onclick = e => {
+  if (!flagOnly && !flagCount()){ alert('還沒有標記任何題。刷題時覺得某題答案可疑、或法規可能改過，點題目上方的「標記存疑」，之後就能在這裡集中複查。'); return; }
+  flagOnly = !flagOnly;
+  e.currentTarget.classList.toggle('on', flagOnly);
+  build();
+};
 $('#submit').onclick = () => { if (confirm('確定交卷批改？')) submitExam(); };
 /* 篩選列摺疊（手機預設收起；狀態記在本機） */
 const FOLDKEY = 'fx-drill-fold';
