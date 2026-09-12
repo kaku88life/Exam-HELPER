@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>內控內稽 法規架構卡</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65}
+.wrap{max-width:640px;margin:0 auto;padding:14px 14px 60px}
+h2{font-size:1.02em;margin:22px 0 7px;display:flex;align-items:center;gap:8px}
+h2 .n{font-size:.68em;color:var(--mt);font-weight:400}
+.lead{font-size:.82em;color:var(--mt);margin-bottom:10px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:15px;margin-bottom:12px}
+.def{border-left:3px solid var(--cy);background:rgba(8,122,115,.05);padding:9px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.85em}
+.def b{color:var(--cy)}
+.line{display:grid;grid-template-columns:76px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid var(--cd);font-size:.85em}
+.line:last-child{border:none}.line .k{color:var(--vi);font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:.8em}
+th,td{text-align:left;padding:6px;border-bottom:1px solid var(--cd);vertical-align:top}
+th{color:var(--mt)}
+td.r,th.r{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.segs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.segs button{border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:999px;font-family:inherit;font-size:.76em;padding:6px 11px;cursor:pointer}
+.segs button.on{background:var(--cy);color:#fff;border-color:var(--cy);font-weight:700}
+.fc{border:1px solid var(--cd);border-radius:9px;padding:12px 13px;margin-bottom:9px;background:var(--sf);cursor:pointer}
+.fc .q{font-size:.9em;font-weight:600}
+.fc .f{font-size:.64em;color:var(--yw);font-weight:700;float:right;margin-left:8px}
+.fc .a{display:none;margin-top:9px;padding-top:9px;border-top:1px dashed var(--cd);font-size:.85em}
+.fc.open .a{display:block}
+.fc .opt{padding:4px 0;color:var(--mt)}
+.fc .opt.ans{color:var(--gn);font-weight:700}
+.fc .opt.ans::before{content:"✓ ";}
+.fc .hint{font-size:.72em;color:var(--mt);margin-top:6px}
+.hl{border-left:3px solid var(--rd);background:rgba(179,69,58,.06);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.82em;margin:8px 0}
+.hl b{color:var(--rd)}
+.foot{text-align:center;font-size:.7em;color:var(--mt);margin:22px 0;line-height:1.9}
+a{color:var(--cy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="lead">法規科考古題命中率只有 ~45%，剩下一半是沒見過的新題——靠<b>架構</b>而不是背題撐過去。這頁給你骨架＋高頻真題速覽。</p>
+
+  <h2>① 內控三道防線 <span class="n">誰擋哪一關</span></h2>
+  <div class="card">
+    <div class="line"><span class="k">第一道</span><span>業務單位自身控制——含<b>自行查核</b>（單位自己查，且應由<b>非原經辦人員</b>辦理）</span></div>
+    <div class="line"><span class="k">第二道</span><span>風險管理單位＋<b>法令遵循</b>單位——監督與制度面把關</span></div>
+    <div class="line"><span class="k">第三道</span><span><b>內部稽核</b>——獨立於業務，查核前兩道有沒有落實</span></div>
+    <div class="hl">最愛考的陷阱：把「自行查核」丟給原經辦人員、把內部稽核和法遵混為一談。記住三道各自的角色。</div>
+  </div>
+
+  <h2>② 三種查核怎麼分 <span class="n">高頻對比題</span></h2>
+  <div class="card">
+    <table>
+      <tr><th>類型</th><th>誰做</th><th>特徵</th></tr>
+      <tr><td><b>自行查核</b></td><td>各單位（非原經辦人員）</td><td>單位自我檢查，定期辦理</td></tr>
+      <tr><td><b>內部稽核</b></td><td>獨立稽核單位</td><td><b>隸屬董事會</b>、對董事會及監察人（審計委員會）負責；分一般查核與專案查核</td></tr>
+      <tr><td><b>會計師查核</b></td><td>外部會計師</td><td>受託對內控制度出具查核報告</td></tr>
+    </table>
+    <div class="def"><b>獨立性重點</b>：內部稽核單位隸屬董事會、其人事任免與稽核主管的指派需經一定層級核准，確保不受業務單位牽制。</div>
+  </div>
+
+  <h2>③ 法源地圖 <span class="n">法規題引用最多的幾部（去重題數）</span></h2>
+  <div class="card">
+    <table>
+      <tr><th>法源</th><th class="r">題數</th><th>管什麼</th></tr>
+      <tr><td><b>內部控制及稽核制度實施辦法</b></td><td class="r">144</td><td>本科第一大法源：三大目標、三道防線、自行查核、內部稽核地位職權、法遵、缺失追蹤</td></tr>
+      <tr><td>信用卡業務機構管理辦法</td><td class="r">88</td><td>發卡／收單、循環信用揭露、爭議款、預借現金</td></tr>
+      <tr><td>銀行法</td><td class="r">66</td><td>業務種類、授信限制、關係人交易、罰則</td></tr>
+      <tr><td>安全維護／詐騙通報要點</td><td class="r">63</td><td>安全維護注意要點、同業遭詐騙通報、運鈔搶案應變</td></tr>
+      <tr><td>徵信／授信準則</td><td class="r">32</td><td>銀行公會會員徵信準則、授信準則</td></tr>
+      <tr><td>逾放催收呆帳</td><td class="r">27</td><td>逾期放款、催收款、呆帳、損失準備、不良債權出售</td></tr>
+      <tr><td>票券金融管理法</td><td class="r">22</td><td>票券商業務範圍</td></tr>
+      <tr><td>作業委外辦法</td><td class="r">21</td><td>作業委託他人處理之制度與程序</td></tr>
+      <tr><td>金融控股公司法</td><td class="r">19</td><td>金控規範、共同行銷、資訊交互運用</td></tr>
+    </table>
+    <div class="lead" style="margin-top:8px">把心力壓在前 4 部（占法規題大半）。下面速覽即依此分組。</div>
+  </div>
+
+  <h2>④ 高頻法規題速覽 <span class="n">全是歷屆真題，點開看答案</span></h2>
+  <div class="segs" id="segs"></div>
+  <div id="cards"></div>
+
+  <div class="foot">
+    架構為內控內稽核心觀念整理；速覽題為台灣金融研訓院公告歷屆試題，著作權屬該院，僅供個人備考練習<br>
+    <a href="drill.html">刷題器</a>　·　<a href="analysis.html">題庫分析</a>　·　<a href="guide.html">作戰指南</a>　·　<a href="../index.html">回總覽</a>
+  </div>
+</div>
+
+<script src="notes_data.js"></script>
+<script src="nav.js" defer></script>
+<script>
+(function(){
+  var N = window.IN_NOTES || {};
+  var names = Object.keys(N);
+  var segs = document.getElementById('segs'), cards = document.getElementById('cards');
+  var cur = names[0];
+  function esc(t){return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function neg(stem){return /錯誤|不正確|何者非|下列何者不|非屬|不得|未/.test(stem);}
+  function draw(){
+    segs.innerHTML = names.map(function(n){
+      return '<button class="'+(n===cur?'on':'')+'" data-n="'+esc(n)+'">'+esc(n)+' ('+N[n].length+')</button>';
+    }).join('');
+    segs.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ cur=b.dataset.n; draw(); }; });
+    cards.innerHTML = N[cur].map(function(it){
+      var opts = it.o.map(function(o,i){ return '<div class="opt'+(i===it.a?' ans':'')+'">('+(i+1)+') '+esc(o)+'</div>'; }).join('');
+      var hint = neg(it.q) ? '「何者錯誤」型：打勾的是錯的那句；其餘三句為正確知識。' : '正解如上。';
+      return '<div class="fc"><span class="f">'+(it.f>1?'回鍋'+it.f+'屆':'')+'</span><div class="q">'+esc(it.q)+'</div>'+
+             '<div class="a">'+opts+'<div class="hint">'+hint+'</div></div></div>';
+    }).join('');
+    cards.querySelectorAll('.fc').forEach(function(el){ el.onclick=function(){ el.classList.toggle('open'); }; });
+  }
+  if(names.length) draw(); else cards.innerHTML='<div class="lead">資料載入失敗。</div>';
+})();
+</script>
+</body>
+</html>

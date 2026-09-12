@@ -1,6 +1,8 @@
 /* Exam-HELPER 共用頂部導航列：每頁 <script src="nav.js" defer></script> 掛載 */
 (function(){
   var PAGES = [
+    ['guide.html',      '作戰指南'],
+    ['notes.html',      '法規架構卡'],
     ['drill.html',      '刷題器'],
     ['analysis.html',   '題庫分析'],
     ['../index.html',   '回總覽']

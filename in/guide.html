@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>內控內稽 作戰指南</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65}
+.wrap{max-width:640px;margin:0 auto;padding:14px 14px 60px}
+h2{font-size:1.02em;margin:22px 0 7px;display:flex;align-items:center;gap:8px}
+h2 .n{font-size:.68em;color:var(--mt);font-weight:400}
+.lead{font-size:.82em;color:var(--mt);margin-bottom:10px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:15px;margin-bottom:12px}
+.kpi{display:flex;gap:10px;flex-wrap:wrap}
+.kpi .b{flex:1;min-width:110px;border:1px solid var(--cd);border-radius:9px;padding:11px 12px;text-align:center}
+.kpi .big{font-size:1.5em;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .lab{font-size:.68em;color:var(--mt);margin-top:4px;line-height:1.4}
+.row{display:flex;justify-content:space-between;gap:10px;padding:8px 2px;border-bottom:1px solid var(--cd);font-size:.85em}
+.row:last-child{border:none}
+.row .n{color:var(--mt);font-size:.92em}
+.hl{border-left:3px solid var(--rd);background:rgba(179,69,58,.06);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.82em;margin:8px 0}
+.hl b{color:var(--rd)}
+.ok{border-left:3px solid var(--gn);background:rgba(78,122,61,.09);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.82em;margin:8px 0}
+.ok b{color:var(--gn)}
+.tip{border-left:3px solid var(--vi);background:rgba(49,95,148,.06);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.82em;margin:8px 0}
+ul{margin:2px 0 2px 1.1em}li{font-size:.85em;margin:5px 0}
+.chk{list-style:none;margin:0}.chk li{display:flex;gap:9px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--cd);font-size:.86em}
+.chk li:last-child{border:none}.chk b{color:var(--cy)}
+.btnrow{display:flex;gap:8px;margin-top:10px}
+.btnrow a{flex:1;text-align:center;background:var(--cy);color:#fff;text-decoration:none;border-radius:8px;padding:12px;font-size:.9em;font-weight:700}
+.btnrow a.alt{background:var(--sf);color:var(--tx);border:1px solid var(--cd)}
+.foot{text-align:center;font-size:.7em;color:var(--mt);margin:22px 0;line-height:1.9}
+a{color:var(--cy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="lead">給第一次考「銀行內部控制與內部稽核測驗（一般金融類）」的作戰指南。數字皆由 21 屆題庫實算。</p>
+
+  <h2>① 這場在考什麼</h2>
+  <div class="card">
+    <div class="row"><span class="n">主辦</span><span>台灣金融研訓院 TABF・<b>電腦應試</b>（梯次頻繁）</span></div>
+    <div class="row"><span class="n">科目一・法規</span><span>50 題，每題 <b>2 分</b></span></div>
+    <div class="row"><span class="n">科目二・實務</span><span>80 題，每題 <b>1.25 分</b></span></div>
+    <div class="row"><span class="n">題型</span><span>四選一單選，答錯不倒扣</span></div>
+    <div class="row"><span class="n">及格</span><span><b>兩科各需 70 分</b>（雙獨立門檻，不看平均）</span></div>
+    <div class="row"><span class="n">一般 vs 消金</span><span>第一節法規完全相同；第二節實務約 20 題不同（消金類消費金融題約佔 40%）</span></div>
+  </div>
+
+  <h2>② 及格數學 <span class="n">先知道要對幾題</span></h2>
+  <div class="kpi">
+    <div class="b"><div class="big" style="color:var(--vi)">35<span style="font-size:.5em">/50</span></div><div class="lab">法規要對<br>(×2 分 → 70)</div></div>
+    <div class="b"><div class="big" style="color:var(--gn)">56<span style="font-size:.5em">/80</span></div><div class="lab">實務要對<br>(×1.25 分 → 70)</div></div>
+    <div class="b"><div class="big" style="color:var(--rd)">雙</div><div class="lab">任一科<br>不到 70 就不合格</div></div>
+  </div>
+
+  <h2>③ 兩科難度不一樣 <span class="n">時間別平均分</span></h2>
+  <div class="card">
+    <div class="ok"><b>實務（考古題命中率 ~72%）</b>：刷完題庫基本就過 70。主力＝刷題，從最大宗業務別下手：授信暨逾放 17%、存匯 15%、內控制度 9%。</div>
+    <div class="hl"><b>法規（命中率僅 ~45%）＝綁死你的科</b>：刷古題只穩拿約 22-23/50，離門檻 35 還差約 12 題，且回鍋題散在全 21 屆（只刷近 3 屆命中僅 2%）。→ 法規要<b>全刷＋補法源架構</b>，及早開始、別等考前。</div>
+    <div class="btnrow"><a href="analysis.html">看完整題庫分析 →</a></div>
+  </div>
+
+  <h2>④ 命題大綱重點 <span class="n">心力壓在這些</span></h2>
+  <div class="card">
+    <div style="font-size:.85em;font-weight:700;margin-bottom:4px">實務・業務別佔比（一般金融）</div>
+    <div class="lead" style="margin-bottom:8px">授信暨逾放 17%｜存匯 15%｜內控制度 9%｜票券證券 8%｜消費金融 7%｜資訊 6%｜信託 6%｜外匯 6%…</div>
+    <div style="font-size:.85em;font-weight:700;margin:10px 0 4px">法規・最常引用的法源（去重法規題出現數）</div>
+    <div class="lead">《內部控制及稽核制度實施辦法》<b>96 題（遙遙領先）</b>｜信用卡業務機構管理辦法 34｜銀行法 46｜安全維護／詐騙通報要點 31｜徵信準則 17｜金控法 14…</div>
+    <div class="tip">法規想補「沒見過的那半」，就從上面前幾部法源精讀，CP 值最高。</div>
+  </div>
+
+  <h2>⑤ 猜題規則 <span class="n">真的不會時的救援網</span></h2>
+  <div class="card">
+    <div class="lead" style="margin-bottom:6px">電腦應試會洗牌 → 答案位置／字母規律<b>無效</b>。只靠內容：</div>
+    <ul>
+      <li><b>沒有「以上皆是」送分</b>——全庫幾乎 0 題，別等這種題（跟金常最大不同）</li>
+      <li><b>近半是「何者錯誤」型（45%）</b>——答案是錯的那句，<b>另外三句都是正確知識</b>，順便背起來；找被動手腳處（數字／角色／得與不得）</li>
+      <li>真的不會 → <b>猜最長選項</b>（最長為答案 31%，略高於 25%）</li>
+      <li>二選一 → <b>刪含絕對詞的</b>（一定／必／僅／唯一／皆／所有；這類只 23% 是答案）</li>
+    </ul>
+    <div class="hl">猜題把不會的題從 25% 撈到 3–4 成，是把「會 X 題」變及格，不是及格計畫本身。</div>
+  </div>
+
+  <h2>⑥ 考場情報 <span class="n">考前務必核對</span></h2>
+  <div class="card">
+    <ul class="chk">
+      <li><b>□</b> 確認<b>考場地址</b>與報到時間（電腦應試考場分佈多點，別跑錯）</li>
+      <li><b>□</b> 確認是<b>電腦應試</b>梯次與座位、攜帶證件</li>
+      <li><b>□</b> 一次報兩梯、間隔 5–7 天：第一場當偵查、第二場主戰（成績不保留跨場，別分科攻略）</li>
+      <li><b>□</b> 報名日＝啟動日，每天 15 分鐘先開始刷</li>
+    </ul>
+  </div>
+
+  <h2>⑦ 考前 15 分鐘</h2>
+  <div class="card">
+    <ul>
+      <li><b>法規</b>：掃法源架構卡＋高頻數字/時效（門檻要對 35）</li>
+      <li><b>實務</b>：掃錯題本（門檻要對 56，這科刷夠就穩）</li>
+      <li>進場心法：三輪法——先拿確定分 → 二選一用「刪絕對詞／切得與不得」→ 最後才猜（最長），不留空白</li>
+    </ul>
+    <div class="btnrow"><a href="drill.html">開始刷題 →</a><a class="alt" href="analysis.html">題庫分析</a></div>
+  </div>
+
+  <div class="foot">
+    數字由題庫實算・題目為台灣金融研訓院公告歷屆試題，著作權屬該院，僅供個人備考練習<br>
+    <a href="drill.html">刷題器</a>　·　<a href="analysis.html">題庫分析</a>　·　<a href="../index.html">回總覽</a>
+  </div>
+</div>
+<script src="nav.js" defer></script>
+</body>
+</html>
