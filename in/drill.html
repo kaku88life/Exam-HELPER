@@ -92,11 +92,12 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
 a{color:var(--cy)}
 .timer{font-variant-numeric:tabular-nums;font-weight:700}
 .timer.hot{color:var(--rd)}
-.xd{margin-top:6px;border:1px solid var(--cd);border-radius:7px;background:var(--sf);font-size:.84em}
-.xd summary{padding:8px 10px;cursor:pointer;color:var(--cy);font-weight:700;list-style:none;-webkit-tap-highlight-color:transparent}
-.xd summary::before{content:"B8";margin-right:6px;display:inline-block;transition:transform .15s}
-.xd[open] summary::before{transform:rotate(90deg)}
-.xd>div{padding:0 10px 10px;line-height:1.6}
+.xfold{display:block;width:100%;box-sizing:border-box;margin-top:6px;border:1px solid var(--cd);border-radius:7px;background:var(--sf);font-size:.84em}
+.xfold summary{display:block;padding:8px 10px;cursor:pointer;color:var(--cy);font-weight:700;list-style:none;-webkit-tap-highlight-color:transparent}
+.xfold summary::-webkit-details-marker{display:none}
+.xfold summary::before{content:"▸";margin-right:6px;display:inline-block;transition:transform .15s}
+.xfold[open] summary::before{transform:rotate(90deg)}
+.xfold>div{padding:0 10px 10px;line-height:1.6}
 #xob{position:fixed;inset:0;z-index:400;background:rgba(23,33,29,.45);display:none;align-items:flex-end;justify-content:center}
 #xob.show{display:flex}
 #xob .p{background:var(--sf);border-radius:14px 14px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));max-width:560px;width:100%;max-height:80vh;overflow:auto}
@@ -290,9 +291,9 @@ function explain(q, ansRaw, ansShown){
   else            head = `記這一句：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
   let out = lawExpl(q);
   out += `<div class="why" style="margin-top:8px">${head}</div>`;
-  if (isNeg) out += `<details class="xd"><summary>另外三句都是對的，順手記</summary><div>· ${others.join('<br>· ')}</div></details>`;
+  if (isNeg) out += `<details class="xfold"><summary>另外三句都是對的，順手記</summary><div>· ${others.join('<br>· ')}</div></details>`;
   const ref = lawRef(q);
-  if (ref) out += `<details class="xd"><summary>法條原文怎麼寫</summary><div>${ref}</div></details>`;
+  if (ref) out += `<details class="xfold"><summary>法條原文怎麼寫</summary><div>${ref}</div></details>`;
   return out;
 }
 /* 錯在哪（in/lawexpl.js）：每筆引用句都經程式逐字核對過法條原文 */
