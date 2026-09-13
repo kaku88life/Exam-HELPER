@@ -73,7 +73,10 @@
     '#xsec.xs-end{-webkit-mask-image:none;mask-image:none}' +
     /* 寬表格：整表可橫捲，第一欄不折行 */
     '.xtw{overflow-x:auto;-webkit-overflow-scrolling:touch}.xtw>table{margin:0}' +
-    '@media (max-width:600px){.wrap .xtw td:first-child,.wrap .xtw th:first-child{white-space:nowrap}}' +
+    /* 真的塞不下才橫捲：右緣淡出提示，捲到底取消 */
+    '.xtw.ov{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 22px),transparent)}' +
+    '.xtw.ov.xe{-webkit-mask-image:none;mask-image:none}' +
+    '@media (max-width:600px){.wrap .xtw.nw td:first-child,.wrap .xtw.nw th:first-child{white-space:nowrap}}' +
     /* 浮動鈕：頁尾留白，避免蓋住最後一段內容 */
     'body.xfab-on{padding-bottom:calc(76px + env(safe-area-inset-bottom))}';
   document.head.appendChild(css);
@@ -109,7 +112,7 @@
   var FS = [0.9, 1, 1.1, 1.2, 1.35], fsKey = 'xfs-scale';
   function fsGet(){ try{ var v = parseFloat(localStorage.getItem(fsKey)); if (FS.indexOf(v) >= 0) return v; }catch(e){}
     return (window.innerWidth <= 480) ? 1.1 : 1; }          // 手機預設放大一級
-  function fsApply(v){ document.body.style.fontSize = (16 * v) + 'px'; try{ localStorage.setItem(fsKey, String(v)); }catch(e){}
+  function fsApply(v){ document.body.style.fontSize = (16 * v) + 'px'; if (window.__fitTables) setTimeout(window.__fitTables, 0); try{ localStorage.setItem(fsKey, String(v)); }catch(e){}
     var i = FS.indexOf(v); var a = document.getElementById('xfsm'), b = document.getElementById('xfsp');
     if (a) a.classList.toggle('dis', i <= 0); if (b) b.classList.toggle('dis', i >= FS.length - 1); }
   var fsBox = document.createElement('span'); fsBox.id = 'xfs';
@@ -125,6 +128,37 @@
     var w = document.createElement('div'); w.className = 'xtw';
     t.parentNode.insertBefore(w, t); w.appendChild(t);
   });
+
+  /* 表格第一欄要不要 nowrap：套上去量一次，會撐破就改回折行；真的放不下才開橫捲並提示 */
+  window.__fitTables = function(){
+    document.querySelectorAll('.xtw').forEach(function(w){
+      if (!w.clientWidth) return;
+      w.classList.add('nw');
+      if (w.scrollWidth - w.clientWidth > 2) w.classList.remove('nw');
+      w.classList.toggle('ov', w.scrollWidth - w.clientWidth > 2);
+    });
+  };
+  window.__fitTables();
+  window.addEventListener('resize', window.__fitTables);
+  /* 收合區塊裡的表格載入時量不到寬度，等它真的顯示出來再量一次 */
+  if (window.ResizeObserver) {
+    var _ro = new ResizeObserver(function(es){
+      es.forEach(function(e){
+        var w = e.target;
+        if (!w.clientWidth) return;
+        w.classList.add('nw');
+        if (w.scrollWidth - w.clientWidth > 2) w.classList.remove('nw');
+        w.classList.toggle('ov', w.scrollWidth - w.clientWidth > 2);
+      });
+    });
+    document.querySelectorAll('.xtw').forEach(function(w){ _ro.observe(w); });
+  }
+  document.querySelectorAll('.xtw').forEach(function(w){
+    w.addEventListener('scroll', function(){
+      w.classList.toggle('xe', w.scrollLeft + w.clientWidth >= w.scrollWidth - 2);
+    }, {passive:true});
+  });
+
 
   /* ---- 長頁面：分節 pill ＋ 右下「目錄／回頂」---- */
   var h2s = Array.prototype.slice.call(document.querySelectorAll('.wrap h2, main h2, body > h2'));

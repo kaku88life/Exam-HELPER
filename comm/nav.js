@@ -65,7 +65,10 @@
     'h2{scroll-margin-top:calc(var(--xhead,60px) + 10px)}' +
     /* 寬表格：整表可橫捲，手機版第一欄不折行 */
     '.xtw{overflow-x:auto;-webkit-overflow-scrolling:touch}.xtw>table{margin:0}' +
-    '@media (max-width:600px){.wrap .xtw td:first-child,.wrap .xtw th:first-child{white-space:nowrap}}';
+    /* 真的塞不下才橫捲：右緣淡出提示，捲到底取消 */
+    '.xtw.ov{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 22px),transparent)}' +
+    '.xtw.ov.xe{-webkit-mask-image:none;mask-image:none}' +
+    '@media (max-width:600px){.wrap .xtw.nw td:first-child,.wrap .xtw.nw th:first-child{white-space:nowrap}}';
   document.head.appendChild(css);
 
   var bar = document.createElement('div');
@@ -101,6 +104,37 @@
     var w = document.createElement('div'); w.className = 'xtw';
     t.parentNode.insertBefore(w, t); w.appendChild(t);
   });
+
+  /* 表格第一欄要不要 nowrap：套上去量一次，會撐破就改回折行；真的放不下才開橫捲並提示 */
+  window.__fitTables = function(){
+    document.querySelectorAll('.xtw').forEach(function(w){
+      if (!w.clientWidth) return;
+      w.classList.add('nw');
+      if (w.scrollWidth - w.clientWidth > 2) w.classList.remove('nw');
+      w.classList.toggle('ov', w.scrollWidth - w.clientWidth > 2);
+    });
+  };
+  window.__fitTables();
+  window.addEventListener('resize', window.__fitTables);
+  /* 收合區塊裡的表格載入時量不到寬度，等它真的顯示出來再量一次 */
+  if (window.ResizeObserver) {
+    var _ro = new ResizeObserver(function(es){
+      es.forEach(function(e){
+        var w = e.target;
+        if (!w.clientWidth) return;
+        w.classList.add('nw');
+        if (w.scrollWidth - w.clientWidth > 2) w.classList.remove('nw');
+        w.classList.toggle('ov', w.scrollWidth - w.clientWidth > 2);
+      });
+    });
+    document.querySelectorAll('.xtw').forEach(function(w){ _ro.observe(w); });
+  }
+  document.querySelectorAll('.xtw').forEach(function(w){
+    w.addEventListener('scroll', function(){
+      w.classList.toggle('xe', w.scrollLeft + w.clientWidth >= w.scrollWidth - 2);
+    }, {passive:true});
+  });
+
 
   /* 既有頁面的 sticky 頂部元素（top:0）統一往下讓出頂欄高度 */
   function fixSticky(){
