@@ -62,6 +62,14 @@
     ".xhome{--xm:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Cpolyline points='9 22 9 12 15 12 15 22'/%3E%3C/svg%3E\")}" +
     ".xmenu{--xm:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cline x1='3' y1='12' x2='21' y2='12'/%3E%3Cline x1='3' y1='18' x2='21' y2='18'/%3E%3C/svg%3E\")}" +
     ".xch{--xm:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\")}";
+
+  /* ---- 前端微調（2026-09-13）：與 in/nav.js 同步 ---- */
+  css.textContent +=
+    /* 錨點跳轉：讓出頂欄的實際高度，標題不被蓋住 */
+    'h2{scroll-margin-top:calc(var(--xhead,60px) + 10px)}' +
+    /* 寬表格：整表可橫捲，手機版第一欄不折行 */
+    '.xtw{overflow-x:auto;-webkit-overflow-scrolling:touch}.xtw>table{margin:0}' +
+    '@media (max-width:600px){.wrap .xtw td:first-child,.wrap .xtw th:first-child{white-space:nowrap}}';
   document.head.appendChild(css);
 
   var bar = document.createElement('div');
@@ -90,9 +98,18 @@
   document.getElementById('xmenu').onclick = function(){ toggle(!bar.classList.contains('open')); };
   back.onclick = function(){ toggle(false); };
 
+
+  /* ---- 寬表格包一層橫捲容器，讓第一欄可以不折行 ---- */
+  document.querySelectorAll('.wrap table, main table').forEach(function(t){
+    if (t.parentNode && t.parentNode.classList.contains('xtw')) return;
+    var w = document.createElement('div'); w.className = 'xtw';
+    t.parentNode.insertBefore(w, t); w.appendChild(t);
+  });
+
   /* 既有頁面的 sticky 頂部元素（top:0）統一往下讓出頂欄高度 */
   function fixSticky(){
     var h = bar.querySelector('.b').offsetHeight;
+    document.documentElement.style.setProperty('--xhead', h + 'px');
     document.querySelectorAll('nav,header').forEach(function(el){
       if (el.closest('#xnav')) return;
       var cs = getComputedStyle(el);
