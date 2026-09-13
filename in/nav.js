@@ -62,8 +62,20 @@
     ".xch{--xm:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\")}";
   css.textContent += '/* ---- 手機閱讀：字級樓地板與點擊目標（2026-09-14）---- */@media (max-width:600px){.wrap small,.wrap .q,.wrap .foot,.wrap .legend,.wrap .n,.wrap .note small,.wrap .tip small,.wrap .hl small,.wrap .why,.wrap .hint{font-size:max(12px,.86em)!important}.wrap td,.wrap th{font-size:max(12px,.92em)!important}.wrap button,.wrap .btn{min-height:40px}.chk li{padding:12px 0}}h2{scroll-margin-top:110px}#xfs{display:flex;align-items:center;gap:2px;margin-right:2px}#xfs button{width:36px;height:36px;border-radius:8px;font-size:.95em;font-weight:800;color:#087a73}#xfs button:active{background:#f5f7f3}#xfs button.dis{opacity:.3}#xsec{position:sticky;z-index:290;background:#f5f7f3;margin:0;padding:6px 10px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid #e3e8e4}#xsec a.on{border-color:#087a73;color:#087a73;background:rgba(8,122,115,.08)}#xsec::-webkit-scrollbar{display:none}#xsec a{flex:0 0 auto;white-space:nowrap;padding:7px 11px;border:1px solid #d7ded8;border-radius:999px;background:#fff;color:#17211d;font-size:.8em;font-weight:600;text-decoration:none;min-height:36px;display:flex;align-items:center}#xsec a:active{border-color:#087a73;color:#087a73}#xfab{position:fixed;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:290;display:flex;flex-direction:column;gap:8px}#xfab button{width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid #d7ded8;box-shadow:0 2px 8px rgba(23,33,29,.15);color:#087a73;font-weight:800;font-size:.9em}#xfab{opacity:0;pointer-events:none;transition:opacity .2s}#xfab.show{opacity:1;pointer-events:auto}#xsheet{position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:14px 14px 0 0;box-shadow:0 -4px 20px rgba(23,33,29,.2);padding:10px 12px calc(16px + env(safe-area-inset-bottom));display:none;max-height:70vh;overflow:auto}#xsheet.open{display:block}#xsheet a{display:flex;align-items:center;min-height:46px;padding:6px 10px;border-bottom:1px solid #eef1ee;text-decoration:none;color:#17211d;font-size:.9em;font-weight:600}#xsheet a:last-child{border:none}#xsheet .t{font-size:.75em;color:#66736d;padding:4px 10px 6px}';
   css.textContent += '@media (max-width:600px){h2{flex-wrap:wrap}h2 .n{flex:1 1 100%}table.two th,table.two td.r{white-space:nowrap}table.two td{padding:6px 3px}}' +
-    'h2.xh{cursor:pointer;-webkit-tap-highlight-color:transparent}h2.xh::after{content:"\25BE";float:right;color:#66736d;font-size:.8em;margin-left:8px;transition:transform .15s}' +
-    'h2.xh.closed::after{transform:rotate(-90deg)}.xbody.closed{display:none}#xsec a.all{border-style:dashed;color:#66736d}h2{scroll-margin-top:110px}';
+    'h2.xh{cursor:pointer;-webkit-tap-highlight-color:transparent;position:relative;padding-right:24px}h2.xh::after{content:"\\25BE";position:absolute;right:0;top:.1em;color:#66736d;font-size:.8em;line-height:1;transition:transform .15s}' +
+    'h2.xh.closed::after{transform:rotate(-90deg)}.xbody.closed{display:none}#xsec a.all{border-style:dashed;color:#66736d}';
+  /* ---- 前端微調（2026-09-13）---- */
+  css.textContent +=
+    /* 錨點跳轉：讓出「頂欄＋分節 pill 列」的實際高度，別讓標題被蓋住 */
+    'h2{scroll-margin-top:calc(var(--xhead,110px) + 10px)}' +
+    /* 分節 pill 列：右緣淡出，提示還能橫滑；捲到底就取消 */
+    '#xsec{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent)}' +
+    '#xsec.xs-end{-webkit-mask-image:none;mask-image:none}' +
+    /* 寬表格：整表可橫捲，第一欄不折行 */
+    '.xtw{overflow-x:auto;-webkit-overflow-scrolling:touch}.xtw>table{margin:0}' +
+    '@media (max-width:600px){.wrap .xtw td:first-child,.wrap .xtw th:first-child{white-space:nowrap}}' +
+    /* 浮動鈕：頁尾留白，避免蓋住最後一段內容 */
+    'body.xfab-on{padding-bottom:calc(76px + env(safe-area-inset-bottom))}';
   document.head.appendChild(css);
 
   var bar = document.createElement('div');
@@ -107,6 +119,13 @@
   document.getElementById('xfsm').onclick = function(){ var i = FS.indexOf(fsGet()); if (i > 0) fsApply(FS[i - 1]); };
   document.getElementById('xfsp').onclick = function(){ var i = FS.indexOf(fsGet()); if (i < FS.length - 1) fsApply(FS[i + 1]); };
 
+  /* ---- 寬表格包一層橫捲容器，讓第一欄可以不折行 ---- */
+  document.querySelectorAll('.wrap table, main table').forEach(function(t){
+    if (t.parentNode && t.parentNode.classList.contains('xtw')) return;
+    var w = document.createElement('div'); w.className = 'xtw';
+    t.parentNode.insertBefore(w, t); w.appendChild(t);
+  });
+
   /* ---- 長頁面：分節 pill ＋ 右下「目錄／回頂」---- */
   var h2s = Array.prototype.slice.call(document.querySelectorAll('.wrap h2, main h2, body > h2'));
   if (h2s.length >= 4){
@@ -116,11 +135,21 @@
     var sec = document.createElement('div'); sec.id = 'xsec';
     sec.innerHTML = h2s.map(function(h){ return '<a href="#' + h.id + '">' + label(h) + '</a>'; }).join('');
     bar.after(sec);
-    function secTop(){ sec.style.top = bar.querySelector('.b').offsetHeight + 'px'; }
-    secTop(); window.addEventListener('resize', secTop);
+    function secTop(){
+      var h = bar.querySelector('.b').offsetHeight;
+      sec.style.top = h + 'px';
+      /* 頂欄＋pill 列的實際總高，供 scroll-margin-top 與 secMark 共用 */
+      document.documentElement.style.setProperty('--xhead', (h + sec.offsetHeight) + 'px');
+    }
+    function headH(){ return bar.querySelector('.b').offsetHeight + sec.offsetHeight; }
+    /* pill 列捲到最右就取消淡出遮罩 */
+    function secEdge(){ sec.classList.toggle('xs-end', sec.scrollLeft + sec.clientWidth >= sec.scrollWidth - 2); }
+    sec.addEventListener('scroll', secEdge, {passive:true});
+    secTop(); secEdge();
+    window.addEventListener('resize', function(){ secTop(); secEdge(); });
     var secLinks = Array.prototype.slice.call(sec.querySelectorAll('a'));
     function secMark(){
-      var y = window.scrollY + 120, cur = 0;
+      var y = window.scrollY + headH() + 12, cur = 0;
       h2s.forEach(function(h, i){ if (h.offsetTop <= y) cur = i; });
       secLinks.forEach(function(a, i){ a.classList.toggle('on', i === cur); });
       var a = secLinks[cur]; if (a) sec.scrollTo({left: a.offsetLeft - sec.clientWidth / 2 + a.offsetWidth / 2, behavior: 'smooth'});
@@ -152,6 +181,7 @@
     var fab = document.createElement('div'); fab.id = 'xfab';
     fab.innerHTML = '<button id="xtoc" aria-label="目錄">≡</button><button id="xtop" aria-label="回頂部">↑</button>';
     document.body.appendChild(fab);
+    document.body.classList.add('xfab-on');
     function sheetToggle(v){ sheet.classList.toggle('open', v); back.style.display = sheet.classList.contains('open') ? 'block' : 'none'; }
     document.getElementById('xtoc').onclick = function(){ sheetToggle(!sheet.classList.contains('open')); };
     document.getElementById('xtop').onclick = function(){ window.scrollTo({top:0, behavior:'smooth'}); };
