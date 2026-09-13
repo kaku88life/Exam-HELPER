@@ -92,6 +92,17 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
 a{color:var(--cy)}
 .timer{font-variant-numeric:tabular-nums;font-weight:700}
 .timer.hot{color:var(--rd)}
+.xd{margin-top:6px;border:1px solid var(--cd);border-radius:7px;background:var(--sf);font-size:.84em}
+.xd summary{padding:8px 10px;cursor:pointer;color:var(--cy);font-weight:700;list-style:none;-webkit-tap-highlight-color:transparent}
+.xd summary::before{content:"B8";margin-right:6px;display:inline-block;transition:transform .15s}
+.xd[open] summary::before{transform:rotate(90deg)}
+.xd>div{padding:0 10px 10px;line-height:1.6}
+#xob{position:fixed;inset:0;z-index:400;background:rgba(23,33,29,.45);display:none;align-items:flex-end;justify-content:center}
+#xob.show{display:flex}
+#xob .p{background:var(--sf);border-radius:14px 14px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));max-width:560px;width:100%;max-height:80vh;overflow:auto}
+#xob h3{margin:0 0 8px;font-size:1.05em}
+#xob ol{margin:0 0 12px 18px;padding:0;line-height:1.7;font-size:.92em}
+#xob button{width:100%;min-height:46px;border:none;border-radius:999px;background:var(--cy);color:#fff;font-weight:700;font-size:1em;font-family:inherit}
 </style>
 </head>
 <body>
@@ -126,7 +137,19 @@ a{color:var(--cy)}
 
 <div id="view"></div>
 
+<div id="xob"><div class="p">
+  <h3>第一次用？30 秒看懂</h3>
+  <ol>
+    <li><b>背誦</b>直接看答案、<b>測驗</b>作答後才判定、<b>錯題</b>只刷答錯過的、<b>模擬考</b>照真實規則計時。</li>
+    <li>左上<b>「篩選」</b>可以縮小範圍（類別、考點、題型、只看未做）。平常收起來就好。</li>
+    <li><b>空白鍵</b>或右下按鈕下一題；答完會出現解析：先看<b>「錯在哪」</b>，其他收合區想看再點開。</li>
+    <li>覺得題目答案怪怪的，點<b>「標記存疑」</b>，之後用「我的存疑」集中複查。</li>
+    <li>紀錄存在這台裝置；要跨裝置或備份，到<b>「統計」</b>開同步或複製進度碼。</li>
+  </ol>
+  <button id="xobOk">開始刷題</button>
+</div></div>
 <div class="foot">
+  <a href="#" id="xobAgain">怎麼用這個刷題器？</a><br>
   法規 743＋實務（一般 968／消金 925）題，去重自第 29–49 屆<br>
   作答紀錄存在本機瀏覽器（可在「統計」開啟雲端同步）。<b>iPhone Safari 七天沒開會被系統清掉</b>，只用本機的人請在「統計」定期「複製進度碼」備份・<a href="#" id="reset">清除全部紀錄</a><br><br>
   題目為台灣金融研訓院公告之歷屆試題，著作權屬該院，僅供個人備考練習<br>
@@ -136,7 +159,7 @@ a{color:var(--cy)}
 </div>
 </div>
 
-<script src="nav.js?v=9" defer></script>
+<script src="nav.js?v=11" defer></script>
 <script src="sync.js?v=6"></script>
 <script src="lawref.js?v=1"></script>
 <script src="lawexpl.js?v=1"></script>
@@ -255,18 +278,35 @@ function autoWhy(q, ansRaw, ansShown){   // ansRaw=題庫原始正解編號（�
     return `這題問的是「哪一句<b>對</b>」，正解 (${ans})：<b>${pick}</b><br>另外三句是<b>故意改錯的</b>。看它們改了哪裡（數字？誰負責？「應該」還是「可以」？），下次就不會被同一招騙：<br>· ` + others.join('<br>· ');
   return `記這一句就好：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
 }
+/* 解析區塊組裝：只講一件事一句話，其餘收合 */
+function explain(q, ansRaw, ansShown){
+  const stem = q[3], opts = q[4], ans = ansShown || ansRaw, pick = opts[ansRaw-1];
+  const others = opts.filter((v,i)=>i !== ansRaw-1);
+  const isNeg = /何者錯誤|何者有誤|何者為非|何者不正確|下列何者不|非屬/.test(stem);
+  const isPos = /何者正確|何者為是|正確的是/.test(stem);
+  let head;
+  if (isNeg)      head = `這題問「哪一句<b>錯</b>」，錯的是 <b>(${ans})</b>。`;
+  else if (isPos) head = `這題問「哪一句<b>對</b>」，對的是 <b>(${ans})</b>；另外三句是改錯的。`;
+  else            head = `記這一句：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
+  let out = lawExpl(q);
+  out += `<div class="why" style="margin-top:8px">${head}</div>`;
+  if (isNeg) out += `<details class="xd"><summary>另外三句都是對的，順手記</summary><div>· ${others.join('<br>· ')}</div></details>`;
+  const ref = lawRef(q);
+  if (ref) out += `<details class="xd"><summary>法條原文怎麼寫</summary><div>${ref}</div></details>`;
+  return out;
+}
 /* 錯在哪（in/lawexpl.js）：每筆引用句都經程式逐字核對過法條原文 */
 function lawExpl(q){
   const r = (window.LAWEXPL || {})[q[3]];
   if (!r) return '';
-  const rows = r.items.map(it => `<div style="margin:5px 0"><b>(${it.opt})</b> ${it.plain || (it.wrong + ' → ' + it.right)}<br><span style="opacity:.75;font-size:.9em">第 ${it.art} 條原文：「${it.quote}」</span></div>`).join('');
-  return `<div class="why" style="border-left-color:var(--rd);background:rgba(179,69,58,.05);margin-top:6px"><i class="xi xa r"></i> <b>錯在哪（對照法條）</b>${rows}</div>`;
+  const rows = r.items.map(it => `<div style="margin:6px 0"><b>(${it.opt})</b> ${it.plain || (it.wrong + ' → ' + it.right)}<div style="opacity:.7;font-size:.86em;margin-top:2px">${it.law ? it.law.replace(/^金融控股公司及銀行業/,'') + ' ' : ''}第 ${it.art} 條：「${it.quote}」</div></div>`).join('');
+  return `<div class="why" style="border-left-color:var(--rd);background:rgba(179,69,58,.05);margin-top:10px"><b>錯在哪</b>${rows}</div>`;
 }
 /* 現行條文原文（in/lawref.js，由 build_lawref_in.py 對句；只引原文、不解釋，對不上的題沒有） */
 function lawRef(q){
   const r = (window.LAWREF || {})[q[3]];
   if (!r) return '';
-  return `<div class="why" style="border-left-color:var(--gn);background:rgba(96,114,67,.07);margin-top:6px"><i class="xi xz g"></i> <b>法條原文怎麼寫（第 ${r.art} 條，2026 年 5 月最新版）</b>：${r.text}<br><span style="opacity:.7;font-size:.9em">這段是電腦自動找出最像的一段，不一定逐字對得上。如果答案跟法條講的不一樣，通常是法規改過了。</span></div>`;
+  return `<b>第 ${r.art} 條</b>（2026 年 5 月版）：${r.text}<br><span style="opacity:.7;font-size:.9em">電腦自動找出最像的一段，不一定逐字對得上；答案跟法條不一樣時，通常是法規改過了。</span>`;
 }
 
 /* ---------- 題目集合 ---------- */
@@ -462,7 +502,7 @@ function showAnswer(judged, n, correct){
       ? `<div class="verdict ok"><i class="xi xk g"></i> 正確！${rec(list[idx].k).s >= GRAD ? '（已從錯題本畢業）' : ''}</div>`
       : `<div class="verdict no"><i class="xi xx r"></i> 答錯了，正解是 (${ans})　→ 已加入錯題本，答對 ${GRAD} 次才畢業</div>`;
   }
-  $('#verdict').innerHTML = html + `<div class="why" style="margin-top:10px">${autoWhy(oNow.q, oNow.q[5], ans)}</div>` + lawExpl(oNow.q) + lawRef(oNow.q);
+  $('#verdict').innerHTML = html + explain(oNow.q, oNow.q[5], ans);
 }
 
 function go(step){
@@ -833,6 +873,12 @@ function setFold(f, persist){
   if (persist) try{ localStorage.setItem(FOLDKEY, f ? '1' : '0'); }catch(e){}
 }
 $('#fold').onclick = () => setFold(!$('#bar2').classList.contains('collapsed'), true);
+/* 首次使用說明（看過一次就不再跳；頁尾可再開） */
+const OBKEY = 'in-drill-onboard-v1';
+function showOb(v){ $('#xob').classList.toggle('show', v); }
+$('#xobOk').onclick = () => { showOb(false); try{ localStorage.setItem(OBKEY, '1'); }catch(e){} };
+$('#xobAgain').onclick = e => { e.preventDefault(); showOb(true); };
+try { if (!localStorage.getItem(OBKEY)) showOb(true); } catch(e) {}
 { let f0 = null;
   try{ f0 = localStorage.getItem(FOLDKEY); }catch(e){}
   setFold(f0 === null ? matchMedia('(max-width:700px)').matches : f0 === '1'); }

@@ -61,6 +61,9 @@
     ".xmenu{--xm:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cline x1='3' y1='12' x2='21' y2='12'/%3E%3Cline x1='3' y1='18' x2='21' y2='18'/%3E%3C/svg%3E\")}" +
     ".xch{--xm:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\")}";
   css.textContent += '/* ---- 手機閱讀：字級樓地板與點擊目標（2026-09-14）---- */@media (max-width:600px){.wrap small,.wrap .q,.wrap .foot,.wrap .legend,.wrap .n,.wrap .note small,.wrap .tip small,.wrap .hl small,.wrap .why,.wrap .hint{font-size:max(12px,.86em)!important}.wrap td,.wrap th{font-size:max(12px,.92em)!important}.wrap button,.wrap .btn{min-height:40px}.chk li{padding:12px 0}}h2{scroll-margin-top:110px}#xfs{display:flex;align-items:center;gap:2px;margin-right:2px}#xfs button{width:36px;height:36px;border-radius:8px;font-size:.95em;font-weight:800;color:#087a73}#xfs button:active{background:#f5f7f3}#xfs button.dis{opacity:.3}#xsec{position:sticky;z-index:290;background:#f5f7f3;margin:0;padding:6px 10px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid #e3e8e4}#xsec a.on{border-color:#087a73;color:#087a73;background:rgba(8,122,115,.08)}#xsec::-webkit-scrollbar{display:none}#xsec a{flex:0 0 auto;white-space:nowrap;padding:7px 11px;border:1px solid #d7ded8;border-radius:999px;background:#fff;color:#17211d;font-size:.8em;font-weight:600;text-decoration:none;min-height:36px;display:flex;align-items:center}#xsec a:active{border-color:#087a73;color:#087a73}#xfab{position:fixed;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:290;display:flex;flex-direction:column;gap:8px}#xfab button{width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid #d7ded8;box-shadow:0 2px 8px rgba(23,33,29,.15);color:#087a73;font-weight:800;font-size:.9em}#xfab{opacity:0;pointer-events:none;transition:opacity .2s}#xfab.show{opacity:1;pointer-events:auto}#xsheet{position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:14px 14px 0 0;box-shadow:0 -4px 20px rgba(23,33,29,.2);padding:10px 12px calc(16px + env(safe-area-inset-bottom));display:none;max-height:70vh;overflow:auto}#xsheet.open{display:block}#xsheet a{display:flex;align-items:center;min-height:46px;padding:6px 10px;border-bottom:1px solid #eef1ee;text-decoration:none;color:#17211d;font-size:.9em;font-weight:600}#xsheet a:last-child{border:none}#xsheet .t{font-size:.75em;color:#66736d;padding:4px 10px 6px}';
+  css.textContent += '@media (max-width:600px){h2{flex-wrap:wrap}h2 .n{flex:1 1 100%}table.two th,table.two td.r{white-space:nowrap}table.two td{padding:6px 3px}}' +
+    'h2.xh{cursor:pointer;-webkit-tap-highlight-color:transparent}h2.xh::after{content:"\25BE";float:right;color:#66736d;font-size:.8em;margin-left:8px;transition:transform .15s}' +
+    'h2.xh.closed::after{transform:rotate(-90deg)}.xbody.closed{display:none}#xsec a.all{border-style:dashed;color:#66736d}h2{scroll-margin-top:110px}';
   document.head.appendChild(css);
 
   var bar = document.createElement('div');
@@ -123,6 +126,26 @@
       var a = secLinks[cur]; if (a) sec.scrollTo({left: a.offsetLeft - sec.clientWidth / 2 + a.offsetWidth / 2, behavior: 'smooth'});
     }
     window.addEventListener('scroll', secMark, {passive:true}); secMark();
+    /* 每節可收合：預設只展開第一節；點 pill／目錄會自動展開目標節 */
+    var bodies = [];
+    h2s.forEach(function(h, i){
+      var body = document.createElement('div'); body.className = 'xbody';
+      var n = h.nextSibling;
+      while (n && !(n.nodeType === 1 && n.tagName === 'H2')) { var nx = n.nextSibling; body.appendChild(n); n = nx; }
+      h.after(body); h.classList.add('xh'); bodies.push(body);
+      if (i > 0) { h.classList.add('closed'); body.classList.add('closed'); }
+      h.addEventListener('click', function(e){ if (e.target.closest('a')) return; h.classList.toggle('closed'); body.classList.toggle('closed'); });
+    });
+    function openSec(id){ var h = document.getElementById(id); if (!h) return; var i = h2s.indexOf(h); if (i < 0) return;
+      h.classList.remove('closed'); bodies[i].classList.remove('closed'); }
+    function onJump(e){ var a = e.target.closest('a'); if (!a) return; var id = (a.getAttribute('href') || '').slice(1); if (id) openSec(id); }
+    document.addEventListener('click', function(e){ if (e.target.closest('#xsec, #xsheet')) onJump(e); });
+    var allA = document.createElement('a'); allA.href = '#'; allA.className = 'all'; allA.textContent = '全部展開';
+    allA.onclick = function(e){ e.preventDefault(); var anyClosed = bodies.some(function(b){ return b.classList.contains('closed'); });
+      h2s.forEach(function(h, i){ h.classList.toggle('closed', !anyClosed); bodies[i].classList.toggle('closed', !anyClosed); });
+      allA.textContent = anyClosed ? '全部收合' : '全部展開'; };
+    sec.appendChild(allA);
+    if (location.hash) openSec(location.hash.slice(1));
     var sheet = document.createElement('div'); sheet.id = 'xsheet';
     sheet.innerHTML = '<div class="t">這一頁的段落</div>' + h2s.map(function(h){ return '<a href="#' + h.id + '">' + label(h) + '</a>'; }).join('');
     document.body.appendChild(sheet);
