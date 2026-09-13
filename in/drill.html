@@ -136,7 +136,7 @@ a{color:var(--cy)}
 </div>
 </div>
 
-<script src="nav.js?v=8" defer></script>
+<script src="nav.js?v=9" defer></script>
 <script src="sync.js?v=6"></script>
 <script src="lawref.js?v=1"></script>
 <script>
@@ -249,16 +249,16 @@ function autoWhy(q, ansRaw, ansShown){   // ansRaw=題庫原始正解編號（�
   const pick = opts[ansRaw-1];
   const others = opts.filter((v,i)=>i !== ansRaw-1);
   if (/何者錯誤|何者有誤|何者為非|何者不正確|下列何者不|非屬/.test(stem))
-    return `正解 (${ans}) 是<b>錯誤</b>敘述。其餘三項<b>都是正確敘述</b>，可以直接當正確知識背：<br>· ` + others.join('<br>· ');
+    return `這題問的是「哪一句<b>錯</b>」，所以 (${ans}) 就是那句錯的。<br>另外三句都是<b>對的</b>，順手記起來，等於免費多學三件事：<br>· ` + others.join('<br>· ');
   if (/何者正確|何者為是|正確的是/.test(stem))
-    return `正解 (${ans}) <b>${pick}</b> 是正確敘述。<br>其餘三項是被改動過的錯誤敘述——對照著看被動手腳的地方（數字／角色／得與不得）：<br>· ` + others.join('<br>· ');
-  return `合成正確敘述：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
+    return `這題問的是「哪一句<b>對</b>」，正解 (${ans})：<b>${pick}</b><br>另外三句是<b>故意改錯的</b>。看它們改了哪裡（數字？誰負責？「應該」還是「可以」？），下次就不會被同一招騙：<br>· ` + others.join('<br>· ');
+  return `記這一句就好：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
 }
 /* 現行條文原文（in/lawref.js，由 build_lawref_in.py 對句；只引原文、不解釋，對不上的題沒有） */
 function lawRef(q){
   const r = (window.LAWREF || {})[q[3]];
   if (!r) return '';
-  return `<div class="why" style="border-left-color:var(--gn);background:rgba(96,114,67,.07);margin-top:6px"><i class="xi xz g"></i> <b>現行條文 第 ${r.art} 條</b>（2026-05-06 修正版）：${r.text}<br><span style="opacity:.7;font-size:.9em">自動對句取最相近的一段，不是逐字對應；答案若與條文不符，多半是法規改過了。</span></div>`;
+  return `<div class="why" style="border-left-color:var(--gn);background:rgba(96,114,67,.07);margin-top:6px"><i class="xi xz g"></i> <b>法條原文怎麼寫（第 ${r.art} 條，2026 年 5 月最新版）</b>：${r.text}<br><span style="opacity:.7;font-size:.9em">這段是電腦自動找出最像的一段，不一定逐字對得上。如果答案跟法條講的不一樣，通常是法規改過了。</span></div>`;
 }
 
 /* ---------- 題目集合 ---------- */
