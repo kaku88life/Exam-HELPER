@@ -139,6 +139,7 @@ a{color:var(--cy)}
 <script src="nav.js?v=9" defer></script>
 <script src="sync.js?v=6"></script>
 <script src="lawref.js?v=1"></script>
+<script src="lawexpl.js?v=1"></script>
 <script>
 const KEY = 'in-drill-v1';
 const OLDKEY = 'in-drill-v0';
@@ -253,6 +254,13 @@ function autoWhy(q, ansRaw, ansShown){   // ansRaw=題庫原始正解編號（�
   if (/何者正確|何者為是|正確的是/.test(stem))
     return `這題問的是「哪一句<b>對</b>」，正解 (${ans})：<b>${pick}</b><br>另外三句是<b>故意改錯的</b>。看它們改了哪裡（數字？誰負責？「應該」還是「可以」？），下次就不會被同一招騙：<br>· ` + others.join('<br>· ');
   return `記這一句就好：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
+}
+/* 錯在哪（in/lawexpl.js）：每筆引用句都經程式逐字核對過法條原文 */
+function lawExpl(q){
+  const r = (window.LAWEXPL || {})[q[3]];
+  if (!r) return '';
+  const rows = r.items.map(it => `<div style="margin:5px 0"><b>(${it.opt})</b> ${it.plain || (it.wrong + ' → ' + it.right)}<br><span style="opacity:.75;font-size:.9em">第 ${it.art} 條原文：「${it.quote}」</span></div>`).join('');
+  return `<div class="why" style="border-left-color:var(--rd);background:rgba(179,69,58,.05);margin-top:6px"><i class="xi xa r"></i> <b>錯在哪（對照法條）</b>${rows}</div>`;
 }
 /* 現行條文原文（in/lawref.js，由 build_lawref_in.py 對句；只引原文、不解釋，對不上的題沒有） */
 function lawRef(q){
@@ -454,7 +462,7 @@ function showAnswer(judged, n, correct){
       ? `<div class="verdict ok"><i class="xi xk g"></i> 正確！${rec(list[idx].k).s >= GRAD ? '（已從錯題本畢業）' : ''}</div>`
       : `<div class="verdict no"><i class="xi xx r"></i> 答錯了，正解是 (${ans})　→ 已加入錯題本，答對 ${GRAD} 次才畢業</div>`;
   }
-  $('#verdict').innerHTML = html + `<div class="why" style="margin-top:10px">${autoWhy(oNow.q, oNow.q[5], ans)}</div>` + lawRef(oNow.q);
+  $('#verdict').innerHTML = html + `<div class="why" style="margin-top:10px">${autoWhy(oNow.q, oNow.q[5], ans)}</div>` + lawExpl(oNow.q) + lawRef(oNow.q);
 }
 
 function go(step){
