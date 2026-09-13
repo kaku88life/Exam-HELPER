@@ -60,6 +60,7 @@
     ".xhome{--xm:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Cpolyline points='9 22 9 12 15 12 15 22'/%3E%3C/svg%3E\")}" +
     ".xmenu{--xm:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cline x1='3' y1='12' x2='21' y2='12'/%3E%3Cline x1='3' y1='18' x2='21' y2='18'/%3E%3C/svg%3E\")}" +
     ".xch{--xm:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\")}";
+  css.textContent += '/* ---- 手機閱讀：字級樓地板與點擊目標（2026-09-14）---- */@media (max-width:600px){.wrap small,.wrap .q,.wrap .foot,.wrap .legend,.wrap .n,.wrap .note small,.wrap .tip small,.wrap .hl small,.wrap .why,.wrap .hint{font-size:max(12px,.86em)!important}.wrap td,.wrap th{font-size:max(12px,.92em)!important}.wrap button,.wrap .btn{min-height:40px}.chk li{padding:12px 0}}h2{scroll-margin-top:96px}#xfs{display:flex;align-items:center;gap:2px;margin-right:2px}#xfs button{width:36px;height:36px;border-radius:8px;font-size:.95em;font-weight:800;color:#087a73}#xfs button:active{background:#f5f7f3}#xfs button.dis{opacity:.3}#xsec{max-width:720px;margin:6px auto 0;padding:0 10px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}#xsec::-webkit-scrollbar{display:none}#xsec a{flex:0 0 auto;white-space:nowrap;padding:7px 11px;border:1px solid #d7ded8;border-radius:999px;background:#fff;color:#17211d;font-size:.8em;font-weight:600;text-decoration:none;min-height:36px;display:flex;align-items:center}#xsec a:active{border-color:#087a73;color:#087a73}#xfab{position:fixed;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:290;display:flex;flex-direction:column;gap:8px}#xfab button{width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid #d7ded8;box-shadow:0 2px 8px rgba(23,33,29,.15);color:#087a73;font-weight:800;font-size:.9em}#xfab{opacity:0;pointer-events:none;transition:opacity .2s}#xfab.show{opacity:1;pointer-events:auto}#xsheet{position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:14px 14px 0 0;box-shadow:0 -4px 20px rgba(23,33,29,.2);padding:10px 12px calc(16px + env(safe-area-inset-bottom));display:none;max-height:70vh;overflow:auto}#xsheet.open{display:block}#xsheet a{display:flex;align-items:center;min-height:46px;padding:6px 10px;border-bottom:1px solid #eef1ee;text-decoration:none;color:#17211d;font-size:.9em;font-weight:600}#xsheet a:last-child{border:none}#xsheet .t{font-size:.75em;color:#66736d;padding:4px 10px 6px}';
   document.head.appendChild(css);
 
   var bar = document.createElement('div');
@@ -87,6 +88,44 @@
   }
   document.getElementById('xmenu').onclick = function(){ toggle(!bar.classList.contains('open')); };
   back.onclick = function(){ toggle(false); };
+
+
+  /* ---- 字級：使用者可調，存 localStorage（跨頁共用）---- */
+  var FS = [0.9, 1, 1.1, 1.2, 1.35], fsKey = 'xfs-scale';
+  function fsGet(){ try{ var v = parseFloat(localStorage.getItem(fsKey)); if (FS.indexOf(v) >= 0) return v; }catch(e){}
+    return (window.innerWidth <= 480) ? 1.1 : 1; }          // 手機預設放大一級
+  function fsApply(v){ document.body.style.fontSize = (16 * v) + 'px'; try{ localStorage.setItem(fsKey, String(v)); }catch(e){}
+    var i = FS.indexOf(v); var a = document.getElementById('xfsm'), b = document.getElementById('xfsp');
+    if (a) a.classList.toggle('dis', i <= 0); if (b) b.classList.toggle('dis', i >= FS.length - 1); }
+  var fsBox = document.createElement('span'); fsBox.id = 'xfs';
+  fsBox.innerHTML = '<button id="xfsm" aria-label="縮小字級">A−</button><button id="xfsp" aria-label="放大字級">A+</button>';
+  bar.querySelector('.home').before(fsBox);
+  fsApply(fsGet());
+  document.getElementById('xfsm').onclick = function(){ var i = FS.indexOf(fsGet()); if (i > 0) fsApply(FS[i - 1]); };
+  document.getElementById('xfsp').onclick = function(){ var i = FS.indexOf(fsGet()); if (i < FS.length - 1) fsApply(FS[i + 1]); };
+
+  /* ---- 長頁面：分節 pill ＋ 右下「目錄／回頂」---- */
+  var h2s = Array.prototype.slice.call(document.querySelectorAll('.wrap h2, main h2, body > h2'));
+  if (h2s.length >= 4){
+    var label = function(h){ var t = (h.childNodes[0] && h.childNodes[0].nodeType === 3) ? h.childNodes[0].textContent : h.textContent;
+      t = t.replace(/\s+/g, ' ').trim(); return t.length > 12 ? t.slice(0, 12) + '…' : t; };
+    h2s.forEach(function(h, i){ if (!h.id) h.id = 'sec' + (i + 1); });
+    var sec = document.createElement('div'); sec.id = 'xsec';
+    sec.innerHTML = h2s.map(function(h){ return '<a href="#' + h.id + '">' + label(h) + '</a>'; }).join('');
+    bar.after(sec);
+    var sheet = document.createElement('div'); sheet.id = 'xsheet';
+    sheet.innerHTML = '<div class="t">這一頁的段落</div>' + h2s.map(function(h){ return '<a href="#' + h.id + '">' + label(h) + '</a>'; }).join('');
+    document.body.appendChild(sheet);
+    var fab = document.createElement('div'); fab.id = 'xfab';
+    fab.innerHTML = '<button id="xtoc" aria-label="目錄">≡</button><button id="xtop" aria-label="回頂部">↑</button>';
+    document.body.appendChild(fab);
+    function sheetToggle(v){ sheet.classList.toggle('open', v); back.style.display = sheet.classList.contains('open') ? 'block' : 'none'; }
+    document.getElementById('xtoc').onclick = function(){ sheetToggle(!sheet.classList.contains('open')); };
+    document.getElementById('xtop').onclick = function(){ window.scrollTo({top:0, behavior:'smooth'}); };
+    sheet.addEventListener('click', function(e){ if (e.target.tagName === 'A') sheetToggle(false); });
+    var _bk = back.onclick; back.onclick = function(){ toggle(false); sheetToggle(false); };
+    window.addEventListener('scroll', function(){ fab.classList.toggle('show', window.scrollY > 500); }, {passive:true});
+  }
 
   /* 既有頁面的 sticky 頂部元素（top:0）統一往下讓出頂欄高度 */
   function fixSticky(){

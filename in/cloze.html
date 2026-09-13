@@ -58,8 +58,8 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
 </head>
 <body>
 <div class="wrap">
-  <p class="lead">法規科超過一半是<b>純記憶</b>：數字（期限、比率、金額）加上名詞（哪個機構、哪個職稱、哪種方式）——這種東西只能靠反覆看。<br>
-    這裡把法規科「問一個事實、四個選項都是數字或都是短名詞」的題抽出來，<b>選項全部用原題的官方選項</b>（不是自己編的），所以每個干擾項都是考場上真的會出現的那幾個。用上方「主題」可以只練數字或只練名詞。</p>
+  <details class="lead" id="intro"><summary style="cursor:pointer;font-weight:700;color:var(--cy)">這是什麼、怎麼用（點開看說明）</summary><div style="margin-top:6px">法規科超過一半是<b>純記憶</b>：數字（期限、比率、金額）加上名詞（哪個機構、哪個職稱、哪種方式）——這種東西只能靠反覆看。<br>
+    這裡把法規科「問一個事實、四個選項都是數字或都是短名詞」的題抽出來，<b>選項全部用原題的官方選項</b>（不是自己編的），所以每個干擾項都是考場上真的會出現的那幾個。用上方「主題」可以只練數字或只練名詞。</div></details>
 
   <div class="modes">
     <button data-m="recall" class="on">回想<small>自己想，再看答案</small></button>
@@ -245,6 +245,6 @@ $('#hot').onclick = e => { hotFirst = !hotFirst; e.target.classList.toggle('on',
 $('#weak').onclick = e => { weakOnly = !weakOnly; e.target.classList.toggle('on', weakOnly); build(); };
 $('#reset').onclick = () => { if (confirm('清除本機的練習紀錄？題目不會變。')){ S = { r:{} }; save(); build(); } };
 </script>
-<script src="nav.js?v=7" defer></script>
+<script src="nav.js?v=8" defer></script>
 </body>
 </html>
