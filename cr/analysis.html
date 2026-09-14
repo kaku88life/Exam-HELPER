@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>初階授信 題庫分析 · Exam HELPER</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;-webkit-overflow-scrolling:touch}
+.wrap{max-width:620px;margin:0 auto;padding:14px 14px 60px}
+h2{font-size:1em;margin:24px 0 4px;line-height:1.4}
+h2 .n{display:block;font-size:.72em;color:var(--mt);font-weight:400;margin-top:2px}
+.lead{font-size:.78em;color:var(--mt);line-height:1.65;margin-bottom:10px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:14px 15px;margin-bottom:12px}
+.kpi{display:flex;gap:10px;flex-wrap:wrap}
+.kpi .b{flex:1;min-width:120px;background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:12px 13px}
+.kpi .big{font-size:1.5em;font-weight:800;line-height:1.1}
+.kpi .lab{font-size:.68em;color:var(--mt);margin-top:3px;line-height:1.45}
+.bars{margin-top:6px}
+.brow{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:.76em}
+.brow .lb{flex:0 0 118px;text-align:right;color:var(--mt);line-height:1.3}
+.brow .tr{flex:1;background:#eef1ec;border-radius:5px;height:16px;overflow:hidden;border:1px solid var(--cd)}
+.brow .fl{height:100%;border-radius:5px}
+.brow .vv{flex:0 0 60px;font-variant-numeric:tabular-nums}
+.f-cy{background:var(--cy)}.f-gn{background:var(--gn)}.f-vi{background:var(--vi)}.f-yw{background:var(--yw)}.f-rd{background:var(--rd)}
+table{width:100%;border-collapse:collapse;font-size:.76em}
+th,td{text-align:left;padding:6px 6px;border-bottom:1px solid var(--cd);vertical-align:top}
+th{color:var(--mt);font-weight:700}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+.hl{background:rgba(179,69,58,.06);border-left:3px solid var(--rd);border-radius:0 8px 8px 0;padding:10px 12px;font-size:.8em;line-height:1.65;margin:8px 0}
+.hl b{color:var(--rd)}
+.ok{background:rgba(78,122,61,.08);border-left:3px solid var(--gn);border-radius:0 8px 8px 0;padding:10px 12px;font-size:.8em;line-height:1.65;margin:8px 0}
+.ok b{color:var(--gn)}
+.note{background:rgba(49,95,148,.07);border-left:3px solid var(--vi);border-radius:0 8px 8px 0;padding:10px 12px;font-size:.8em;line-height:1.65;margin:8px 0}
+.note b{color:var(--vi)}
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--cd);font-size:.8em;line-height:1.5}
+.row:last-of-type{border-bottom:none}
+.row>span:first-child{flex:1}
+.row small{display:block;color:var(--mt);font-size:.88em;margin-top:2px;line-height:1.5}
+.rate{flex:0 0 62px;text-align:center;font-weight:800;font-size:.92em;padding:5px 4px;border-radius:6px;border:1.5px solid var(--cd);background:#fff}
+.r-good{border:2.5px solid var(--gn);color:var(--gn)}
+.r-mid{border:1.5px dashed var(--yw);color:var(--yw)}
+.r-bad{border:2.5px solid var(--rd);color:var(--rd)}
+.legend{font-size:.7em;color:var(--mt);line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px dashed var(--cd)}
+.foot{text-align:center;margin-top:26px;font-size:.68em;color:var(--mt);line-height:1.7}
+.foot a{color:var(--cy)}
+svg{display:block;width:100%;height:auto}
+.q{font-size:.78em;color:var(--mt);line-height:1.65;margin:6px 0 0;padding-left:10px;border-left:2px solid var(--cd)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="lead">這一頁把 22 屆考古題（第 26–47 屆，2,860 題）全部拆開來數過一遍，回答的問題照順序是：要對幾題、刷考古題能拿多少、為什麼不能只刷近幾屆、這些題其實在講幾件事、兩科各考什麼、哪些答案已經過期、哪些要硬背、真的不會時怎麼猜、以及要花多久才刷得完。<br><b>所有數字都是題庫實際算出來的</b>，不是從官方大綱推測的。</p>
+
+  <h2>① 先看要對幾題<span class="n">兩科各自都要 70 分，不是看平均</span></h2>
+  <div class="kpi">
+    <div class="b"><div class="big" style="color:var(--vi)">35<span style="font-size:.5em">/50</span></div><div class="lab">法規要對幾題<br>每題 2 分</div></div>
+    <div class="b"><div class="big" style="color:var(--gn)">56<span style="font-size:.5em">/80</span></div><div class="lab">實務要對幾題<br>每題 1.25 分</div></div>
+    <div class="b"><div class="big" style="color:var(--rd)">兩科都要</div><div class="lab">任何一科不到 70<br>就是沒過</div></div>
+  </div>
+  <div class="hl">這是<b>兩道各自獨立的門檻</b>。法規只能錯 15 題、實務可以錯 24 題——法規的容錯比較低，而且一題失手等於實務 1.6 題。</div>
+
+  <h2>② 刷考古題能拿到多少<span class="n">每一屆的題目，有多少在更早的屆數出現過</span></h2>
+  <div class="card">
+    <div class="bars">
+      <div class="brow"><span class="lb">法規（近 5 屆平均）</span><span class="tr"><span class="fl f-vi" style="width:76%"></span></span><span class="vv">76%</span></div>
+      <div class="brow"><span class="lb">實務（近 5 屆平均）</span><span class="tr"><span class="fl f-gn" style="width:84%"></span></span><span class="vv">84%</span></div>
+    </div>
+    <table style="margin-top:12px">
+      <tr><th>屆別</th><th class="r">法規</th><th class="r">實務</th><th>備註</th></tr>
+      <tr><td>43 屆</td><td class="r">60%</td><td class="r">79%</td><td></td></tr>
+      <tr><td>44 屆</td><td class="r">92%</td><td class="r">81%</td><td></td></tr>
+      <tr><td>45 屆</td><td class="r">74%</td><td class="r">84%</td><td></td></tr>
+      <tr><td>46 屆</td><td class="r">88%</td><td class="r">89%</td><td></td></tr>
+      <tr><td>47 屆</td><td class="r">64%</td><td class="r">88%</td><td>2026 年 3 月，最新</td></tr>
+    </table>
+    <div class="ok"><b>兩科都是：刷完就過。</b>換算下來大約穩拿法規 38 題（門檻 35）、實務 67 題（門檻 56）。這是目前站上所有科目裡命中率最高的一場，<b>把題庫吃完就是及格計畫本身</b>。</div>
+    <div class="hl"><b>但法規的命中率在 47 屆掉到 64%</b>，新題集中在利害關係人、民法保證、金消法。法規科的安全邊際比實務薄，補一點法條原文（見 ⑥）才穩。</div>
+    <p class="q">比對時只認「幾乎一模一樣」的題（題幹加選項整體相似度 85% 以上），稍微改寫過的就不算，所以實際命中率會比這個再高一些。把門檻放寬到「同一個知識點換句話問」，兩科分別是 80% 與 91%。早期屆次的命中率看起來低，是因為它們前面沒有更早的資料可比，不代表當時題目比較新。</p>
+  </div>
+
+  <h2>③ 為什麼不能只刷近幾屆<span class="n">只往回念 K 屆，能命中最近 5 屆的幾成</span></h2>
+  <div class="card">
+    <svg viewBox="0 0 320 175" role="img" aria-label="往回念幾屆與命中率的關係">
+      <line x1="34" y1="6" x2="34" y2="140" stroke="#d7ded8"/>
+      <line x1="34" y1="140" x2="312" y2="140" stroke="#d7ded8"/>
+      <text x="30" y="143" font-size="8" fill="#66736d" text-anchor="end">0</text>
+      <text x="30" y="109" font-size="8" fill="#66736d" text-anchor="end">25%</text>
+      <text x="30" y="76" font-size="8" fill="#66736d" text-anchor="end">50%</text>
+      <text x="30" y="42" font-size="8" fill="#66736d" text-anchor="end">75%</text>
+      <line x1="34" y1="106" x2="312" y2="106" stroke="#eef1ec"/>
+      <line x1="34" y1="73" x2="312" y2="73" stroke="#eef1ec"/>
+      <line x1="34" y1="39" x2="312" y2="39" stroke="#eef1ec"/>
+      <polyline fill="none" stroke="#4e7a3d" stroke-width="2" stroke-dasharray="4 3" points="43,137 71,108 113,76 141,60 224,35 305,27"/>
+      <polyline fill="none" stroke="#315f94" stroke-width="2.4" points="43,137 71,111 113,85 141,73 224,49 305,38"/>
+      <g fill="#315f94"><circle cx="43" cy="137" r="3"/><circle cx="71" cy="111" r="3"/><circle cx="113" cy="85" r="3"/><circle cx="141" cy="73" r="3"/><circle cx="224" cy="49" r="3"/><circle cx="305" cy="38" r="3"/></g>
+      <g font-size="8" fill="#315f94" text-anchor="middle">
+        <text x="43" y="130">2%</text><text x="71" y="124">22%</text><text x="113" y="98">41%</text>
+        <text x="141" y="86">50%</text><text x="224" y="62">68%</text><text x="299" y="51">76%</text>
+      </g>
+      <g font-size="8" fill="#4e7a3d" text-anchor="middle">
+        <text x="71" y="102">24%</text><text x="113" y="70">48%</text><text x="141" y="54">60%</text><text x="224" y="29">78%</text><text x="299" y="21">84%</text>
+      </g>
+      <g font-size="8" fill="#66736d" text-anchor="middle">
+        <text x="43" y="152">3屆</text><text x="71" y="152">5屆</text><text x="113" y="152">8屆</text>
+        <text x="141" y="152">10屆</text><text x="224" y="152">15屆</text><text x="305" y="152">全21屆</text>
+      </g>
+      <text x="60" y="168" font-size="8" fill="#315f94">━ 法規</text><text x="100" y="168" font-size="8" fill="#4e7a3d">┅ 實務</text>
+    </svg>
+    <div class="hl"><b>只刷最近 3 屆，只命中 2%。</b>幾乎等於白做。<br>回鍋題來自「上一屆」和「上兩屆」的比例都是 <b>0%</b>——出題老師明顯避開剛考過的題。主力來源是 <b>4 到 10 屆前</b>（法規 63%、實務 66% 的回鍋題從這裡來），再往前還有一條長尾拖到 20 屆。<br>「刷最近幾屆就好」這個直覺，在這場會害你落榜。</div>
+  </div>
+
+  <h2>④ 這些題其實在講幾件事<span class="n">把換句話說的題合併起來看</span></h2>
+  <div class="card">
+    <table>
+      <tr><th></th><th class="r">法規</th><th class="r">實務</th></tr>
+      <tr><td>原始題數（22 屆）</td><td class="r">1,100</td><td class="r">1,760</td></tr>
+      <tr><td>幾乎一模一樣的題合併後</td><td class="r">773</td><td class="r">1,067</td></tr>
+      <tr><td>換句話問也合併後（刷題器用這個）</td><td class="r">658</td><td class="r">926</td></tr>
+      <tr><td>其中回鍋 3 次以上的考點</td><td class="r">92</td><td class="r">215</td></tr>
+    </table>
+    <div class="ok"><b>兩科加起來 1,584 題就是整場考試的題庫。</b>沒有「背前 20 個考點就過」的捷徑（最紅的考點也才 4–5 次），但題庫是有限的、刷得完（要多久見 ⑨）。刷題器預設高頻在前，先把回鍋 3 次以上的 307 題吃掉，等於先拿到最穩的那一塊。</div>
+  </div>
+
+  <h2>⑤ 兩科各考什麼<span class="n">官方大綱只列名單，這裡是實測比重</span></h2>
+  <div class="card">
+    <p class="lead"><b>法規科</b>（658 個考點）</p>
+    <div class="bars" id="lawBars"></div>
+    <p class="lead" style="margin-top:14px"><b>實務科</b>（926 個考點）</p>
+    <div class="bars" id="pracBars"></div>
+    <div class="note"><b>先打這四塊：</b>法規的銀行法＋票據法、實務的外匯授信（出口）＋短期授信，四塊佔了兩科各三成。民法在法規科其實有 15%（時效、保證、擔保物權三塊合計），別因為它被拆開就小看。</div>
+  </div>
+
+  <h2>⑥ ⚠️ 哪些答案已經過期<span class="n">法規改了、舊題答案跟新法衝突的地方</span></h2>
+  <div class="card">
+    <div class="hl"><b>職員無擔保消費者貸款上限：100 萬 → 200 萬。</b><br>「銀行對其負責人、職員辦理無擔保消費者貸款，額度以不超過新臺幣多少元為限？」這題在 32、40 屆答 100 萬，<b>47 屆的選項已經換成 60／80／120／200 萬、答 200 萬</b>——金管會 2025 年 7 月修正了銀行法第 32 條第 2 項的解釋令。刷題器裡這一族以 47 屆版本為準。</div>
+    <div class="note"><b>跨屆答案不一致的題族一共 9 組</b>，除了上面那一組，其餘 8 組都是「同一題、選項順序換過」，不是修法。刷題器在這些題會標「跨屆正解不一致」提醒，以最新屆次的版本為準。</div>
+    <div class="note"><b>金消法、個資法是簡章標「新增」的範圍</b>，題庫只佔 5%、且集中在近幾屆——這一塊考古題蓋不到，值得花 20 分鐘讀原文：金消法的說明義務、適合度、爭議處理（評議中心）；個資法的蒐集告知、當事人權利。</div>
+    <p class="q">修法狀態查自金管會 2025-07 新聞稿與銀行局法規查詢系統（2026-09-14 查核）。考前建議自己再開一次確認。</p>
+  </div>
+
+  <h2>⑦ 哪些要硬背、哪些可以用想的<span class="n">決定你該用哪種方式念</span></h2>
+  <div class="card">
+    <table>
+      <tr><th>類型</th><th class="r">法規</th><th class="r">實務</th><th>怎麼念</th></tr>
+      <tr><td>問一個事實、四個選項全是數字（期限、比率、額度）</td><td class="r">30%</td><td class="r">17%</td><td rowspan="2">只能背。<br>用<a href="cloze.html">挖空器</a>反覆看</td></tr>
+      <tr><td>問一個事實、四個選項全是短名詞（誰、哪種票據、哪個機關）</td><td class="r">22%</td><td class="r">39%</td></tr>
+      <tr><td>「何者錯誤」（四句挑錯）</td><td class="r">25%</td><td class="r">27%</td><td rowspan="2">偏理解：考的是句子哪裡被改。<br>答完看另外三句</td></tr>
+      <tr><td>「何者正確」與其他長敘述</td><td class="r">23%</td><td class="r">17%</td></tr>
+    </table>
+    <div class="ok"><b>結論：兩科都有一半以上是純記憶</b>（法規 52%、實務 56%）。挖空器已把這些題收進去（847 個考點，其中 307 個考過 2 次以上），高頻在前。可以用想的那一半，靠「何者錯誤」題的另外三句正確敘述累積，不用另外讀教材。</div>
+    <p class="q">分類依「題幹是否含何者錯誤／正確」與「四個選項長什麼樣」（都是數字→數字型；都是 2–16 字短詞→名詞型），以 22 屆原始 2,860 題計算。</p>
+  </div>
+
+  <h2>⑧ 真的不會的時候怎麼猜<span class="n">這是救生圈，不是及格計畫</span></h2>
+  <div class="card">
+    <p class="lead">答案分布：法規 A 27%／B 24%／C 25%／D 25%，實務 A 23%／B 24%／C 28%／D 25%——<b>位置規律沒用</b>，電腦應試還會洗牌。以下都是看內容的規則。</p>
+    <div class="row"><span><b>別等「以上皆是」</b><br><small>整個題庫 2,860 題<b>一題都沒有</b>。考過金融常識的人要特別注意，那科的送分題這裡不存在。</small></span><span class="rate r-bad">0 題</span></div>
+    <div class="row"><span><b>先確認題目在問「錯的」還是「對的」</b><br><small>問「何者錯誤」的：法規 25%、實務 27%；其餘七成多直接問事實。看錯方向是最常見的失分點。</small></span><span class="rate r-mid">先看</span></div>
+    <div class="row"><span><b>「何者錯誤」題的另外三句都是正確知識</b><br><small>順手讀過去就等於免費多學三件事。找哪句被動手腳：通常是數字改了、當事人換了、或「應」被改成「得」。</small></span><span class="rate">技巧</span></div>
+    <div class="row"><span>真的完全不會 → <b>問事實的題選最長的</b><br><small>問事實的題選最長命中 30%（法規）／33%（實務），比亂猜好 5–8 個百分點，免費的，可以用。<b>但「何者錯誤」的題選最長只有 22%，比亂猜還差</b>，這種題不要選最長。</small></span><span class="rate r-mid">看題型</span></div>
+    <div class="row"><span><b>這場真正的猜題規則是「認題」</b><br><small>七到八成的題你在題庫裡看過原題。看到似曾相識的題幹，相信第一直覺；把時間留給真的沒看過的兩成。</small></span><span class="rate r-good">最有效</span></div>
+    <div class="legend"><b>我們怎麼確認的：</b>「選最長」是把 22 屆 2,860 題全部算過的比例，不是抽樣。它沒有經過「用七成題找規律、拿三成沒看過的題驗證」那道門檻，因為差距本來就小（5–8 個百分點）——考場上你比較的對象是「隨機猜 25%」，只要期望值高一點又不花成本，就該照做；但別把它當成計畫。</div>
+  </div>
+
+  <h2>⑨ 要花多久才刷得完<span class="n">照你每天擠得出多少時間換算</span></h2>
+  <div class="card">
+    <p class="lead">兩科加起來要刷 <b>1,584 題</b>。用「認題」的速度算——看題目、看答案、確認自己懂了就過，<b>一題抓 30 秒</b>，不是逐題精讀。總共大約 <b>13 小時</b>。</p>
+    <table>
+      <tr><th>你每天擠得出</th><th class="r">刷完要幾天</th><th>適合誰</th></tr>
+      <tr><td>15 分鐘（純通勤碎片）</td><td class="r">約 53 天</td><td>報名當天就要開始</td></tr>
+      <tr><td>30 分鐘</td><td class="r">約 27 天</td><td>一個月起跳</td></tr>
+      <tr><td>1 小時</td><td class="r">約 13 天</td><td>兩週衝刺的最低配</td></tr>
+      <tr><td>平日 30 分 ＋ 假日各 2 小時</td><td class="r">約 15 天</td><td>上班族的現實配速</td></tr>
+    </table>
+    <div class="hl"><b>如果你打算兩週考完，那每天要有一小時，沒有第二種走法。</b><br>這 13 小時只是「把題目看過一遍」，錯題還要再回頭刷第二輪；考前兩晚只刷錯題池，不重刷全庫。</div>
+  </div>
+
+  <div class="foot">
+    數字皆由第 26–47 屆題庫實際計算；修法狀態查自金管會（2026-09 查核）<br>
+    題目為台灣金融研訓院公告歷屆試題，著作權屬該院，本站僅供個人備考練習<br>
+    <a href="guide.html">作戰指南</a> · <a href="cloze.html">事實挖空器</a> · <a href="drill.html">→ 開始刷題</a> · Built with Claude Code
+  </div>
+</div>
+
+<script>
+var LAW=[["銀行法",15,"rd"],["授信準則／資產評估辦法",10,"cy"],["票據法",10,"vi"],["信用卡與現金卡規章",9,"yw"],["徵信準則",8,"gn"],["民法—債編與時效",6,"cy"],["強制執行／提存／民訴",6,"vi"],["民法—保證與擔保物權",6,"cy"],["金消法／個資法／洗錢",5,"yw"],["稅法及其他法律",5,"gn"],["金控法／合併法／OBU",4,"vi"],["公司法",4,"gn"],["民法—總則與其他",3,"cy"],["外匯相關規章",3,"gn"],["破產法／消債條例",2,"vi"],["其他",4,"gn"]];
+var PRAC=[["外匯授信—出口",13,"rd"],["短期授信",11,"cy"],["逾放催收與法律程序",10,"vi"],["擔保品與保證",7,"gn"],["聯合貸款與專案融資",7,"yw"],["授信基本概念與運作",6,"cy"],["中長期授信",6,"vi"],["房屋貸款",5,"gn"],["徵信與財務分析",5,"yw"],["消費者貸款總論",4,"cy"],["信保基金",3,"gn"],["外匯授信—進口與外幣保證",3,"vi"],["信用卡與現金卡",3,"yw"],["股票貸款與交易性金融",3,"cy"],["車貸與小額信貸",2,"gn"],["功能型融資與大陸台商",1,"vi"],["其他",7,"gn"]];
+function drawBars(el,rows,max){
+  el.innerHTML=rows.map(function(r){
+    var w=Math.max(2,Math.round(r[1]/max*100));
+    return '<div class="brow"><span class="lb">'+r[0]+'</span><span class="tr"><span class="fl f-'+r[2]+'" style="width:'+w+'%"></span></span><span class="vv">'+r[1]+'%</span></div>';
+  }).join('');
+}
+drawBars(document.getElementById('lawBars'),LAW,16);
+drawBars(document.getElementById('pracBars'),PRAC,16);
+</script>
+<script src="nav.js?v=1" defer></script>
+<script src="../nav.core.js?v=1" defer></script>
+</body>
+</html>

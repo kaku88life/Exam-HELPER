@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>初階授信 刷題器</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+.wrap{max-width:660px;margin:0 auto;padding:10px 12px}
+
+/* 模式列 */
+.modes{display:flex;gap:5px;margin-bottom:8px}
+.modes button{flex:1;border:1px solid var(--cd);background:var(--sf);color:var(--mt);border-radius:7px;padding:8px 2px;font-size:.79em;font-family:inherit;font-weight:700;cursor:pointer;line-height:1.3}
+.modes button small{display:block;font-size:.8em;font-weight:400;opacity:.8}
+.modes button.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+.modes button:disabled{opacity:.4}
+
+header{position:sticky;top:0;background:var(--bg);z-index:20;padding-top:4px;padding-bottom:8px;border-bottom:1px solid var(--cd)}
+.bar2{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:6px;padding:5px 9px;font-size:.78em;font-family:inherit;cursor:pointer}
+.btn.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+.prog{height:5px;background:var(--cd);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--cy);width:0;transition:width .25s}
+.meta{display:flex;justify-content:space-between;font-size:.71em;color:var(--mt);margin-top:4px;gap:8px}
+.meta b{color:var(--rd)}
+
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:15px;margin-top:11px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px;font-size:.67em}
+.tag{padding:2px 8px;border-radius:4px;background:rgba(8,122,115,.12);color:var(--cy);font-weight:700}
+.tag.hot{background:rgba(182,101,22,.15);color:var(--yw)}
+.tag.err{background:rgba(179,69,58,.13);color:var(--rd)}
+.tag.src{background:var(--bg);color:var(--mt);font-weight:400}
+.tag.new{background:rgba(49,95,148,.14);color:var(--vi)}
+.why{border-left:3px solid var(--vi);background:rgba(49,95,148,.06);padding:8px 10px;border-radius:0 6px 6px 0;font-size:.8em;color:var(--tx);margin-bottom:9px}
+.stem{font-size:1.01em;font-weight:600;margin-bottom:13px}
+.opt{border:1px solid var(--cd);border-radius:8px;padding:10px 12px;margin-bottom:7px;font-size:.92em;display:flex;gap:9px;cursor:pointer;background:var(--sf);transition:background .12s}
+.opt:active{background:var(--bg)}
+.opt b{color:var(--mt);flex-shrink:0;font-variant-numeric:tabular-nums}
+/* 色弱友善：顏色之外加「框線樣式＋符號」雙重線索 */
+.opt.ans{border:3px solid var(--gn);background:rgba(78,122,61,.16);padding:8px 10px;font-weight:700}
+.opt.ans b{color:var(--gn)}
+.opt.ans::after{content:"✓ 正解";margin-left:auto;flex-shrink:0;align-self:center;background:var(--gn);color:#fff;font-size:.78em;font-weight:800;padding:2px 8px;border-radius:99px}
+.opt.bad{border:3px dashed var(--rd);background:rgba(179,69,58,.13);padding:8px 10px}
+.opt.bad b{color:var(--rd)}
+.opt.bad::after{content:"✕ 你選的";margin-left:auto;flex-shrink:0;align-self:center;background:var(--rd);color:#fff;font-size:.78em;font-weight:800;padding:2px 8px;border-radius:99px}
+.opt.dim{opacity:.5}
+.opt.sel{border:3px solid var(--cy);background:rgba(8,122,115,.12);padding:8px 10px;font-weight:700}
+.opt.sel b{color:var(--cy)}
+.warn{border-left:3px solid var(--rd);background:rgba(179,69,58,.07);padding:8px 10px;border-radius:0 6px 6px 0;font-size:.78em;color:var(--rd);margin-bottom:9px}
+.verdict{margin-top:10px;padding:9px 12px;border-radius:7px;font-size:.87em;font-weight:700}
+.verdict.ok{background:rgba(78,122,61,.13);color:var(--gn)}
+.verdict.no{background:rgba(179,69,58,.11);color:var(--rd)}
+.hidden{display:none}
+
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px;
+  position:sticky;bottom:0;z-index:15;background:var(--bg);
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  box-shadow:0 -6px 12px -8px rgba(0,0,0,.18)}
+.acts .btn{padding:12px;font-size:.9em;font-weight:700;text-align:center}
+.tag.flagtag{cursor:pointer;border:1px dashed var(--mt);color:var(--mt);background:transparent;user-select:none}
+.tag.flagtag.on{border:2px solid var(--yw);color:var(--yw);background:rgba(182,101,22,.10);font-weight:700}
+/* 篩選列摺疊：手機預設收起，計時器與交卷鈕（.always）不受影響 */
+.bar2.collapsed > :not(.always){display:none}
+#fold{color:var(--mt)}
+/* 密度自適應：長題縮小字級與內距，維持版面一致 */
+.card.dense1 .stem{font-size:.93em;line-height:1.55}
+.card.dense1 .opt{font-size:.85em;padding:8px 10px;margin-bottom:6px;line-height:1.5}
+.card.dense2{padding:12px}
+.card.dense2 .stem{font-size:.87em;line-height:1.5;margin-bottom:10px}
+.card.dense2 .opt{font-size:.8em;padding:7px 9px;margin-bottom:5px;line-height:1.45}
+.card.dense2 .tags{margin-bottom:7px}
+.card.dense2 .why,.card.dense2 .warn{font-size:.74em}
+.big{background:var(--cy);color:#fff;border-color:var(--cy)}
+.full{grid-column:1/-1}
+
+.panel{margin-top:11px}
+.panel h3{font-size:.92em;margin:14px 0 6px;color:var(--vi)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:7px 9px;border-bottom:1px solid var(--cd);font-size:.82em;cursor:pointer;gap:8px}
+.row:active{background:var(--sf)}
+.row small{color:var(--mt);white-space:nowrap}
+.rate{display:inline-block;min-width:42px;text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.r-bad{color:var(--rd)}.r-mid{color:var(--yw)}.r-good{color:var(--gn)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;margin:10px 0}
+.kpi div{background:var(--sf);border:1px solid var(--cd);border-radius:8px;padding:10px 8px;text-align:center}
+.kpi b{display:block;font-size:1.3em;color:var(--cy);font-variant-numeric:tabular-nums}
+.kpi span{font-size:.68em;color:var(--mt)}
+.empty{text-align:center;color:var(--mt);font-size:.85em;padding:26px 10px}
+.foot{text-align:center;font-size:.69em;color:var(--mt);margin:20px 0;line-height:1.9}
+a{color:var(--cy)}
+.timer{font-variant-numeric:tabular-nums;font-weight:700}
+.timer.hot{color:var(--rd)}
+.xfold{display:block;width:100%;box-sizing:border-box;margin-top:6px;border:1px solid var(--cd);border-radius:7px;background:var(--sf);font-size:.84em}
+.xfold summary{display:block;padding:8px 10px;cursor:pointer;color:var(--cy);font-weight:700;list-style:none;-webkit-tap-highlight-color:transparent}
+.xfold summary::-webkit-details-marker{display:none}
+.xfold summary::before{content:"▸";margin-right:6px;display:inline-block;transition:transform .15s}
+.xfold[open] summary::before{transform:rotate(90deg)}
+.xfold>div{padding:0 10px 10px;line-height:1.6}
+#xob{position:fixed;inset:0;z-index:400;background:rgba(23,33,29,.45);display:none;align-items:flex-end;justify-content:center}
+#xob.show{display:flex}
+#xob .p{background:var(--sf);border-radius:14px 14px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));max-width:560px;width:100%;max-height:80vh;overflow:auto}
+#xob h3{margin:0 0 8px;font-size:1.05em}
+#xob ol{margin:0 0 12px 18px;padding:0;line-height:1.7;font-size:.92em}
+#xob button{width:100%;min-height:46px;border:none;border-radius:999px;background:var(--cy);color:#fff;font-weight:700;font-size:1em;font-family:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="modes">
+  <button data-m="learn" class="on">背誦<small>直接看答案</small></button>
+  <button data-m="quiz">測驗<small>作答後判定</small></button>
+  <button data-m="wrong">錯題<small id="wcount">0</small></button>
+  <button data-m="exam">模擬考<small>計時批改</small></button>
+  <button data-m="stat">統計<small>弱點分析</small></button>
+</div>
+
+<header>
+  <div class="bar2" id="bar2">
+    <button class="btn always" id="fold" title="展開／收合篩選列">篩選 ▾</button>
+    <select id="subj"></select>
+    <select id="topic"></select>
+    <select id="qtype"><option value="ALL">全部題型</option></select>
+    <button class="btn" id="undone">只看未做</button>
+    <button class="btn" id="toc">目錄</button>
+    <button class="btn on" id="shuf" title="題序與選項位置隨機"><i class="xi xsh"></i> 洗牌</button>
+    <button class="btn" id="hot" title="只練回鍋 3 次以上的高頻題">高頻</button>
+    <button class="btn on" id="stale" title="排除答案已因修法作廢的題目">排除作廢</button>
+    <button class="btn" id="myflag" title="只看自己標記存疑的題">我的存疑 <span id="fcount">0</span></button>
+    <span class="timer hidden always" id="timer"></span>
+    <button class="btn hidden always" id="submit">交卷</button>
+  </div>
+  <div class="prog"><i id="pbar"></i></div>
+  <div class="meta"><span id="pos"></span><span id="stat"></span></div>
+</header>
+
+<div id="view"></div>
+
+<div id="xob"><div class="p">
+  <h3>第一次用？30 秒看懂</h3>
+  <ol>
+    <li><b>背誦</b>直接看答案、<b>測驗</b>作答後才判定、<b>錯題</b>只刷答錯過的、<b>模擬考</b>照真實規則計時。</li>
+    <li>左上<b>「篩選」</b>可以縮小範圍（考點、題型、只看未做）。平常收起來就好。</li>
+    <li><b>空白鍵</b>或右下按鈕下一題；答完會出現解析（何者錯誤題會列出另外三句正確敘述）。</li>
+    <li>覺得題目答案怪怪的，點<b>「標記存疑」</b>，之後用「我的存疑」集中複查。</li>
+    <li>紀錄存在這台裝置；要跨裝置或備份，到<b>「統計」</b>開同步或複製進度碼。</li>
+  </ol>
+  <button id="xobOk">開始刷題</button>
+</div></div>
+<div class="foot">
+  <a href="#" id="xobAgain">怎麼用這個刷題器？</a><br>
+  法規 658＋實務 926 題（去重後），來自第 26–47 屆官方試題<br>
+  作答紀錄存在本機瀏覽器（可在「統計」開啟雲端同步）。<b>iPhone Safari 七天沒開會被系統清掉</b>，只用本機的人請在「統計」定期「複製進度碼」備份・<a href="#" id="reset">清除全部紀錄</a><br><br>
+  題目為台灣金融研訓院公告之歷屆試題，著作權屬該院，僅供個人備考練習<br>
+  <a href="https://www.tabf.org.tw/LicenseHistoryExam.aspx" target="_blank" rel="noopener">官方歷屆試題</a>　·
+  <a href="analysis.html">題庫分析</a>　·
+  <a href="../index.html">回總覽</a>
+</div>
+</div>
+
+<script src="nav.js?v=11" defer></script>
+<script src="../nav.core.js?v=1" defer></script>
+<script src="sync.js?v=6"></script>
+<script>
+const KEY = 'cr-drill-v1';
+const OLDKEY = 'cr-drill-v0';
+const LAW_PREFIX = '法規｜';           // 法規科考點都以此前綴，用來拆法規／實務
+const GRAD = 2;                       // 錯題連續答對幾次才「畢業」
+let DECK = null;
+let S = { q:{}, exams:[], rounds:[], flags:{} };   // flags[id]=1 → 自己標記存疑（答案可疑／法規可能改過）
+/* q[id] = {r,w,s,seen, h:"OXX|OO"}
+   h = 作答歷程（O對/X錯，| = 重置分界），永不刪除；r/w/s/seen 只算「本輪」 */
+let mode = 'learn', subj = '', topicSel = 'ALL', typeSel = 'ALL', onlyUndone = false;
+let list = [], idx = 0, revealed = false, picked = null;
+let exam = null, tick = null;
+
+const $ = s => document.querySelector(s);
+const md = t => t.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+
+/* ---------- 洗牌：選項位置隨機化 ----------
+   以「題目 key + 本輪 seed」產生確定性排列：同一題在本輪內位置固定
+   （回上一題不會變），換一輪才重排。關掉時維持原順序。 */
+let shuffleOpt = true, shuffleQ = true, hideStale = true, hotOnly = false, flagOnly = false, seed = Date.now() % 100000;
+function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } }
+function hash(str){ let h = 2166136261; for (let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function orderOf(o){
+  const raw = o.q[4], ansRaw = o.q[5];
+  if (!shuffleOpt) return { opts: raw, ans: ansRaw, map: [1,2,3,4] };
+  let h = hash(o.k + ':' + seed);
+  const idxs = [0,1,2,3];
+  // xorshift32：不能用一般乘法 LCG（h*常數超過 double 精度會退化成固定排列）
+  for (let i = 3; i > 0; i--){
+    h ^= h << 13; h >>>= 0; h ^= h >> 17; h ^= h << 5; h >>>= 0;
+    const j = h % (i+1); [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+  }
+  return { opts: idxs.map(i => raw[i]), ans: idxs.indexOf(ansRaw - 1) + 1, map: idxs };
+}
+const id = (sb, i) => sb[0] + i;
+const rec = k => S.q[k] || {r:0,w:0,s:0,seen:0,h:''};
+
+/* 記錄一次作答：本輪計數 + 追加歷程字元 */
+function logAnswer(k, ok){
+  const r = {...rec(k)};
+  r.h = (r.h || '') + (ok ? 'O' : 'X');
+  r.seen++; if (ok){ r.r++; r.s++; } else { r.w++; r.s = 0; }
+  S.q[k] = r;
+}
+/* 全期（跨重置）統計 */
+function lifetime(k){
+  const rc = rec(k);
+  const h = (rc.h || '').replace(/\|/g,'');
+  const h0 = rc.h0 || { n:0, rr:0 };
+  return { n: h.length + h0.n, r: (h.match(/O/g)||[]).length + h0.rr,
+           seq: h.length, legacy: h0.n };
+}
+/* 掌握度：把「只答對一次（可能是猜的）」跟「真的練會」分開 */
+function mastery(k){
+  const r = rec(k), h = r.h || '', all = h.replace(/\|/g,'');
+  const lg = (r.h0 && r.h0.n) || 0;
+  if (!all) return (r.seen || lg) ? 'old' : 'new';
+  const cur = h.split('|').pop();
+  if (all === 'O') return 'doubt';                 // 總共只答過一次且對
+  if (cur.slice(-1) === 'X') return 'weak';        // 最近一次錯
+  if (all.length >= 2 && cur.slice(-2) === 'OO') return 'solid';
+  return 'shaky';
+}
+const MAS = { new:['未作答','var(--mt)'], old:['舊紀錄','var(--mt)'], doubt:['存疑·可能猜對','var(--yw)'],
+              weak:['未掌握','var(--rd)'], shaky:['不穩','var(--yw)'], solid:['穩固','var(--gn)'] };
+const isWrong = k => { const o = rec(k); return o.w > 0 && o.s < GRAD; };
+
+function load(){
+  try{ const raw = JSON.parse(localStorage.getItem(KEY)); if (raw && raw.q) S = raw; }catch(e){}
+  if (!S.q || !Object.keys(S.q).length){                    // 首次啟動 → 從 v2 搬過來
+    try{
+      const old = JSON.parse(localStorage.getItem(OLDKEY));
+      if (old && old.q){ S = { q: old.q, exams: old.exams || [], rounds: [] };
+        for (const k in S.q){                                  // 舊紀錄沒有順序，但累計數字要留住
+          const r = S.q[k];
+          if (!r.h) r.h = '';
+          if (!r.h0) r.h0 = { n: r.seen||0, rr: r.r||0 };       // n=作答次數 rr=答對次數（順序未留存）
+        }
+      }
+    }catch(e){}
+  }
+  S.rounds = S.rounds || []; S.exams = S.exams || []; S.flags = S.flags || {};
+}
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); if (window.ExamSync) ExamSync.touch(); }
+
+/* ---------- 題型分類（依選項長度與型態，對應五類）---------- */
+const RE_NUM = /[0-9０-９]|[一二三四五六七八九十百千萬]+\s*(日|天|月|年|%|％|成|碼|美元|萬|元|營業日|曆日|個月)/;
+const RE_CODE= /MT\s?\d{3}|pacs|camt|pain|\/\/C[HP]|SWIFT/;
+const RE_TERM= /稱為|係指|謂之|指的是|屬下列何種|為下列何者|下列何者為|之意義/;
+const RE_TF  = /何者錯誤|何者正確|何者有誤|何者為非|下列敘述|敘述.{0,4}何者|何者為是|不正確|何者屬|非屬|何者不/;
+const QTYPES = ['①名詞對應','②抓對錯','③長敘述','④數值抽換','④代號抽換'];
+function qtype(q){
+  const opts = q[4], stem = q[3];
+  const L = opts.reduce((a,o)=>a+o.length,0)/4;
+  const nnum  = opts.filter(o=>RE_NUM.test(o)).length;
+  const ncode = opts.filter(o=>RE_CODE.test(o)).length;
+  if (ncode >= 3) return '④代號抽換';
+  if (nnum >= 3 && L <= 16) return '④數值抽換';
+  if (L >= 26) return '③長敘述';
+  if (RE_TF.test(stem) && L >= 13) return '②抓對錯';
+  if (L <= 12 && (RE_TERM.test(stem) || !RE_TF.test(stem))) return '①名詞對應';
+  return '②抓對錯';
+}
+
+/* ---------- 機械化解析（零編造：只重組題目本身的內容）---------- */
+function autoWhy(q, ansRaw, ansShown){   // ansRaw=題庫原始正解編號（取內容用）；ansShown=洗牌後畫面上的編號（顯示用）
+  const stem = q[3], opts = q[4], ans = ansShown || ansRaw;
+  const pick = opts[ansRaw-1];
+  const others = opts.filter((v,i)=>i !== ansRaw-1);
+  if (/何者錯誤|何者有誤|何者為非|何者不正確|下列何者不|非屬/.test(stem))
+    return `這題問的是「哪一句<b>錯</b>」，所以 (${ans}) 就是那句錯的。<br>另外三句都是<b>對的</b>，順手記起來，等於免費多學三件事：<br>· ` + others.join('<br>· ');
+  if (/何者正確|何者為是|正確的是/.test(stem))
+    return `這題問的是「哪一句<b>對</b>」，正解 (${ans})：<b>${pick}</b><br>另外三句是<b>故意改錯的</b>。看它們改了哪裡（數字？誰負責？「應該」還是「可以」？），下次就不會被同一招騙：<br>· ` + others.join('<br>· ');
+  return `記這一句就好：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
+}
+/* 解析區塊組裝：只講一件事一句話，其餘收合 */
+function explain(q, ansRaw, ansShown){
+  const stem = q[3], opts = q[4], ans = ansShown || ansRaw, pick = opts[ansRaw-1];
+  const others = opts.filter((v,i)=>i !== ansRaw-1);
+  const isNeg = /何者錯誤|何者有誤|何者為非|何者不正確|下列何者不|非屬/.test(stem);
+  const isPos = /何者正確|何者為是|正確的是/.test(stem);
+  let head;
+  if (isNeg)      head = `這題問「哪一句<b>錯</b>」，錯的是 <b>(${ans})</b>。`;
+  else if (isPos) head = `這題問「哪一句<b>對</b>」，對的是 <b>(${ans})</b>；另外三句是改錯的。`;
+  else            head = `記這一句：<b>${stem.replace(/[？?]\s*$/,'')} → ${pick}</b>`;
+  let out = '';
+  out += `<div class="why" style="margin-top:8px">${head}</div>`;
+  if (isNeg) out += `<details class="xfold"><summary>另外三句都是對的，順手記</summary><div>· ${others.join('<br>· ')}</div></details>`;
+  const ref = '';
+  if (ref) out += `<details class="xfold"><summary>法條原文怎麼寫</summary><div>${ref}</div></details>`;
+  return out;
+}
+/* 錯在哪（in/lawexpl.js）：每筆引用句都經程式逐字核對過法條原文 */
+function lawExpl(q){
+  const r = (window.LAWEXPL || {})[q[3]];
+  if (!r) return '';
+  const rows = r.items.map(it => `<div style="margin:6px 0"><b>(${it.opt})</b> ${it.plain || (it.wrong + ' → ' + it.right)}<div style="opacity:.7;font-size:.86em;margin-top:2px">${it.law ? it.law.replace(/^金融控股公司及銀行業/,'') + ' ' : ''}第 ${it.art} 條：「${it.quote}」</div></div>`).join('');
+  return `<div class="why" style="border-left-color:var(--rd);background:rgba(179,69,58,.05);margin-top:10px"><b>錯在哪</b>${rows}</div>`;
+}
+/* 現行條文原文（in/lawref.js，由 build_lawref_in.py 對句；只引原文、不解釋，對不上的題沒有） */
+function lawRef(q){
+  const r = (window.LAWREF || {})[q[3]];
+  if (!r) return '';
+  return `<b>第 ${r.art} 條</b>（2026 年 5 月版）：${r.text}<br><span style="opacity:.7;font-size:.9em">電腦自動找出最像的一段，不一定逐字對得上；答案跟法條不一樣時，通常是法規改過了。</span>`;
+}
+
+/* ---------- 題目集合 ---------- */
+function pool(){
+  const d = DECK[subj];
+  let a = d.qs.map((q,i)=>({q,i,k:id(subj,i)}));
+  if (mode === 'wrong'){
+    let w = a.filter(o => isWrong(o.k));
+    if (topicSel !== 'ALL') w = w.filter(o => d.topics[o.q[0]] === topicSel);
+    if (hotOnly) w = w.filter(o => o.q[1] >= 3);
+    if (typeSel !== 'ALL') w = w.filter(o => qtype(o.q) === typeSel);
+    if (flagOnly) w = w.filter(o => S.flags[o.k]);
+    return w;
+  }
+  if (topicSel !== 'ALL') a = a.filter(o => d.topics[o.q[0]] === topicSel);
+  if (onlyUndone && mode !== 'exam') a = a.filter(o => rec(o.k).seen === 0);
+  if (hideStale) a = a.filter(o => o.q[7] !== 2);          // 排除答案已作廢的題
+  if (hotOnly) a = a.filter(o => o.q[1] >= 3);             // 只留回鍋 3 次以上
+  if (typeSel !== 'ALL') a = a.filter(o => qtype(o.q) === typeSel);
+  if (flagOnly) a = a.filter(o => S.flags[o.k]);           // 只看自己標記存疑的題
+  if (shuffleQ && mode !== 'learn') shuffle(a);            // 題序隨機
+  return a;
+}
+
+function startExam(){                       // 初階授信：一份考卷＝法規 50 題＋實務 80 題（雙 70 門檻）
+  const d = DECK[subj];
+  const isLaw = o => d.topics[o.q[0]].startsWith(LAW_PREFIX);
+  const all = d.qs.map((q,i)=>({q,i,k:id(subj,i)}));
+  const law = all.filter(isLaw), prac = all.filter(o => !isLaw(o));
+  shuffle(law); shuffle(prac);
+  list = law.slice(0, 50).concat(prac.slice(0, 80));
+  const mins = 100;
+  exam = { answers:{}, end: Date.now() + mins*60000, n:list.length, submitted:false };
+  idx = 0;
+  clearInterval(tick);
+  tick = setInterval(()=>{
+    if (!exam || exam.submitted) return clearInterval(tick);
+    const left = exam.end - Date.now();
+    if (left <= 0){ submitExam(); return; }
+    const m = Math.floor(left/60000), s = Math.floor(left%60000/1000);
+    const t = $('#timer'); t.textContent = `${m}:${String(s).padStart(2,'0')}`;
+    t.classList.toggle('hot', left < 5*60000);
+  }, 500);
+}
+
+/* 歷程小標籤：OXXO|OO → 上色的圓點序列 + 掌握度 */
+function hTag(k){
+  const h = rec(k).h || '';
+  const h0 = rec(k).h0 || {n:0,rr:0};
+  const pre = h0.n ? `<span style="color:var(--mt)">舊${h0.rr}/${h0.n}</span>　` : '';
+  const dots = h.split('').map(c =>
+    c === '|' ? '<span style="opacity:.45">｜</span>'
+    : `<b style="color:${c==='O'?'var(--gn)':'var(--rd)'};font-weight:800">${c}</b>`).join('');
+  const m = mastery(k);
+  return `${pre}${dots}　<span style="color:${MAS[m][1]};font-weight:700">${MAS[m][0]}</span>`;
+}
+
+/* ---------- 渲染 ---------- */
+function render(){
+  $('#timer').classList.toggle('hidden', mode !== 'exam' || !exam || exam.submitted);
+  $('#submit').classList.toggle('hidden', mode !== 'exam' || !exam || exam.submitted);
+  $('#undone').classList.toggle('hidden', mode === 'wrong' || mode === 'exam' || mode === 'stat');
+  $('#toc').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
+  $('#shuf').classList.toggle('hidden', mode === 'stat');
+  $('#stale').classList.toggle('hidden', mode === 'stat');
+  $('#hot').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
+  $('#topic').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
+  $('#qtype').classList.toggle('hidden', mode === 'exam' || mode === 'stat');
+
+  if (mode === 'stat') return renderStat();
+  if (mode === 'exam' && exam && exam.submitted && !exam.reviewing) return renderResult();
+  if (!list.length) return renderEmpty();
+
+  const d = DECK[subj], o = list[idx];
+  const [t, cnt, src, stem, rawOpts, rawAns, warns, stale, why] = o.q;
+  const { opts, ans } = orderOf(o);
+  const r = rec(o.k);
+  revealed = (mode === 'learn');
+  picked = (mode === 'exam') ? (exam.answers[o.k] ?? null) : null;
+
+  const inExam = mode === 'exam' && !(exam && exam.reviewing);
+  const inReview = mode === 'exam' && exam && exam.reviewing;
+  // 密度自適應：長題自動縮小字級與內距，讓版面構圖盡量一致
+  const textLen = stem.length + opts.reduce((s,v)=>s+v.length,0);
+  const dense = textLen > 320 ? ' dense2' : (textLen > 160 ? ' dense1' : '');
+  $('#view').innerHTML = `
+    <div class="card${dense}">
+      <div class="tags">
+        <span class="tag">${d.topics[t]}</span>
+        ${cnt>1?`<span class="tag hot">回鍋 ${cnt} 次</span>`:''}
+        ${(!inExam && r.w>0)?`<span class="tag err">本輪錯 ${r.w} 次</span>`:''}
+        ${!inExam?`<span class="tag" style="background:rgba(49,95,148,.12);color:var(--vi)">${qtype(o.q)}</span>`:''}
+        ${(!inExam && rec(o.k).h)?`<span class="tag src" title="作答歷程：O=對 X=錯 |=重置">${hTag(o.k)}</span>`:''}
+        ${src==='模擬新題'?`<span class="tag new">模擬新題</span>`:(src?`<span class="tag src">${src}</span>`:'')}
+        ${(stale===2)?`<span class="tag err"><i class="xd r"></i> 答案已作廢</span>`:(stale===1?`<span class="tag hot"><i class="xd y"></i> 存疑</span>`:'')}
+        ${!inExam?`<span class="tag flagtag${S.flags[o.k]?' on':''}" id="flagTag" title="覺得這題答案可疑／法規可能改過就標起來，之後可用「我的存疑」篩選複查">${S.flags[o.k]?'✔ 已標存疑':'⚑ 標記存疑'}</span>`:''}
+      </div>
+      ${(!inExam && warns.length)?warns.map(w=>`<div class="warn"><i class="xi xa y"></i> ${w}</div>`).join(''):''}
+      ${(!inExam && why)?`<div class="why"><i class="xi xz v"></i> ${md(why)}</div>`:''}
+      <div class="stem">${stem}</div>
+      <div id="opts">${opts.map((v,i)=>`<div class="opt" data-i="${i+1}"><b>(${i+1})</b><span>${v}</span></div>`).join('')}</div>
+      <div id="verdict"></div>
+    </div>
+    <div class="acts" id="acts"></div>`;
+
+  $('#opts').querySelectorAll('.opt').forEach(el => el.onclick = () => pick(+el.dataset.i));
+  if (inReview){                                   // 交卷後逐題回顧：標出你選的與正解
+    const myAns = exam.answers[o.k], correctAns = orderOf(o).ans;
+    showAnswer(true, myAns ?? -1, myAns === correctAns);
+    if (!myAns) $('#verdict').insertAdjacentHTML('afterbegin',
+      '<div class="verdict no"><i class="xi xx r"></i> 這題你沒有作答</div>');
+  }
+  else if (mode === 'learn') showAnswer(false);
+  if (inExam && picked) markPick(picked);
+  drawActs();
+  updateBars();
+  bindFlag();
+  window.scrollTo({top:0});
+}
+
+/* ---------- 自標存疑：刷到覺得答案可疑／法規可能改過的題，當場標起來 ----------
+   跟 deck 內建的 stale（資料層預先標的）分開：這個是使用者自己的判斷，
+   可用篩選列「我的存疑」集中複查。 */
+function bindFlag(){
+  const t = $('#flagTag');
+  if (!t) return;
+  t.onclick = () => {
+    const k = list[idx].k;
+    if (S.flags[k]) delete S.flags[k]; else S.flags[k] = 1;
+    save(); render();
+  };
+}
+function flagCount(){ return Object.keys(S.flags || {}).length; }
+function updateFlagCount(){
+  const e = $('#fcount'); if (e) e.textContent = flagCount();
+}
+
+function drawActs(){
+  const a = $('#acts');
+  if (mode === 'exam' && exam && exam.reviewing){
+    a.innerHTML = `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題 →</button>
+                   <button class="btn full" id="backRes">回成績單</button>`;
+    $('#prev').onclick = () => { if (idx>0){ idx--; render(); } };
+    $('#next').onclick = () => { if (idx < list.length-1){ idx++; render(); } else { exam.reviewing=false; render(); } };
+    $('#backRes').onclick = () => { exam.reviewing = false; render(); };
+    return;
+  }
+  if (mode === 'exam'){
+    a.innerHTML = `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題 →</button>`;
+    $('#prev').onclick = () => go(-1); $('#next').onclick = () => go(1);
+  } else if (mode === 'learn'){
+    a.innerHTML = `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題（空白鍵）→</button>`;
+    $('#prev').onclick = () => go(-1); $('#next').onclick = () => go(1);
+  } else {
+    a.innerHTML = revealed
+      ? `<button class="btn" id="prev">← 上一題</button><button class="btn big" id="next">下一題 →</button>`
+      : `<button class="btn" id="prev">← 上一題</button><button class="btn" id="skip">看答案（不計分）</button>`;
+    $('#prev').onclick = () => go(-1);
+    if (revealed) $('#next').onclick = () => go(1);
+    else $('#skip').onclick = () => { showAnswer(false); revealed = true; drawActs(); };
+  }
+}
+
+function pick(n){
+  const o = list[idx];
+  if (mode === 'exam'){ exam.answers[o.k] = n; markPick(n); updateBars(); return; }
+  if (mode === 'learn' || revealed) return;
+  const correct = (n === orderOf(o).ans);
+  logAnswer(o.k, correct); save();
+  revealed = true;
+  showAnswer(true, n, correct);
+  drawActs(); updateBars(); refreshWrongCount();
+}
+
+function markPick(n){
+  $('#opts').querySelectorAll('.opt').forEach(el => {
+    el.classList.toggle('sel', +el.dataset.i === n);   // 作答中的選取，與批改後的 .ans 正解樣式分開
+  });
+}
+
+function showAnswer(judged, n, correct){
+  const ans = orderOf(list[idx]).ans;
+  $('#opts').querySelectorAll('.opt').forEach(el => {
+    const i = +el.dataset.i;
+    if (i === ans) el.classList.add('ans');
+    else if (judged && i === n) el.classList.add('bad');
+    else el.classList.add('dim');
+  });
+  const oNow = list[idx];
+  let html = '';
+  if (judged){
+    html = correct
+      ? `<div class="verdict ok"><i class="xi xk g"></i> 正確！${rec(list[idx].k).s >= GRAD ? '（已從錯題本畢業）' : ''}</div>`
+      : `<div class="verdict no"><i class="xi xx r"></i> 答錯了，正解是 (${ans})　→ 已加入錯題本，答對 ${GRAD} 次才畢業</div>`;
+  }
+  $('#verdict').innerHTML = html + explain(oNow.q, oNow.q[5], ans);
+}
+
+function go(step){
+  if (idx + step < 0) return;
+  if (idx + step >= list.length){
+    if (mode === 'exam') return submitExam();
+    alert('這一組做完了！');
+    if (mode === 'wrong'){ build(); return; }
+    return;
+  }
+  idx += step; render();
+}
+
+function updateBars(){
+  updateFlagCount();
+  const total = DECK[subj].qs.length;
+  let seen = 0, right = 0, wrongPool = 0;
+  for (let i = 0; i < total; i++){
+    const r = rec(id(subj,i));
+    if (r.seen) seen++;
+    right += r.r;
+    if (isWrong(id(subj,i))) wrongPool++;
+  }
+  if (mode === 'exam' && exam){
+    const done = Object.keys(exam.answers).length;
+    $('#pbar').style.width = done/exam.n*100 + '%';
+    $('#pos').textContent = `第 ${idx+1} / ${exam.n} 題`;
+    $('#stat').innerHTML = `已作答 ${done}／${exam.n}`;
+  } else {
+    $('#pbar').style.width = (list.length ? (idx+1)/list.length*100 : 0) + '%';
+    $('#pos').textContent = list.length ? `${idx+1} / ${list.length}` : '—';
+    $('#stat').innerHTML = `做過 ${seen}/${total}　錯題 <b>${wrongPool}</b>`;
+  }
+}
+
+function refreshWrongCount(){
+  let n = 0;
+  for (const sb of Object.keys(DECK))
+    for (let i = 0; i < DECK[sb].qs.length; i++) if (isWrong(id(sb,i))) n++;
+  $('#wcount').textContent = n;
+}
+
+/* ---------- 模擬考批改 ---------- */
+function submitExam(){
+  clearInterval(tick);
+  exam.submitted = true;
+  const d = DECK[subj];
+  const isLaw = o => d.topics[o.q[0]].startsWith(LAW_PREFIX);
+  let lawR=0, lawN=0, pracR=0, pracN=0;
+  list.forEach(o => {
+    const ok = exam.answers[o.k] === orderOf(o).ans;
+    logAnswer(o.k, ok);
+    if (isLaw(o)){ lawN++; if (ok) lawR++; } else { pracN++; if (ok) pracR++; }
+  });
+  const ls = +(lawR*2).toFixed(2), ps = +(pracR*1.25).toFixed(2);
+  S.exams.unshift({ d:new Date().toISOString().slice(0,16).replace('T',' '), subj,
+    lawR, lawN, pracR, pracN, ls, ps, pass: ls>=70 && ps>=70 });
+  S.exams = S.exams.slice(0,20);
+  save(); refreshWrongCount(); render();
+}
+
+function renderResult(){
+  const d = DECK[subj];
+  const isLaw = o => d.topics[o.q[0]].startsWith(LAW_PREFIX);
+  const lawList = list.filter(isLaw), pracList = list.filter(o => !isLaw(o));
+  const lawR = lawList.filter(o => exam.answers[o.k] === orderOf(o).ans).length;
+  const pracR = pracList.filter(o => exam.answers[o.k] === orderOf(o).ans).length;
+  const ls = +(lawR*2).toFixed(2), ps = +(pracR*1.25).toFixed(2);
+  const lp = ls>=70, pp = ps>=70, pass = lp && pp;
+  const wrongs = list.filter(o => exam.answers[o.k] !== orderOf(o).ans);
+  const byTopic = {};
+  wrongs.forEach(o => { const t = d.topics[o.q[0]]; byTopic[t] = (byTopic[t]||0)+1; });
+  $('#view').innerHTML = `
+    <div class="card" style="text-align:center">
+      <div class="verdict ${pass?'ok':'no'}" style="font-size:1.02em">${pass?'<i class="xi xk g"></i> 合格（法規、實務皆達 70）':'<i class="xi xx r"></i> 未達雙門檻'}</div>
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <div style="flex:1;border:1px solid var(--cd);border-radius:8px;padding:10px">
+          <div style="font-size:1.9em;font-weight:800;color:${lp?'var(--gn)':'var(--rd)'};font-variant-numeric:tabular-nums">${ls}</div>
+          <div style="font-size:.72em;color:var(--mt)">法規　${lawR}/${lawList.length} 對<br>每題 2 分・需 70</div>
+        </div>
+        <div style="flex:1;border:1px solid var(--cd);border-radius:8px;padding:10px">
+          <div style="font-size:1.9em;font-weight:800;color:${pp?'var(--gn)':'var(--rd)'};font-variant-numeric:tabular-nums">${ps}</div>
+          <div style="font-size:.72em;color:var(--mt)">實務　${pracR}/${pracList.length} 對<br>每題 1.25 分・需 70</div>
+        </div>
+      </div>
+      <div style="font-size:.72em;color:var(--mt);margin-top:8px">兩科各滿 70 才合格，不看平均、不能互補</div>
+    </div>
+    <div class="panel">
+      <h3>錯題考點分布（${wrongs.length} 題）</h3>
+      ${Object.entries(byTopic).sort((a,b)=>b[1]-a[1]).map(([t,n])=>
+        `<div class="row"><span>${t}</span><small>錯 ${n} 題</small></div>`).join('') || '<div class="empty">全對！</div>'}
+    </div>
+    <div class="acts">
+      <button class="btn full big" id="reviewAll">逐題回顧這份考卷 →</button>
+      <button class="btn" id="reviewWrongOnly">只看答錯的</button>
+      <button class="btn" id="reviewWrong">進錯題本</button>
+      <button class="btn full" id="again">再考一次</button>
+    </div>`;
+  $('#reviewAll').onclick = () => { exam.reviewing = true; idx = 0; render(); };
+  $('#reviewWrongOnly').onclick = () => {
+    const bad = list.filter(o => exam.answers[o.k] !== orderOf(o).ans);
+    if (!bad.length) return alert('這份考卷全對！');
+    list = bad; exam.reviewing = true; idx = 0; render();
+  };
+  $('#reviewWrong').onclick = () => setMode('wrong');
+  $('#again').onclick = () => { startExam(); render(); };
+  $('#pbar').style.width = '100%';
+  $('#pos').textContent = '批改完成';
+  $('#stat').textContent = `${subj}　法規 ${ls}／實務 ${ps}`;
+}
+
+/* ---------- 統計 ---------- */
+function renderStat(){
+  let html = '';
+  /* 全期累計（跨重置，來自作答歷程） */
+  let lifeN = 0, lifeR = 0, seqN = 0, touched = 0, bankTotal = 0;
+  const mcount = { new:0, old:0, doubt:0, weak:0, shaky:0, solid:0 };
+  const byType = {};
+  for (const sb of Object.keys(DECK)){
+    const d = DECK[sb];
+    d.qs.forEach((q,i) => {
+      bankTotal++;
+      const k = id(sb,i), lt = lifetime(k);
+      lifeN += lt.n; lifeR += lt.r; seqN += lt.seq; if (lt.n) touched++;
+      mcount[mastery(k)]++;
+      const ty = qtype(q); byType[ty] = byType[ty] || {r:0,w:0,n:0};
+      byType[ty].n++;
+      const rr = rec(k); byType[ty].r += rr.r||0; byType[ty].w += rr.w||0;
+    });
+  }
+  html += `<h3>全期累計（不受「新一輪」影響）</h3>
+    <div class="kpi">
+      <div><b>${touched}</b><span>碰過的題／${bankTotal}</span></div>
+      <div><b>${lifeN}</b><span>累計作答次數</span></div>
+      <div><b>${seqN}</b><span>其中有歷程紀錄</span></div>
+      <div><b>${lifeN?(lifeR/lifeN*100).toFixed(0):0}%</b><span>全期正確率</span></div>
+      <div><b>${bankTotal-touched}</b><span>還沒碰過</span></div>
+    </div>
+    <div style="font-size:.72em;color:var(--mt);margin:-4px 0 10px">
+      「有歷程紀錄」＝知道每次對錯順序的作答；其餘是 2026-08-29 之前的舊紀錄，當時只存累計數字、順序無法還原。</div>
+    <h3>掌握度分布</h3>
+    <div style="font-size:.72em;color:var(--mt);margin-bottom:4px">「存疑」＝總共只答對過一次，可能是猜的，值得再驗一次</div>` +
+    ['solid','shaky','doubt','weak','old','new'].filter(m=>mcount[m]).map(m =>
+      `<div class="row"><span style="color:${MAS[m][1]};font-weight:700">${MAS[m][0]}</span><small>${mcount[m]} 題</small></div>`).join('');
+  html += `<h3>各題型表現（本輪）</h3>
+    <div style="font-size:.72em;color:var(--mt);margin-bottom:4px">正確率最低的題型＝最該換方法練的地方</div>` +
+    Object.entries(byType).map(([ty,v]) => [ty, v.r+v.w ? v.r/(v.r+v.w)*100 : -1, v.n, v.r+v.w])
+      .sort((a,b)=>a[1]-b[1]).map(([ty,acc,n,att]) => {
+        const cls = acc<0 ? '' : acc<60?'r-bad':acc<75?'r-mid':'r-good';
+        return `<div class="row"><span>${ty}<br><small>題庫 ${n} 題</small></span>
+          <span><span class="rate ${cls}">${acc<0?'—':acc.toFixed(0)+'%'}</span> <small>(${att} 次)</small></span></div>`;
+      }).join('');
+  if (S.rounds && S.rounds.length){
+    html += `<h3>各輪對比</h3>` + S.rounds.map((x,i) =>
+      `<div class="row"><span>第 ${i+1} 輪　<small>${x.at}</small></span>
+       <span><span class="rate ${x.r+x.w && x.r/(x.r+x.w)>=0.7?'r-good':'r-mid'}">${x.r+x.w?(x.r/(x.r+x.w)*100).toFixed(0):0}%</span>
+       <small>作答 ${x.seen}</small></span></div>`).join('') +
+      `<div class="row"><span><b>本輪（進行中）</b></span><small>見下方各科</small></div>`;
+  }
+  for (const sb of Object.keys(DECK)){
+    const d = DECK[sb], total = d.qs.length;
+    let seen = 0, r = 0, w = 0, pool = 0;
+    const tp = {};
+    d.qs.forEach((q,i) => {
+      const o = rec(id(sb,i)), t = d.topics[q[0]];
+      tp[t] = tp[t] || {r:0,w:0,seen:0,total:0,pool:0};
+      tp[t].total++;
+      if (o.seen){ seen++; tp[t].seen++; }
+      r += o.r; w += o.w; tp[t].r += o.r; tp[t].w += o.w;
+      if (isWrong(id(sb,i))){ pool++; tp[t].pool++; }
+    });
+    const acc = (r+w) ? r/(r+w)*100 : 0;
+    html += `<h3>${sb}</h3>
+      <div class="kpi">
+        <div><b>${seen}</b><span>做過／${total}</span></div>
+        <div><b>${acc.toFixed(0)}%</b><span>正確率</span></div>
+        <div><b>${pool}</b><span>待複習錯題</span></div>
+      </div>`;
+    const wrows = Object.entries(tp).filter(([,v]) => v.pool > 0).sort((a,b) => b[1].pool - a[1].pool);
+    if (wrows.length){
+      html += `<div style="font-size:.72em;color:var(--mt);margin:6px 0 2px">待複習錯題分布（點考點直接刷該區錯題）</div>`;
+      html += wrows.map(([t,v]) =>
+        `<div class="row" data-wrong="1" data-sb="${sb}" data-t="${t}"><span>${t}</span>
+         <span class="rate r-bad">${v.pool} 題</span></div>`).join('');
+    }
+    const rows = Object.entries(tp).filter(([,v]) => v.r+v.w > 0)
+      .map(([t,v]) => [t, v.r/(v.r+v.w)*100, v.r+v.w, v.seen, v.total])
+      .sort((a,b) => a[1]-b[1]);
+    if (rows.length){
+      html += `<div style="font-size:.72em;color:var(--mt);margin:6px 0 2px">各考點正確率（低→高，先補最上面的）</div>`;
+      html += rows.map(([t,ac,n,seenN,tot]) => {
+        const cls = ac < 60 ? 'r-bad' : ac < 75 ? 'r-mid' : 'r-good';
+        return `<div class="row" data-sb="${sb}" data-t="${t}"><span>${t}<br><small>進度 ${seenN}/${tot}</small></span>
+          <span><span class="rate ${cls}">${ac.toFixed(0)}%</span> <small>(${n} 次)</small></span></div>`;
+      }).join('');
+    } else html += `<div class="empty">還沒有作答紀錄</div>`;
+  }
+  const syncOn = window.ExamSync && ExamSync.enabled();
+  const weak = syncOn && ExamSync.isWeak();
+  html += `
+  <h3>跨裝置同步</h3>
+  <div style="font-size:.76em;color:var(--mt);line-height:1.75;margin-bottom:8px">
+    在每台裝置填<b>同一組同步碼</b>，作答後幾秒自動上傳、開頁自動合併。
+    同步碼只存在你的裝置，雲端只看得到它的雜湊值。<br><span style="color:var(--mt)">上傳的內容只有作答紀錄（題號、對錯、次數），不含姓名或任何個資；存放在站長的資料庫，站長看得到但認不出是誰。不想上傳就別開同步，紀錄一樣存在本機。</span><span id="syncStat" style="color:var(--gn);font-weight:700"></span>
+  </div>
+  ${weak?`<div class="warn" style="font-size:.76em">目前的同步碼太短或是純數字，別人可能猜得到。建議按「產生新同步碼」換一組，再把新碼填到另一台裝置。</div>`:''}
+  <div class="acts" style="grid-template-columns:1fr auto">
+    <input id="syncPass" type="text" placeholder="同步碼（兩台裝置要一樣）" value="${syncOn ? ExamSync.getKey() : ''}"
+      style="border:1px solid var(--cd);border-radius:6px;padding:10px 12px;font-size:.85em;font-family:ui-monospace,monospace">
+    <button class="btn ${syncOn?'':'big'}" id="syncGo">${syncOn ? '停用' : '啟用同步'}</button>
+    <button class="btn full" id="syncNew">產生新同步碼（推薦）</button>
+  </div>
+  <div style="font-size:.72em;color:var(--mt);margin:10px 0 4px">手動備援（沒網路時用）：</div>
+  <div class="acts" style="grid-template-columns:1fr 1fr">
+    <button class="btn" id="expCode">複製進度碼</button>
+    <button class="btn" id="impCode">貼上合併</button>
+    <button class="btn full" id="expWrong">複製錯題清單（給 AI 分析）</button>
+  </div>
+  <textarea id="io" style="width:100%;height:78px;margin-top:8px;font-size:.7em;font-family:ui-monospace,monospace;
+    border:1px solid var(--cd);border-radius:7px;padding:8px;display:none"></textarea>`;
+  if (S.exams.length){
+    html += `<h3>模擬考紀錄</h3>` + S.exams.map(e => {
+      const pass = (e.pass != null) ? e.pass : (e.score >= 70);
+      const detail = (e.ls != null) ? `法規 ${e.ls} / 實務 ${e.ps}` : `${e.score} 分`;
+      return `<div class="row"><span>${e.d}　${e.subj||''}</span>
+       <span class="rate ${pass?'r-good':'r-bad'}">${detail}</span></div>`;
+    }).join('');
+  }
+  $('#view').innerHTML = `<div class="panel">${html}</div>`;
+  $('#view').querySelectorAll('.row[data-t]').forEach(el => el.onclick = () => {
+    subj = el.dataset.sb; topicSel = el.dataset.t;
+    fillSelects(); setMode(el.dataset.wrong ? 'wrong' : 'quiz');
+  });
+  $('#pbar').style.width = '0';
+  $('#pos').textContent = '統計';
+  $('#stat').textContent = '點考點可直接練該區';
+  bindSync();
+}
+
+/* ---------- 跨裝置同步 ---------- */
+function copyOut(text, btn, okMsg){
+  const ta = $('#io'); ta.style.display = 'block'; ta.value = text; ta.select();
+  const done = () => { const t = btn.innerHTML; btn.innerHTML = okMsg; setTimeout(() => btn.innerHTML = t, 1600); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done);
+  else { try { document.execCommand('copy'); } catch(e){} done(); }
+}
+
+function mergeState(inc){
+  let added = 0;
+  for (const k in inc.q){
+    const a = S.q[k], b = inc.q[k];
+    if (!a){ S.q[k] = b; added++; }
+    else {                                   // max-merge：同一份紀錄重複合併不會膨脹
+      const ha = a.h || '', hb = b.h || '';
+      const A0 = a.h0 || {n:0,rr:0}, B0 = b.h0 || {n:0,rr:0};
+      S.q[k] = { r: Math.max(a.r, b.r), w: Math.max(a.w, b.w),
+                 seen: Math.max(a.seen, b.seen), s: Math.max(a.s, b.s),
+                 h: hb.length > ha.length ? hb : ha,        // 歷程只會變長，取長的那份
+                 h0: { n: Math.max(A0.n, B0.n), rr: Math.max(A0.rr, B0.rr) } };
+      added++;
+    }
+  }
+  const seen = new Set(S.exams.map(e => e.d + e.subj + e.score));
+  (inc.exams || []).forEach(e => { if (!seen.has(e.d + e.subj + e.score)) S.exams.push(e); });
+  S.rounds = S.rounds || [];                                  // 各輪快照也要合併（以時間戳去重）
+  const rs = new Set(S.rounds.map(x => x.at));
+  (inc.rounds || []).forEach(x => { if (!rs.has(x.at)) S.rounds.push(x); });
+  S.rounds.sort((a,b) => a.at < b.at ? -1 : 1);
+  save(); refreshWrongCount();
+  return added;
+}
+
+function bindSync(){
+  const ta = $('#io');
+  if (window.ExamSync){
+    if (window._syncStat) $('#syncStat').textContent = '　' + window._syncStat;
+    $('#syncGo').onclick = () => {
+      if (ExamSync.enabled()){ ExamSync.setKey(''); renderStat(); return; }
+      const p = $('#syncPass').value.trim();
+      if (p.length < 6) return alert('同步碼太短，請改用「產生新同步碼」');
+      ExamSync.setKey(p); renderStat();
+    };
+    $('#syncNew').onclick = () => {
+      if (ExamSync.enabled() && !confirm('產生新同步碼後，這台裝置會改用新碼同步；舊碼的雲端資料仍在，本機紀錄不受影響。記得把新碼也填到另一台裝置。')) return;
+      const c = ExamSync.newCode();
+      renderStat();
+      setTimeout(() => { const el = $('#syncPass'); if (el){ el.value = c; el.select(); } }, 50);
+      alert('新同步碼： ' + c + '　　請複製到另一台裝置的同步欄位。');
+    };
+  }
+  $('#expCode').onclick = e => copyOut(JSON.stringify(S), e.target, '<i class="xi xk g"></i> 已複製');
+  $('#impCode').onclick = e => {
+    ta.style.display = 'block';
+    if (!ta.value.trim()){ ta.placeholder = '把另一台裝置複製的進度碼貼在這裡，再按一次「貼上合併」'; ta.focus(); return; }
+    try {
+      const inc = JSON.parse(ta.value.trim());
+      if (!inc || !inc.q) throw 0;
+      const n = mergeState(inc);
+      ta.value = ''; alert('已合併 ' + n + ' 題的紀錄');
+      renderStat();
+    } catch(err){ alert('進度碼格式不正確，請確認完整複製'); }
+  };
+  $('#expWrong').onclick = e => {
+    const lines = [];
+    for (const sb of Object.keys(DECK)){
+      const d = DECK[sb];
+      d.qs.forEach((q, i) => {
+        const o = rec(id(sb, i));
+        if (o.w > 0) lines.push([sb, d.topics[q[0]], q[2], `對${o.r}錯${o.w}`, q[3].slice(0, 46)].join(' | '));
+      });
+    }
+    if (!lines.length) return alert('目前沒有錯題紀錄');
+    lines.sort();
+    copyOut(['科目 | 考點 | 來源 | 對錯 | 題幹'].concat(lines).join(String.fromCharCode(10)), e.target, `<i class="xi xk g"></i> 已複製 ${lines.length} 題`);
+  };
+}
+
+function renderEmpty(){
+  const msg = mode === 'wrong'
+    ? '目前沒有錯題 <br><br>用「測驗」模式作答，答錯的題會自動收集到這裡。<br>錯題要連續答對 ' + GRAD + ' 次才會畢業。'
+    : '這個範圍沒有題目，試著取消篩選。';
+  $('#view').innerHTML = `<div class="empty">${msg}</div>`;
+  $('#pbar').style.width = '0'; $('#pos').textContent = '—';
+  updateBars();
+}
+
+/* ---------- 控制 ---------- */
+function build(){ list = pool(); idx = 0; render(); }
+
+function setMode(m){
+  mode = m;
+  document.querySelectorAll('.modes button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+  if (m === 'exam'){ startExam(); render(); }
+  else { clearInterval(tick); exam = null; build(); }
+}
+
+function fillSelects(){
+  $('#qtype').innerHTML = '<option value="ALL">全部題型</option>' +
+    QTYPES.map(x => `<option${x===typeSel?' selected':''}>${x}</option>`).join('');
+  $('#subj').innerHTML = Object.keys(DECK).map(s => `<option${s===subj?' selected':''}>${s}</option>`).join('');
+  $('#topic').innerHTML = '<option value="ALL">全部考點</option>' +
+    DECK[subj].topics.map(t => `<option${t===topicSel?' selected':''}>${t}</option>`).join('');
+}
+
+document.querySelectorAll('.modes button').forEach(b => b.onclick = () => setMode(b.dataset.m));
+$('#subj').onchange = e => { subj = e.target.value; topicSel = 'ALL'; fillSelects(); mode==='exam'?setMode('exam'):build(); };
+$('#topic').onchange = e => { topicSel = e.target.value; build(); };
+$('#qtype').onchange = e => { typeSel = e.target.value; build(); };
+$('#undone').onclick = e => { onlyUndone = !onlyUndone; e.target.classList.toggle('on', onlyUndone); build(); };
+$('#shuf').onclick = e => { shuffleOpt = shuffleQ = !shuffleOpt; e.target.classList.toggle('on', shuffleOpt);
+  seed = Date.now() % 100000; build(); };
+$('#stale').onclick = e => { hideStale = !hideStale; e.target.classList.toggle('on', hideStale);
+  e.target.textContent = hideStale ? '排除作廢' : '含作廢題'; build(); };
+$('#hot').onclick = e => { hotOnly = !hotOnly; e.target.classList.toggle('on', hotOnly);
+  e.target.textContent = hotOnly ? '高頻 3+' : '高頻'; build(); };
+$('#myflag').onclick = e => {
+  if (!flagOnly && !flagCount()){ alert('還沒有標記任何題。刷題時覺得某題答案可疑、或法規可能改過，點題目上方的「標記存疑」，之後就能在這裡集中複查。'); return; }
+  flagOnly = !flagOnly;
+  e.currentTarget.classList.toggle('on', flagOnly);
+  build();
+};
+$('#submit').onclick = () => { if (confirm('確定交卷批改？')) submitExam(); };
+/* 篩選列摺疊（手機預設收起；狀態記在本機） */
+const FOLDKEY = 'cr-drill-fold';
+function setFold(f, persist){
+  $('#bar2').classList.toggle('collapsed', f);
+  $('#fold').textContent = f ? '篩選 ▸' : '篩選 ▾';
+  if (persist) try{ localStorage.setItem(FOLDKEY, f ? '1' : '0'); }catch(e){}
+}
+$('#fold').onclick = () => setFold(!$('#bar2').classList.contains('collapsed'), true);
+/* 首次使用說明（看過一次就不再跳；頁尾可再開） */
+const OBKEY = 'cr-drill-onboard-v1';
+function showOb(v){ $('#xob').classList.toggle('show', v); }
+$('#xobOk').onclick = () => { showOb(false); try{ localStorage.setItem(OBKEY, '1'); }catch(e){} };
+$('#xobAgain').onclick = e => { e.preventDefault(); showOb(true); };
+try { if (!localStorage.getItem(OBKEY)) showOb(true); } catch(e) {}
+{ let f0 = null;
+  try{ f0 = localStorage.getItem(FOLDKEY); }catch(e){}
+  setFold(f0 === null ? matchMedia('(max-width:700px)').matches : f0 === '1'); }
+$('#reset').onclick = e => {
+  e.preventDefault();
+  if (!confirm('開始新一輪？本輪的對錯計數與錯題本會歸零，但「作答歷程」會完整保留（可在統計頁看各輪對比）。')) return;
+  const snap = { at: new Date().toISOString().slice(0,16).replace('T',' '), seen:0, r:0, w:0 };
+  for (const k in S.q){
+    const r = S.q[k];
+    snap.seen += r.seen||0; snap.r += r.r||0; snap.w += r.w||0;
+    r.h = (r.h || '') + '|';
+    r.r = 0; r.w = 0; r.s = 0; r.seen = 0;
+  }
+  if (snap.seen) S.rounds.push(snap);
+  save(); refreshWrongCount(); build();
+  alert('已開始新一輪。上一輪成績已存入統計頁的「各輪對比」。');
+};
+
+$('#toc').onclick = () => {
+  const d = DECK[subj];
+  let html = '', n = 0;
+  d.topics.forEach(t => {
+    const g = d.qs.map((q,i)=>({q,i})).filter(o => d.topics[o.q[0]] === t);
+    let seen = 0, wr = 0;
+    g.forEach(o => { if (rec(id(subj,o.i)).seen) seen++; if (isWrong(id(subj,o.i))) wr++; });
+    html += `<div class="row" data-t="${t}"><span>${n+1}–${n+g.length}　${t}</span>
+      <small>${seen}/${g.length}${wr?`　<span style="color:var(--rd)">錯 ${wr}</span>`:''}</small></div>`;
+    n += g.length;
+  });
+  $('#view').innerHTML = `<div class="panel">${html}</div>`;
+  $('#view').querySelectorAll('.row[data-t]').forEach(el => el.onclick = () => {
+    topicSel = el.dataset.t; $('#topic').value = topicSel; build();
+  });
+};
+
+document.addEventListener('keydown', e => {
+  if (mode === 'stat') return;
+  if (e.key >= '1' && e.key <= '4'){ e.preventDefault(); pick(+e.key); return; }
+  if (e.code === 'Space'){ e.preventDefault(); revealed || mode === 'learn' ? go(1) : $('#skip')?.click(); }
+  if (e.key === 'ArrowRight') go(1);
+  if (e.key === 'ArrowLeft') go(-1);
+});
+
+load();
+fetch('deck.json').then(r => r.json()).then(d => {
+  DECK = d; subj = Object.keys(d)[0]; fillSelects(); refreshWrongCount(); build();
+  if (window.ExamSync) ExamSync.init({
+    app: 'cr-drill',
+    getState: () => S,
+    mergeInbound: inc => {
+      if (!inc || !inc.q) return;
+      mergeState(inc);
+      if (mode === 'stat') renderStat();
+      else if (mode !== 'exam'){ updateBars(); refreshWrongCount(); }
+    },
+    onStatus: t => { window._syncStat = t; const el = $('#syncStat'); if (el) el.textContent = t ? '　' + t : ''; }
+  });
+}).catch(e => { $('#view').innerHTML = `<div class="empty">deck.json 載入失敗：${e}</div>`; });
+</script>
+</body>
+</html>

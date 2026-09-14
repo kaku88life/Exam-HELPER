@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>初階授信 事實挖空器</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-overflow-scrolling:touch}
+.wrap{max-width:620px;margin:0 auto;padding:12px 13px 70px}
+.lead{font-size:.78em;color:var(--mt);line-height:1.65;margin-bottom:10px}
+.modes{display:flex;gap:5px;margin-bottom:8px}
+.modes button{flex:1;border:1px solid var(--cd);background:var(--sf);color:var(--mt);border-radius:7px;padding:8px 2px;font-size:.79em;font-family:inherit;font-weight:700;cursor:pointer;line-height:1.3}
+.modes button small{display:block;font-size:.8em;font-weight:400;opacity:.85}
+.modes button.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+.bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:6px;padding:5px 9px;font-size:.78em;font-family:inherit;cursor:pointer}
+.btn.on{background:var(--cy);color:#fff;border-color:var(--cy)}
+.prog{height:4px;background:#e6eae4;border-radius:3px;overflow:hidden;margin-bottom:12px}
+.prog i{display:block;height:100%;background:var(--cy);width:0;transition:width .2s}
+.meta{display:flex;justify-content:space-between;font-size:.72em;color:var(--mt);margin-bottom:6px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:11px;padding:15px 16px;margin-bottom:11px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
+.tag{font-size:.68em;padding:2px 7px;border-radius:4px;background:#eef1ec;color:var(--mt)}
+.tag.hot{background:rgba(182,101,22,.13);color:var(--yw);font-weight:700}
+.tag.tp{background:rgba(49,95,148,.12);color:var(--vi)}
+.stem{font-size:1.02em;font-weight:600;line-height:1.7;margin-bottom:12px}
+.blank{display:inline-block;min-width:84px;border-bottom:2.5px solid var(--cy);text-align:center;color:var(--cy);font-weight:800;padding:0 6px}
+.blank.show{border-bottom-style:solid;background:rgba(8,122,115,.09);border-radius:4px 4px 0 0}
+.opt{border:1px solid var(--cd);background:var(--sf);border-radius:8px;padding:12px 13px;margin:7px 0;font-size:.92em;cursor:pointer;display:flex;gap:9px;align-items:center}
+.opt b{color:var(--mt);font-weight:700;flex:0 0 20px}
+.opt.ok{border:2.5px solid var(--gn);background:rgba(78,122,61,.09);font-weight:700}
+.opt.ok::after{content:'✓ 正解';margin-left:auto;color:var(--gn);font-size:.8em;font-weight:800}
+.opt.bad{border:1.5px dashed var(--rd);background:rgba(179,69,58,.06)}
+.opt.bad::after{content:'✕';margin-left:auto;color:var(--rd);font-size:.9em;font-weight:800}
+.reveal{border-left:3px solid var(--gn);background:rgba(78,122,61,.08);border-radius:0 8px 8px 0;padding:11px 13px;font-size:.86em;line-height:1.7;margin-top:10px}
+.reveal b{color:var(--gn)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.acts .btn{padding:13px;font-size:.9em;font-weight:700;text-align:center}
+.acts .btn.pri{background:var(--cy);color:#fff;border-color:var(--cy)}
+.stat{background:var(--sf);border:1px solid var(--cd);border-radius:11px;padding:15px}
+.stat table{width:100%;border-collapse:collapse;font-size:.8em}
+.stat th,.stat td{text-align:left;padding:7px 5px;border-bottom:1px solid var(--cd)}
+.stat th{color:var(--mt);font-weight:700}
+.stat td.r,.stat th.r{text-align:right;font-variant-numeric:tabular-nums}
+.kpi{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}
+.kpi .b{flex:1;min-width:96px;border:1px solid var(--cd);border-radius:9px;padding:11px;text-align:center;background:var(--sf)}
+.kpi .big{font-size:1.45em;font-weight:800;line-height:1.1}
+.kpi .lab{font-size:.67em;color:var(--mt);margin-top:3px;line-height:1.4}
+.hl{border-left:3px solid var(--rd);background:rgba(179,69,58,.06);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.8em;margin:8px 0;line-height:1.65}
+.hl b{color:var(--rd)}
+.foot{text-align:center;font-size:.68em;color:var(--mt);margin-top:22px;line-height:1.8}
+.foot a{color:var(--cy)}
+.empty{text-align:center;color:var(--mt);font-size:.85em;padding:30px 10px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <details class="lead" id="intro"><summary style="cursor:pointer;font-weight:700;color:var(--cy)">這是什麼、怎麼用（點開看說明）</summary><div style="margin-top:6px">授信兩科都有一大塊是<b>純記憶</b>：數字（期限、比率、額度）加上名詞（哪個機構、哪種票據、哪個當事人）——這種東西只能靠反覆看。<br>
+    這裡把兩科「問一個事實、四個選項都是數字或都是短名詞」的題抽出來，<b>選項全部用原題的官方選項</b>（不是自己編的），所以每個干擾項都是考場上真的會出現的那幾個。用上方「主題」可以只練法規或只練實務、只練數字或只練名詞。</div></details>
+
+  <div class="modes">
+    <button data-m="recall" class="on">回想<small>自己想，再看答案</small></button>
+    <button data-m="choose">四選一<small>快速反應</small></button>
+    <button data-m="read">只讀<small>純曝光不作答</small></button>
+    <button data-m="stat">統計<small>看熟練度</small></button>
+  </div>
+
+  <div class="bar">
+    <select id="topic"><option value="ALL">全部主題</option></select>
+    <button class="btn on" id="hot" title="出現 2 次以上的考點排前面">高頻優先</button>
+    <button class="btn" id="weak" title="只練答錯過或還沒看熟的">只練不熟</button>
+    <button class="btn" id="reset" title="清除本機練習紀錄">重設</button>
+  </div>
+  <div class="prog"><i id="pbar"></i></div>
+  <div id="view"></div>
+
+  <div class="foot">
+    題目與選項為台灣金融研訓院公告歷屆試題，著作權屬該院，本站僅供個人備考練習<br>
+    <a href="drill.html">刷題器</a> · <a href="guide.html">作戰指南</a> · <a href="analysis.html">題庫分析</a>
+  </div>
+</div>
+
+<script>
+const KEY = 'cr-cloze-v1';
+let DATA = [], S = { r:{} };      // r[i] = {seen, ok, ng}
+let mode = 'recall', topicSel = 'ALL', hotFirst = true, weakOnly = false;
+let list = [], idx = 0, revealed = false, picked = null;
+
+const $ = s => document.querySelector(s);
+const rec = i => (S.r[i] = S.r[i] || { seen:0, ok:0, ng:0 });
+function load(){ try{ const v = JSON.parse(localStorage.getItem(KEY)); if (v && v.r) S = v; }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+/* 熟練度：看過 ≥3 次且最近沒錯 → 熟；答錯過 → 不熟 */
+function level(i){
+  const r = rec(i);
+  if (r.ng > 0 && r.ok <= r.ng) return 'weak';
+  if (r.seen >= 3 && r.ng === 0) return 'solid';
+  if (r.seen >= 1) return 'mid';
+  return 'new';
+}
+
+function build(){
+  let a = DATA.map((d,i)=>({d,i}));
+  if (topicSel !== 'ALL') a = a.filter(o => o.d.topic === topicSel);
+  if (weakOnly) a = a.filter(o => level(o.i) === 'weak' || level(o.i) === 'new');
+  if (hotFirst) a.sort((x,y)=> y.d.n - x.d.n);
+  else a.sort(()=> Math.random()-0.5);
+  list = a; idx = 0; revealed = false; picked = null;
+  render();
+}
+
+function render(){
+  const v = $('#view');
+  if (mode === 'stat') return renderStat();
+  if (!list.length){
+    v.innerHTML = `<div class="empty">這個範圍沒有題目。<br>試試切換主題，或關掉「只練不熟」。</div>`;
+    $('#pbar').style.width = '0'; return;
+  }
+  if (idx >= list.length) idx = 0;
+  const { d, i } = list[idx];
+  const lv = level(i), r = rec(i);
+  const lvTag = { new:['未看過','var(--mt)'], mid:['看過 '+r.seen+' 次','var(--vi)'],
+                  solid:['已熟（看過 '+r.seen+' 次）','var(--gn)'], weak:['錯過 '+r.ng+' 次','var(--rd)'] }[lv];
+
+  // 題幹：把句尾的疑問詞換成空格底線，其餘原樣（不改寫句子，零編造）
+  let stem = d.stem.replace(/[？?]\s*$/, '');
+  const blank = revealed ? `<span class="blank show">${d.ans}</span>` : `<span class="blank">？</span>`;
+
+  let body = '';
+  if (mode === 'choose'){
+    body = d.opts.map((o,k)=>{
+      let cls = '';
+      if (picked !== null) cls = (k === d.ansIdx) ? ' ok' : (k === picked ? ' bad' : '');
+      return `<div class="opt${cls}" data-k="${k}"><b>(${k+1})</b><span>${o}</span></div>`;
+    }).join('');
+  }
+
+  v.innerHTML = `
+    <div class="meta"><span>${idx+1} / ${list.length}</span><span style="color:${lvTag[1]}">${lvTag[0]}</span></div>
+    <div class="card">
+      <div class="tags">
+        <span class="tag tp">${d.topic}</span>
+        ${d.n > 1 ? `<span class="tag hot">考過 ${d.n} 次</span>` : ''}
+        ${d.exams && d.exams.length ? `<span class="tag">第 ${d.exams.join('、')} 屆</span>` : ''}
+      </div>
+      <div class="stem">${stem}　${blank}</div>
+      ${body}
+      ${(revealed && mode !== 'choose') ? `<div class="reveal"><b>答案：${d.ans}</b><br><span style="color:var(--mt)">其他三個曾經出現的干擾選項：${d.opts.filter((_,k)=>k!==d.ansIdx).join('、')}</span></div>` : ''}
+      ${(picked !== null && mode === 'choose') ? `<div class="reveal"><b>正解：${d.ans}</b>${picked === d.ansIdx ? '' : '　← 你選了「'+d.opts[picked]+'」'}</div>` : ''}
+    </div>
+    <div class="acts" id="acts"></div>`;
+
+  const acts = $('#acts');
+  if (mode === 'read'){
+    acts.innerHTML = `<button class="btn" id="prev">← 上一個</button><button class="btn pri" id="next">下一個 →</button>`;
+    if (!revealed){ revealed = true; r.seen++; save(); render(); return; }
+  } else if (mode === 'recall'){
+    acts.innerHTML = revealed
+      ? `<button class="btn" id="ng">還是不熟</button><button class="btn pri" id="ok">記起來了 →</button>`
+      : `<button class="btn" id="prev">← 上一個</button><button class="btn pri" id="show">看答案</button>`;
+  } else {
+    acts.innerHTML = picked === null
+      ? `<button class="btn" id="prev">← 上一個</button><button class="btn" id="skip">不會，跳過</button>`
+      : `<button class="btn" id="prev">← 上一個</button><button class="btn pri" id="next">下一題 →</button>`;
+  }
+  bind(d, i);
+  $('#pbar').style.width = ((idx+1)/list.length*100) + '%';
+  window.scrollTo({ top:0 });
+}
+
+function bind(d, i){
+  const r = rec(i);
+  const go = n => { idx = Math.max(0, Math.min(list.length-1, idx+n)); revealed = false; picked = null; render(); };
+  const el = id => $('#'+id);
+  if (el('prev')) el('prev').onclick = () => go(-1);
+  if (el('next')) el('next').onclick = () => go(1);
+  if (el('show')) el('show').onclick = () => { revealed = true; r.seen++; save(); render(); };
+  if (el('ok'))   el('ok').onclick   = () => { r.ok++; save(); go(1); };
+  if (el('ng'))   el('ng').onclick   = () => { r.ng++; save(); go(1); };
+  if (el('skip')) el('skip').onclick = () => { r.seen++; r.ng++; picked = -1; save(); revealed = true; render(); };
+  document.querySelectorAll('.opt').forEach(o => {
+    o.onclick = () => {
+      if (picked !== null) return;
+      picked = +o.dataset.k;
+      r.seen++;
+      if (picked === d.ansIdx) r.ok++; else r.ng++;
+      save(); render();
+    };
+  });
+}
+
+function renderStat(){
+  const tot = DATA.length;
+  let seen = 0, solid = 0, weak = 0, exposure = 0;
+  DATA.forEach((_,i)=>{ const r = rec(i); if (r.seen) seen++; exposure += r.seen;
+    const l = level(i); if (l === 'solid') solid++; if (l === 'weak') weak++; });
+  const byTopic = {};
+  DATA.forEach((d,i)=>{ const t = byTopic[d.topic] = byTopic[d.topic] || {n:0,seen:0,solid:0};
+    t.n++; if (rec(i).seen) t.seen++; if (level(i) === 'solid') t.solid++; });
+
+  $('#view').innerHTML = `
+    <div class="kpi">
+      <div class="b"><div class="big" style="color:var(--cy)">${seen}<span style="font-size:.5em">/${tot}</span></div><div class="lab">看過的考點</div></div>
+      <div class="b"><div class="big" style="color:var(--gn)">${solid}</div><div class="lab">已熟<br>(看 ≥3 次沒錯過)</div></div>
+      <div class="b"><div class="big" style="color:var(--rd)">${weak}</div><div class="lab">不熟<br>(錯過且還沒補回來)</div></div>
+    </div>
+    <div class="stat">
+      <table>
+        <tr><th>主題</th><th class="r">考點數</th><th class="r">看過</th><th class="r">已熟</th></tr>
+        ${Object.entries(byTopic).sort((a,b)=>b[1].n-a[1].n).map(([k,t])=>
+          `<tr><td>${k}</td><td class="r">${t.n}</td><td class="r">${t.seen}</td><td class="r">${t.solid}</td></tr>`).join('')}
+      </table>
+      <div class="hl" style="margin-top:12px">
+        <b>目標是「每個數字看過三次以上」</b>，不是一次就背起來。<br>
+        目前累計曝光 <b>${exposure}</b> 次；${tot} 個考點要各看 3 次的話，總共需要 ${tot*3} 次。<br>
+        通勤時開「只讀」模式滑過去就算數——<b>這種東西靠次數，不靠專心</b>。
+      </div>
+    </div>`;
+  $('#pbar').style.width = (tot ? seen/tot*100 : 0) + '%';
+}
+
+/* ---------- 啟動 ---------- */
+fetch('cloze.json').then(r=>r.json()).then(j=>{
+  DATA = j; load();
+  const ts = [...new Set(DATA.map(d=>d.topic))];
+  $('#topic').innerHTML = '<option value="ALL">全部主題（' + DATA.length + '）</option>' +
+    ts.map(t=>`<option value="${t}">${t}（${DATA.filter(d=>d.topic===t).length}）</option>`).join('');
+  build();
+}).catch(()=>{ $('#view').innerHTML = '<div class="empty">題庫載入失敗，請重新整理。</div>'; });
+
+document.querySelectorAll('.modes button').forEach(b=>{
+  b.onclick = () => {
+    document.querySelectorAll('.modes button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); mode = b.dataset.m; revealed = false; picked = null;
+    if (mode === 'stat') renderStat(); else build();
+  };
+});
+$('#topic').onchange = e => { topicSel = e.target.value; build(); };
+$('#hot').onclick = e => { hotFirst = !hotFirst; e.target.classList.toggle('on', hotFirst);
+  e.target.textContent = hotFirst ? '高頻優先' : '隨機順序'; build(); };
+$('#weak').onclick = e => { weakOnly = !weakOnly; e.target.classList.toggle('on', weakOnly); build(); };
+$('#reset').onclick = () => { if (confirm('清除本機的練習紀錄？題目不會變。')){ S = { r:{} }; save(); build(); } };
+</script>
+<script src="nav.js?v=11" defer></script>
+<script src="../nav.core.js?v=1" defer></script>
+</body>
+</html>

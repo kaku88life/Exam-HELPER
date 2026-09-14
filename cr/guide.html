@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>初階授信 作戰指南</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65}
+.wrap{max-width:640px;margin:0 auto;padding:14px 14px 60px}
+h2{font-size:1.02em;margin:24px 0 7px;line-height:1.45}
+h2 .n{display:block;font-size:.7em;color:var(--mt);font-weight:400;margin-top:2px}
+.lead{font-size:.82em;color:var(--mt);margin-bottom:10px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:15px;margin-bottom:12px}
+.kpi{display:flex;gap:10px;flex-wrap:wrap}
+.kpi .b{flex:1;min-width:110px;border:1px solid var(--cd);border-radius:9px;padding:11px 12px;text-align:center}
+.kpi .big{font-size:1.5em;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .lab{font-size:.68em;color:var(--mt);margin-top:4px;line-height:1.4}
+.row{display:flex;gap:10px;padding:8px 2px;border-bottom:1px solid var(--cd);font-size:.85em}
+.row:last-child{border:none}
+.row .n{color:var(--mt);font-size:.92em;flex:0 0 5.4em}
+.row>span:last-child{flex:1;min-width:0}
+.hl{border-left:3px solid var(--rd);background:rgba(179,69,58,.06);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.82em;margin:8px 0}
+.hl b{color:var(--rd)}
+.ok{border-left:3px solid var(--gn);background:rgba(78,122,61,.09);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.82em;margin:8px 0}
+.ok b{color:var(--gn)}
+.tip{border-left:3px solid var(--vi);background:rgba(49,95,148,.06);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.82em;margin:8px 0}
+.tip b{color:var(--vi)}
+ul{margin:2px 0 2px 1.1em}li{font-size:.85em;margin:5px 0}
+table{width:100%;border-collapse:collapse;font-size:.8em;margin-top:4px}
+th,td{text-align:left;padding:6px 5px;border-bottom:1px solid var(--cd);vertical-align:top}
+th{color:var(--mt);font-weight:700}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+.chk{list-style:none;margin:0}
+.chk li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--cd);font-size:.86em;cursor:pointer}
+.chk li:last-child{border:none}
+.chk input{margin-top:3px;width:17px;height:17px;flex:0 0 17px;accent-color:var(--cy)}
+.chk li.done span{color:var(--mt);text-decoration:line-through}
+.chk b{color:var(--cy)}
+.btnrow{display:flex;gap:8px;margin-top:10px}
+.btnrow a{flex:1;text-align:center;background:var(--cy);color:#fff;text-decoration:none;border-radius:8px;padding:12px;font-size:.9em;font-weight:700}
+.btnrow a.alt{background:var(--sf);color:var(--tx);border:1px solid var(--cd)}
+.foot{text-align:center;font-size:.7em;color:var(--mt);margin:22px 0;line-height:1.9}
+.q{font-size:.78em;color:var(--mt);line-height:1.6;margin-top:6px;padding-left:10px;border-left:2px solid var(--cd)}
+a{color:var(--cy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="lead">第一次考「初階授信人員專業能力測驗」要知道的事，照時間順序排：這場在考什麼 → 要對幾題 → 為什麼不能只刷近幾屆 → 念什麼 → 法規改了哪些 → 不會怎麼猜 → 報名與考場 → 考前 15 分鐘。<br>數字都是 22 屆題庫（第 26–47 屆）實算，規則抄自官方簡章。</p>
+
+  <h2>① 這場在考什麼</h2>
+  <div class="card">
+    <div class="row"><span class="n">主辦</span><span>台灣金融研訓院（TABF）・<b>筆試</b>（每年約兩梯）與<b>電腦應試</b>（各考區不定期加開）並行</span></div>
+    <div class="row"><span class="n">報名資格</span><span><b>不限</b>，誰都能報</span></div>
+    <div class="row"><span class="n">報名費</span><span>新台幣 <b>1,035 元</b>（或愛學習點數 103 點）</span></div>
+    <div class="row"><span class="n">第一節</span><span>授信<b>法規</b>：50 題，每題 <b>2 分</b>，考 60 分鐘</span></div>
+    <div class="row"><span class="n">第二節</span><span>授信<b>實務</b>：80 題，每題 <b>1.25 分</b>，考 90 分鐘</span></div>
+    <div class="row"><span class="n">題型</span><span>四選一單選，<b>答錯不倒扣</b></span></div>
+    <div class="row"><span class="n">及格</span><span><b>兩科各自都要 70 分</b>（不是看平均，也不能互補）</span></div>
+    <div class="row"><span class="n">成績</span><span>電腦應試當場出成績、當場領合格證明；筆試約三週後放榜</span></div>
+    <div class="ok"><b>考程時間表</b>（電腦應試三個場次任選；筆試固定下午場）
+      <table>
+        <tr><th>項目</th><th>上午</th><th>下午</th><th>夜間</th></tr>
+        <tr><td>報到</td><td>08:30</td><td>13:30</td><td>18:30</td></tr>
+        <tr><td>法規（60 分）</td><td>08:50</td><td>13:50</td><td>18:50</td></tr>
+        <tr><td>實務（90 分）</td><td>10:00</td><td>15:00</td><td>20:00</td></tr>
+      </table>
+      兩節中間只隔 10 分鐘。第一節遲到 10 分鐘內還能進，第二節遲到就不能入場。
+    </div>
+  </div>
+
+  <h2>② 要對幾題才過<span class="n">先把數字算清楚，比較好配時間</span></h2>
+  <div class="kpi">
+    <div class="b"><div class="big" style="color:var(--vi)">35<span style="font-size:.5em">/50</span></div><div class="lab">法規要對<br>×2 分 → 70</div></div>
+    <div class="b"><div class="big" style="color:var(--gn)">56<span style="font-size:.5em">/80</span></div><div class="lab">實務要對<br>×1.25 分 → 70</div></div>
+    <div class="b"><div class="big" style="color:var(--rd)">兩科都要</div><div class="lab">任一科不到 70<br>就是沒過</div></div>
+  </div>
+  <div class="hl"><b>法規科只能錯 15 題，實務科可以錯 24 題。</b>法規題少、每題分重，一題失手等於實務 1.6 題。兩科都是題庫型，但<b>法規的容錯低、又要多讀懂法條</b>，先把法規顧穩。</div>
+
+  <h2>③ 這是高度題庫型考試，但回鍋來源很遠<span class="n">這一段決定你會不會白做工</span></h2>
+  <div class="card">
+    <div class="ok"><b>好消息：最近 5 屆的題，法規有 76%、實務有 84% 在更早的屆數考過幾乎一模一樣的題。</b>換算下來，把 22 屆刷熟大約穩拿法規 38 題（門檻 35）、實務 67 題（門檻 56）——<b>兩科都是刷完就過</b>。</div>
+    <div class="hl"><b>壞消息：回鍋的題不是從上一屆來的。</b>拿最近 5 屆去對，回鍋題來自「前一屆」的只有 0%、「前兩屆」也是 0%，主要來自 <b>4–10 屆前</b>，一路散到 20 屆前。<br>→ <b>只刷最近 3 屆，命中率只有 2%</b>；刷 5 屆 22%；刷 10 屆才 50%；要到七成以上得刷 15 屆以上。<br>「考前買本近三期考古題翻翻」這條路在這場是死路。</div>
+    <div class="tip"><b>時間怎麼分：</b>兩科題庫去重後 1,584 題（法規 658／實務 926），照題數比大約是 <b>4：6</b>，但法規容錯低，建議 <b>5：5</b>，而且兩科要<b>交錯在同一天</b>刷，不要一科包一天。</div>
+    <div class="btnrow"><a class="alt" href="analysis.html">看完整題庫分析 →</a></div>
+  </div>
+
+  <h2>④ 那到底要念什麼<span class="n">官方大綱 vs 題庫實測比重，逐項對照</span></h2>
+  <div class="card">
+    <p class="lead"><b>官方簡章的測驗範圍：</b><br>・法規科：授信基本法律（※新增金融消費者保護法、個人資料保護法）、授信相關規章（徵信調查／授信審查／事後管理及催收）、外匯及信用卡、現金卡相關規章<br>・實務科：基礎授信、企業授信、外匯授信、消費者授信、事後管理及催收</p>
+    <table><tr><th>法規科考點（題庫實測）</th><th class="r">佔比</th><th>判讀</th></tr>
+      <tr><td>銀行法（利害關係人、同一關係人、放款期限）</td><td class="r"><b>15%</b></td><td><b>先念</b></td></tr>
+      <tr><td>授信準則與資產評估辦法（逾放、呆帳、備抵）</td><td class="r"><b>10%</b></td><td><b>先念</b></td></tr>
+      <tr><td>票據法</td><td class="r"><b>10%</b></td><td><b>先念</b></td></tr>
+      <tr><td>信用卡與現金卡規章</td><td class="r">9%</td><td></td></tr>
+      <tr><td>銀行公會徵信準則</td><td class="r">8%</td><td></td></tr>
+      <tr><td>民法（債編時效、保證擔保物權、總則）</td><td class="r">15%</td><td>三塊合計，範圍大</td></tr>
+      <tr><td>強制執行／提存／民訴</td><td class="r">6%</td><td></td></tr>
+      <tr><td>金消法／個資法／洗錢防制</td><td class="r">5%</td><td>簡章標「新增」</td></tr>
+      <tr><td>公司法、金控法／合併法／OBU 條例</td><td class="r">9%</td><td></td></tr>
+      <tr><td>稅法及其他、外匯規章、破產法／消債條例、信保基金</td><td class="r">13%</td><td>晚念</td></tr></table>
+    <table style="margin-top:10px"><tr><th>實務科考點（題庫實測）</th><th class="r">佔比</th><th>判讀</th></tr>
+      <tr><td>外匯授信—出口（押匯、信用狀、託收、Factoring）</td><td class="r"><b>13%</b></td><td><b>先念</b></td></tr>
+      <tr><td>短期授信（透支、貼現、CP 保證、保證函、承兌）</td><td class="r"><b>11%</b></td><td><b>先念</b></td></tr>
+      <tr><td>逾放催收與法律程序（假扣押、強制執行、追索）</td><td class="r"><b>10%</b></td><td><b>先念</b></td></tr>
+      <tr><td>擔保品與保證、授信基本概念與運作</td><td class="r">13%</td><td></td></tr>
+      <tr><td>聯合貸款與專案融資、中長期授信</td><td class="r">13%</td><td></td></tr>
+      <tr><td>消費者貸款（房貸、車貸、信貸、信用卡、股票）</td><td class="r">17%</td><td>五塊合計</td></tr>
+      <tr><td>徵信與財務分析</td><td class="r">5%</td><td>要會算比率</td></tr>
+      <tr><td>信保基金、外匯授信—進口與外幣保證、大陸台商</td><td class="r">9%</td><td></td></tr></table>
+    <div class="note ok" style="margin-top:10px"><b>官方大綱五大類，實測沒有哪一類可以放掉。</b>實務科最大的兩塊是外匯授信（出口）與短期授信，法規科是銀行法與票據法。先從這四塊下手，四塊就佔了兩科各三成。</div>
+  </div>
+
+  <h2>⑤ 出題是根據哪一版<span class="n">考前務必確認，這裡最容易吃暗虧</span></h2>
+  <div class="card">
+    <p class="lead">考古題是舊的，法規是會改的。這兩件事對不上的地方，就是你會失分或撿分的地方。</p>
+    <div class="row"><span class="n">簡章版本</span><span>電腦應試說明 <b>110 年 4 月 6 日起適用</b>；法規科範圍標註「※新增金融消費者保護法、個人資料保護法」</span></div>
+    <div class="row"><span class="n">題庫範圍</span><span>第 26–47 屆，共 22 屆（47 屆＝2026 年 3 月考）</span></div>
+    <div class="row"><span class="n">已知修法</span><span>見下方兩條</span></div>
+
+    <div class="hl"><b>⚠️ 職員無擔保消費者貸款上限：100 萬 → 200 萬（2025-07 起）。</b><br>金管會 2025 年 7 月修正銀行法第 32 條第 2 項解釋令，銀行對負責人、職員等利害關係人的無擔保消費者貸款上限由 100 萬元提高為 <b>200 萬元</b>。題庫裡這題考過 3 次，32、40 屆答 100 萬，<b>47 屆已經改考 200 萬</b>。刷到舊題答 100 萬的，以 200 萬為準。</div>
+    <div class="tip"><b>金消法、個資法是簡章明列的新增範圍</b>，但題庫裡只佔 5%，而且早期屆次幾乎沒考。這一塊「題庫蓋不到」，建議另外把金消法的說明義務、爭議處理（評議）、個資法的告知與同意義務讀一遍原文。</div>
+    <div class="ok"><b>刷舊題的三條紀律</b>
+      <ul>
+        <li><b>看到年份久遠的題目，先想「這條改過沒有」</b>——尤其是額度、比率、期限、機關名稱。</li>
+        <li><b>題庫沒有的東西不代表不考</b>。新修的法規、新增的範圍，考古題一定是空白的，要另外讀官方法條原文。</li>
+        <li><b>考場以最新有效的法規為準</b>，但「已公布、施行日未定」的條文不算生效——這種情況答舊制。</li>
+      </ul>
+    </div>
+    <p class="q">修法狀態查自金管會新聞稿與銀行局法規查詢系統（2026-09-14 查核）。考前建議自己再開一次確認有沒有新的修正。</p>
+  </div>
+
+  <h2>⑥ 真的不會的時候怎麼猜<span class="n">救生圈，不是計畫</span></h2>
+  <div class="card">
+    <p class="lead">電腦應試<b>選項會洗牌</b>，筆試的答案分布也很平均（四個選項各佔 23–28%），「答案都在 C」那種位置規律沒用。只能看內容：</p>
+    <ul>
+      <li><b>「以上皆是」整個題庫一題都沒有</b>，別等這種送分題。</li>
+      <li><b>先確認題目問「錯的」還是「對的」</b>——問何者錯誤的約 25%，其餘七成多是直接問一個事實。看錯方向是最常見的失分點。</li>
+      <li><b>「何者錯誤」題的另外三句都是正確知識</b>，順手讀過去就多學三件事。刷題器答完會把那三句列出來。</li>
+      <li>完全不會 → <b>選最長的那個</b>，但這場好處很小：問事實的題命中約 30%、何者錯誤的題只有 22%（比亂猜還差）。所以<b>問事實的題可以選最長，何者錯誤的題不要</b>。</li>
+      <li>這場<b>真正的猜題規則是「認題」</b>：七到八成的題你在題庫裡看過，看到似曾相識的題幹，相信第一直覺。</li>
+    </ul>
+    <div class="hl">⚠️ 猜題最多把不會的題從 25% 拉到三成，是拿來<b>把本來就會的題推過及格線</b>，不是及格計畫本身。</div>
+  </div>
+
+  <h2>⑦ 報名與考場<span class="n">報名那天就要做的事</span></h2>
+  <div class="card">
+    <div class="tip"><b>報名就是開始的訊號。</b>兩科去重後 1,584 題，用認題速度（一題 30 秒）大約 <b>13 小時</b>。<br>每天 1 小時 → 13 天刷完；每天只有 15 分鐘 → 要 53 天。<b>所以報名當天就要開始，不要等考前。</b>而且這只是第一輪，錯題還要回頭刷第二輪。</div>
+    <ul class="chk" id="chk">
+      <li data-k="c1"><input type="checkbox"><span>決定考<b>筆試</b>還是<b>電腦應試</b>：筆試一年約兩梯、固定週六下午；電腦應試各考區加開、當場出成績</span></li>
+      <li data-k="c2"><input type="checkbox"><span>知道<b>測驗日 4 天前</b>才能取消報名或改場次，過了就不行</span></li>
+      <li data-k="c3"><input type="checkbox"><span>報名後依規定期限完成繳費（考前 7 天內報名只能線上刷卡）</span></li>
+      <li data-k="c4"><input type="checkbox"><span>確認<b>考場地址</b>與報到時間（台北、台中、高雄、花蓮考區）</span></li>
+      <li data-k="c5"><input type="checkbox"><span>入場通知書要自己上網查詢下載，不另寄</span></li>
+      <li data-k="c6"><input type="checkbox"><span>帶<b>證件正本</b>（身分證／護照／健保卡擇一，沒帶不能入場）</span></li>
+      <li data-k="c7"><input type="checkbox"><span>可帶<b>簡易型計算機</b>（不能有財務函數、不能出聲）；手機、智慧手錶<b>一律不能帶進去</b>，被抓到扣 20 分</span></li>
+      <li data-k="c8"><input type="checkbox"><span>筆試要帶 <b>2B 鉛筆與橡皮擦</b>畫答案卡；答案卡沒繳回該節零分</span></li>
+      <li data-k="c9"><input type="checkbox"><span>今天就開始每天 15 分鐘刷題，兩科交錯</span></li>
+    </ul>
+    <p class="q">勾選會自動存在這台裝置上，下次打開還在。</p>
+  </div>
+
+  <h2>⑧ 考前 15 分鐘看什麼</h2>
+  <div class="card">
+    <div class="row"><span class="n">法規</span><span>掃<a href="cloze.html">挖空器</a>的「法規·期限」「法規·比率」兩組（銀行法各種百分比、票據時效、民法時效），再看一次 200 萬那條。門檻要對 35 題</span></div>
+    <div class="row"><span class="n">實務</span><span>只掃<b>錯題本</b>。門檻要對 56 題，這科刷夠了就穩</span></div>
+    <div class="ok"><b>進場心法：三輪作答</b><br>
+      第一輪先把<b>認得的題</b>寫完，不卡題。<br>
+      第二輪處理二選一：圈出主詞（誰）、切時點（幾日內）、確認是「應」還是「得」。<br>
+      第三輪才用猜的。<b>答錯不倒扣，一題都不要空白。</b></div>
+    <div class="btnrow"><a href="drill.html">開始刷題 →</a><a class="alt" href="cloze.html">事實挖空器</a></div>
+  </div>
+
+  <div class="foot">
+    考試規則抄自官方電腦應試說明（110/4/6 起適用版）與 48 屆筆試公告；比重與命中率由第 26–47 屆題庫實算；修法狀態查自金管會（2026-09-14）<br>
+    題目為台灣金融研訓院公告歷屆試題，著作權屬該院，本站僅供個人備考練習 · Built with Claude Code
+  </div>
+</div>
+<script>
+(function(){
+  var K='cr-guide-chk';
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){saved={}}
+  var items=document.querySelectorAll('#chk li');
+  function save(){
+    var o={};
+    items.forEach(function(li){ o[li.dataset.k]=li.querySelector('input').checked; });
+    try{localStorage.setItem(K,JSON.stringify(o))}catch(e){}
+  }
+  items.forEach(function(li){
+    var cb=li.querySelector('input');
+    if(saved[li.dataset.k]){cb.checked=true;li.classList.add('done');}
+    li.addEventListener('click',function(e){
+      if(e.target!==cb) cb.checked=!cb.checked;
+      li.classList.toggle('done',cb.checked);
+      save();
+    });
+  });
+})();
+</script>
+<script src="nav.js?v=1" defer></script>
+<script src="../nav.core.js?v=1" defer></script>
+</body>
+</html>

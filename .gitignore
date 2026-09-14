@@ -24,3 +24,7 @@ __pycache__/
 
 # 交接文件（含備考脈絡與本機路徑，不對外）
 HANDOFF.md
+!cr/deck.json
+!cr/cloze.json
+!life/deck.json
+!life/cloze.json
