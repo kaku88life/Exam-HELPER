@@ -113,7 +113,7 @@ a{color:var(--cy)}
   <button data-m="learn" class="on">背誦<small>直接看答案</small></button>
   <button data-m="quiz">測驗<small>作答後判定</small></button>
   <button data-m="wrong">錯題<small id="wcount">0</small></button>
-  <button data-m="exam">模擬考<small>兩節一起</small></button>
+  <button data-m="exam">模擬考<small>一節一份</small></button>
   <button data-m="stat">統計<small>弱點分析</small></button>
 </div>
 
@@ -141,7 +141,7 @@ a{color:var(--cy)}
 <div id="xob"><div class="p">
   <h3>第一次用？30 秒看懂</h3>
   <ol>
-    <li><b>背誦</b>直接看答案、<b>測驗</b>作答後才判定、<b>錯題</b>只刷答錯過的、<b>模擬考</b>照真實規則（法規 100＋實務 50、140 分鐘）計時。</li>
+    <li><b>背誦</b>直接看答案、<b>測驗</b>作答後才判定、<b>錯題</b>只刷答錯過的、<b>模擬考</b>照真實節次，一次考一節（法規 100 題 80 分鐘／實務 50 題 60 分鐘）。</li>
     <li>左上<b>「篩選」</b>可以縮小範圍（考點、題型、只看未做）。平常收起來就好。</li>
     <li><b>空白鍵</b>或右下按鈕下一題；答完會出現解析（何者錯誤題會列出另外三句正確敘述）。</li>
     <li>覺得題目答案怪怪的，點<b>「標記存疑」</b>，之後用「我的存疑」集中複查。</li>
@@ -169,6 +169,8 @@ const LAW_PREFIX = '法規｜';           // 法規科考點都以此前綴，�
 const PRA_PREFIX = '實務｜';
 const PAPER_LABEL = { law:'保險法規', prac:'保險實務' };   // 兩節分開考，刷題也分開
 const PAPER_KEYS = ['law','prac'];
+const EXAM = { law:{n:100,mins:80,per:1,need:60}, prac:{n:50,mins:60,per:2,need:60} };
+const COMBINED = 140;                 // 0＝兩科各自達標；>0＝合計門檻
 const paperOf = (d,q) => d.topics[q[0]].startsWith(LAW_PREFIX) ? 'law' : 'prac';
 const tshort = t => t.replace(LAW_PREFIX,'').replace(PRA_PREFIX,'');  // 下拉顯示去前綴
 const topicsOf = (d,p) => d.topics.filter(t => (t.startsWith(LAW_PREFIX)?'law':'prac') === p);
@@ -340,15 +342,14 @@ function pool(){
   return a;
 }
 
-function startExam(){                       // 人身：一份考卷＝法規 100 題（×1）＋實務 50 題（×2），合計 140 且各科 60
-  const d = DECK[subj];
-  const isLaw = o => d.topics[o.q[0]].startsWith(LAW_PREFIX);
-  const all = d.qs.map((q,i)=>({q,i,k:id(subj,i)}));
-  const law = all.filter(isLaw), prac = all.filter(o => !isLaw(o));
-  shuffle(law); shuffle(prac);
-  list = law.slice(0, 100).concat(prac.slice(0, 50));
-  const mins = 140;
-  exam = { answers:{}, end: Date.now() + mins*60000, n:list.length, submitted:false };
+function startExam(){                       // 人身：一份考卷＝當前那一節（法規 100 題 80 分／實務 50 題 60 分）
+  const d = DECK[subj], cf = EXAM[paper];
+  const all = d.qs.map((q,i)=>({q,i,k:id(subj,i)}))
+    .filter(o => paperOf(d,o.q) === paper)
+    .filter(o => o.q[7] !== 2);             // 答案已作廢的題不進考卷
+  shuffle(all);
+  list = all.slice(0, cf.n);
+  exam = { answers:{}, end: Date.now() + cf.mins*60000, n:list.length, submitted:false, paper };
   idx = 0;
   clearInterval(tick);
   tick = setInterval(()=>{
@@ -557,49 +558,59 @@ function refreshWrongCount(){
 }
 
 /* ---------- 模擬考批改 ---------- */
+let LAST_SCORE = 0;                         // 這份考卷的分數，狀態列與合計提示共用
+
 function submitExam(){
   clearInterval(tick);
   exam.submitted = true;
-  const d = DECK[subj];
-  const isLaw = o => d.topics[o.q[0]].startsWith(LAW_PREFIX);
-  let lawR=0, lawN=0, pracR=0, pracN=0;
+  const p = exam.paper, cf = EXAM[p];
+  let r = 0;
   list.forEach(o => {
     const ok = exam.answers[o.k] === orderOf(o).ans;
     logAnswer(o.k, ok);
-    if (isLaw(o)){ lawN++; if (ok) lawR++; } else { pracN++; if (ok) pracR++; }
+    if (ok) r++;
   });
-  const ls = lawR*1, ps = pracR*2;
-  S.exams.unshift({ d:new Date().toISOString().slice(0,16).replace('T',' '), subj,
-    lawR, lawN, pracR, pracN, ls, ps, pass: ls>=60 && ps>=60 && ls+ps>=140 });
+  const score = +(r*cf.per).toFixed(2);
+  S.exams.unshift({ d:new Date().toISOString().slice(0,16).replace('T',' '), subj, paper:p,
+    r, n:list.length, score, need:cf.need, pass: score >= cf.need });
   S.exams = S.exams.slice(0,20);
   save(); refreshWrongCount(); render();
 }
 
+/* 一次只考一節，所以要提醒另一節的最近成績合起來夠不夠 */
+function otherPaperLine(p){
+  const o = (p === 'law') ? 'prac' : 'law';
+  const last = S.exams.find(e => e.subj === subj && e.paper === o);
+  const lbl = PAPER_LABEL[o];
+  if (!COMBINED)
+    return last ? `另一節「${lbl}」最近一次 ${last.score} 分（需 ${EXAM[o].need}）——兩科各自達標才合格，不能互補`
+                : `另一節「${lbl}」還沒考過；兩科各自達標才合格，用上面的下拉選單換節次再考一份`;
+  if (!last)
+    return `另一節「${lbl}」還沒考過；合計要 ${COMBINED} 分才合格，用上面的下拉選單換節次再考一份`;
+  const sum = +(last.score + LAST_SCORE).toFixed(2);
+  return `加上另一節「${lbl}」最近一次 ${last.score} 分，合計 ${sum}／${COMBINED}` +
+         (sum >= COMBINED ? '（夠了）' : `（還差 ${+(COMBINED-sum).toFixed(2)} 分）`);
+}
+
 function renderResult(){
-  const d = DECK[subj];
-  const isLaw = o => d.topics[o.q[0]].startsWith(LAW_PREFIX);
-  const lawList = list.filter(isLaw), pracList = list.filter(o => !isLaw(o));
-  const lawR = lawList.filter(o => exam.answers[o.k] === orderOf(o).ans).length;
-  const pracR = pracList.filter(o => exam.answers[o.k] === orderOf(o).ans).length;
-  const ls = lawR*1, ps = pracR*2;
-  const lp = ls>=60, pp = ps>=60, pass = lp && pp && ls+ps>=140;
+  const d = DECK[subj], p = exam.paper, cf = EXAM[p];
+  const r = list.filter(o => exam.answers[o.k] === orderOf(o).ans).length;
+  const score = +(r*cf.per).toFixed(2);
+  LAST_SCORE = score;
+  const ok = score >= cf.need;
   const wrongs = list.filter(o => exam.answers[o.k] !== orderOf(o).ans);
   const byTopic = {};
   wrongs.forEach(o => { const t = d.topics[o.q[0]]; byTopic[t] = (byTopic[t]||0)+1; });
   $('#view').innerHTML = `
     <div class="card" style="text-align:center">
-      <div class="verdict ${pass?'ok':'no'}" style="font-size:1.02em">${pass?'<i class="xi xk g"></i> 合格（合計 '+(ls+ps)+' ≥ 140，兩科皆 ≥ 60）':'<i class="xi xx r"></i> 未合格（合計 '+(ls+ps)+'；需 140 且各科 60）'}</div>
-      <div style="display:flex;gap:10px;margin-top:12px">
-        <div style="flex:1;border:1px solid var(--cd);border-radius:8px;padding:10px">
-          <div style="font-size:1.9em;font-weight:800;color:${lp?'var(--gn)':'var(--rd)'};font-variant-numeric:tabular-nums">${ls}</div>
-          <div style="font-size:.72em;color:var(--mt)">法規　${lawR}/${lawList.length} 對<br>每題 1 分・至少 60</div>
-        </div>
-        <div style="flex:1;border:1px solid var(--cd);border-radius:8px;padding:10px">
-          <div style="font-size:1.9em;font-weight:800;color:${pp?'var(--gn)':'var(--rd)'};font-variant-numeric:tabular-nums">${ps}</div>
-          <div style="font-size:.72em;color:var(--mt)">實務　${pracR}/${pracList.length} 對<br>每題 2 分・至少 60</div>
-        </div>
+      <div class="verdict ${ok?'ok':'no'}" style="font-size:1.02em">${ok
+        ? `<i class="xi xk g"></i> ${PAPER_LABEL[p]} 達標（${score} ≥ ${cf.need}）`
+        : `<i class="xi xx r"></i> ${PAPER_LABEL[p]} 未達 ${cf.need} 分`}</div>
+      <div style="margin-top:12px;border:1px solid var(--cd);border-radius:8px;padding:12px">
+        <div style="font-size:2.2em;font-weight:800;color:${ok?'var(--gn)':'var(--rd)'};font-variant-numeric:tabular-nums">${score}</div>
+        <div style="font-size:.74em;color:var(--mt)">答對 ${r}/${list.length}　·　每題 ${cf.per} 分　·　這節 ${cf.mins} 分鐘</div>
       </div>
-      <div style="font-size:.72em;color:var(--mt);margin-top:8px">合計 140 分且任一科不低於 60 才合格；實務每題 2 分，是槓桿科</div>
+      <div style="font-size:.72em;color:var(--mt);margin-top:8px">${otherPaperLine(p)}</div>
     </div>
     <div class="panel">
       <h3>錯題考點分布（${wrongs.length} 題）</h3>
@@ -622,7 +633,7 @@ function renderResult(){
   $('#again').onclick = () => { startExam(); render(); };
   $('#pbar').style.width = '100%';
   $('#pos').textContent = '批改完成';
-  $('#stat').textContent = `${subj}　法規 ${ls}／實務 ${ps}`;
+  $('#stat').textContent = `${PAPER_LABEL[exam.paper]}　${LAST_SCORE} 分`;
 }
 
 /* ---------- 統計 ---------- */
@@ -740,7 +751,8 @@ function renderStat(){
   if (S.exams.length){
     html += `<h3>模擬考紀錄</h3>` + S.exams.map(e => {
       const pass = (e.pass != null) ? e.pass : (e.score >= 70);
-      const detail = (e.ls != null) ? `法規 ${e.ls} / 實務 ${e.ps}` : `${e.score} 分`;
+      const detail = (e.paper != null) ? `${PAPER_LABEL[e.paper] || ''} ${e.score} 分`
+                   : (e.ls != null) ? `法規 ${e.ls} / 實務 ${e.ps}` : `${e.score} 分`;
       return `<div class="row"><span>${e.d}　${e.subj||''}</span>
        <span class="rate ${pass?'r-good':'r-bad'}">${detail}</span></div>`;
     }).join('');
@@ -849,7 +861,6 @@ function build(){ list = pool(); idx = 0; render(); }
 function setMode(m){
   mode = m;
   document.querySelectorAll('.modes button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
-  $('#subj').disabled = (m === 'exam');      // 模擬考一次考兩節，不分科
   if (m === 'exam'){ startExam(); render(); }
   else { clearInterval(tick); exam = null; build(); }
 }
@@ -866,7 +877,10 @@ function fillSelects(){
 }
 
 document.querySelectorAll('.modes button').forEach(b => b.onclick = () => setMode(b.dataset.m));
-$('#subj').onchange = e => { const v = e.target.value.split('||'); subj = v[0]; paper = v[1] || paper;
+$('#subj').onchange = e => {
+  if (mode === 'exam' && exam && !exam.submitted && Object.keys(exam.answers).length
+      && !confirm('換節次會放棄目前這份考卷，確定？')){ fillSelects(); return; }
+  const v = e.target.value.split('||'); subj = v[0]; paper = v[1] || paper;
   topicSel = 'ALL'; savePaper(); fillSelects(); mode==='exam'?setMode('exam'):build(); };
 $('#topic').onchange = e => { topicSel = e.target.value; build(); };
 $('#qtype').onchange = e => { typeSel = e.target.value; build(); };
