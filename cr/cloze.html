@@ -59,7 +59,7 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
 <body>
 <div class="wrap">
   <details class="lead" id="intro"><summary style="cursor:pointer;font-weight:700;color:var(--cy)">這是什麼、怎麼用（點開看說明）</summary><div style="margin-top:6px">授信兩科都有一大塊是<b>純記憶</b>：數字（期限、比率、額度）加上名詞（哪個機構、哪種票據、哪個當事人）——這種東西只能靠反覆看。<br>
-    這裡把兩科「問一個事實、四個選項都是數字或都是短名詞」的題抽出來，<b>選項全部用原題的官方選項</b>（不是自己編的），所以每個干擾項都是考場上真的會出現的那幾個。用上方「主題」可以只練法規或只練實務、只練數字或只練名詞。</div></details>
+    這裡把兩科「問一個事實、四個選項都是數字或都是短名詞」的題抽出來，<b>選項全部用原題的官方選項</b>（不是自己編的），所以每個干擾項都是考場上真的會出現的那幾個。上方左邊的<b>科目</b>切法規／實務（兩節是不同的考試，分開練），右邊的<b>主題</b>再選只練數字或只練名詞。</div></details>
 
   <div class="modes">
     <button data-m="recall" class="on">回想<small>自己想，再看答案</small></button>
@@ -69,6 +69,7 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
   </div>
 
   <div class="bar">
+    <select id="subj" title="法規／實務是兩節不同的考試，分開練"></select>
     <select id="topic"><option value="ALL">全部主題</option></select>
     <button class="btn on" id="hot" title="出現 2 次以上的考點排前面">高頻優先</button>
     <button class="btn" id="weak" title="只練答錯過或還沒看熟的">只練不熟</button>
@@ -86,7 +87,23 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
 <script>
 const KEY = 'cr-cloze-v1';
 let DATA = [], S = { r:{} };      // r[i] = {seen, ok, ng}
-let mode = 'recall', topicSel = 'ALL', hotFirst = true, weakOnly = false;
+let mode = 'recall', paper = 'law', topicSel = 'ALL', hotFirst = true, weakOnly = false;
+const PAPER_LABEL = { law:'授信法規', prac:'授信實務' };   // 兩節分開考，練習也分開
+const PAPER_KEYS = ['law','prac'];
+const paperOf = d => /^法規/.test(d.topic) ? 'law' : 'prac';
+const tshort = t => t.replace(/^(法規|實務)[·｜]/, '');
+const PAPERKEY = KEY + '-paper';
+const savePaper = () => { try { localStorage.setItem(PAPERKEY, paper); } catch(e){} };
+const loadPaper = () => { try { return localStorage.getItem(PAPERKEY); } catch(e){ return null; } };
+const inPaper = d => paperOf(d) === paper;
+function fillTopics(){
+  const mine = DATA.filter(inPaper);
+  const ts = [...new Set(mine.map(d => d.topic))];
+  $('#subj').innerHTML = PAPER_KEYS.map(p =>
+    `<option value="${p}"${p===paper?' selected':''}>${PAPER_LABEL[p]}</option>`).join('');
+  $('#topic').innerHTML = '<option value="ALL">全部主題（' + mine.length + '）</option>' +
+    ts.map(t=>`<option value="${t}"${t===topicSel?' selected':''}>${tshort(t)}（${mine.filter(d=>d.topic===t).length}）</option>`).join('');
+}
 let list = [], idx = 0, revealed = false, picked = null;
 
 const $ = s => document.querySelector(s);
@@ -104,7 +121,8 @@ function level(i){
 }
 
 function build(){
-  let a = DATA.map((d,i)=>({d,i}));
+  /* 法規與實務是兩節不同的考試，分開練 */
+  let a = DATA.map((d,i)=>({d,i})).filter(o => inPaper(o.d));
   if (topicSel !== 'ALL') a = a.filter(o => o.d.topic === topicSel);
   if (weakOnly) a = a.filter(o => level(o.i) === 'weak' || level(o.i) === 'new');
   if (hotFirst) a.sort((x,y)=> y.d.n - x.d.n);
@@ -143,7 +161,7 @@ function render(){
     <div class="meta"><span>${idx+1} / ${list.length}</span><span style="color:${lvTag[1]}">${lvTag[0]}</span></div>
     <div class="card">
       <div class="tags">
-        <span class="tag tp">${d.topic}</span>
+        <span class="tag tp">${tshort(d.topic)}</span>
         ${d.n > 1 ? `<span class="tag hot">考過 ${d.n} 次</span>` : ''}
         ${d.exams && d.exams.length ? `<span class="tag">第 ${d.exams.join('、')} 屆</span>` : ''}
       </div>
@@ -194,13 +212,16 @@ function bind(d, i){
 }
 
 function renderStat(){
-  const tot = DATA.length;
-  let seen = 0, solid = 0, weak = 0, exposure = 0;
-  DATA.forEach((_,i)=>{ const r = rec(i); if (r.seen) seen++; exposure += r.seen;
-    const l = level(i); if (l === 'solid') solid++; if (l === 'weak') weak++; });
+  let tot = 0, seen = 0, solid = 0, weak = 0, exposure = 0;
   const byTopic = {};
-  DATA.forEach((d,i)=>{ const t = byTopic[d.topic] = byTopic[d.topic] || {n:0,seen:0,solid:0};
-    t.n++; if (rec(i).seen) t.seen++; if (level(i) === 'solid') t.solid++; });
+  DATA.forEach((d,i)=>{                       // 只統計目前這一科
+    if (!inPaper(d)) return;
+    tot++;
+    const r = rec(i); if (r.seen) seen++; exposure += r.seen;
+    const l = level(i); if (l === 'solid') solid++; if (l === 'weak') weak++;
+    const t = byTopic[d.topic] = byTopic[d.topic] || {n:0,seen:0,solid:0};
+    t.n++; if (r.seen) t.seen++; if (l === 'solid') t.solid++;
+  });
 
   $('#view').innerHTML = `
     <div class="kpi">
@@ -212,7 +233,7 @@ function renderStat(){
       <table>
         <tr><th>主題</th><th class="r">考點數</th><th class="r">看過</th><th class="r">已熟</th></tr>
         ${Object.entries(byTopic).sort((a,b)=>b[1].n-a[1].n).map(([k,t])=>
-          `<tr><td>${k}</td><td class="r">${t.n}</td><td class="r">${t.seen}</td><td class="r">${t.solid}</td></tr>`).join('')}
+          `<tr><td>${tshort(k)}</td><td class="r">${t.n}</td><td class="r">${t.seen}</td><td class="r">${t.solid}</td></tr>`).join('')}
       </table>
       <div class="hl" style="margin-top:12px">
         <b>目標是「每個數字看過三次以上」</b>，不是一次就背起來。<br>
@@ -226,9 +247,8 @@ function renderStat(){
 /* ---------- 啟動 ---------- */
 fetch('cloze.json').then(r=>r.json()).then(j=>{
   DATA = j; load();
-  const ts = [...new Set(DATA.map(d=>d.topic))];
-  $('#topic').innerHTML = '<option value="ALL">全部主題（' + DATA.length + '）</option>' +
-    ts.map(t=>`<option value="${t}">${t}（${DATA.filter(d=>d.topic===t).length}）</option>`).join('');
+  const lp = loadPaper(); if (PAPER_KEYS.indexOf(lp) >= 0) paper = lp;
+  fillTopics();
   build();
 }).catch(()=>{ $('#view').innerHTML = '<div class="empty">題庫載入失敗，請重新整理。</div>'; });
 
@@ -240,6 +260,8 @@ document.querySelectorAll('.modes button').forEach(b=>{
   };
 });
 $('#topic').onchange = e => { topicSel = e.target.value; build(); };
+$('#subj').onchange = e => { paper = e.target.value; topicSel = 'ALL'; savePaper(); fillTopics();
+  mode === 'stat' ? renderStat() : build(); };
 $('#hot').onclick = e => { hotFirst = !hotFirst; e.target.classList.toggle('on', hotFirst);
   e.target.textContent = hotFirst ? '高頻優先' : '隨機順序'; build(); };
 $('#weak').onclick = e => { weakOnly = !weakOnly; e.target.classList.toggle('on', weakOnly); build(); };
