@@ -113,14 +113,14 @@ a{color:var(--cy)}
   <button data-m="learn" class="on">背誦<small>直接看答案</small></button>
   <button data-m="quiz">測驗<small>作答後判定</small></button>
   <button data-m="wrong">錯題<small id="wcount">0</small></button>
-  <button data-m="exam">模擬考<small>計時批改</small></button>
+  <button data-m="exam">模擬考<small>兩節一起</small></button>
   <button data-m="stat">統計<small>弱點分析</small></button>
 </div>
 
 <header>
   <div class="bar2" id="bar2">
     <button class="btn always" id="fold" title="展開／收合篩選列">篩選 ▾</button>
-    <select id="subj"></select>
+    <select id="subj" class="always" title="法規／實務是兩節不同的考試，分開刷"></select>
     <select id="topic"></select>
     <select id="qtype"><option value="ALL">全部題型</option></select>
     <button class="btn" id="undone">只看未做</button>
@@ -166,12 +166,21 @@ a{color:var(--cy)}
 const KEY = 'life-drill-v1';
 const OLDKEY = 'life-drill-v0';
 const LAW_PREFIX = '法規｜';           // 法規科考點都以此前綴，用來拆法規／實務
+const PRA_PREFIX = '實務｜';
+const PAPER_LABEL = { law:'保險法規', prac:'保險實務' };   // 兩節分開考，刷題也分開
+const PAPER_KEYS = ['law','prac'];
+const paperOf = (d,q) => d.topics[q[0]].startsWith(LAW_PREFIX) ? 'law' : 'prac';
+const tshort = t => t.replace(LAW_PREFIX,'').replace(PRA_PREFIX,'');  // 下拉顯示去前綴
+const topicsOf = (d,p) => d.topics.filter(t => (t.startsWith(LAW_PREFIX)?'law':'prac') === p);
 const GRAD = 2;                       // 錯題連續答對幾次才「畢業」
 let DECK = null;
 let S = { q:{}, exams:[], rounds:[], flags:{} };   // flags[id]=1 → 自己標記存疑（答案可疑／法規可能改過）
 /* q[id] = {r,w,s,seen, h:"OXX|OO"}
    h = 作答歷程（O對/X錯，| = 重置分界），永不刪除；r/w/s/seen 只算「本輪」 */
-let mode = 'learn', subj = '', topicSel = 'ALL', typeSel = 'ALL', onlyUndone = false;
+let mode = 'learn', subj = '', paper = 'law', topicSel = 'ALL', typeSel = 'ALL', onlyUndone = false;
+const PAPERKEY = KEY + '-paper';
+const savePaper = () => { try { localStorage.setItem(PAPERKEY, paper); } catch(e){} };
+const loadPaper = () => { try { return localStorage.getItem(PAPERKEY); } catch(e){ return null; } };
 let list = [], idx = 0, revealed = false, picked = null;
 let exam = null, tick = null;
 
@@ -311,7 +320,8 @@ function lawRef(q){
 /* ---------- 題目集合 ---------- */
 function pool(){
   const d = DECK[subj];
-  let a = d.qs.map((q,i)=>({q,i,k:id(subj,i)}));
+  /* 法規與實務是兩節不同的考試，除了模擬考以外一律分開刷 */
+  let a = d.qs.map((q,i)=>({q,i,k:id(subj,i)})).filter(o => paperOf(d,o.q) === paper);
   if (mode === 'wrong'){
     let w = a.filter(o => isWrong(o.k));
     if (topicSel !== 'ALL') w = w.filter(o => d.topics[o.q[0]] === topicSel);
@@ -517,14 +527,16 @@ function go(step){
 
 function updateBars(){
   updateFlagCount();
-  const total = DECK[subj].qs.length;
-  let seen = 0, right = 0, wrongPool = 0;
-  for (let i = 0; i < total; i++){
+  const dk = DECK[subj];
+  let total = 0, seen = 0, right = 0, wrongPool = 0;
+  dk.qs.forEach((q,i) => {                      // 只統計目前這一科
+    if (paperOf(dk,q) !== paper) return;
+    total++;
     const r = rec(id(subj,i));
     if (r.seen) seen++;
     right += r.r;
     if (isWrong(id(subj,i))) wrongPool++;
-  }
+  });
   if (mode === 'exam' && exam){
     const done = Object.keys(exam.answers).length;
     $('#pbar').style.width = done/exam.n*100 + '%';
@@ -539,8 +551,8 @@ function updateBars(){
 
 function refreshWrongCount(){
   let n = 0;
-  for (const sb of Object.keys(DECK))
-    for (let i = 0; i < DECK[sb].qs.length; i++) if (isWrong(id(sb,i))) n++;
+  const dk = DECK[subj];
+  dk.qs.forEach((q,i) => { if (paperOf(dk,q) === paper && isWrong(id(subj,i))) n++; });
   $('#wcount').textContent = n;
 }
 
@@ -661,12 +673,15 @@ function renderStat(){
        <small>作答 ${x.seen}</small></span></div>`).join('') +
       `<div class="row"><span><b>本輪（進行中）</b></span><small>見下方各科</small></div>`;
   }
-  for (const sb of Object.keys(DECK)){
-    const d = DECK[sb], total = d.qs.length;
-    let seen = 0, r = 0, w = 0, pool = 0;
+  const multiDeck = Object.keys(DECK).length > 1;
+  for (const sb of Object.keys(DECK)) for (const pk of PAPER_KEYS){   // 兩節分開統計
+    const d = DECK[sb];
+    let total = 0, seen = 0, r = 0, w = 0, pool = 0;
     const tp = {};
     d.qs.forEach((q,i) => {
+      if (paperOf(d,q) !== pk) return;
       const o = rec(id(sb,i)), t = d.topics[q[0]];
+      total++;
       tp[t] = tp[t] || {r:0,w:0,seen:0,total:0,pool:0};
       tp[t].total++;
       if (o.seen){ seen++; tp[t].seen++; }
@@ -674,7 +689,7 @@ function renderStat(){
       if (isWrong(id(sb,i))){ pool++; tp[t].pool++; }
     });
     const acc = (r+w) ? r/(r+w)*100 : 0;
-    html += `<h3>${sb}</h3>
+    html += `<h3>${multiDeck?sb+'·':''}${PAPER_LABEL[pk]}</h3>
       <div class="kpi">
         <div><b>${seen}</b><span>做過／${total}</span></div>
         <div><b>${acc.toFixed(0)}%</b><span>正確率</span></div>
@@ -684,7 +699,7 @@ function renderStat(){
     if (wrows.length){
       html += `<div style="font-size:.72em;color:var(--mt);margin:6px 0 2px">待複習錯題分布（點考點直接刷該區錯題）</div>`;
       html += wrows.map(([t,v]) =>
-        `<div class="row" data-wrong="1" data-sb="${sb}" data-t="${t}"><span>${t}</span>
+        `<div class="row" data-wrong="1" data-sb="${sb}" data-p="${pk}" data-t="${t}"><span>${tshort(t)}</span>
          <span class="rate r-bad">${v.pool} 題</span></div>`).join('');
     }
     const rows = Object.entries(tp).filter(([,v]) => v.r+v.w > 0)
@@ -694,7 +709,7 @@ function renderStat(){
       html += `<div style="font-size:.72em;color:var(--mt);margin:6px 0 2px">各考點正確率（低→高，先補最上面的）</div>`;
       html += rows.map(([t,ac,n,seenN,tot]) => {
         const cls = ac < 60 ? 'r-bad' : ac < 75 ? 'r-mid' : 'r-good';
-        return `<div class="row" data-sb="${sb}" data-t="${t}"><span>${t}<br><small>進度 ${seenN}/${tot}</small></span>
+        return `<div class="row" data-sb="${sb}" data-p="${pk}" data-t="${t}"><span>${tshort(t)}<br><small>進度 ${seenN}/${tot}</small></span>
           <span><span class="rate ${cls}">${ac.toFixed(0)}%</span> <small>(${n} 次)</small></span></div>`;
       }).join('');
     } else html += `<div class="empty">還沒有作答紀錄</div>`;
@@ -732,8 +747,8 @@ function renderStat(){
   }
   $('#view').innerHTML = `<div class="panel">${html}</div>`;
   $('#view').querySelectorAll('.row[data-t]').forEach(el => el.onclick = () => {
-    subj = el.dataset.sb; topicSel = el.dataset.t;
-    fillSelects(); setMode(el.dataset.wrong ? 'wrong' : 'quiz');
+    subj = el.dataset.sb; paper = el.dataset.p || paper; topicSel = el.dataset.t;
+    savePaper(); fillSelects(); setMode(el.dataset.wrong ? 'wrong' : 'quiz');
   });
   $('#pbar').style.width = '0';
   $('#pos').textContent = '統計';
@@ -834,6 +849,7 @@ function build(){ list = pool(); idx = 0; render(); }
 function setMode(m){
   mode = m;
   document.querySelectorAll('.modes button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+  $('#subj').disabled = (m === 'exam');      // 模擬考一次考兩節，不分科
   if (m === 'exam'){ startExam(); render(); }
   else { clearInterval(tick); exam = null; build(); }
 }
@@ -841,13 +857,17 @@ function setMode(m){
 function fillSelects(){
   $('#qtype').innerHTML = '<option value="ALL">全部題型</option>' +
     QTYPES.map(x => `<option${x===typeSel?' selected':''}>${x}</option>`).join('');
-  $('#subj').innerHTML = Object.keys(DECK).map(s => `<option${s===subj?' selected':''}>${s}</option>`).join('');
+  const multi = Object.keys(DECK).length > 1;
+  $('#subj').innerHTML = Object.keys(DECK).map(sb => PAPER_KEYS.map(p =>
+    `<option value="${sb}||${p}"${(sb===subj&&p===paper)?' selected':''}>${multi?sb+'·':''}${PAPER_LABEL[p]}</option>`
+  ).join('')).join('');
   $('#topic').innerHTML = '<option value="ALL">全部考點</option>' +
-    DECK[subj].topics.map(t => `<option${t===topicSel?' selected':''}>${t}</option>`).join('');
+    topicsOf(DECK[subj], paper).map(t => `<option value="${t}"${t===topicSel?' selected':''}>${tshort(t)}</option>`).join('');
 }
 
 document.querySelectorAll('.modes button').forEach(b => b.onclick = () => setMode(b.dataset.m));
-$('#subj').onchange = e => { subj = e.target.value; topicSel = 'ALL'; fillSelects(); mode==='exam'?setMode('exam'):build(); };
+$('#subj').onchange = e => { const v = e.target.value.split('||'); subj = v[0]; paper = v[1] || paper;
+  topicSel = 'ALL'; savePaper(); fillSelects(); mode==='exam'?setMode('exam'):build(); };
 $('#topic').onchange = e => { topicSel = e.target.value; build(); };
 $('#qtype').onchange = e => { typeSel = e.target.value; build(); };
 $('#undone').onclick = e => { onlyUndone = !onlyUndone; e.target.classList.toggle('on', onlyUndone); build(); };
@@ -899,11 +919,11 @@ $('#reset').onclick = e => {
 $('#toc').onclick = () => {
   const d = DECK[subj];
   let html = '', n = 0;
-  d.topics.forEach(t => {
+  topicsOf(d, paper).forEach(t => {
     const g = d.qs.map((q,i)=>({q,i})).filter(o => d.topics[o.q[0]] === t);
     let seen = 0, wr = 0;
     g.forEach(o => { if (rec(id(subj,o.i)).seen) seen++; if (isWrong(id(subj,o.i))) wr++; });
-    html += `<div class="row" data-t="${t}"><span>${n+1}–${n+g.length}　${t}</span>
+    html += `<div class="row" data-t="${t}"><span>${n+1}–${n+g.length}　${tshort(t)}</span>
       <small>${seen}/${g.length}${wr?`　<span style="color:var(--rd)">錯 ${wr}</span>`:''}</small></div>`;
     n += g.length;
   });
@@ -923,7 +943,9 @@ document.addEventListener('keydown', e => {
 
 load();
 fetch('deck.json').then(r => r.json()).then(d => {
-  DECK = d; subj = Object.keys(d)[0]; fillSelects(); refreshWrongCount(); build();
+  DECK = d; subj = Object.keys(d)[0];
+  const lp = loadPaper(); if (PAPER_KEYS.indexOf(lp) >= 0) paper = lp;
+  fillSelects(); refreshWrongCount(); build();
   if (window.ExamSync) ExamSync.init({
     app: 'life-drill',
     getState: () => S,
