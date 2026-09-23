@@ -5,6 +5,8 @@ window.XNAV = {
   pages: [
     ['guide.html',      '作戰指南'],
     ['notes.html',      '衝刺筆記'],
+    ['sprint_law.html', '考前衝刺·法規'],
+    ['sprint_prac.html','考前衝刺·實務'],
     ['drill.html',      '刷題器'],
     ['cloze.html',      '事實挖空器'],
     ['analysis.html',   '題庫分析'],
