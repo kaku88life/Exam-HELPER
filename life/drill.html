@@ -54,6 +54,9 @@ select,.btn{border:1px solid var(--cd);background:var(--sf);color:var(--tx);bord
 .verdict.ok{background:rgba(78,122,61,.13);color:var(--gn)}
 .verdict.no{background:rgba(179,69,58,.11);color:var(--rd)}
 .hidden{display:none}
+/* 練習集：從外部連結帶題號進來（?q=543,575&n=名稱&m=quiz） */
+.setbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;padding:6px 9px;border-radius:6px;background:rgba(8,122,115,.10);color:var(--cy);font-size:.78em;font-weight:700}
+.setbar.hidden{display:none}
 
 .acts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px;
   position:sticky;bottom:0;z-index:15;background:var(--bg);
@@ -134,6 +137,7 @@ a{color:var(--cy)}
   </div>
   <div class="prog"><i id="pbar"></i></div>
   <div class="meta"><span id="pos"></span><span id="stat"></span></div>
+  <div class="setbar hidden" id="setbar"><span id="setinfo"></span><button class="btn" id="setclear">離開練習集</button></div>
 </header>
 
 <div id="view"></div>
@@ -159,7 +163,7 @@ a{color:var(--cy)}
 </div>
 </div>
 
-<script src="nav.js?v=12" defer></script>
+<script src="nav.js?v=13" defer></script>
 <script src="../nav.core.js?v=1" defer></script>
 <script src="sync.js?v=6"></script>
 <script>
@@ -184,6 +188,7 @@ const PAPERKEY = KEY + '-paper';
 const savePaper = () => { try { localStorage.setItem(PAPERKEY, paper); } catch(e){} };
 const loadPaper = () => { try { return localStorage.getItem(PAPERKEY); } catch(e){ return null; } };
 let list = [], idx = 0, revealed = false, picked = null;
+let pickSet = null, pickLabel = '';     // 練習集（外部連結帶進來的題號）
 let exam = null, tick = null;
 
 const $ = s => document.querySelector(s);
@@ -324,6 +329,7 @@ function pool(){
   const d = DECK[subj];
   /* 法規與實務是兩節不同的考試，除了模擬考以外一律分開刷 */
   let a = d.qs.map((q,i)=>({q,i,k:id(subj,i)})).filter(o => paperOf(d,o.q) === paper);
+  if (pickSet) a = a.filter(o => pickSet.has(o.i));          // 練習集：只留連結指定的題
   if (mode === 'wrong'){
     let w = a.filter(o => isWrong(o.k));
     if (topicSel !== 'ALL') w = w.filter(o => d.topics[o.q[0]] === topicSel);
@@ -955,11 +961,32 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') go(-1);
 });
 
+function showSet(){
+  $('#setbar').classList.toggle('hidden', !pickSet);
+  if (pickSet) $('#setinfo').textContent = `練習集${pickLabel ? '：' + pickLabel : ''}（${pickSet.size} 題）`;
+}
+$('#setclear').onclick = () => {
+  pickSet = null; pickLabel = '';
+  try { history.replaceState(null, '', location.pathname); } catch(e){}
+  showSet(); build();
+};
+
 load();
 fetch('deck.json').then(r => r.json()).then(d => {
   DECK = d; subj = Object.keys(d)[0];
   const lp = loadPaper(); if (PAPER_KEYS.indexOf(lp) >= 0) paper = lp;
-  fillSelects(); refreshWrongCount(); build();
+  /* 練習集：?q=題號,題號（deck 索引）&n=名稱&m=learn|quiz；科目跟著第一題走，不寫回偏好 */
+  const qp = new URLSearchParams(location.search), dk = d[subj];
+  const qset = (qp.get('q') || '').split(',').map(x => parseInt(x, 10)).filter(n => n >= 0 && n < dk.qs.length);
+  if (qset.length){
+    pickSet = new Set(qset); pickLabel = (qp.get('n') || '').slice(0, 40);
+    paper = paperOf(dk, dk.qs[qset[0]]); topicSel = 'ALL';
+    const m0 = qp.get('m');
+    if (m0 === 'learn' || m0 === 'quiz'){
+      mode = m0; document.querySelectorAll('.modes button').forEach(b => b.classList.toggle('on', b.dataset.m === m0));
+    }
+  }
+  fillSelects(); refreshWrongCount(); build(); showSet();
   if (window.ExamSync) ExamSync.init({
     app: 'life-drill',
     getState: () => S,
