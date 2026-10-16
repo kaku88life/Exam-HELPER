@@ -80,6 +80,9 @@ td:first-child{white-space:nowrap}
 .order .picked .chip{background:var(--ac2);border-color:var(--cy);color:var(--cy);font-weight:700}
 .order .res{font-size:.82em;min-height:1.4em;margin:0}
 .order .res.ok{color:var(--gn)} .order .res.bad{color:var(--rd)}
+.segs{display:flex;gap:6px;margin:0 0 12px}
+.segs a{flex:1;text-align:center;border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:999px;font-size:.82em;padding:9px 10px;text-decoration:none;font-weight:600}
+.segs a.on{background:var(--cy);color:#fff;border-color:var(--cy);font-weight:700}
 .foot{text-align:center;font-size:.7em;color:var(--mt);margin:22px 0;line-height:1.9}
 a{color:var(--cy)}
 @media(max-width:420px){.math{grid-template-columns:repeat(3,minmax(0,1fr))}.bar{grid-template-columns:6em 1fr 2.6em}}
@@ -87,6 +90,8 @@ a{color:var(--cy)}
 </head>
 <body>
 <div class="wrap">
+<div class="segs"><a href="sprint_law.html">第一節 法規</a><a class="on" href="sprint_prac.html">第二節 實務</a></div>
+
 <p class="lead">人身實務 50 題 × 2 分、60 分鐘，是兩科裡的槓桿科。每一章先看綠底的白話例子，懂了為什麼，再看重點表；每段下面的「刷」按鈕會開刷題器，只出那個觀念的相關題目（測驗模式，作答紀錄和平常刷的同步）。最後做本頁的題組，答案全部以題庫為準。</p>
 
 <div class="card">
@@ -699,7 +704,7 @@ document.getElementById('reset').addEventListener('click', e => {
 render();
 </script>
 
-<script src="nav.js?v=13" defer></script>
+<script src="nav.js?v=14" defer></script>
 <script src="../nav.core.js?v=1" defer></script>
 </body>
 </html>
