@@ -25,6 +25,7 @@ table{width:100%;border-collapse:collapse;font-size:.8em}
 th,td{text-align:left;padding:6px;border-bottom:1px solid var(--cd);vertical-align:top}
 th{color:var(--mt)}
 td.n{color:var(--yw);font-weight:700;white-space:nowrap}
+@media(max-width:600px){td.n{white-space:normal}.xtw:not(.nw) td:first-child{min-width:5.5em}.wrap .xtw td:first-child:has(+td.n){white-space:normal;width:45%}}
 .segs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
 .segs button{border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:999px;font-family:inherit;font-size:.76em;padding:6px 11px;cursor:pointer}
 .segs button.on{background:var(--cy);color:#fff;border-color:var(--cy);font-weight:700}
@@ -405,8 +406,8 @@ a{color:var(--cy)}
 </div>
 
 <script src="notes_data.js?v=1"></script>
-<script src="nav.js?v=4" defer></script>
-<script src="../nav.core.js?v=1" defer></script>
+<script src="nav.js?v=5" defer></script>
+<script src="../nav.core.js?v=2" defer></script>
 <script>
 (function(){
   var N = window.CR_NOTES || {};

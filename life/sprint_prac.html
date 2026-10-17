@@ -45,7 +45,8 @@ td:first-child{white-space:nowrap}
 .math div{border:1px solid var(--cd);border-radius:8px;padding:6px 4px;text-align:center;font-size:.78em;color:var(--mt);background:var(--sf)}
 .math b{display:block;font-size:1.25em;font-variant-numeric:tabular-nums}
 .bars{display:flex;flex-direction:column;gap:5px;margin:6px 0}
-.bar{display:grid;grid-template-columns:7em 1fr 3em;align-items:center;gap:8px;font-size:.8em}
+.bar{display:grid;grid-template-columns:8.2em 1fr 3em;align-items:center;gap:8px;font-size:.8em}
+.bar>span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar .t{height:8px;background:var(--ac2);border-radius:4px;overflow:hidden}
 .bar .t i{display:block;height:100%;background:var(--cy);border-radius:4px}
 .bar .n{text-align:right;color:var(--mt);font-variant-numeric:tabular-nums}
@@ -58,6 +59,9 @@ td:first-child{white-space:nowrap}
 .drillhead h3{margin:0}
 .score{font-size:.76em;color:var(--cy);font-variant-numeric:tabular-nums;white-space:nowrap}
 .qs{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.qs[hidden]{display:none}
+.qgo{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 0}
+.qgo .ghost{min-height:36px;font-weight:600}
 .q{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:12px 13px;display:flex;flex-direction:column;gap:8px}
 .q.right{border-color:var(--gn)}
 .q.wrong{border-color:var(--rd)}
@@ -85,14 +89,15 @@ td:first-child{white-space:nowrap}
 .segs a.on{background:var(--cy);color:#fff;border-color:var(--cy);font-weight:700}
 .foot{text-align:center;font-size:.7em;color:var(--mt);margin:22px 0;line-height:1.9}
 a{color:var(--cy)}
-@media(max-width:420px){.math{grid-template-columns:repeat(3,minmax(0,1fr))}.bar{grid-template-columns:6em 1fr 2.6em}}
+@media(max-width:600px){td:nth-child(2):not(:last-child){min-width:7em}}
+@media(max-width:420px){.math{grid-template-columns:1fr;gap:4px}.math div{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 12px;text-align:left}.math b{font-size:1.1em}.bar{grid-template-columns:8.2em 1fr 2.6em}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <div class="segs"><a href="sprint_law.html">第一節 法規</a><a class="on" href="sprint_prac.html">第二節 實務</a></div>
 
-<p class="lead">人身實務 50 題 × 2 分、60 分鐘，是兩科裡的槓桿科。每一章先看綠底的白話例子，懂了為什麼，再看重點表；每段下面的「刷」按鈕會開刷題器，只出那個觀念的相關題目（測驗模式，作答紀錄和平常刷的同步）。最後做本頁的題組，答案全部以題庫為準。</p>
+<p class="lead">人身實務 50 題 × 2 分、60 分鐘，是兩科裡的槓桿科。每一章先看綠底的白話例子，懂了為什麼，再看重點表；每段下面的「刷」按鈕會開刷題器，只出那個觀念的相關題目（測驗模式，作答紀錄和平常刷的同步）。每章最後的題組預設收起：可以一鍵到刷題器練整章，也可以展開在本頁作答；答案全部以題庫為準。</p>
 
 <div class="card">
   <h3>及格數學：法規考幾分，實務就要幾分</h3>
@@ -181,7 +186,8 @@ a{color:var(--cy)}
     <p class="go"><a data-k="nj_trap"></a></p>
   </div>
   <div class="drillhead"><h3>題組</h3><span class="score" data-score="nj"></span></div>
-  <div class="qs" data-sec="nj"></div>
+  <div class="go qgo"><a data-all="nj"></a><button type="button" class="ghost qtog" data-tog="nj" aria-expanded="false">展開題組</button></div>
+  <div class="qs" data-sec="nj" hidden></div>
 
 
 <!-- 費率 -->
@@ -255,7 +261,8 @@ a{color:var(--cy)}
     <p class="go"><a data-k="fl_res"></a></p>
   </div>
   <div class="drillhead"><h3>題組</h3><span class="score" data-score="fl"></span></div>
-  <div class="qs" data-sec="fl"></div>
+  <div class="go qgo"><a data-all="fl"></a><button type="button" class="ghost qtog" data-tog="fl" aria-expanded="false">展開題組</button></div>
+  <div class="qs" data-sec="fl" hidden></div>
 
 
 <!-- 傷害 -->
@@ -313,7 +320,8 @@ a{color:var(--cy)}
     <p class="go"><a data-k="sh_trav"></a></p>
   </div>
   <div class="drillhead"><h3>題組</h3><span class="score" data-score="sh"></span></div>
-  <div class="qs" data-sec="sh"></div>
+  <div class="go qgo"><a data-all="sh"></a><button type="button" class="ghost qtog" data-tog="sh" aria-expanded="false">展開題組</button></div>
+  <div class="qs" data-sec="sh" hidden></div>
 
 
 <!-- 風險管理 -->
@@ -371,7 +379,8 @@ a{color:var(--cy)}
     <p class="go"><a data-k="fx_meth"></a></p>
   </div>
   <div class="drillhead"><h3>題組</h3><span class="score" data-score="fx"></span></div>
-  <div class="qs" data-sec="fx"></div>
+  <div class="go qgo"><a data-all="fx"></a><button type="button" class="ghost qtog" data-tog="fx" aria-expanded="false">展開題組</button></div>
+  <div class="qs" data-sec="fx" hidden></div>
 
 
 <!-- 健康 -->
@@ -414,7 +423,8 @@ a{color:var(--cy)}
     <p class="go"><a data-k="jk_nhi"></a></p>
   </div>
   <div class="drillhead"><h3>題組</h3><span class="score" data-score="jk"></span></div>
-  <div class="qs" data-sec="jk"></div>
+  <div class="go qgo"><a data-all="jk"></a><button type="button" class="ghost qtog" data-tog="jk" aria-expanded="false">展開題組</button></div>
+  <div class="qs" data-sec="jk" hidden></div>
 
 
 <!-- 壽險種類 -->
@@ -455,7 +465,8 @@ a{color:var(--cy)}
     <p class="go"><a data-k="sx_inv"></a></p>
   </div>
   <div class="drillhead"><h3>題組</h3><span class="score" data-score="sx"></span></div>
-  <div class="qs" data-sec="sx"></div>
+  <div class="go qgo"><a data-all="sx"></a><button type="button" class="ghost qtog" data-tog="sx" aria-expanded="false">展開題組</button></div>
+  <div class="qs" data-sec="sx" hidden></div>
 
 
 <!-- 團體微型 -->
@@ -489,7 +500,8 @@ a{color:var(--cy)}
     <p class="go"><a data-k="tw_mic"></a></p>
   </div>
   <div class="drillhead"><h3>題組</h3><span class="score" data-score="tw"></span></div>
-  <div class="qs" data-sec="tw"></div>
+  <div class="go qgo"><a data-all="tw"></a><button type="button" class="ghost qtog" data-tog="tw" aria-expanded="false">展開題組</button></div>
+  <div class="qs" data-sec="tw" hidden></div>
 
 
 <!-- 核保行銷 -->
@@ -527,7 +539,8 @@ a{color:var(--cy)}
     <p class="go"><a data-k="hb_sale"></a></p>
   </div>
   <div class="drillhead"><h3>題組</h3><span class="score" data-score="hb"></span></div>
-  <div class="qs" data-sec="hb"></div>
+  <div class="go qgo"><a data-all="hb"></a><button type="button" class="ghost qtog" data-tog="hb" aria-expanded="false">展開題組</button></div>
+  <div class="qs" data-sec="hb" hidden></div>
 
 
 <!-- 數字對照 -->
@@ -701,10 +714,26 @@ document.getElementById('reset').addEventListener('click', e => {
     setup(); box.appendChild(el);
   });
 })();
+// chapter drill sets: whole-chapter drill link + collapse toggle
+document.querySelectorAll('a[data-all]').forEach(a => {
+  const sec = a.dataset.all, ids = Q.filter(q => q.s === sec).map(q => q.i);
+  if (!ids.length) { a.parentElement.remove(); return; }
+  const h = document.getElementById(sec);
+  const name = h ? h.firstChild.textContent.trim() : '本章';
+  a.href = `${DRILL}?q=${ids.join(',')}&m=quiz&n=${encodeURIComponent(name)}`;
+  a.textContent = `到刷題器練本章全部 ${ids.length} 題`;
+});
+document.querySelectorAll('button[data-tog]').forEach(b => {
+  const box = document.querySelector(`.qs[data-sec="${b.dataset.tog}"]`);
+  const n = Q.filter(q => q.s === b.dataset.tog).length;
+  const label = () => { b.textContent = box.hidden ? `展開題組（${n} 題）` : '收起題組'; b.setAttribute('aria-expanded', !box.hidden); };
+  label();
+  b.addEventListener('click', () => { box.hidden = !box.hidden; label(); });
+});
 render();
 </script>
 
-<script src="nav.js?v=14" defer></script>
-<script src="../nav.core.js?v=1" defer></script>
+<script src="nav.js?v=15" defer></script>
+<script src="../nav.core.js?v=2" defer></script>
 </body>
 </html>

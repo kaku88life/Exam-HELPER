@@ -71,7 +71,9 @@
     '#xsec{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent)}' +
     '#xsec.xs-end{-webkit-mask-image:none;mask-image:none}' +
     /* 浮動鈕：頁尾留白，避免蓋住最後一段內容 */
-    'body.xfab-on{padding-bottom:calc(76px + env(safe-area-inset-bottom))}';
+    'body.xfab-on{padding-bottom:calc(76px + env(safe-area-inset-bottom))}' +
+    /* 衝刺頁：每章底部「上一章／下一章」 */
+    '.xpg{display:flex;gap:8px;margin:20px 0 6px}.xpg>*{flex:1 1 0;min-width:0}.xpg a{display:flex;flex-direction:column;justify-content:center;gap:2px;min-height:48px;padding:8px 12px;border:1px solid #d7ded8;border-radius:10px;background:#fff;color:#087a73;font-weight:700;font-size:.88em;line-height:1.3;text-decoration:none}.xpg a small{color:#66736d;font-weight:600;font-size:.8em}.xpg a.nx{align-items:flex-end;text-align:right}.xpg a:active{border-color:#087a73;background:rgba(8,122,115,.08)}';
 
   css.textContent +=
     /* 錨點跳轉：讓出「頂欄（＋分節 pill 列）」的實際高度，別讓標題被蓋住 */
@@ -202,11 +204,28 @@
       while (n && !(n.nodeType === 1 && n.tagName === 'H2')) { var nx = n.nextSibling; body.appendChild(n); n = nx; }
       h.after(body); h.classList.add('xh'); bodies.push(body);
       if (i > 0) { h.classList.add('closed'); body.classList.add('closed'); }
-      h.addEventListener('click', function(e){ if (e.target.closest('a')) return; h.classList.toggle('closed'); body.classList.toggle('closed'); });
+      h.addEventListener('click', function(e){ if (e.target.closest('a')) return;
+        if (paged && h.classList.contains('closed')) { openSec(h.id); return; }
+        h.classList.toggle('closed'); body.classList.toggle('closed'); });
     });
+    /* 衝刺頁（sprint_*）：一次只開一章，章末給「上一章／下一章」，頁面不會越展越長 */
+    var paged = /^sprint_/.test(here);
     function openSec(id){ var h = document.getElementById(id); if (!h) return; var i = h2s.indexOf(h); if (i < 0) return;
+      if (paged) h2s.forEach(function(x, j){ if (j !== i) { x.classList.add('closed'); bodies[j].classList.add('closed'); } });
       h.classList.remove('closed'); bodies[i].classList.remove('closed'); }
-    function onJump(e){ var a = e.target.closest('a'); if (!a) return; var id = (a.getAttribute('href') || '').slice(1); if (id) openSec(id); }
+    if (paged) {
+      bodies.forEach(function(body, i){
+        var pg = document.createElement('div'); pg.className = 'xpg';
+        pg.innerHTML = (i > 0 ? '<a class="pv" href="#' + h2s[i - 1].id + '"><small>‹ 上一章</small>' + label(h2s[i - 1]) + '</a>' : '<span></span>') +
+          (i < h2s.length - 1 ? '<a class="nx" href="#' + h2s[i + 1].id + '"><small>下一章 ›</small>' + label(h2s[i + 1]) + '</a>' : '<span></span>');
+        body.appendChild(pg);
+      });
+      document.addEventListener('click', function(e){ var a = e.target.closest('.xpg a'); if (!a) return; e.preventDefault();
+        var id = a.getAttribute('href').slice(1); openSec(id);
+        var h = document.getElementById(id); if (h) h.scrollIntoView({block: 'start'}); secMark();
+        try { history.replaceState(null, '', '#' + id); } catch (err) {} });
+    }
+    function onJump(e){ var a = e.target.closest('a'); if (!a) return; var id = (a.getAttribute('href') || '').slice(1); if (id) { openSec(id); setTimeout(secMark, 50); } }
     document.addEventListener('click', function(e){ if (e.target.closest('#xsec, #xsheet')) onJump(e); });
     var allA = document.createElement('a'); allA.href = '#'; allA.className = 'all'; allA.textContent = '全部展開';
     allA.onclick = function(e){ e.preventDefault(); var anyClosed = bodies.some(function(b){ return b.classList.contains('closed'); });
@@ -226,7 +245,15 @@
     document.getElementById('xtop').onclick = function(){ window.scrollTo({top:0, behavior:'smooth'}); };
     sheet.addEventListener('click', function(e){ if (e.target.tagName === 'A') sheetToggle(false); });
     var _bk = back.onclick; back.onclick = function(){ toggle(false); sheetToggle(false); };
-    window.addEventListener('scroll', function(){ fab.classList.toggle('show', window.scrollY > 500); }, {passive:true});
+    /* 往下讀時收起、往上滑才出現，避免手機上蓋住右緣文字 */
+    var lastY = window.scrollY;
+    window.addEventListener('scroll', function(){
+      var y = window.scrollY, d = y - lastY;
+      if (y <= 500) fab.classList.remove('show');
+      else if (d < -6) fab.classList.add('show');
+      else if (d > 6 && !sheet.classList.contains('open')) fab.classList.remove('show');
+      if (Math.abs(d) > 6) lastY = y;
+    }, {passive:true});
   }
 
   /* 既有頁面的 sticky 頂部元素（top:0）統一往下讓出頂欄高度 */

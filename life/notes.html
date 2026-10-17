@@ -22,6 +22,8 @@ table{width:100%;border-collapse:collapse;font-size:.8em}
 th,td{text-align:left;padding:6px;border-bottom:1px solid var(--cd);vertical-align:top}
 th{color:var(--mt)}
 td.n{color:var(--yw);font-weight:700;white-space:nowrap}
+@media(max-width:600px){td.n{white-space:normal}.xtw:not(.nw) td:first-child{min-width:5.5em}.wrap .xtw td:first-child:has(+td.n){white-space:normal;width:45%}}
+.ab td:nth-child(-n+2){white-space:nowrap}
 .hl{border-left:3px solid var(--rd);background:rgba(179,69,58,.06);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.82em;margin:8px 0}
 .hl b{color:var(--rd)}
 .ok{border-left:3px solid var(--gn);background:rgba(78,122,61,.09);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.82em;margin:8px 0}
@@ -254,7 +256,7 @@ a{color:var(--cy)}
 
   <h2>【實務】⑥ 愛互換出題的概念對</h2>
   <div class="card">
-    <table>
+    <table class="ab">
       <tr><th>A</th><th>B</th><th>一句話切開</th></tr>
       <tr><td>保單價值準備金</td><td>責任準備金</td><td>要保人能動用 vs 公司提存的負債</td></tr>
       <tr><td>利變年金甲型</td><td>乙型</td><td>甲型給付期用預定利率鎖死；乙型跟宣告利率浮動</td></tr>
@@ -354,7 +356,7 @@ a{color:var(--cy)}
 
   <h2>【法規】⑫ 必考對照組</h2>
   <div class="card">
-    <table>
+    <table class="ab">
       <tr><th>A</th><th>B</th><th>一句話切開</th></tr>
       <tr><td>減額繳清</td><td>展期定期</td><td>保額減、期間不變 vs 保額不變、期間縮短；改繳清後不可恢復原契約</td></tr>
       <tr><td>解除</td><td>終止</td><td>溯及既往（騙我）vs 向後生效（談不攏）</td></tr>
@@ -390,7 +392,7 @@ a{color:var(--cy)}
     <a href="drill.html">刷題器</a>　·　<a href="cloze.html">事實挖空器</a>　·　<a href="analysis.html">題庫分析</a>　·　<a href="guide.html">作戰指南</a>　·　<a href="../index.html">回總覽</a>
   </div>
 </div>
-<script src="nav.js?v=5" defer></script>
-<script src="../nav.core.js?v=1" defer></script>
+<script src="nav.js?v=6" defer></script>
+<script src="../nav.core.js?v=2" defer></script>
 </body>
 </html>
