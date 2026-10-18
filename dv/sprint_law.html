@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>衍生性商品 考前速記・法規</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a;--ac2:#e6f2ef;--rd2:#f7e6e3;--gn2:#e8f1e3;--yl:#fff4cc}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65}
+.wrap{max-width:640px;margin:0 auto;padding:14px 14px 60px}
+h2{font-size:1.02em;margin:22px 0 7px;line-height:1.45}
+h2 .n{display:block;font-size:.68em;color:var(--mt);font-weight:400;margin-top:2px}
+h3{font-size:.95em;margin:16px 0 6px;border-left:4px solid var(--cy);padding-left:9px}
+p{margin:6px 0}
+b{color:var(--cy)}
+.lead{font-size:.82em;color:var(--mt);margin-bottom:10px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:13px 14px;margin:10px 0}
+.card h3{margin-top:0}
+.small{font-size:.8em;color:var(--mt)}
+.num{font-variant-numeric:tabular-nums}
+.key ul{padding-left:20px;margin:6px 0;font-size:.88em}
+.key li{margin:4px 0}
+.key>p{font-size:.88em}
+.tbl{overflow-x:auto;margin:8px 0;background:var(--sf);border:1px solid var(--cd);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:.8em}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--cd);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{color:var(--mt);background:#eef1ee;font-weight:600}
+td:first-child{white-space:nowrap}
+.trap{background:var(--rd2);border-left:3px solid var(--rd);padding:9px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.86em}
+.trap b{color:var(--rd)}
+.case{background:var(--ac2);border-left:3px solid var(--cy);padding:10px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.88em;display:flex;flex-direction:column;gap:6px}
+.case .lab{font-size:.78em;font-weight:800;color:var(--cy);letter-spacing:.06em}
+.case p{margin:0}
+.case ul{padding-left:18px;margin:0}
+.case li{margin:3px 0}
+.case .src{font-size:.78em;color:var(--mt)}
+.go{margin:6px 0}
+.go a{display:inline-flex;align-items:center;gap:6px;max-width:100%;text-decoration:none;color:var(--cy);border:1px solid var(--cy);border-radius:999px;padding:6px 12px;font-size:.8em;font-weight:700;background:var(--sf);line-height:1.4;min-height:36px}
+.go a::before{content:"刷";display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--cy);color:#fff;font-size:.78em;flex:0 0 auto}
+.go a:active{background:var(--ac2)}
+.math{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:8px 0}
+.math div{border:1px solid var(--cd);border-radius:8px;padding:6px 4px;text-align:center;font-size:.78em;color:var(--mt);background:var(--sf)}
+.math b{display:block;font-size:1.25em;font-variant-numeric:tabular-nums}
+.bars{display:flex;flex-direction:column;gap:5px;margin:6px 0}
+.bar{display:grid;grid-template-columns:8.2em 1fr 3em;align-items:center;gap:8px;font-size:.8em}
+.bar>span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t{height:8px;background:var(--ac2);border-radius:4px;overflow:hidden}
+.bar .t i{display:block;height:100%;background:var(--cy);border-radius:4px}
+.bar .n{text-align:right;color:var(--mt);font-variant-numeric:tabular-nums}
+.foot{text-align:center;font-size:.7em;color:var(--mt);margin:22px 0;line-height:1.9}
+a{color:var(--cy)}
+@media(max-width:600px){td:nth-child(2):not(:last-child){min-width:7em}}
+@media(max-width:420px){.math{grid-template-columns:1fr;gap:4px}.math div{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 12px;text-align:left}.math b{font-size:1.1em}.bar{grid-template-columns:8.2em 1fr 2.6em}}
+/* dv 筆記片段沿用的 class：對應到 life 版型 */
+.card ul,.card ol,.must ul,.must ol{padding-left:20px;margin:6px 0;font-size:.88em}
+.card li,.must li{margin:4px 0}
+.card>p,.must>p{font-size:.88em}
+.must{background:var(--yl);border-left:3px solid var(--yw);padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0}
+.must h3{border-left:0;padding-left:0;margin-top:0;color:var(--yw)}
+span.num{color:var(--vi);font-weight:700}
+span.trap{color:var(--rd);font-weight:700;background:none;border:0;padding:0;margin:0;font-size:inherit;border-radius:0}
+.tbl table.cmp td:first-child{white-space:normal;min-width:5.5em}
+h3.sub{font-size:1em;margin:24px 0 6px;border-left-color:var(--vi)}
+.segs{display:flex;gap:6px;margin:0 0 12px}
+.segs a{flex:1;text-align:center;border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:999px;font-size:.82em;padding:9px 10px;text-decoration:none;font-weight:600}
+.segs a.on{background:var(--cy);color:#fff;border-color:var(--cy);font-weight:700}
+.bar{grid-template-columns:7em 1fr 4.2em}
+@media(max-width:420px){.bar{grid-template-columns:7em 1fr 4.2em}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="segs"><a class="on" href="sprint_law.html">法規</a><a href="sprint_prac.html">概論·風險·會計</a></div>
+
+<p class="lead">法規 23 題、約 38.5 分，是整份考卷最大的一塊。衍商自律規範和外匯管理辦法各一章，最後一章把所有數字排成一張表。每章開頭的「刷」按鈕會開刷題器，只出那一章的題目（測驗模式，作答紀錄和平常刷的同步）。<span class="num">藍字</span>是數字，<span class="trap">紅字</span>是易混陷阱，黃框是歷屆最常回鍋的必考句。</p>
+
+<div class="card">
+  <h3>及格數學：60 題 90 分鐘，70 分及格</h3>
+  <p class="small">前 40 題每題 1.5 分、後 20 題每題 2 分。每一區塊的平均每題分數都接近 1.67 分，所以大約要對 42 題。法規 23 題對得愈多，其他 37 題就能錯愈多。</p>
+  <div class="math"><div>法規對 23<b>其他約 19</b>共 37 題</div><div>法規對 20<b>其他約 22</b>共 37 題</div><div>法規對 18<b>其他約 24</b>共 37 題</div><div>法規對 15<b>其他約 27</b>共 37 題</div><div>法規對 12<b>其他約 30</b>共 37 題</div></div>
+</div>
+<div class="card">
+  <h3>考卷怎麼分（第 20 屆實測，各屆會微幅浮動）</h3>
+  <div class="bars"><div class="bar"><span>法規 23 題</span><span class="t"><i style="width:100%"></i></span><span class="n">38.5 分</span></div><div class="bar"><span>實務 21 題</span><span class="t"><i style="width:86%"></i></span><span class="n">33 分</span></div><div class="bar"><span>風險 8 題</span><span class="t"><i style="width:38%"></i></span><span class="n">14.5 分</span></div><div class="bar"><span>會計 8 題</span><span class="t"><i style="width:36%"></i></span><span class="n">14 分</span></div></div>
+  <p class="small" style="margin:0">第 1–40 題依序是法規 15、風險 3、會計 4、實務 18；第 41–60 題依序是法規 8、風險 5、會計 4、實務 3。刷題器的模擬考照這個配置抽題。</p>
+</div>
+<p class="go"><a href="drill.html?q=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250&m=quiz&n=%E9%80%9F%E8%A8%98%E6%B3%95%E8%A6%8F">到刷題器練這一頁全部 251 題</a></p>
+
+<h2 id="rule-internal">衍商內部作業辦法<span class="n">和下一章合計約 16 題</span></h2>
+<p class="go"><a href="drill.html?q=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170&m=quiz&n=%E8%A1%8D%E5%95%86%E5%85%A7%E9%83%A8%E4%BD%9C%E6%A5%AD%E8%88%87%E8%87%AA%E5%BE%8B%E8%A6%8F%E7%AF%84">到刷題器練「衍商內部作業與自律規範」171 題</a></p>
+<p class="lead">這部辦法由銀行法第 45 條之 1 授權訂定，規範銀行內部如何核准、限制與管理衍生性金融商品業務。考題多半圍繞「哪些商品排除在外」、「什麼條件下只能避險」、「非避險的損失上限怎麼算」三個核心。</p>
+
+<div class="card">
+<h3>適用範圍與排除項目</h3>
+<ul>
+<li>辦法第 2 條把 <b>資產證券化商品、結構型債券、可轉換公司債與境外結構型商品</b> 排除在本辦法的適用範圍之外。</li>
+<li>排除不代表完全不管，這些商品仍有其他規範來源，考試時看到「不屬於本辦法」就要想到第 2 條。</li>
+<li><span class="trap">陷阱</span>：題目常把「結構型商品」與「境外結構型商品」混在一起問，記得後者是被排除的一類。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>董事會與風險管理的權責</h3>
+<ul>
+<li>第 6 條要求董事會 <span class="num">每年至少一次</span> 檢視經營策略與作業準則。</li>
+<li>第 11 條規定銀行要訂定風險容忍度與各項 <b>限額</b>，風險容忍度屬於董事會層級的決定事項。</li>
+<li><span class="trap">陷阱</span>：題目若寫成「由高階主管共同訂定即可」，通常是錯的，核心決策仍須提報董事會審定。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>承作資格與避險限制</h3>
+<ul>
+<li>第 5 條規定申請辦理業務的條件之一，是 <b>逾期放款比率</b> 維持在 <span class="num">3%</span> 以下。</li>
+<li>第 12 條規定逾期放款比率 <span class="num">超過 3%</span> 時，銀行只能辦理 <b>避險</b> 性質的交易，不得從事非避險交易。</li>
+</ul>
+<div class="tbl"><table class="cmp">
+<thead><tr><th>情境</th><th>可以做什麼</th><th>出題提示</th></tr></thead>
+<tbody>
+<tr><td>逾放比率 3% 以下</td><td>符合條件者可申請辦理業務</td><td>注意是「以下」，3% 本身仍在範圍內</td></tr>
+<tr><td>逾放比率超過 3%</td><td>僅得從事避險交易</td><td>超過 3% 才觸發，等於 3% 不受限</td></tr>
+</tbody>
+</table></div>
+</div>
+
+<div class="card">
+<h3>非避險交易的損失上限（第 24 條）</h3>
+<ul>
+<li>匯率類商品的期限不得超過 <span class="num">1 年</span>，比價或結算期數不得超過 <span class="num">12 期</span>，非避險交易的個別損失上限為 <span class="num">3.6 倍</span>。</li>
+<li>非匯率類商品若為非避險交易，期數 12 期以下的損失上限為 <span class="num">6 倍</span>，超過 12 期則為 <span class="num">9.6 倍</span>。</li>
+<li><b>平均單期名目本金</b> 的算法是「不計槓桿的總名目本金，除以期數」，不是用計入槓桿後的數字。</li>
+<li><span class="trap">陷阱</span>：計算題常給出含槓桿的名目與不含槓桿的名目兩個數字，先確認題目要求的是哪一個。</li>
+</ul>
+<div class="tbl"><table class="cmp">
+<thead><tr><th>類別</th><th>期限或期數</th><th>非避險個別損失上限</th></tr></thead>
+<tbody>
+<tr><td>匯率類</td><td>期限 1 年以內，比價 12 期以內</td><td>3.6 倍</td></tr>
+<tr><td>非匯率類</td><td>12 期以下</td><td>6 倍</td></tr>
+<tr><td>非匯率類</td><td>超過 12 期</td><td>9.6 倍</td></tr>
+</tbody>
+</table></div>
+<p><b>計算例</b>：某匯率類 TRF 共 6 期，每期名目 1 百萬美元，平均單期名目本金為 (6 × 1) ÷ 6 = 1 百萬美元，非避險損失上限以 3.6 倍計，為 3.6 百萬美元。（先判斷屬於匯率類或非匯率類，再套對應倍數。）</p>
+</div>
+
+<div class="card">
+<h3>經辦人員與客戶交易額度</h3>
+<ul>
+<li>第 19 條規定經辦人員須完成 <span class="num">60 小時</span> 的相關課程，並取得合格證書。</li>
+<li>第 20 條規定客戶的衍生性金融商品交易額度，須申報至 <b>金融聯合徵信中心</b>。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>客戶屬性、商品屬性與說明義務（第 26、29 條）</h3>
+<ul>
+<li>第 29 條要求客戶屬性與商品屬性各至少分 <span class="num">3 個等級</span> 來評估適合度。</li>
+<li>客戶屬性評估的考量因素<b>不包括</b>學歷與宗教信仰。另依第 29-1 條，最近一年內交易筆數低於 <span class="num">5</span> 筆、教育程度國中畢業以下或領有重大傷病證明的客戶，銀行不得主動推介；舊版的年齡標準現行已刪除。</li>
+<li>第 26 條規定自然人一般客戶在交易前，必須收到說明書與風險預告書，並由專人解說後完成確認。</li>
+<li>法人一般客戶依第 26 條第二項仍須建立內部程序，不因屬法人而免除。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>審閱期間（第 30 條）</h3>
+<ul>
+<li>標準化商品且存續期間 <span class="num">超過 6 個月</span> 者，審閱期間為一般客戶 <span class="num">至少 7 日</span>、專業客戶 <span class="num">至少 3 日</span>。</li>
+<li><span class="trap">陷阱</span>：題目常把一般與專業客戶的日數對調，記住一般較長。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>結構型商品的銷售限制（第 33 條）</h3>
+<ul>
+<li>結構型商品只能賣給 <b>專業客戶</b>。</li>
+<li>不得以一般性廣告或公開勸誘的方式招攬，這點是常見的錯誤選項。</li>
+</ul>
+</div>
+
+<div class="must">
+<h3>必考句</h3>
+<ol>
+<li>辦法第 2 條把資產證券化、結構型債券、可轉換公司債與境外結構型商品排除在適用範圍之外。</li>
+<li>逾期放款比率超過 3% 時，銀行只能從事避險交易，不能辦理非避險交易。</li>
+<li>董事會每年至少要檢視一次經營策略與作業準則，風險容忍度與限額也須由董事會層級決定。</li>
+<li>匯率類商品的期限不得超過一年，比價或結算期數不得超過 12 期。</li>
+<li>非匯率類商品的非避險損失上限，12 期以下為 6 倍，超過 12 期為 9.6 倍。</li>
+<li>平均單期名目本金以不計槓桿的總名目除以期數計算，不能以含槓桿的數字代入。</li>
+<li>經辦人員須完成 60 小時課程並取得合格證書，客戶交易額度要申報至金融聯合徵信中心。</li>
+<li>學歷與宗教不納入客戶屬性評估，客戶與商品屬性各至少分三個等級。</li>
+<li>標準化商品存續期間超過 6 個月時，一般客戶審閱至少 7 日，專業客戶審閱至少 3 日。</li>
+<li>結構型商品只能銷售予專業客戶，且不得以一般性廣告或公開勸誘方式招攬。</li>
+</ol>
+</div>
+
+
+<h2 id="rule-self">衍商自律規範<span class="n">和上一章合計約 16 題</span></h2>
+<p class="go"><a href="drill.html?q=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170&m=quiz&n=%E8%A1%8D%E5%95%86%E5%85%A7%E9%83%A8%E4%BD%9C%E6%A5%AD%E8%88%87%E8%87%AA%E5%BE%8B%E8%A6%8F%E7%AF%84">到刷題器練「衍商內部作業與自律規範」171 題</a></p>
+<p class="lead">自律規範由銀行公會訂定，補足法規沒有細講的實務門檻，包含保證金、往來資力、保本條件、專業客戶認定與錄音保存等。</p>
+
+<div class="card">
+<h3>期初保證金</h3>
+<ul>
+<li>屬於複雜性高風險的商品，期初保證金不得低於 <span class="num">2%</span>。</li>
+<li>匯率類商品若隱含賣出選擇權，且期限超過一年，期初保證金應不低於 <span class="num">5%</span>。</li>
+<li>依解釋令 10600064740 規定，上述數字是判斷保證金是否足額的基準。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>可驗證往來資力與高風險額度</h3>
+<ul>
+<li>依解釋令 10600064741，高風險商品的交易額度上限為客戶 <b>可驗證往來資力</b> 的 <span class="num">250%</span>。</li>
+<li><span class="trap">陷阱</span>：題目可能給出資力金額後要求換算額度，記得是乘以 250%，而不是 100%。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>保本型與不保本型的到期結算</h3>
+<ul>
+<li>保本型商品到期時，須取回 <span class="num">100%</span> 的原計價幣別本金。</li>
+<li>不保本型商品若為自然人一般客戶，到期結算金額至少要有本金的 <span class="num">70%</span>。</li>
+</ul>
+<div class="tbl"><table class="cmp">
+<thead><tr><th>商品類型</th><th>到期結算要求</th></tr></thead>
+<tbody>
+<tr><td>保本型</td><td>取回原計價幣別本金 100%</td></tr>
+<tr><td>不保本型（自然人一般客戶）</td><td>到期結算至少本金 70%</td></tr>
+</tbody>
+</table></div>
+</div>
+
+<div class="card">
+<h3>黃金連結與外匯連結的門檻</h3>
+<ul>
+<li>黃金連結商品期限不超過 <span class="num">6 個月</span>，門檻為等值 <span class="num">1 萬美元</span>（含）以上。</li>
+<li>外幣匯率連結商品期限不超過 <span class="num">3 個月</span>，門檻同為 1 萬美元（含）以上。</li>
+<li><span class="trap">陷阱</span>：題目常把黃金與外匯的期限對調，黃金是 6 個月、外匯是 3 個月。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>專業客戶認定門檻</h3>
+<ul>
+<li>專業客戶包括 PII（專業投資人）、淨資產超過 <span class="num">200 億元</span> 的 HWII，以及符合財力條件的自然人與法人。</li>
+<li>自然人作為專業客戶的財力門檻為 <span class="num">3000 萬元</span>。</li>
+<li>外國法人的專業客戶門檻為 <span class="num">5000 萬元</span>，此項與題庫答案有出入，作答前請再核對題目條件。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>錄音與留存期限</h3>
+<ul>
+<li>銷售過程的錄音，保存期間為商品存續期間加 <span class="num">3 個月</span>，且至少保存 <span class="num">5 年</span>。</li>
+<li>兩者取較長者，所以短期商品仍要保存滿五年。</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>金融消費爭議與複雜性商品分類</h3>
+<ul>
+<li>金融消費爭議評議有金額門檻，<span class="num">100 萬元</span> 為其中一個關鍵數字，題目多會要求判斷是否在評議範圍內。</li>
+<li>複雜性高風險商品的判斷，常看期數長短與是否隱含賣出選擇權，陽春型選擇權與遠期通常不屬之。</li>
+</ul>
+</div>
+
+<div class="must">
+<h3>必考句</h3>
+<ol>
+<li>複雜性高風險商品的期初保證金不得低於 2%，匯率類隱含賣出且期限超過一年者不得低於 5%。</li>
+<li>高風險商品的交易額度上限為客戶可驗證往來資力的 250%。</li>
+<li>保本型商品到期須取回原計價幣別本金的 100%，不保本型自然人一般客戶到期結算至少要有 70%。</li>
+<li>黃金連結商品期限不超過 6 個月，外幣匯率連結商品期限不超過 3 個月，門檻皆為等值 1 萬美元（含）以上。</li>
+<li>專業客戶中的 HWII 須淨資產超過 200 億元，自然人財力門檻為 3000 萬元。</li>
+<li>錄音保存期間為存續期間加 3 個月，且至少保存 5 年。</li>
+<li>自然人一般客戶不得購買複雜性高風險商品，法人與專業客戶的適用範圍另依規定。</li>
+<li>自然人一般客戶單項商品限買入陽春型選擇權等項目，信用違約交換不在其內，題目若列為可承作即屬錯誤。</li>
+</ol>
+</div>
+
+<div class="card">
+<h3>數字對照表</h3>
+<div class="tbl"><table class="cmp">
+<thead><tr><th>分類</th><th>數字</th><th>適用情境</th><th>所屬規定</th></tr></thead>
+<tbody>
+<tr><td>億元</td><td>200 億元</td><td>HWII 淨資產超過此額度即屬專業客戶</td><td>自律規範</td></tr>
+<tr><td>萬元／萬美元</td><td>3000 萬元、5000 萬元、100 萬元、1 萬美元</td><td>自然人財力門檻、外國法人門檻、評議金額、黃金與外匯門檻（含）</td><td>自律規範</td></tr>
+<tr><td>日</td><td>7 日、3 日</td><td>標準化且存續超過 6 個月時，一般客戶審閱 7 日以上，專業客戶 3 日以上</td><td>內部作業辦法第 30 條</td></tr>
+<tr><td>%</td><td>3%、2%、5%、250%、70%、100%</td><td>逾放比率上限、期初保證金、往來資力額度、不保本與保本到期結算</td><td>兩者皆有，見各節</td></tr>
+<tr><td>年</td><td>1 年、5 年</td><td>匯率類期限上限 1 年，錄音至少保存 5 年</td><td>內部作業辦法第 24 條、自律規範</td></tr>
+<tr><td>個月</td><td>6 個月、3 個月</td><td>黃金連結期限上限、外幣匯率連結期限上限；審閱適用門檻為存續期間超過 6 個月</td><td>自律規範、內部作業辦法第 30 條</td></tr>
+<tr><td>小時</td><td>60 小時</td><td>經辦人員必須完成的課程時數，另需合格證書</td><td>內部作業辦法第 19 條</td></tr>
+<tr><td>倍</td><td>3.6 倍、6 倍、9.6 倍</td><td>匯率類非避險上限 3.6 倍；非匯率類 12 期以下 6 倍，超過 12 期 9.6 倍</td><td>內部作業辦法第 24 條</td></tr>
+<tr><td>期</td><td>12 期</td><td>匯率類比價或結算期數上限，也是非匯率類倍數分界點</td><td>內部作業辦法第 24 條</td></tr>
+</tbody>
+</table></div>
+<p>使用時先確認題目問的是「上限」還是「下限」，再看數字屬於哪一類規定；同一數字（如 3%）在不同規定中可能代表不同意義。</p>
+</div>
+
+<h2 id="fx">外匯業務管理辦法<span class="n">外匯業務管理辦法 約 7 題</span></h2>
+<p class="go"><a href="drill.html?q=171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250&m=quiz&n=%E5%A4%96%E5%8C%AF%E6%A5%AD%E5%8B%99%E7%AE%A1%E7%90%86%E8%BE%A6%E6%B3%95">到刷題器練「外匯業務管理辦法」80 題</a></p>
+
+  <div class="card">
+    <h3>法源、主管機關與基本定義</h3>
+    <ul>
+      <li>本辦法依 <b>中央銀行法</b> 第 <span class="num">35</span> 條第 2 項授權訂定，<b>中央銀行</b>為業務主管機關，<b>金融監督管理委員會</b>為行政主管機關。</li>
+      <li><b>指定銀行</b>是經中央銀行許可辦理外匯業務並發給指定證書的銀行或農業金庫；<span class="trap">信用合作社與農漁會信用部不得申請，不屬於指定銀行</span>。</li>
+      <li>以外幣計價或交割，或連結國外風險標的，都屬於「涉及外匯」的業務。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>114 年 7 月 15 日修正：公布不等於生效</h3>
+    <ul>
+      <li>本次修正條文為第 <span class="num">5、8、18、19、21～23、28、29、31、47</span> 條，增訂第 <span class="num">38-1</span> 條，刪除第 <span class="num">45</span> 條。</li>
+      <li>第 <span class="num">55</span> 條規定<b>自發布日施行</b>；判斷是否生效要看施行規定，<span class="trap">不可因條文已公布或草案已出現，就認定已生效</span>。</li>
+      <li>本頁一律以 114 年 7 月 15 日修正後條文為準；舊題考到已修掉的規定時，刷題器已改成現行考法。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>得逕行辦理與應申請、函報的分類</h3>
+    <div class="tbl"><table class="cmp">
+      <thead>
+        <tr><th>類別</th><th>適用商品或情形</th><th>條文</th><th>114 年修正</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>得不經申請逕行辦理</b></td><td>換匯；非新臺幣商品之再組合；非新臺幣期貨交易人身分。<span class="trap">無本金交割遠期外匯（NDF）不在此列</span></td><td>第 12 條</td><td>條文未修正，但 NDF 排除規定屬現行內容</td></tr>
+        <tr><td><b>開辦前申請許可</b></td><td>涉及臺幣匯率的商品；NDF；尚未開放或未滿半年的商品；外幣保證金代客操作</td><td>第 13 條</td><td>未修正</td></tr>
+        <tr><td><b>開辦前函報備查</b></td><td>推介業務；總行授權分行辦理</td><td>第 13 條</td><td>未修正</td></tr>
+        <tr><td><b>開辦後函報備查</b></td><td>已滿半年且未涉臺幣的商品；專業機構；境外資訊諮詢（須金管會核准後）</td><td>第 13 條</td><td>未修正</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>第 31 條：遠期、換匯、NDF 與新臺幣選擇權（114 年修正）</h3>
+    <div class="tbl"><table class="cmp">
+      <thead>
+        <tr><th>商品</th><th>承作對象</th><th>文件與查驗</th><th>其他重點</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>遠期外匯（DF）</b></td>
+          <td>以有實際外匯收支需要者為限</td>
+          <td>訂約與交割時查核實際收支文件，或本行或主管機關核准文件（114 年修正為「或主管機關」）</td>
+          <td>同一筆需要不得重複簽約；承作期限依實際需要訂定；展期依當時市場匯率重訂價格，<span class="trap">不得依原價格展期</span></td>
+        </tr>
+        <tr>
+          <td><b>換匯（FX SWAP）</b></td>
+          <td>國內外法人及國外自然人</td>
+          <td>國內法人免附文件；國外法人及自然人須查驗本行或主管機關核准文件</td>
+          <td>同時辦理兩筆金額相等、方向相反、到期日不同的交易；展期重訂價格；交割交易日報於次營業日報送</td>
+        </tr>
+        <tr>
+          <td><b>無本金交割遠期外匯（NDF）</b></td>
+          <td>國內指定銀行間、本國指定銀行與其海外分行、外國銀行在臺分行與其總（母）行及分行<br><span class="trap">三種組合都可以承作，不要漏掉本國指定銀行與其海外分行</span></td>
+          <td>契約與 DF 區隔</td>
+          <td>不得展期、不得提前解約；到期一律現金差價交割；不得以保證金交易槓桿；非經許可不得與其他商品組合；每筆 <span class="num">500</span> 萬美元以上應立即電告央行外匯局</td>
+        </tr>
+        <tr>
+          <td><b>新臺幣選擇權</b></td>
+          <td>國內外法人</td>
+          <td>差額或總額交割，以及權利金與履約交割幣別，應於契約訂明</td>
+          <td>僅限陽春型；非經許可不得自行組合或與其他商品組合</td>
+        </tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>第 47 條：受理申報門檻（110 年舊版與 114 年現行對照）</h3>
+    <div class="tbl"><table class="cmp">
+      <thead>
+        <tr><th>項目</th><th>110 年舊規定</th><th>114 年 7 月 15 日現行</th><th>易混點</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>即期，公司、有限合夥、行號</td>
+          <td><span class="num">100</span> 萬美元，訂約日立即申報</td>
+          <td>達等值 <span class="num">100</span> 萬美元以上，應於訂約日之次營業日中午 <span class="num">12</span> 時前傳送</td>
+          <td><span class="trap">「訂約日立即申報」是舊規定，現行一律是次營業日中午 12 時前</span></td>
+        </tr>
+        <tr>
+          <td>即期，個人與團體</td>
+          <td><span class="num">50</span> 萬美元，訂約日立即申報</td>
+          <td>無個人與團體的立即申報規定，同樣門檻適用次營業日中午前傳送</td>
+          <td><span class="trap">選項出現「個人 50 萬美元」或「立即申報」，依現行條文都是錯的</span></td>
+        </tr>
+        <tr>
+          <td>遠期</td>
+          <td><span class="num">100</span> 萬美元，次營業日中午前</td>
+          <td>達等值 <span class="num">100</span> 萬美元以上，次營業日中午 <span class="num">12</span> 時前傳送（含 NDF 海外分行，依第 2 項）</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>NDF 與新臺幣相關交易（選項比較）</td>
+          <td>未另列</td>
+          <td>依第 47 條第 1 項與第 2 項，門檻與時限同上</td>
+          <td><span class="trap">NDF 每筆 500 萬美元以上另依第 31 條立即電告外匯局，兩個門檻並存，不要混用</span></td>
+        </tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>經辦人員、主管機關與其他現行規定</h3>
+    <ul>
+      <li>第 14 條（未修正）：經辦人員需完成 60 小時課程並取得合格證書，另須實習一年、實際經驗半年；每年至少 6 小時訓練，其中至少一半為法規或缺失案例。</li>
+      <li><span class="trap">衍生性金融商品銷售人員測驗合格不是經辦人員的資格條件</span>，選項把它列進去就是錯的。</li>
+      <li>第 28 條（114 年修正）：開辦後六個月內未開辦，將被停辦、廢止或撤銷；有正當理由者可延長三個月，且只能延長一次。</li>
+      <li>第 31 條末段：換匯與「期初期末皆交換本金」的 CCS 本金，可排除於當年累積結匯；其他型態 CCS <span class="trap">不得排除</span>。</li>
+      <li><span class="trap">第 45 條（各幣別交易部位與交易員隔夜部位限額）現行已刪除</span>；總部位限額改看第 44 條：經董事會核定（外國銀行為總行或區域總部文件），報外匯局同意後實施。</li>
+    </ul>
+  </div>
+
+  <div class="must">
+    <h3>必考句</h3>
+    <ol>
+      <li>指定銀行是經中央銀行許可辦理外匯業務並發給指定證書的銀行或農業金庫，信用合作社與農漁會信用部不得申請。</li>
+      <li>無本金交割遠期外匯（NDF）屬於不得經申請逕行辦理的項目，不得依第 12 條直接承作。</li>
+      <li>遠期外匯以有實際外匯收支需要者為限，展期時須依當時市場匯率重訂價格，不得依原價格展期。</li>
+      <li>NDF 不得展期、不得提前解約，到期一律以現金差價交割，每筆 500 萬美元以上應立即電告央行外匯局。</li>
+      <li>換匯交易須同時辦理兩筆金額相等、方向相反、到期日不同的交易，國外法人及自然人須查驗本行或主管機關核准文件。</li>
+      <li>第 47 條於 114 年 7 月 15 日修正後，達等值 100 萬美元以上者於次營業日中午 12 時前傳送，已無個人與團體的立即申報規定。</li>
+      <li>第 55 條規定修正條文自發布日施行，判斷效力時應以條文的施行規定為準，不能只憑公布或草案消息。</li>
+      <li>第 45 條現行已刪除；總部位限額依第 44 條由董事會核定，報外匯局同意後實施。</li>
+    </ol>
+  </div>
+
+
+<h2 id="numbers">數字總整理<span class="n">法規數字總表，兩部法規都會用到</span></h2>
+
+
+  <div class="card">
+    <h3>一、衍生性金融商品法規（內部作業辦法與金管會規定）</h3>
+    <div class="tbl"><table class="cmp">
+      <thead>
+        <tr><th>數字</th><th>規定</th><th>法源</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="num">3%</span></td>
+          <td>申請辦理衍生性金融商品業務，申請日上一季底逾放比率應在 3% 以下；已核准的銀行若最近一季底逾放比率高於 3%，只能承作避險目的交易</td>
+          <td>內部作業辦法第 5 條、第 12 條</td>
+        </tr>
+        <tr>
+          <td><span class="num">250%</span>（2.5 倍）</td>
+          <td>對非專業客戶提供非結構型商品交易，核給交易額度不得超過其可驗證往來資力的 250%</td>
+          <td>內部作業辦法第 20 條授權金管會訂定的額度控管規定</td>
+        </tr>
+        <tr>
+          <td><span class="num">2%</span></td>
+          <td>複雜性高風險商品，每筆交易的期初保證金<span class="trap">不得低於</span>契約總名目本金 2%</td>
+          <td>內部作業辦法第 20 條授權金管會訂定的期初保證金最低標準</td>
+        </tr>
+        <tr>
+          <td><span class="num">5%</span>（期初保證金）</td>
+          <td>對專業機構投資人及高淨值投資法人以外的客戶，辦理期限超過一年且隱含賣出選擇權的匯率類商品，期初保證金最低標準為契約總名目本金的 5%</td>
+          <td>同上（金管會最低標準）</td>
+        </tr>
+        <tr>
+          <td><span class="num">5%</span>（股權）</td>
+          <td>因避險目的持有的股票得不計入投資限額，但持有每一公司股份<span class="trap">仍不得超過</span>該公司已發行股份總數 5%</td>
+          <td>金管會規定</td>
+        </tr>
+        <tr>
+          <td><span class="num">一年</span> ／ <span class="num">12 期</span> ／ <span class="num">3.6 倍</span></td>
+          <td>對非專業客戶的匯率類複雜性高風險商品：契約期限不得超過一年、比價或結算期數不得超過 12 期，非避險交易的個別交易損失上限<span class="trap">不得超過</span>平均單期名目本金 3.6 倍</td>
+          <td>內部作業辦法第 25-1 條</td>
+        </tr>
+        <tr>
+          <td><span class="num">6 倍</span> / <span class="num">9.6 倍</span></td>
+          <td>非匯率類複雜性高風險、非避險交易：比價或結算期數 <span class="num">12</span> 期（含）以內為 6 倍；超過 12 期為 9.6 倍<span class="trap">，不要把 12 期以內與超過 12 期的倍數對調</span></td>
+          <td>內部作業辦法第 25-1 條</td>
+        </tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>二、外匯業務法規（已對照 114 年 7 月 15 日修正後條文）</h3>
+    <div class="tbl"><table class="cmp">
+      <thead>
+        <tr><th>數字</th><th>規定</th><th>條文與修正</th><th>易混點</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="num">50</span> 萬美元</td>
+          <td>舊版個人與團體即期交易的立即申報門檻</td>
+          <td>第 47 條，現行已刪除</td>
+          <td><span class="trap">選項出現這個數字，依現行條文判斷為錯</span></td>
+        </tr>
+        <tr>
+          <td><span class="num">50</span> 萬元（新臺幣）</td>
+          <td>非共同營業時間，每筆結匯未達新臺幣 50 萬元或等值外幣</td>
+          <td>第 42 條，未修正</td>
+          <td>與上列 50 萬美元屬不同規定，不要混用</td>
+        </tr>
+        <tr>
+          <td><span class="num">100</span> 萬美元</td>
+          <td>即期、遠期、換匯、換匯換利等值 100 萬美元以上，應於訂約日之次營業日中午 12 時前傳送</td>
+          <td>第 47 條，114 年 7 月 15 日修正</td>
+          <td><span class="trap">舊版公司即期 100 萬美元訂約日立即，已不適用</span></td>
+        </tr>
+        <tr>
+          <td><span class="num">500</span> 萬美元</td>
+          <td>NDF 每筆 500 萬美元以上，應立即電告央行外匯局</td>
+          <td>第 31 條第 3 款第 7 目，114 年修正</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="num">1/5</span></td>
+          <td>無本金交割 NDF 與新臺幣匯率選擇權合計部位，不得逾總部位限額的五分之一</td>
+          <td>第 44 條，未修正</td>
+          <td><span class="trap">三分之一是錯的，正確是五分之一</span></td>
+        </tr>
+        <tr>
+          <td><span class="num">1</span> 萬美元</td>
+          <td>自動化服務設備，每帳戶每日外幣提領限額等值 1 萬美元；一萬美元以下臺幣匯率揭示，每營業日上午 9 時 30 分前</td>
+          <td>第 35 條、第 37 條，未修正</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="num">2</span> 萬元（人民幣）</td>
+          <td>自然人每人每次買賣人民幣現鈔，以及每日透過帳戶買賣，不得逾人民幣 2 萬元；外幣提款機提領人民幣現鈔每人每次不得逾 2 萬元</td>
+          <td>第 52 條，未修正</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="num">8</span> 萬元（人民幣）</td>
+          <td>自然人匯款人民幣至大陸，每人每日不得逾人民幣 8 萬元</td>
+          <td>第 52 條，未修正</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="num">15</span> 營業日 ／ 一週</td>
+          <td>外匯金融債券於 15 營業日內申報；國內自設外匯作業中心於一週內申報</td>
+          <td>第 22 條、第 21 條，114 年修正</td>
+          <td>依 114 年修正後條文作答</td>
+        </tr>
+        <tr>
+          <td><span class="num">60</span> 小時 ／ <span class="num">6</span> 小時</td>
+          <td>經辦人員 60 小時課程取得合格證書；每年至少 6 小時訓練，其中至少一半為法規或缺失案例</td>
+          <td>第 14 條，未修正</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="num">半年</span> ／ <span class="num">一年</span> ／ <span class="num">三個月</span></td>
+          <td>開辦後函報備查須已滿半年；未開辦超過六個月依第 28 條處理；正當理由延長三個月（僅一次）；經辦人員實習一年</td>
+          <td>第 13 條、第 14 條、第 28 條；第 28 條 114 年修正</td>
+          <td><span class="trap">半年、一年、三個月分屬不同條文，題目若混用需逐一核對</span></td>
+        </tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>三、自律規範（2023 年 6 月版）</h3>
+    <div class="tbl"><table class="cmp">
+      <thead>
+        <tr><th>數字</th><th>規定</th><th>法源</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="num">70%</span></td>
+          <td>對自然人一般客戶提供不保本型結構型商品，到期或提前到期結算金額應達原計價幣別本金 70% 以上</td>
+          <td>自律規範第 24 條</td>
+        </tr>
+        <tr>
+          <td><span class="num">3 個月</span> ／ <span class="num">1 萬美元</span></td>
+          <td>本金連結外幣匯率選擇權：產品期限不超過 3 個月，承作門檻等值 1 萬美元以上</td>
+          <td>自律規範第 24 條</td>
+        </tr>
+        <tr>
+          <td><span class="num">6 個月</span> ／ <span class="num">1 萬美元</span></td>
+          <td>本金連結黃金選擇權：產品期限不超過 6 個月，承作門檻等值 1 萬美元以上<span class="trap">（不是 2 萬美元）</span></td>
+          <td>自律規範第 24 條</td>
+        </tr>
+        <tr>
+          <td><span class="num">12 個月</span> ／ <span class="num">1 萬美元</span></td>
+          <td>本金連結股權或指數股票型基金選擇權：產品期限不超過 12 個月，承作門檻等值 1 萬美元以上</td>
+          <td>自律規範第 24 條</td>
+        </tr>
+        <tr>
+          <td><span class="num">3 個月</span> ／ <span class="num">5 年</span></td>
+          <td>交易錄音保存至契約存續期間屆滿後 3 個月，且至少 5 年</td>
+          <td>自律規範第 33 條</td>
+        </tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="must">
+    <h3>必考句</h3>
+    <ol>
+      <li>無本金交割遠期外匯與新臺幣匯率選擇權的合計部位，不得逾總部位限額的五分之一，三分之一是錯誤的敘述。</li>
+      <li>第 47 條於 114 年 7 月 15 日修正後，達等值 100 萬美元以上者應於次營業日中午 12 時前傳送，已無個人與團體的立即申報規定。</li>
+      <li>NDF 每筆 500 萬美元以上應立即電告央行外匯局，這與第 47 條的 100 萬美元門檻屬於不同規定，不可混用。</li>
+      <li>自然人每人每次買賣人民幣現鈔不得逾人民幣 2 萬元，匯款人民幣至大陸每人每日不得逾人民幣 8 萬元。</li>
+      <li>經辦人員須完成 60 小時課程並取得合格證書，之後每年至少接受 6 小時訓練，其中至少一半為法規或缺失案例。</li>
+      <li>開辦後超過六個月仍未開辦者，依第 28 條可能被停辦、廢止或撤銷，有正當理由者僅能延長三個月一次。</li>
+      <li>匯率類複雜性高風險商品的非避險個別交易損失上限，不得超過平均單期名目本金 3.6 倍；非匯率類若結算期數在 12 期以內為 6 倍，超過 12 期為 9.6 倍。</li>
+      <li>不保本型結構型商品賣給自然人一般客戶時，結算金額須達本金 70% 以上；匯率、黃金、股權選擇權的期限依序是 3、6、12 個月，承作門檻都是 1 萬美元。</li>
+    </ol>
+  </div>
+
+
+
+<div class="foot">
+  法規以現行條文為準（外匯業務管理辦法 114 年 7 月 15 日、衍商內部作業辦法 114 年 5 月 6 日修正）。舊題考的是已修掉的規定時，刷題器裡的題目已改成現行考法，並註明原題答案；其餘重點都對過第 1–20 屆題庫答案。<br>個人備考整理，非官方教材，引用前請以全國法規資料庫原文為準。
+</div>
+</div>
+
+<script src="nav.js?v=15" defer></script>
+<script src="../nav.core.js?v=2" defer></script>
+</body>
+</html>

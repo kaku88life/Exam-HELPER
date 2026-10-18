@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>衍生性商品 考前速記・概論</title>
+<style>
+:root{--bg:#f5f7f3;--sf:#ffffff;--cd:#d7ded8;--tx:#17211d;--mt:#66736d;--cy:#087a73;--gn:#4e7a3d;--vi:#315f94;--yw:#b66516;--rd:#b3453a;--ac2:#e6f2ef;--rd2:#f7e6e3;--gn2:#e8f1e3;--yl:#fff4cc}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65}
+.wrap{max-width:640px;margin:0 auto;padding:14px 14px 60px}
+h2{font-size:1.02em;margin:22px 0 7px;line-height:1.45}
+h2 .n{display:block;font-size:.68em;color:var(--mt);font-weight:400;margin-top:2px}
+h3{font-size:.95em;margin:16px 0 6px;border-left:4px solid var(--cy);padding-left:9px}
+p{margin:6px 0}
+b{color:var(--cy)}
+.lead{font-size:.82em;color:var(--mt);margin-bottom:10px}
+.card{background:var(--sf);border:1px solid var(--cd);border-radius:10px;padding:13px 14px;margin:10px 0}
+.card h3{margin-top:0}
+.small{font-size:.8em;color:var(--mt)}
+.num{font-variant-numeric:tabular-nums}
+.key ul{padding-left:20px;margin:6px 0;font-size:.88em}
+.key li{margin:4px 0}
+.key>p{font-size:.88em}
+.tbl{overflow-x:auto;margin:8px 0;background:var(--sf);border:1px solid var(--cd);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:.8em}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--cd);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{color:var(--mt);background:#eef1ee;font-weight:600}
+td:first-child{white-space:nowrap}
+.trap{background:var(--rd2);border-left:3px solid var(--rd);padding:9px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.86em}
+.trap b{color:var(--rd)}
+.case{background:var(--ac2);border-left:3px solid var(--cy);padding:10px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.88em;display:flex;flex-direction:column;gap:6px}
+.case .lab{font-size:.78em;font-weight:800;color:var(--cy);letter-spacing:.06em}
+.case p{margin:0}
+.case ul{padding-left:18px;margin:0}
+.case li{margin:3px 0}
+.case .src{font-size:.78em;color:var(--mt)}
+.go{margin:6px 0}
+.go a{display:inline-flex;align-items:center;gap:6px;max-width:100%;text-decoration:none;color:var(--cy);border:1px solid var(--cy);border-radius:999px;padding:6px 12px;font-size:.8em;font-weight:700;background:var(--sf);line-height:1.4;min-height:36px}
+.go a::before{content:"刷";display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--cy);color:#fff;font-size:.78em;flex:0 0 auto}
+.go a:active{background:var(--ac2)}
+.math{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:8px 0}
+.math div{border:1px solid var(--cd);border-radius:8px;padding:6px 4px;text-align:center;font-size:.78em;color:var(--mt);background:var(--sf)}
+.math b{display:block;font-size:1.25em;font-variant-numeric:tabular-nums}
+.bars{display:flex;flex-direction:column;gap:5px;margin:6px 0}
+.bar{display:grid;grid-template-columns:8.2em 1fr 3em;align-items:center;gap:8px;font-size:.8em}
+.bar>span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t{height:8px;background:var(--ac2);border-radius:4px;overflow:hidden}
+.bar .t i{display:block;height:100%;background:var(--cy);border-radius:4px}
+.bar .n{text-align:right;color:var(--mt);font-variant-numeric:tabular-nums}
+.foot{text-align:center;font-size:.7em;color:var(--mt);margin:22px 0;line-height:1.9}
+a{color:var(--cy)}
+@media(max-width:600px){td:nth-child(2):not(:last-child){min-width:7em}}
+@media(max-width:420px){.math{grid-template-columns:1fr;gap:4px}.math div{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 12px;text-align:left}.math b{font-size:1.1em}.bar{grid-template-columns:8.2em 1fr 2.6em}}
+/* dv 筆記片段沿用的 class：對應到 life 版型 */
+.card ul,.card ol,.must ul,.must ol{padding-left:20px;margin:6px 0;font-size:.88em}
+.card li,.must li{margin:4px 0}
+.card>p,.must>p{font-size:.88em}
+.must{background:var(--yl);border-left:3px solid var(--yw);padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0}
+.must h3{border-left:0;padding-left:0;margin-top:0;color:var(--yw)}
+span.num{color:var(--vi);font-weight:700}
+span.trap{color:var(--rd);font-weight:700;background:none;border:0;padding:0;margin:0;font-size:inherit;border-radius:0}
+.tbl table.cmp td:first-child{white-space:normal;min-width:5.5em}
+h3.sub{font-size:1em;margin:24px 0 6px;border-left-color:var(--vi)}
+.segs{display:flex;gap:6px;margin:0 0 12px}
+.segs a{flex:1;text-align:center;border:1px solid var(--cd);background:var(--sf);color:var(--tx);border-radius:999px;font-size:.82em;padding:9px 10px;text-decoration:none;font-weight:600}
+.segs a.on{background:var(--cy);color:#fff;border-color:var(--cy);font-weight:700}
+.bar{grid-template-columns:7em 1fr 4.2em}
+@media(max-width:420px){.bar{grid-template-columns:7em 1fr 4.2em}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="segs"><a href="sprint_law.html">法規</a><a class="on" href="sprint_prac.html">概論·風險·會計</a></div>
+
+<p class="lead">概論、風險、會計合計 37 題、約 61.5 分。結構型商品、選擇權、交換三章題數最多，先讀；債券、遠期題少，排後面。每章開頭的「刷」按鈕會開刷題器，只出那一章的題目（測驗模式，作答紀錄和平常刷的同步）。<span class="num">藍字</span>是數字，<span class="trap">紅字</span>是易混陷阱，黃框是歷屆最常回鍋的必考句。</p>
+
+<div class="card">
+  <h3>及格數學：60 題 90 分鐘，70 分及格</h3>
+  <p class="small">前 40 題每題 1.5 分、後 20 題每題 2 分。每一區塊的平均每題分數都接近 1.67 分，所以大約要對 42 題。法規 23 題對得愈多，其他 37 題就能錯愈多。</p>
+  <div class="math"><div>法規對 23<b>其他約 19</b>共 37 題</div><div>法規對 20<b>其他約 22</b>共 37 題</div><div>法規對 18<b>其他約 24</b>共 37 題</div><div>法規對 15<b>其他約 27</b>共 37 題</div><div>法規對 12<b>其他約 30</b>共 37 題</div></div>
+</div>
+<div class="card">
+  <h3>考卷怎麼分（第 20 屆實測，各屆會微幅浮動）</h3>
+  <div class="bars"><div class="bar"><span>法規 23 題</span><span class="t"><i style="width:100%"></i></span><span class="n">38.5 分</span></div><div class="bar"><span>實務 21 題</span><span class="t"><i style="width:86%"></i></span><span class="n">33 分</span></div><div class="bar"><span>風險 8 題</span><span class="t"><i style="width:38%"></i></span><span class="n">14.5 分</span></div><div class="bar"><span>會計 8 題</span><span class="t"><i style="width:36%"></i></span><span class="n">14 分</span></div></div>
+  <p class="small" style="margin:0">第 1–40 題依序是法規 15、風險 3、會計 4、實務 18；第 41–60 題依序是法規 8、風險 5、會計 4、實務 3。刷題器的模擬考照這個配置抽題。</p>
+</div>
+<p class="go"><a href="drill.html?q=251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600,601,602,603,604,605,606,607,608,609,610,611,612,613,614,615,616,617,618,619,620,621,622,623,624,625,626,627,628,629,630,631,632,633,634,635,636,637,638,639,640,641&m=quiz&n=%E9%80%9F%E8%A8%98%E6%A6%82%E8%AB%96%C2%B7%E9%A2%A8%E9%9A%AA%C2%B7%E6%9C%83%E8%A8%88">到刷題器練這一頁全部 391 題</a></p>
+
+<h2 id="risk">風險管理與風險係數<span class="n">風險管理 約 6 題 · 選擇權風險係數 約 2 題</span></h2>
+<p class="go"><a href="drill.html?q=251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295&m=quiz&n=%E9%A2%A8%E9%9A%AA%E7%AE%A1%E7%90%86">到刷題器練「風險管理」45 題</a></p>
+<p class="go"><a href="drill.html?q=296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314&m=quiz&n=%E9%81%B8%E6%93%87%E6%AC%8A%E9%A2%A8%E9%9A%AA%E4%BF%82%E6%95%B8">到刷題器練「選擇權風險係數」19 題</a></p>
+
+  <div class="card"><h3>結算前風險與信用風險</h3><ul>
+    <li>信用風險可分為<b>結算前風險</b>與結算風險；結算前風險是交易對手在交割前違約造成的損失，屬於信用風險的一種。</li>
+    <li>當期暴險額只有在市場走勢<span class="trap">不利於客戶</span>時才為正值；暴險額為 <span class="num">0</span> 並不代表沒有違約風險，因為未來市價仍會變動。</li>
+    <li><b>潛在違約風險</b>來自未來市場風險的變動，屬於估計值，<span class="trap">不能拿來沖抵</span>現有的違約風險。</li>
+    <li>利率交換未交割前，雙方的市價都可能轉為正值，因此雙方都承受結算前風險。</li>
+    <li>行銷費用與未來市價暴險無關，不影響結算前風險；市場波動度、產品特性與契約期間才會影響結算前風險。</li>
+  </ul></div>
+
+  <div class="card"><h3>期貨與遠期的信用風險</h3>
+    <div class="tbl"><table class="cmp">
+      <tr><th>商品</th><th>信用風險由誰承擔</th></tr>
+      <tr><td>期貨（集中結算）</td><td>由<b>清算所</b>承擔買賣雙方的信用風險</td></tr>
+      <tr><td>遠期（雙方私下契約）</td><td>買賣雙方<b>都要</b>承擔對方的信用風險</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card"><h3>選擇權避險參數（Greeks）</h3>
+    <div class="tbl"><table class="cmp">
+      <tr><th>參數</th><th>衡量什麼</th></tr>
+      <tr><td><b>Delta</b></td><td>標的價格變動一單位時，權利金約變動的幅度</td></tr>
+      <tr><td><b>Gamma</b></td><td>Delta 本身隨標的價格變動而改變的程度（Gamma 風險）</td></tr>
+      <tr><td><b>Vega</b></td><td>標的物波動度變動 <span class="num">1%</span> 時，權利金的變動幅度</td></tr>
+      <tr><td><b>Theta</b></td><td>存續期間縮短（時間經過）對權利金的影響</td></tr>
+      <tr><td><b>Rho</b></td><td>市場利率變動對權利金的影響</td></tr>
+    </table></div>
+    <ul>
+      <li>Delta 為 <span class="num">-0.5</span> 時，標的上漲 <span class="num">1</span> 元，權利金約<span class="trap">下跌</span> <span class="num">0.5</span> 元。</li>
+      <li>Gamma 為 <span class="num">0.1</span> 時，標的上漲 <span class="num">1</span> 元，Delta 約增加 <span class="num">0.1</span>。</li>
+      <li>Vega 為 <span class="num">0.1</span> 時，隱含波動率由 <span class="num">20%</span> 升至 <span class="num">21%</span>，權利金約上漲 <span class="num">0.1</span> 元。</li>
+      <li>Omega 不屬於常見的市場風險敏感度指標，<span class="trap">不要誤選</span>。</li>
+      <li>Delta 中立的組合中，Gamma 與 Theta 會彼此牽制。</li>
+    </ul>
+  </div>
+
+  <div class="card"><h3>利率風險的三種類型</h3>
+    <div class="tbl"><table class="cmp">
+      <tr><th>類型</th><th>定義</th></tr>
+      <tr><td>殖利率曲線風險</td><td>殖利率曲線<b>形狀改變</b>形成的風險</td></tr>
+      <tr><td>殖利率曲線平行移動</td><td><span class="trap">不是</span>殖利率曲線風險的定義</td></tr>
+      <tr><td>基差風險</td><td>不同市場或商品間<b>利差關係改變</b>形成的風險</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card"><h3>市場風險與流動性風險</h3><ul>
+    <li>市場風險又稱價格風險，指市場價格變動造成損失的風險。</li>
+    <li>流動性風險可分為市場（商品）流動性風險與現金流量風險；現金流量風險來自無法籌足現金支付，<span class="trap">不是</span>評價模式複雜造成的。</li>
+    <li>衡量流動性的最佳指標是<b>買賣價差</b>，價差越大，流動性越差。</li>
+    <li>股票無法即時賣出造成的價格損失屬於流動性風險，<span class="trap">不屬於</span>利率風險。</li>
+    <li>流動性差的資產，宜規定<b>交易量限額</b>，以限制部位規模；交易量限額以名目本金為衡量基準。</li>
+  </ul></div>
+
+  <div class="card"><h3>市場風險限額與監控</h3><ul>
+    <li>市場風險的限額包括交易量、選擇權、缺口與停損等；對每位交易員的個別控制，以<b>停損限額</b>最直接。</li>
+    <li><span class="trap">交割限額不屬於</span>市場風險限額；<span class="trap">獲利限額不屬於</span>以量控制市場風險的方法。</li>
+    <li>信用監控應提供交易對手使用額度、交易集中度與主要客戶信用狀況等資訊；額度內的交易契約不屬於重點資訊。</li>
+    <li>交易對手信用條件的審核屬於事前授信作業，不是監控單位提供的事後資訊。</li>
+    <li>交易對手信用狀況屬於信用風險控管，<span class="trap">對市場風險管理幫助較小</span>。</li>
+  </ul></div>
+
+  <div class="card"><h3>作業風險與交易流程</h3><ul>
+    <li>標準交易流程為：執行交易、確認交易、辦理交割，最後<b>文件歸檔備查</b>。</li>
+    <li>交易確認書的點收部門應獨立於交易部門之外，以降低作業風險。</li>
+    <li>建立資金備償計畫<span class="trap">不屬於</span>交易流程的步驟。</li>
+    <li>大部分衍生性商品多以現金交割，<span class="trap">並非</span>以實物交割為主。</li>
+  </ul></div>
+
+  <div class="card"><h3>風險值（VaR）</h3><ul>
+    <li>風險值是在特定信賴水準與特定期間下，市場價格變動可能造成的<b>最大損失期望值</b>。</li>
+    <li>VaR 公式為 S0 × Zα × σ × √Δt；十日風險值＝一日風險值 × √10，因此 <span class="num">2,500</span> 的一日 95% VaR，十日約為 <span class="num">7,906</span>。</li>
+    <li>相對風險值減去期望報酬，才是絕對風險值：<span class="num">8.6%</span> − <span class="num">5%</span> ＝ <span class="num">3.6%</span>。</li>
+    <li>以 <span class="num">1.65</span>、<span class="num">2.33</span> 近似換算的十日 99% VaR 約為 <span class="num">11,164</span>。</li>
+    <li><span class="trap">相對風險值不能直接當成</span>絕對的賠損門檻。</li>
+  </ul></div>
+
+  <div class="card"><h3>試算題型</h3><ul>
+    <li>本金連動債合理價格＝公司債市價＋選擇權價值：<span class="num">87.04%</span> ＋ （<span class="num">4.17</span> ÷ <span class="num">27</span>＝<span class="num">15.44%</span>）＝<span class="num">102.48%</span>。</li>
+    <li>認購權證獲利＝<span class="num">1,000</span> 單位 × 行使比例 <span class="num">0.05</span> × Delta <span class="num">0.5</span> × 指數變動 <span class="num">100</span> 點 ＝ <span class="num">2,500</span>。</li>
+  </ul></div>
+
+  <div class="card"><h3>其他法規與概念</h3><ul>
+    <li>5P 為 People、Purpose、Payment、Protection、Perspective，<span class="trap">不含 Performance</span>。</li>
+    <li>利害關係人的信用衍生性交易，董事會應有 <span class="num">三分之二</span> 以上董事出席，並經出席董事 <span class="num">四分之三</span> 以上決議。</li>
+    <li>多邊淨額清算可降低風險，<span class="trap">不會</span>提高信用與流動性風險。</li>
+  </ul></div>
+
+  <div class="must"><h3>必考句</h3><ol>
+    <li>潛在違約風險來自未來市場風險的變動，是估計值，<span class="trap">不能</span>拿來沖抵現有的違約風險。</li>
+    <li>衡量市場流動性風險的最佳指標是買賣價差，價差越大，流動性越差。</li>
+    <li>Delta 是標的價格變動一單位時，權利金約變動的幅度。</li>
+    <li>Gamma 為 <span class="num">0.1</span> 時，標的上漲 <span class="num">1</span> 元，Delta 約增加 <span class="num">0.1</span>。</li>
+    <li>Vega 描述的是標的物波動度變動對權利金的影響，而非利率變動。</li>
+    <li>期貨經集中結算，買賣雙方的信用風險由清算所承擔；遠期契約則是買賣雙方都要承擔對方的信用風險。</li>
+    <li>股票無法即時賣出造成的價格損失屬於流動性風險，不屬於利率風險。</li>
+    <li>結算前風險屬於信用風險的一種，指交易對手在交割前違約造成的損失。</li>
+    <li>風險值衡量的是特定信賴水準與特定期間下，市場價格變動可能造成的最大損失。</li>
+    <li>十日風險值約為一日風險值乘以 <span class="num">√10</span>，<span class="num">2,500</span> 的一日 95% VaR 對應十日約 <span class="num">7,906</span>。</li>
+    <li>相對風險值減去期望報酬即為絕對風險值，例如 <span class="num">8.6%</span> − <span class="num">5%</span> ＝ <span class="num">3.6%</span>。</li>
+    <li>5P 不包含 Performance，其內容為 People、Purpose、Payment、Protection 與 Perspective。</li>
+  </ol></div>
+
+<h2 id="futures">期貨<span class="n">期貨 約 2 題</span></h2>
+<p class="go"><a href="drill.html?q=401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422&m=quiz&n=%E6%9C%9F%E8%B2%A8">到刷題器練「期貨」22 題</a></p>
+  <div class="card"><h3>期貨與遠期的差異</h3>
+    <ul>
+      <li><b>期貨</b>在交易所以<b>競價</b>形成價格，<b>遠期</b>由買賣雙方<b>議價</b>，兩者在定價方式上不同。</li>
+      <li>期貨的保證金由交易所<b>統一規定</b>，遠期的保證金則由買賣雙方協議。</li>
+      <li>期貨的流動性<span class="num">較高</span>，遠期的流動性較低，因為期貨在集中市場交易。</li>
+      <li>期貨通常在到期前<b>反向平倉</b>了結，遠期契約到期時多為<b>實體交割</b>。</li>
+      <li>期貨的信用風險由<b>清算所</b>承擔，遠期的信用風險由買賣雙方各自承擔。</li>
+    </ul>
+  </div>
+  <div class="tbl"><table class="cmp">
+    <tr><th>項目</th><th>遠期契約</th><th>期貨契約</th></tr>
+    <tr><td>價格形成</td><td>議價</td><td>競價</td></tr>
+    <tr><td>保證金規定</td><td>買賣雙方協議</td><td>統一規定</td></tr>
+    <tr><td>流動性</td><td>低</td><td>高</td></tr>
+    <tr><td>交割方式</td><td>到期時實體交割</td><td>到期前反向平倉</td></tr>
+    <tr><td>信用風險</td><td>由買賣雙方負擔</td><td>由清算所負擔</td></tr>
+    <tr><td>交易地點</td><td>店頭市場</td><td>交易所（集中市場）</td></tr>
+  </table></div>
+  <div class="card"><h3>保證金</h3>
+    <ul>
+      <li><b>結算保證金</b>由結算所向結算會員收取。</li>
+      <li><b>交易保證金</b>由結算會員或期貨經紀商向單一客戶收取。</li>
+      <li>不論是結算保證金或交易保證金，最後都流向結算所，<span class="trap">經紀商不能自行決定交易保證金是否交給結算所</span>。</li>
+      <li>避險口數以 <b>β × 部位價值 ÷（期貨價格 × 契約乘數）</b>計算。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>委託與撮合</h3>
+    <ul>
+      <li>市價申報以迅速成交為主，限價申報以成交價格為主。</li>
+      <li>兩者同時在場時，<b>市價申報優先撮合</b>。</li>
+      <li>集中市場撮合原則是<b>價格優先，其次時間優先</b>，同一價格則先出價者先成交。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>契約規格與計價</h3>
+    <ul>
+      <li>台指期貨每點 <span class="num">200 元</span>，台指選擇權每點 <span class="num">50 元</span>，兩者不要混用。</li>
+      <li>公債期貨以面值百分比報價，跳動單位為 <span class="num">1/32</span>，例如 95-04 表示 95 又 4/32 百分點。</li>
+      <li>CBOT 三十年期美國公債期貨每口面額 <span class="num">10 萬美元</span>；CME 瑞士法郎期貨每口 <span class="num">125,000 瑞士法郎</span>。</li>
+      <li>外匯期貨每口最小跳動值等於契約數量乘以跳動單位，例如 62,500 英鎊乘以 0.0001 等於 <span class="num">6.25 美元</span>。</li>
+      <li>台股指數期貨的到期月份為當月起連續三個月，另加上三、六、九、十二月中的三個接續季月。</li>
+      <li><b>合約月份（contract month）</b>就是期貨契約的交割月份。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>其他特性與策略</h3>
+    <ul>
+      <li>期貨價格會領先現貨價格變動，這正是期貨<b>價格發現</b>功能的表現。</li>
+      <li><b>TED 利差</b>是歐洲美元期貨與美國國庫券期貨之間的利率差。</li>
+      <li><b>NOB spread</b>是一買一賣的利差交易合約。</li>
+      <li>交換期貨是以利率交換契約為標的的期貨，避險功能與遠期交換相近。</li>
+      <li>預期價差會收斂時，應買進近月、賣出遠月，等價差縮小後反向平倉獲利。</li>
+      <li><b>最小變異避險比率</b> h 等於 ρ 乘以現貨標準差再除以期貨標準差。</li>
+      <li><b>VIX</b> 是由選擇權價格推算出來的隱含波動率指標，<span class="trap">不是歷史標準差</span>。</li>
+    </ul>
+  </div>
+  <div class="must"><h3>必考句</h3>
+    <ol>
+      <li>期貨價格採競價形成，遠期契約採議價形成，這是兩者最主要的差異之一。</li>
+      <li>金融期貨的信用風險由清算所承擔，遠期契約的信用風險由買賣雙方各自承擔。</li>
+      <li>期貨在到期前多以反向平倉了結，遠期契約到期時通常實體交割。</li>
+      <li>結算保證金由結算所向結算會員收取，交易保證金由結算會員或期貨經紀商向客戶收取，兩者最後都流向結算所。</li>
+      <li>集中市場撮合先依價格優先，同一價格再依時間先後。</li>
+      <li>市價申報優先於限價申報撮合。</li>
+      <li>最小變異避險比率 h 等於 ρ 乘以現貨標準差再除以期貨標準差，本題常見代入值為 0.825 乘以 0.4 再除以 0.3，得 1.1。</li>
+      <li>期貨價格領先現貨價格變動，體現價格發現的功能。</li>
+      <li>TED 利差是歐洲美元期貨與美國國庫券期貨之間的利率差。</li>
+      <li>台指期貨每點 200 元，台指選擇權每點 50 元。</li>
+      <li>避險口數等於 β 乘以部位價值，再除以期貨價格乘以契約乘數；以 1.2 倍 β、100 萬元部位、期貨價格 400、乘數 500 計算，應放空 6 口。</li>
+    </ol>
+  </div>
+
+
+<h2 id="options">選擇權<span class="n">選擇權 約 3 題</span></h2>
+<p class="go"><a href="drill.html?q=423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459&m=quiz&n=%E9%81%B8%E6%93%87%E6%AC%8A">到刷題器練「選擇權」37 題</a></p>
+  <div class="card"><h3>買方與賣方的權利義務</h3>
+    <ul>
+      <li>買方付出權利金，取得權利，<b>可以選擇是否履約，沒有履約義務</b>。</li>
+      <li>賣方收取權利金，負有<b>依買方要求履約的義務</b>。</li>
+      <li>買方的最大損失限於權利金；賣方的損失可能很大，理論上幾乎沒有上限。</li>
+      <li>買權（call）是買方有權以特定價格買進；賣權（put）是買方有權以特定價格賣出。</li>
+      <li>買入買權與賣出賣權適用於看多的情境；買入賣權與賣出買權適用於看空的情境。</li>
+      <li>賣出賣權在現貨價格下跌時會產生損失；賣出買權在現貨價格上漲時會產生損失。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>權利金與價內外</h3>
+    <ul>
+      <li>權利金等於<b>時間價值加內含價值</b>。</li>
+      <li>價外選擇權只有時間價值，<span class="trap">內含價值等於零</span>。</li>
+      <li>價平時內含價值為零，時間價值通常最大。</li>
+      <li>買權的內含價值為標的價格減履約價；賣權的內含價值為履約價減標的價格。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>選擇權類型</h3>
+    <ul>
+      <li>權利金由低到高依序為<b>亞洲式、歐式、美式</b>。</li>
+      <li><b>亞洲式（平均價）選擇權</b>以平均即期價格和履約價比較，屬路徑型，<span class="trap">不是美式選擇權的一種形式</span>。</li>
+      <li><b>歐式</b>選擇權只能於到期日當天行使，台灣掛牌的選擇權為歐式。</li>
+      <li><b>美式</b>選擇權可於到期前任一時點行使。</li>
+      <li><b>數位選擇權</b>在資產價格超過履約價時支付固定金額。</li>
+      <li><b>Quanto 選擇權</b>以本國貨幣計價，但標的為外國資產。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>價格影響因素</h3>
+    <ul>
+      <li>到期時間縮短，時間價值減少，買權價值下降。</li>
+      <li>利率上升使買權價值增加、賣權價值減少。</li>
+      <li>標的物價格波動度上升，買權與賣權的權利金都會上升。</li>
+      <li>履約價格上升會使買權價值下降、賣權價值上升。</li>
+      <li>賣權與買權在同價、同期、同履約價的情況下，<span class="num">C − P = S − K</span>（利率為零時）。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>組合與期貨的關係</h3>
+    <ul>
+      <li>買入賣權加上賣出買權，同價同期時到期損益近似<b>賣出期貨</b>，即賣權減買權等於負的期貨。</li>
+      <li>賣權與買權的移項關係：<b>賣權 − 買權 = − 期貨</b>，由此可推導其他組合的寫法。</li>
+      <li>多頭價差與空頭價差都需要同一類型的選擇權組成。</li>
+    </ul>
+  </div>
+  <div class="tbl"><table class="cmp">
+    <tr><th>組合</th><th>到期損益近似</th></tr>
+    <tr><td>買入賣權加賣出買權（同價同期）</td><td>賣出期貨</td></tr>
+    <tr><td>買入買權加賣出賣權（同價同期）</td><td>買進期貨</td></tr>
+  </table></div>
+  <div class="card"><h3>買入與賣出的情境判斷</h3>
+    <ul>
+      <li>看多且只願承擔有限風險時，適合買入買權。</li>
+      <li>預期利率會大幅變動但方向不確定時，可同時買進買權與賣權，利率不論漲跌大幅變動皆可獲利。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>利率選擇權</h3>
+    <ul>
+      <li><b>利率上限（Cap）</b>由一連串履約利率相同的利率買權組成，預期利率走高時買入。</li>
+      <li><b>利率下限（Floor）</b>由一連串利率賣權組成，預期利率下跌、收益減少時買入。</li>
+      <li><b>利率上下限（Collar）</b>買方同時買進一個利率上限、賣出一個利率下限；賣方的組合正好相反。</li>
+      <li>利率交換契約屬於交換，<span class="trap">不屬於利率選擇權</span>。</li>
+      <li>附利率上限浮動債券可以分解為完全浮動利率債券加上年息、減去利率上限、再加上利率下限。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>權證</h3>
+    <ul>
+      <li>國內權證屬<b>備兌型權證</b>，由證券商等第三者發行，<span class="trap">不是以發行公司自家股票為標的的權益型權證</span>。</li>
+      <li>權證分為認購與認售兩種；個股型權證的標的只能是<b>單一個股</b>。</li>
+      <li>台灣目前的權證多為美式，選擇權則為歐式。</li>
+      <li><b>溢價比</b>等於權證價格除以標的股價。</li>
+      <li><b>槓桿比率</b>等於標的股價除以權證價格。</li>
+      <li>損益兩平股價的上漲幅度，等於權證價格加上履約價減去標的股價，再除以標的股價。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>會計與避險</h3>
+    <ul>
+      <li>非避險目的買入的選擇權，到期無價值時，已付權利金列為<b>當期損失</b>。</li>
+      <li>買入選擇權的損失風險有限，賣出選擇權的損失風險不對稱，通常不宜指定為避險工具。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>Greeks</h3>
+    <ul>
+      <li>Delta 衡量標的價格變動的影響，Vega 衡量波動度，Theta 衡量時間經過，Rho 衡量利率，Gamma 衡量 Delta 的變動率。</li>
+    </ul>
+  </div>
+  <div class="must"><h3>必考句</h3>
+    <ol>
+      <li>買方付出權利金取得權利，可以選擇是否履約，沒有履約義務；賣方收取權利金，負有依買方要求履約的義務。</li>
+      <li>賣出買權在股價上漲時承擔損失，賣出賣權在股價下跌時承擔損失。</li>
+      <li>權利金由低到高依序為亞洲式、歐式、美式選擇權，美式可提前履約故權利金最高。</li>
+      <li>亞洲式選擇權以平均價格決定履約，屬路徑型，不是美式選擇權的一種形式。</li>
+      <li>台灣交易的選擇權為歐式，台灣權證多為美式。</li>
+      <li>國內權證屬備兌型，由證券商發行，不是以發行公司自家股票為標的的權益型權證。</li>
+      <li>標的物波動度上升時，賣權權利金上升，即 Vega 為正值。</li>
+      <li>到期時間縮短使時間價值減少，買權價值下降。</li>
+      <li>權利金等於時間價值加內含價值，價外選擇權只含時間價值，內含價值為零。</li>
+      <li>買入買權的最大損失限於權利金，適合看多且只願承擔有限風險的投資人。</li>
+      <li>非避險買入的選擇權到期無價值時，已付權利金應列為當期損失。</li>
+      <li>買入賣權加上賣出買權（同價同期）的到期損益近似賣出期貨。</li>
+    </ol>
+  </div>
+
+
+<h2 id="forward">遠期外匯與遠期利率協定<span class="n">遠期 約 1 題</span></h2>
+<p class="go"><a href="drill.html?q=460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475&m=quiz&n=%E9%81%A0%E6%9C%9F">到刷題器練「遠期」16 題</a></p>
+  <div class="card"><h3>遠期契約的基本觀念</h3>
+    <ul>
+      <li>遠期契約是買賣雙方約定未來某特定時日，以特定價格買賣特定數量商品的契約。</li>
+      <li><b>遠期交割</b>指交割日晚於即期交割日的交易。</li>
+      <li>遠期契約的主要特性為改善資產負債表膨脹、降低交割風險，且為表外交易。</li>
+      <li>遠期契約的主要功能為保護資產價值、鎖住負債成本、維持利差。</li>
+      <li>遠期外匯的交易日需於訂約日後 <span class="num">2 個營業日</span>。</li>
+      <li>遠期外匯的交割日可以指定某一日，也可以在約定期間內任選一日。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>遠期利率協定（FRA）</h3>
+    <ul>
+      <li>FRA 是以利率為交易標的的遠期契約，由遠期性存款改良而來。</li>
+      <li>FRA 到期時不交割本金，只依市場指標利率與訂約利率的差額乘以名目本金，清算利息差額。</li>
+      <li>FRA 的信用風險<span class="trap">低於</span>遠期性存款。</li>
+      <li>FRA 有買方與賣方，報價時分為買入價（bid）與賣出價（offer）。</li>
+      <li>FRA 結算的利差金額，要在定息日以參考利率折現；<span class="num">1×4</span> 指一個月後起算、為期三個月。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>換匯點與遠期匯率</h3>
+    <ul>
+      <li>遠期匯率等於即期匯率加上（或減去）換匯點，換匯點又稱遠期點數。</li>
+      <li>換匯點為正值時，遠期外匯為<b>升水</b>；換匯點為負值時，遠期外匯為<b>貼水</b>。</li>
+      <li>換匯點前小後大時相加，前大後小時相減。</li>
+      <li>利率平價：遠期匯率等於即期匯率乘以（1 + 報價幣利率 × 期間）除以（1 + 被報價幣利率 × 期間）。</li>
+      <li>美元利率高於新臺幣利率時，美元遠期匯率為貼水。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>報價方式</h3>
+    <ul>
+      <li>銀行同業之間以換匯點為基礎報價。</li>
+      <li>外匯指定銀行對一般出口商則採直接遠匯價格（forward outright rate）報價。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>信用暴險</h3>
+    <ul>
+      <li>遠期合約的現時暴險為 max(0, 對銀行的市價)；對銀行為負值時，暴險為零。</li>
+      <li>遠期契約的信用風險由買賣雙方各自承擔，<span class="trap">與期貨由清算所承擔不同</span>。</li>
+    </ul>
+  </div>
+  <div class="tbl"><table class="cmp">
+    <tr><th>項目</th><th>遠期外匯</th><th>遠期利率協定（FRA）</th></tr>
+    <tr><td>交易標的</td><td>匯率</td><td>利率</td></tr>
+    <tr><td>本金</td><td>實體交割外匯</td><td>不交割本金，只清算利差</td></tr>
+    <tr><td>買賣雙方</td><td>買賣雙方</td><td>買方與賣方</td></tr>
+    <tr><td>價格表示</td><td>換匯點或直接遠匯價格</td><td>買入價與賣出價</td></tr>
+  </table></div>
+  <div class="must"><h3>必考句</h3>
+    <ol>
+      <li>遠期交割指交割日晚於即期交割日的交易。</li>
+      <li>遠期匯率等於即期匯率加上換匯點；換匯點前小後大時相加，前大後小時相減。</li>
+      <li>換匯點為正值時遠期外匯升水，為負值時遠期外匯貼水。</li>
+      <li>美元利率高於新臺幣利率時，美元遠期匯率為貼水。</li>
+      <li>FRA 只清算利差，不交割本金，且有買方與賣方兩方。</li>
+      <li>FRA 的利差金額乘以名目本金後，須在定息日依參考利率折現，例如 1×4、名目本金 100 萬、約定利率 7%、市場利率 8% 時，折現後約 2,451 元。</li>
+      <li>FRA 由遠期性存款改良而來，信用風險低於遠期性存款。</li>
+      <li>銀行同業以換匯點報價，外匯指定銀行對出口商報直接遠匯價格。</li>
+      <li>銀行賣出美元遠期，匯率上升時合約對銀行為負，暴險為零。</li>
+      <li>以利率為標的的遠期契約，即遠期利率協定（FRA）。</li>
+    </ol>
+  </div>
+
+<h2 id="swap">交換（利率、利差、換匯換利、外匯交換、交換選擇權）<span class="n">交換 約 3 題</span></h2>
+<p class="go"><a href="drill.html?q=476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511&m=quiz&n=%E4%BA%A4%E6%8F%9B">到刷題器練「交換」36 題</a></p>
+
+  <div class="card"><h3>利率交換的概念與類型</h3><ul>
+    <li>交易雙方就持有資產所產生的<b>利率</b>進行交換，可用來平衡市場利差。</li>
+    <li><span class="trap">一般利率交換只交換利息，不交割本金</span>；名目本金只是計算利息的基礎。</li>
+    <li><b>基差利率交換</b>：貨幣相同，浮動利率對浮動利率交換。</li>
+    <li><b>普通利率交換</b>：貨幣相同，固定利率對浮動利率交換。</li>
+    <li>新臺幣利率交換通常以 <span class="num">TAIBOR</span> 為參考利率。</li>
+    <li>預期利率會跌時，賣出利率交換最能降低公債部位所面臨的<b>價格風險</b>。</li>
+  </ul></div>
+
+  <div class="card"><h3>市場慣例：買方與賣方</h3><ul>
+    <li>依交換市場慣例，<b>支付固定利率、收取浮動利率</b>的一方稱為<b>買方</b>。</li>
+  </ul></div>
+
+  <div class="card"><h3>利差交換與鎖住利差交換</h3><ul>
+    <li>利差交換（Quanto Swap）與利率交換的主要區別：前者交易的利息是依<b>同一貨幣</b>的利率指標計算。</li>
+    <li><b>鎖住利差交換</b>（Spread-lock Swap）：所鎖定的「利差」指的是<b>交換溢酬</b>。</li>
+    <li>利差交換計算範例：銀行支付瑞士法郎六個月銀行間拆款利率，投資人支付美元六個月銀行間拆款利率加利差，依淨額結算。</li>
+    <li>範例一：本金 10 萬美元，美元 5%＋1%＝6%，瑞士法郎 9%，差額 3%×10 萬×1/2＝<span class="num">1,500</span> 美元，銀行付給投資人。</li>
+    <li>範例二：本金 100 萬美元，美元 5.88%＋2.4%＝8.28%，瑞士法郎 9.38%，差額 1.1%×100 萬×1/2＝<span class="num">5,500</span> 美元，銀行付給投資人。</li>
+  </ul></div>
+
+  <div class="card"><h3>換匯換利與外匯交換</h3><ul>
+    <li><b>換匯換利</b>：交易期間雙方相互支付「期初取得貨幣」的利息，期末再依原期初互換的本金等額返還。</li>
+    <li><span class="trap">換匯換利交換的是不同幣別的本金</span>，期初與期末都可能交換本金。</li>
+    <li><b>外匯交換</b>：同一交易日簽訂一筆即期交易與另一筆買賣方向相反的遠期交易。</li>
+    <li>外匯交換存續期間內<b>無利息交換</b>。</li>
+    <li>外匯交換的運用目的：以部位交易為目的、以現金流量管理為目的；可以套取無風險利潤。</li>
+  </ul></div>
+
+  <div class="card"><h3>權益交換（股價報酬交換）</h3><ul>
+    <li>範例：名目本金 1,000 萬元，股價由 100 漲至 105，90 天期 CP 利率 1.9%，利差 0.5%。</li>
+    <li>股價漲價獲利 1,000 萬×(105−100)/100＝<span class="num">500,000</span>；利息支出 1,000 萬×(1.9%＋0.5%)×1/12＝20,000。</li>
+    <li>淨額 480,000，證券商支付投資者 <span class="num">48 萬</span> 元。</li>
+  </ul></div>
+
+  <div class="card"><h3>交換選擇權（Swaption）</h3><ul>
+    <li><b>交換買權</b>（Call Swaption）：買方權利，執行時<b>收取固定利息、支付浮動利息</b>，又稱<b>收取者交換權</b>（Receiver Swaption）。</li>
+    <li><b>交換賣權</b>（Put Swaption）：買方權利，執行時<b>支付固定利息、收取浮動利息</b>，又稱<b>支付者交換權</b>（Payer Swaption）。</li>
+  </ul></div>
+
+  <div class="card"><h3>其他利率衍生性商品</h3><ul>
+    <li>資產交換合約、負債交換合約等屬利率型衍生性商品。</li>
+    <li><span class="trap">英鎊期貨屬外匯型商品，非利率型</span>。</li>
+    <li>可轉換公司債可分解為<b>可提前贖回公司債</b>與<b>股票買權</b>（資產交換方式）。</li>
+    <li>買固定利率債券，可以分解成買附利率上限的浮動利率債券，再搭配賣出利率交換及利率上限。</li>
+    <li><b>雲霄飛車型交換</b>：企業融資時搭配「本金遞增交換」，償債時搭配「本金遞減交換」。</li>
+  </ul></div>
+
+  <div class="card"><h3>信用交換（信用衍生性商品）</h3><ul>
+    <li>信用衍生性商品最初的功能是<b>保護或避免信用品質變化的風險</b>。</li>
+    <li>銀行可透過信用衍生性商品<b>移轉資產的信用風險，但仍保留資產</b>，並可提高金融市場效率。</li>
+    <li><b>ISDA 信用事件</b>包括：企業本身破產、拒絕履行債務、企業本身宣佈重整、企業加速償還債務。</li>
+    <li>信用交換確認函中必須詳細載明足以導致信用事件發生的事由。</li>
+    <li>定價變數：參考實體信用品質、參考實體與信用保障賣方的聯合違約機率、交易期間長短。<span class="trap">參考實體市場價值不是定價變數</span>。</li>
+    <li>信用衍生性商品種類：貸款擔保證券（CLO）、擔保債權憑證（CBO）、抵押擔保證券（MBS）、總報酬交換、信用價差交換、違約選擇權等。</li>
+    <li><span class="trap">股權連動債券（ELN）不屬信用衍生性商品</span>；<span class="trap">信用狀押匯屬外匯業務，非衍生性商品</span>。</li>
+    <li>信用交換商品報價 <span class="num">32/38</span>：交易商願意以名目本金的 0.32% 買進信用保險（向對方買保護），以 0.38% 賣出信用保險；<span class="trap">低的價格是交易商買進保險，高的價格是賣出</span>。</li>
+  </ul></div>
+
+  <div class="card"><h3>擔保債務憑證（CDOs）</h3><ul>
+    <li>依發行動機可分為<b>套利型 CDOs</b> 與<b>資產負債表型 CDOs</b>。</li>
+    <li>依標的組合來源，可分為以信用交換合成，以及以現貨資產合成。</li>
+  </ul>
+    <div class="tbl"><table class="cmp">
+      <tr><th>比較項目</th><th>以信用交換合成 CDOs</th><th>以現貨資產合成 CDOs</th></tr>
+      <tr><td><b>利差</b></td><td>較高</td><td>較低</td></tr>
+      <tr><td><b>到期日</b></td><td>較短</td><td>較長</td></tr>
+      <tr><td><b>流動性</b></td><td>較高</td><td>較低</td></tr>
+      <tr><td><b>彈性</b></td><td>較高</td><td>較低</td></tr>
+    </table></div>
+  </div>
+
+  <div class="must"><h3>必考句</h3><ol>
+    <li>利率交換依類型分為基差利率交換與普通利率交換，前者為浮動對浮動，後者為固定對浮動。</li>
+    <li>依市場慣例，支付固定利率、收取浮動利率的一方為利率交換的買方。</li>
+    <li>鎖住利差交換所鎖定的利差，指的是交換溢酬。</li>
+    <li>換匯換利期末依原期初互換之本金等額返還；外匯交換存續期間內無利息交換。</li>
+    <li>交換買權（Call Swaption）又稱收取者交換權，交換賣權（Put Swaption）又稱支付者交換權。</li>
+    <li>英鎊期貨屬外匯型商品，不屬利率型衍生性商品。</li>
+    <li>ISDA 信用事件包括企業破產、拒絕履行債務、宣佈重整與加速償還債務。</li>
+    <li>以信用交換合成的 CDOs 相較於以現貨資產合成者，利差較高、到期日較短、流動性較高、彈性較高。</li>
+  </ol></div>
+
+
+<h2 id="structured">結構型商品<span class="n">結構型商品 約 6 題</span></h2>
+<p class="go"><a href="drill.html?q=512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582&m=quiz&n=%E7%B5%90%E6%A7%8B%E5%9E%8B%E5%95%86%E5%93%81">到刷題器練「結構型商品」71 題</a></p>
+
+  <div class="card"><h3>結構型商品的風險</h3><ul>
+    <li><b>流動性風險</b>：部分證券商要求閉鎖期後才可提前解約；結構型商品屬店頭市場契約商品，流通市場不充分，提前解約的實際價格可能與原資產價值有顯著價差。</li>
+    <li><b>市場風險</b>：包含匯率、利率風險，主要來自選擇權端（賣出選擇權風險高）。</li>
+    <li><b>提前解約風險</b>：中途解約須對原衍生性與固定收益部位作平倉，價值受市場因素與交易價差影響，解約後取回價金可能低於原始本金。</li>
+    <li><b>信用風險</b>：投資人須承擔發行機構的信用風險，可能無法回收本金。</li>
+    <li>信用評等一般而言 S&amp;P AAA 債券的違約風險較 BBB 低。</li>
+    <li><span class="trap">結構型商品的固定收益端從發行到到期前仍有市場價格風險</span>，並非沒有。</li>
+  </ul></div>
+
+  <div class="card"><h3>結構型商品的組成與條件</h3><ol>
+    <li>選擇權的起始日與期滿日。</li>
+    <li>本金交割日通常為選擇權起始日及期滿日後二個營業日。</li>
+    <li>承作本金可為固定收益商品或黃金單位數。</li>
+    <li>投資人就選擇權部分需設定一個履約價格或匯率。</li>
+  </ol></div>
+
+  <div class="card"><h3>結構型債券</h3><ul>
+    <li><b>優利型結構債券</b> = 固定收益端債券 ＋ <b>賣出選擇權</b>；標的資產波動度越大，優利型結構債券價值越低。</li>
+    <li><b>保本型結構債券</b> = 零息債券（固定收益端） ＋ <b>買入選擇權</b>；看多標的時可組合為買入零息債券與買入買權。</li>
+    <li>保本率公式：面額×[0.9＋0.5×選擇權價值]，選擇權價值最低為 0，故保本率為 <span class="num">90%</span>；常數為 0.8 時保本率為 80%。</li>
+    <li>選擇權價值下限為 0，因此公式 Max(0, 股價指數成長率) 的最低值為 0。</li>
+    <li>價外選擇權範例：面額×[1＋92.2%×Max(0, S&amp;P 500 成長率－108.5%)]，成長率需超過 108.5% 才有額外報酬，故為價外選擇權。</li>
+    <li>本金連動債券合理價格 ＝ 普通公司債市價 ＋ 股票價平選擇權價值 ÷ 股票市價。</li>
+    <li>保本率 100% 時，所需購買零息無風險債券金額 X ＝ 面額 ÷ (1＋利率)<sup>年數</sup>；例如 4 年期、利率 4.5%，X ＝ 100,000 ÷ 1.192518 ≈ <span class="num">83,856</span> 元。</li>
+  </ul></div>
+
+  <div class="card"><h3>雙元貨幣組合產品：加值型（優利型）</h3><ul>
+    <li>組成：<b>外幣定期存款 ＋ 賣出外幣選擇權</b>（賣出本金買權及連結貨幣賣權）。</li>
+    <li>報酬：外幣定存利率 ＋ 權利金（收益年率化）。</li>
+    <li>因賣出選擇權，到期可能被履行，本金依履約匯率轉換成約定貨幣；約定貨幣貶值時造成本金損失，升值時獲利。因此為<b>保息不保本</b>。</li>
+    <li>連結外幣選擇權：甲持歐元定存、連結美元，賣出歐元買權美元賣權；乙持美元定存、連結歐元，賣出美元買權歐元賣權。</li>
+    <li>匯率表示法：基本貨幣／報價貨幣，例如 EUR/USD；計算題若未說明，美元以外為基本貨幣、美元為報價貨幣。</li>
+    <li>總收益率範例：投資 10 萬，權利金 1,000，天期 30 天，美元存款利率 0.8%，總收益率 ＝ 0.8% ＋ (1,000/100,000)×(360/30) ＝ <span class="num">12.8%</span>。</li>
+    <li>到期澳幣升值至 1.07 時，投資收益 100,000×12.8%×30/360 ＝ <span class="num">1,066.67</span> 美元。</li>
+    <li>到期澳幣貶值至 1.03 時，依履約匯率換成澳幣 (100,000＋1,066.67)/1.05 ＝ 96,253.97，再以 1.03 換回約 99,141.59 美元，較本金短少約 858.41 美元。</li>
+  </ul></div>
+
+  <div class="card"><h3>加註碰觸失效條款</h3><ul>
+    <li>碰觸匯率一旦達到，選擇權即失效，投資人無轉換本金的義務，因此<b>利於選擇權賣方（即投資人）限制損失</b>。</li>
+    <li>碰觸匯率越接近轉換匯率，對選擇權賣方越有利，但商品收益率越低。</li>
+    <li>碰觸匯率往轉換匯率兩側擴散時，商品收益率越高。</li>
+    <li>加註碰觸失效條款的商品，收益率低於未加註者。</li>
+    <li>碰觸匯率低於轉換匯率時，碰觸價格越高，收益率越低。</li>
+  </ul></div>
+
+  <div class="card"><h3>雙元貨幣組合產品：保本型</h3><ul>
+    <li>組成：<b>外幣定期存款 ＋ 買入外幣選擇權</b>。</li>
+    <li>投資人預估所連結指標匯率的行情將呈區間整理；適合高利率幣別（利率太低則沒有足夠利息買選擇權）。</li>
+    <li>最低保息年化利率 ＝ (定存利息 － 買入選擇權支出 － 手續費) ÷ 本金 × 360 ÷ 天數。範例：100 萬、90 天、年利率 3%、權利金 5,000，(7,500－5,000)/1,000,000×360/90 ＝ <span class="num">1%</span>。</li>
+    <li>保本率 P% 時，可用於買入選擇權的金額 ＝ 本金×(1－P%) ＋ 定存利息 － 手續費。範例：本金 10,000 澳幣、保本率 90%、月利率 6%，可買選擇權 1,000 ＋ 50 ＝ <span class="num">1,050</span> 澳幣。</li>
+    <li>保本率 80%、本金 10 萬、利率 3%、手續費 100 時，權利金 ＝ 20,000 ＋ 250 － 100 ＝ <span class="num">20,150</span> 美元。</li>
+  </ul></div>
+
+  <div class="card"><h3>股權連動商品</h3><ul>
+    <li>由「固定收益商品 ＋ 股權標的資產選擇權」組成。</li>
+    <li>範例：契約本金 250 萬，履約價 140 元，發行價 98%，到期收盤價 139 元（低於履約價）。</li>
+    <li>拿回金額 ＝ 契約本金 × 到期收盤價 ÷ 履約價 ＝ 2,500,000×139/140 ＝ 2,482,143；發行價 ＝ 2,450,000；報酬率 ＝ <span class="num">1.3%</span>。</li>
+  </ul></div>
+
+  <div class="must"><h3>必考句</h3><ol>
+    <li>結構型債券的固定收益端，從發行到到期前仍有市場價格風險。</li>
+    <li>優利型結構債券為固定收益端加賣出選擇權，標的波動度越大，債券價值越低。</li>
+    <li>保本型結構債券為零息債券加買入選擇權。</li>
+    <li>雙元貨幣加值型商品為外幣定存加賣出外幣選擇權，屬保息不保本。</li>
+    <li>雙元貨幣保本型商品為外幣定存加買入外幣選擇權。</li>
+    <li>加註碰觸失效條款利於選擇權賣方（投資人），且其收益率低於未加註者。</li>
+    <li>碰觸匯率越接近轉換匯率，收益率越低；兩側擴散時收益率越高。</li>
+  </ol></div>
+
+
+<h2 id="bond">債券相關（區間計息、反向浮動）<span class="n">債券 約 2 題 · 其他概論 約 3 題</span></h2>
+<p class="go"><a href="drill.html?q=583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600,601&m=quiz&n=%E5%82%B5%E5%88%B8">到刷題器練「債券」19 題</a></p>
+<p class="go"><a href="drill.html?q=602,603,604,605,606,607,608,609,610,611,612,613,614,615,616,617,618,619,620,621,622,623,624,625,626,627,628,629,630,631,632,633,634,635,636,637,638,639,640,641&m=quiz&n=%E5%85%B6%E4%BB%96%E6%A6%82%E8%AB%96">到刷題器練「其他概論」40 題</a></p>
+
+  <div class="card"><h3>區間計息債券</h3><ul>
+    <li>指標利率落在一定區間內，該債券才計息；否則不計息。</li>
+    <li>區間來自結合兩個同臨界點的數位式選擇權。</li>
+    <li>若存續期間指標利率均落在預設區間內，區間計息債券即變成普通債券。</li>
+    <li>賣方收取的權利金，反映在區間計息債券固定利率高於普通債券固定利率的幅度。</li>
+    <li>計息比率 ＝ 落入區間天數 ÷ 計息期間總天數。</li>
+    <li>範例：300 萬、票面利率 5%、計息區間 2.0%～3.0%，落入 60 天、總天數 90 天，利息 3,000,000×5%×90/360×60/90 ＝ <span class="num">25,000</span> 元。</li>
+    <li>範例：500 萬、票面利率 5%、區間 2%～6%，半年期 180 天中有 45 天未落入，票息 5,000,000×(0.05/2)×(180－45)/180 ＝ <span class="num">93,750</span> 元。</li>
+  </ul></div>
+
+  <div class="card"><h3>反向浮動計息商品</h3><ul>
+    <li>利息架構為「固定利率 － 浮動利率」，利率下跌時債券獲利。</li>
+    <li>買進反向浮動債券，等於透過銀行承做三筆交易：(1) 買進與反向浮動利率相同天期的債券；(2) 賣出相同天期的利率交換合約；(3) 買進相同天期的利率上限合約。</li>
+    <li><span class="trap">「賣出相同天期債券」不屬於其中三筆交易</span>。</li>
+    <li>反向浮動債券的票息可表示為 Max[5%－3 個月 TAIBOR, 0]，屬反向浮動利率債券；「3 個月 TAIBOR＋2.15%」為浮動利率債券。</li>
+  </ul></div>
+
+  <div class="card"><h3>債券利率與價格的連動</h3><ul>
+    <li>附賣回權債券因投資人享有賣回權，同條件下發行利率應<b>較普通債券低</b>。</li>
+    <li>預期利率上升、債券價格下跌時，若欲降低持有債券的存續期間，應<b>賣出長天期利率衍生性商品</b>。</li>
+    <li>台股指數連動債券票面利率 ＝ 3.5% ＋ [(收盤指數－8,500)/10] bp；收盤 8,630 時為 3.5%＋13bp ＝ <span class="num">3.63%</span>。</li>
+    <li>結構型債券到期價值 ＝ 面額 × [0.9＋0.5×Max(0, 12%－指數報酬率)]；指數由 5,000 跌至 4,000，報酬率 －20%，價值 100×[0.9＋0.5×0.32] ＝ <span class="num">106</span>。</li>
+    <li>發行價 94%、到期償還 ＝ 面額 × (1＋95%×Max(0, 指數年成長率－20%))，最低為 100，年報酬率至少 (100－94)/94 ＝ <span class="num">6.38%</span>。</li>
+  </ul></div>
+
+  <div class="must"><h3>必考句</h3><ol>
+    <li>區間計息債券是債券結合數位式選擇權，指標利率落於區間內才計息。</li>
+    <li>區間計息債券的計息比率為落入區間天數除以計息期間總天數。</li>
+    <li>反向浮動債券利率下跌時獲利，買進它等同於買進債券、賣出利率交換、買進利率上限。</li>
+    <li>附賣回權債券的發行利率較普通債券為低。</li>
+  </ol></div>
+
+<h2 id="acct">會計處理<span class="n">會計處理 約 8 題</span></h2>
+<p class="go"><a href="drill.html?q=315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400&m=quiz&n=%E6%9C%83%E8%A8%88%E8%99%95%E7%90%86">到刷題器練「會計處理」86 題</a></p>
+
+  <h3 class="sub">衍生工具特性與基本會計原則</h3>
+  <div class="card"><h3>衍生工具的三項特性</h3><ul>
+    <li><b>價值變動</b>：價值隨標的（利率、匯率、股價、指數等）變動。</li>
+    <li><b>交割時點</b>：約定在<b>未來日期</b>交割或結算。</li>
+    <li><b>初始投資</b>：不需原始投資，或與類似反應的合約相比，只需<span class="num">較小金額</span>的原始淨投資。</li>
+  </ul></div>
+  <div class="card"><h3>適用的基本會計原則</h3><ul>
+    <li>衍生性商品適用<b>審慎性</b>、<b>一致性</b>與<b>經濟實質重於法律形式</b>。</li>
+    <li><b>一致性</b>指會計政策前後一致採用，使不同年度的財務報表具可比性。</li>
+    <li><span class="trap">現金基礎不適用</span>於衍生性商品，應採權責基礎。</li>
+  </ul></div>
+  <div class="must"><h3>必考句</h3><ol>
+    <li>衍生工具的特性是價值隨標的變動、約定於未來日期交割，且無須原始投資或只需較小金額的原始淨投資。</li>
+    <li>衍生性商品適用審慎性、一致性，以及經濟實質重於法律形式等基本會計原則。</li>
+    <li>一致性是指會計政策應前後一致採用，使不同年度的財務報表具可比性。</li>
+    <li>衍生性商品的會計處理不適用現金基礎，應採權責基礎。</li>
+    <li>交易的經濟實質若與法律形式不同，會計處理應依經濟實質判斷。</li>
+  </ol></div>
+
+  <h3 class="sub">資訊揭露（IFRS 7）</h3>
+  <div class="card"><h3>質性揭露</h3><ul>
+    <li>管理階層控管風險的<b>目的、政策與程序</b>。</li>
+    <li>各類風險的<b>產生方式</b>，以及<b>衡量風險的方法</b>。</li>
+    <li><span class="trap">到期分析不屬於質性揭露</span>，它是量化資訊。</li>
+  </ul></div>
+  <div class="card"><h3>量化揭露</h3>
+    <div class="tbl"><table class="cmp">
+      <tr><th>風險</th><th>應揭露的量化資訊</th></tr>
+      <tr><td><b>信用風險</b></td><td>最大信用暴險金額</td></tr>
+      <tr><td><b>流動性風險</b></td><td>衍生與非衍生金融負債分別的<span class="num">到期日分析</span></td></tr>
+      <tr><td><b>市場風險</b></td><td>各種市場風險的<b>敏感度分析</b></td></tr>
+    </table></div>
+  </div>
+  <div class="must"><h3>必考句</h3><ol>
+    <li>衍生工具的揭露應同時包括質性與量化資訊。</li>
+    <li>質性揭露包括管理風險的目的、政策與程序、各類風險的產生方式，以及衡量風險的方法。</li>
+    <li>量化揭露必須同時涵蓋信用風險、市場風險與流動性風險，三者皆須揭露。</li>
+    <li>流動性風險的量化揭露是到期日分析，須分別揭露衍生與非衍生金融負債。</li>
+    <li>市場風險的量化揭露以敏感度分析為代表。</li>
+    <li>信用風險的量化揭露以最大信用暴險金額為代表。</li>
+  </ol></div>
+
+  <h3 class="sub">結構型商品本金</h3>
+  <div class="card"><h3>結構型商品的組成與本金</h3><ul>
+    <li>結構型商品通常由<b>固定收益證券</b>（或黃金）與<b>衍生性商品</b>組合而成。</li>
+    <li>銀行收到客戶的本金，未來需返還客戶，對銀行而言是<b>負債</b>，帳列<b>其他金融負債</b>。</li>
+    <li><span class="trap">結構型商品不是存款，所收本金不受存款保險保障</span>，也不能分類為存款項目。</li>
+  </ul></div>
+  <div class="must"><h3>必考句</h3><ol>
+    <li>結構型商品通常由固定收益證券或黃金，加上衍生性商品組成。</li>
+    <li>銀行向客戶收取的結構型商品本金，未來需返還客戶，會計上列為金融負債。</li>
+    <li>收到的結構型商品本金應帳列其他金融負債，不歸入存款項目。</li>
+    <li>若本金需與嵌入式衍生工具分拆入帳，本金部分仍屬負債，不可歸為存款。</li>
+    <li>銀行出售連結個股選擇權的結構型商品，收到的本金在會計上為金融負債。</li>
+  </ol></div>
+
+  <h3 class="sub">公允價值衡量三層級</h3>
+  <div class="card"><h3>三個層級</h3>
+    <div class="tbl"><table class="cmp">
+      <tr><th>層級</th><th>輸入值</th><th>典型情境</th></tr>
+      <tr><td><b>第一層級</b></td><td>企業於衡量日可取得的<b>相同</b>資產或負債，於活絡市場的<b>未調整</b>公開報價</td><td>相同衍生工具在活絡市場的報價</td></tr>
+      <tr><td><b>第二層級</b></td><td>除第一層級報價外，其他直接或間接<b>可觀察</b>的輸入值</td><td>類似資產在活絡市場的公開報價；相同或類似資產在非活絡市場的報價；由可觀察資料導出的值</td></tr>
+      <tr><td><b>第三層級</b></td><td>重大的<b>不可觀察</b>輸入值</td><td>以不可觀察的假設估計的模型價值</td></tr>
+    </table></div>
+  </div>
+  <div class="card"><h3>常見誤區</h3><ul>
+    <li><span class="trap">公允價值衡量只有三個層級</span>，沒有第四層級。</li>
+    <li>採用反映市場參與者假設、且無法由可觀察資料導出的評價方法，不屬於第二層級。</li>
+  </ul></div>
+  <div class="must"><h3>必考句</h3><ol>
+    <li>公允價值衡量分為三個層級，沒有第四層級。</li>
+    <li>第一層級是相同資產或負債在活絡市場的未調整公開報價。</li>
+    <li>相同衍生工具若在活絡市場有未調整報價，該衡量屬於第一層級。</li>
+    <li>類似資產或負債在活絡市場的公開報價，屬於第二層級。</li>
+    <li>採用反映市場參與者假設、且無法由可觀察資料導出的評價方法，不屬於第二層級。</li>
+    <li>重大使用不可觀察輸入值估計的公允價值，屬於第三層級。</li>
+  </ol></div>
+
+  <h3 class="sub">嵌入式衍生工具</h3>
+  <div class="card"><h3>定義與評估時點</h3><ul>
+    <li>混合商品＝<b>主契約</b>＋<b>嵌入式衍生工具</b>，部分現金流量的變動與獨立的衍生工具相似。</li>
+    <li>評估是否分離，應在企業<b>首次成為合約一方</b>時進行。</li>
+  </ul></div>
+  <div class="card"><h3>分離的三項條件（須同時符合）</h3><ul>
+    <li>嵌入式衍生工具與主契約的<b>經濟特性及風險並非緊密關聯</b>。</li>
+    <li>與嵌入式衍生工具條件相同的<b>單獨工具</b>，符合衍生工具的定義。</li>
+    <li>混合工具<span class="trap">並非</span>以<b>透過損益按公允價值衡量</b>。</li>
+  </ul></div>
+  <div class="card"><h3>不能分離時</h3><ul>
+    <li>若主契約與嵌入式衍生工具無法拆解，整個混合商品應指定為<b>透過損益按公允價值衡量</b>。</li>
+    <li>緊密關聯者不需拆分，「緊密關聯」本身不是拆分條件。</li>
+  </ul></div>
+  <div class="must"><h3>必考句</h3><ol>
+    <li>企業首次成為合約一方時，應評估嵌入式衍生工具是否須與主契約分離，並以衍生工具處理。</li>
+    <li>嵌入式衍生工具與主契約經濟特性及風險緊密關聯時，不需拆分。</li>
+    <li>拆分的條件是經濟特性及風險並非緊密關聯、獨立工具符合衍生工具定義，且混合工具非以損益按公允價值衡量。</li>
+    <li>無法將主契約與嵌入式衍生工具拆解時，整個混合商品應指定為透過損益按公允價值衡量。</li>
+    <li>嵌入式衍生工具的主契約不必然屬於 IFRS 9 範圍內的資產。</li>
+    <li>混合工具發行價格 <span class="num">105</span> 元、主契約公允價值 <span class="num">99</span> 元時，嵌入式衍生工具價值為 <span class="num">6</span> 元（105 − 99）。</li>
+  </ol></div>
+
+  <h3 class="sub">避險工具與避險會計</h3>
+  <div class="card"><h3>避險會計的條件與目的</h3><ul>
+    <li>避險會計以<b>互抵</b>方式，認列避險工具與被避險項目公允價值變動的損益影響數。</li>
+    <li>須同時具備<b>合格避險工具</b>、<b>合格被避險項目</b>，以及兩者間的<b>經濟關係</b>。</li>
+    <li><span class="trap">衍生性商品本身不是合格的被避險項目</span>；合格者包括確定承諾、單一或一組具類似風險特性的資產、高度很可能發生的預期交易。</li>
+  </ul></div>
+  <div class="card"><h3>三種避險型態</h3>
+    <div class="tbl"><table class="cmp">
+      <tr><th>型態</th><th>常見對象</th><th>有效部分</th><th>無效部分</th></tr>
+      <tr><td><b>公允價值避險</b></td><td>已認列的資產或負債，或確定承諾</td><td>損益（題庫以損益為準）</td><td>損益</td></tr>
+      <tr><td><b>現金流量避險</b></td><td>高度很可能的預期交易，如預期採購</td><td><b>其他綜合損益</b></td><td>損益</td></tr>
+      <tr><td><b>國外營運機構淨投資避險</b></td><td>在國外營運機構的淨投資</td><td><b>其他綜合損益</b></td><td>處分時，累計數<b>重分類至損益</b></td></tr>
+    </table></div>
+  </div>
+  <div class="card"><h3>其他要點</h3><ul>
+    <li>未避險或避險無效的衍生工具，公允價值變動全數列為當期損益。</li>
+    <li>遠期合約可分開即期價格與利息部分，只指定即期價格的變動作為避險工具；「遠期合約皆不適用」是錯誤敘述。</li>
+    <li><span class="trap">IAS 39 舊用語 80%–125%</span>為有效性區間；<span class="trap">75%–135% 不是 IAS 39 的區間</span>，應視為錯誤敘述。IFRS 9 已取消固定區間。</li>
+  </ul></div>
+  <div class="must"><h3>必考句</h3><ol>
+    <li>避險會計的目的，是以互抵方式認列避險工具與被避險項目公允價值變動的損益影響數。</li>
+    <li>避險會計須同時具備合格避險工具、合格被避險項目，以及兩者間的經濟關係。</li>
+    <li>IFRS 9 將避險分為公允價值避險、現金流量避險與國外營運機構淨投資避險三類。</li>
+    <li>公允價值避險的避險工具與被避險項目公允價值變動，認列於損益。</li>
+    <li>現金流量避險的有效部分列入其他綜合損益，無效部分列入當期損益。</li>
+    <li>國外營運機構淨投資避險的有效部分列入其他綜合損益，處分國外營運機構時重分類至損益。</li>
+    <li>衍生性商品本身不是合格的被避險項目，確定承諾與單一或一組具類似風險特性的資產則可以。</li>
+    <li>預期採購屬現金流量避險，不適用公允價值避險。</li>
+    <li>避險無效或未指定避險的衍生工具，公允價值變動全數列入當期損益。</li>
+    <li>IAS 39 舊用語 80%–125% 為有效性區間，75%–135% 並非其區間，應視為錯誤敘述。</li>
+  </ol></div>
+
+  <h3 class="sub">選擇權與避險會計</h3>
+  <div class="card"><h3>買方與賣方（非避險）</h3>
+    <div class="tbl"><table class="cmp">
+      <tr><th>角色</th><th>權利金初始認列</th><th>期末與到期</th></tr>
+      <tr><td><b>買方</b></td><td>透過損益按公允價值衡量之金融資產</td><td>期末公允價值變動計入損益；到期未履約，已付權利金全數列為<b>當期損失</b></td></tr>
+      <tr><td><b>賣方</b></td><td>持有供交易之金融負債，<span class="trap">不得直接認列為利益</span></td><td>期末負債＝內含價值＋時間價值；損益＝權利金 − 期末負債</td></tr>
+    </table></div>
+  </div>
+  <div class="card"><h3>計算範例</h3><ul>
+    <li>賣出買權收取權利金 <span class="num">6,000</span>，期末內含價值 <span class="num">2,000</span>、時間價值 <span class="num">1,000</span>：損益＝6,000 − (2,000 + 1,000)＝<span class="num">3,000</span> 元（利益）。</li>
+    <li>買入賣權期末公允價值由 <span class="num">20,000</span> 增至 <span class="num">60,000</span>：增值 <span class="num">40,000</span> 元，認列為當期利益。</li>
+  </ul></div>
+  <div class="must"><h3>必考句</h3><ol>
+    <li>非避險的賣出選擇權收到權利金，應認列為持有供交易之金融負債，不得直接認列為利益。</li>
+    <li>非避險的買入選擇權支付權利金，初始認列為透過損益按公允價值衡量之金融資產。</li>
+    <li>買入選擇權到期未履約時，已支付的權利金全數列為當期損失。</li>
+    <li>賣出買權的期末負債等於內含價值加時間價值，損益為權利金減期末負債。</li>
+    <li>買入賣權期末公允價值由 <span class="num">20,000</span> 增至 <span class="num">60,000</span> 時，增值 <span class="num">40,000</span> 元認列為當期利益。</li>
+    <li>買入匯率選擇權支付權利金時，初始認列為透過損益按公允價值衡量之金融資產。</li>
+  </ol></div>
+
+  <h3 class="sub">常考計算與評價</h3>
+  <div class="card"><h3>遠期、期貨與利率交換的評價</h3><ul>
+    <li>以公允匯率成交的遠期外匯，承作時公允價值為零，訂約日僅做表外備忘分錄。</li>
+    <li>台指期空方（賣出 10 口）在指數由 8,000 跌至 7,800 時獲利：(8,000 − 7,800) × 200 × 10 ＝ <span class="num">400,000</span> 元，借記持有供交易金融資產。</li>
+    <li>非避險利率交換，年報評價以 12/31 的公允價值為準。</li>
+  </ul></div>
+  <div class="card"><h3>攤銷後成本與複合金融工具</h3><ul>
+    <li>有效利率法下，利息費用＝期初攤銷後成本 × 有效利率，例如 1,049,732 × 10% ＝ <span class="num">104,973</span>。</li>
+    <li>攤銷後成本資產初始認列為公允價值加交易成本，帳面金額再扣除預期信用損失，例如 106,000 − 2,000 ＝ <span class="num">104,000</span>。</li>
+    <li><span class="trap">複合金融工具的交易成本不直接列為費用</span>，應依比例分攤至負債與權益。</li>
+  </ul></div>
+  <div class="must"><h3>必考句</h3><ol>
+    <li>以公允匯率成交的遠期外匯，承作時公允價值為零，訂約日不入帳，僅需表外備忘。</li>
+    <li>非避險的衍生工具，期末按公允價值評價，變動數全數認列為當期損益。</li>
+    <li>台指期空方在指數下跌時獲利，依 (8,000 − 7,800) × 200 × 10 ＝ <span class="num">400,000</span> 元，借記持有供交易金融資產。</li>
+    <li>年報評價以資產負債表日的公允價值為準。</li>
+    <li>有效利率法下，利息費用等於期初攤銷後成本乘以有效利率，例如 1,049,732 × 10% ＝ <span class="num">104,973</span>。</li>
+    <li>攤銷後成本衡量的資產，初始認列為公允價值加交易成本，再扣除預期信用損失的備抵，例如 106,000 扣 2,000 為 104,000。</li>
+    <li>複合金融工具的交易成本依比例分攤至負債與權益，不直接列為費用。</li>
+    <li>發行可轉換公司債時，可分離的認股權屬權益，金融負債依公司債主契約金額認列，例如本金 100 扣除權益部分 25 為 75。</li>
+  </ol></div>
+
+
+
+
+<div class="foot">
+  法規以現行條文為準（外匯業務管理辦法 114 年 7 月 15 日、衍商內部作業辦法 114 年 5 月 6 日修正）。舊題考的是已修掉的規定時，刷題器裡的題目已改成現行考法，並註明原題答案；其餘重點都對過第 1–20 屆題庫答案。<br>個人備考整理，非官方教材，引用前請以全國法規資料庫原文為準。
+</div>
+</div>
+
+<script src="nav.js?v=15" defer></script>
+<script src="../nav.core.js?v=2" defer></script>
+</body>
+</html>
