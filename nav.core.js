@@ -73,7 +73,10 @@
     /* 浮動鈕：頁尾留白，避免蓋住最後一段內容 */
     'body.xfab-on{padding-bottom:calc(76px + env(safe-area-inset-bottom))}' +
     /* 衝刺頁：每章底部「上一章／下一章」 */
-    '.xpg{display:flex;gap:8px;margin:20px 0 6px}.xpg>*{flex:1 1 0;min-width:0}.xpg a{display:flex;flex-direction:column;justify-content:center;gap:2px;min-height:48px;padding:8px 12px;border:1px solid #d7ded8;border-radius:10px;background:#fff;color:#087a73;font-weight:700;font-size:.88em;line-height:1.3;text-decoration:none}.xpg a small{color:#66736d;font-weight:600;font-size:.8em}.xpg a.nx{align-items:flex-end;text-align:right}.xpg a:active{border-color:#087a73;background:rgba(8,122,115,.08)}';
+    '.xpg{display:flex;gap:8px;margin:20px 0 6px}.xpg>*{flex:1 1 0;min-width:0}.xpg a{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:2px;min-height:48px;padding:8px 12px;border:1px solid #d7ded8;border-radius:10px;background:#fff;color:#087a73;font-weight:700;font-size:.88em;line-height:1.3;text-decoration:none}.xpg a small{color:#66736d;font-weight:600;font-size:.8em}.xpg a:active{border-color:#087a73;background:rgba(8,122,115,.08)}' +
+    /* 衝刺頁長章（features.fold）：章首索引 ＋ 小節收合 */
+    '.xidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px;padding:10px;border:1px solid #d7ded8;border-radius:10px;background:#f5f7f3}.xidx .t{flex:1 1 100%;font-size:.78em;font-weight:700;color:#66736d}.xidx a{padding:6px 10px;min-height:34px;display:flex;align-items:center;border:1px solid #d7ded8;border-radius:999px;background:#fff;color:#17211d;font-size:.8em;font-weight:600;text-decoration:none;line-height:1.3}.xidx a:active{border-color:#087a73;color:#087a73}.xidx a.all{border-style:dashed;color:#66736d}' +
+    '.xft{cursor:pointer;-webkit-tap-highlight-color:transparent;position:relative;padding-right:22px;scroll-margin-top:calc(var(--xhead,110px) + 10px)}.xft::after{content:"\\25BE";position:absolute;right:2px;top:.15em;color:#66736d;font-size:.85em;line-height:1;transition:transform .15s}.xft.closed::after{transform:rotate(-90deg)}.xfb.closed{display:none}.card .xft.closed,.must .xft.closed{margin-bottom:0}';
 
   css.textContent +=
     /* 錨點跳轉：讓出「頂欄（＋分節 pill 列）」的實際高度，別讓標題被蓋住 */
@@ -224,6 +227,35 @@
         var id = a.getAttribute('href').slice(1); openSec(id);
         var h = document.getElementById(id); if (h) h.scrollIntoView({block: 'start'}); secMark();
         try { history.replaceState(null, '', '#' + id); } catch (err) {} });
+      /* 長章（小節 5 個以上）：小節預設收合，章首放本章索引，點了展開並跳到該小節 */
+      if (F.fold) bodies.forEach(function(body){
+        var kids = Array.prototype.slice.call(body.children);
+        var subs = kids.filter(function(n){ return n.matches('h3.sub'); });
+        var heads = subs.length ? subs : kids.filter(function(c){ return c.matches('.card, .must') && c.querySelector(':scope > h3'); })
+          .map(function(c){ return c.querySelector(':scope > h3'); });
+        if (heads.length < 5) return;
+        var units = heads.map(function(h){
+          var w = document.createElement('div'); w.className = 'xfb closed';
+          if (subs.length) { var n = h.nextElementSibling;
+            while (n && !n.matches('h3.sub, .xpg')) { var nx = n.nextElementSibling; w.appendChild(n); n = nx; }
+            h.after(w);
+          } else { while (h.nextSibling) w.appendChild(h.nextSibling); h.parentNode.appendChild(w); }
+          h.classList.add('xft', 'closed');
+          h.addEventListener('click', function(){ h.classList.toggle('closed'); w.classList.toggle('closed'); });
+          return {h: h, b: w};
+        });
+        function setU(u, open){ u.h.classList.toggle('closed', !open); u.b.classList.toggle('closed', !open); }
+        var idx = document.createElement('div'); idx.className = 'xidx';
+        idx.innerHTML = '<span class="t">本章索引（點小節標題可展開／收合）</span>' + units.map(function(u, i){
+          return '<a href="#" data-i="' + i + '">' + u.h.textContent.replace(/\s+/g, ' ').trim() + '</a>'; }).join('') +
+          '<a href="#" class="all">全部展開</a>';
+        var gos = body.querySelectorAll(':scope > .go'), at = gos.length ? gos[gos.length - 1] : null;
+        if (at) at.after(idx); else body.insertBefore(idx, body.firstChild);
+        idx.addEventListener('click', function(e){ var a = e.target.closest('a'); if (!a) return; e.preventDefault();
+          if (a.classList.contains('all')) { var any = units.some(function(u){ return u.b.classList.contains('closed'); });
+            units.forEach(function(u){ setU(u, any); }); a.textContent = any ? '全部收合' : '全部展開'; return; }
+          var u = units[+a.dataset.i]; setU(u, true); u.h.scrollIntoView({block: 'start'}); });
+      });
     }
     function onJump(e){ var a = e.target.closest('a'); if (!a) return; var id = (a.getAttribute('href') || '').slice(1); if (id) { openSec(id); setTimeout(secMark, 50); } }
     document.addEventListener('click', function(e){ if (e.target.closest('#xsec, #xsheet')) onJump(e); });

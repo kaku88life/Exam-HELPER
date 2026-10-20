@@ -6,5 +6,5 @@ window.XNAV = {
     ['drill.html',      '刷題器'],
     ['../index.html',   '回總覽']
   ],
-  features: { readability: true, fontSize: true, sections: true }
+  features: { readability: true, fontSize: true, sections: true, fold: true }
 };
